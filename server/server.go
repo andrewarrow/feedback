@@ -7,14 +7,11 @@ import "time"
 import "github.com/andrewarrow/feedback/util"
 import "github.com/andrewarrow/feedback/persist"
 import "github.com/andrewarrow/feedback/controllers"
-import "github.com/jmoiron/sqlx"
-
-var db *sqlx.DB
 
 func Serve() {
 	prefix := util.AllConfig.Path.Prefix
 
-	db = persist.Connection()
+	controllers.Db = persist.Connection()
 	router := gin.Default()
 
 	router.Static("/assets", prefix+"assets")
