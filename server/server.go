@@ -20,6 +20,8 @@ func Serve() {
 	users.GET("/", controllers.UsersIndex)
 	user := router.Group("/user")
 	user.GET("/:id", controllers.UsersShow)
+	sessions := router.Group("/sessions")
+	sessions.GET("/new", controllers.SessionsNew)
 
 	admin := router.Group("/admin")
 	users = admin.Group("/users")
