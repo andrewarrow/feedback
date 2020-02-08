@@ -23,6 +23,7 @@ func Serve() {
 	sessions := router.Group("/sessions")
 	sessions.GET("/new", controllers.SessionsNew)
 	sessions.POST("/", controllers.SessionsCreate)
+	sessions.POST("/destroy", controllers.SessionsDestroy)
 
 	admin := router.Group("/admin")
 	users = admin.Group("/users")

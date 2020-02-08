@@ -11,9 +11,10 @@
  <div class="wrapper">
 	 	<div class="box header">
 {{if .user}}
-hi {{.user.Email}}
+hi {{.user.Email}} 
+        <a href="#" onclick="event.preventDefault(); logOut();">Log Out</a></li>
 {{else}}
-hello you <a href="/sessions/new">login</a>
+hello you <a href="/sessions/new">Log In</a>
 {{end}}
 </div>
 		<div class="box sidebar">Sidebar</div>
@@ -22,5 +23,12 @@ hello you <a href="/sessions/new">login</a>
 		<div class="box footer">Footer</div>
 	</div>
 
+<form id="out" method="POST" action="/sessions/destroy">
+</form>
+<script>
+function logOut() {
+  document.getElementById("out").submit();
+}
+</script>
 </body>
 </html>

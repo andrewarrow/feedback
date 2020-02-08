@@ -23,3 +23,10 @@ func SessionsCreate(c *gin.Context) {
 	c.Redirect(http.StatusMovedPermanently, "/")
 	c.Abort()
 }
+func SessionsDestroy(c *gin.Context) {
+	host := util.AllConfig.Http.Host
+	c.SetCookie("user", "", 3600, "/", host, false, false)
+
+	c.Redirect(http.StatusMovedPermanently, "/")
+	c.Abort()
+}
