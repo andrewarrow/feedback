@@ -8,7 +8,7 @@ import "github.com/andrewarrow/feedback/util"
 import "github.com/andrewarrow/feedback/persist"
 import "github.com/andrewarrow/feedback/controllers"
 
-func Serve() {
+func Serve(port string) {
 	prefix := util.AllConfig.Path.Prefix
 
 	controllers.Db = persist.Connection()
@@ -36,7 +36,7 @@ func Serve() {
 	})
 
 	AddTemplates(router, prefix)
-	go router.Run(fmt.Sprintf(":%d", util.AllConfig.Http.Port))
+	go router.Run(fmt.Sprintf(":%s", port))
 
 	for {
 		time.Sleep(time.Second)

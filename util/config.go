@@ -18,7 +18,7 @@ type PathConfig struct {
 	Videos string
 }
 type HttpConfig struct {
-	Port int
+	Port string
 	Host string
 }
 
