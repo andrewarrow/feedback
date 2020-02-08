@@ -1,0 +1,20 @@
+{{template "header" .}}
+  
+<body>
+{{if ne .flash ""}}
+<div style="padding: 2em; background-color: red; color: white;">
+{{ .flash }}
+</div>
+{{end}}
+
+
+ <div class="wrapper">
+	 	<div class="box header">Header</div>
+		<div class="box sidebar">Sidebar</div>
+		<div class="box content">Content
+			<br /> More content than we had before so this column is now quite tall.</div>
+		<div class="box footer">Footer</div>
+	</div>
+
+</body>
+</html>

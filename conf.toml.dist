@@ -1,0 +1,13 @@
+[database]
+user="dev"
+host="localhost"
+port=3306
+password="password"
+database="many_pw"
+
+[paths]
+prefix="./"
+videos="/Users/aa/videos/"
+
+[http]
+port=3000
