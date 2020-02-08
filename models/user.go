@@ -20,7 +20,8 @@ func (u *User) Encode() string {
 
 func DecodeUser(s string) *User {
 	var user User
-	err := json.Unmarshal([]byte(s), &user)
+	decoded, _ := base64.StdEncoding.DecodeString(s)
+	err := json.Unmarshal([]byte(decoded), &user)
 	if err != nil {
 		return nil
 	}
