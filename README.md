@@ -1,4 +1,5 @@
-==FEEDBACK==
+FEEDBACKS
+==================
 
 Feedback is a rails inspired framework but in golang not ruby.
 
@@ -10,7 +11,8 @@ go build
 http://localhost:3000/
 ```
 
-==SETUP on MAC==
+SETUP on MAC
+==================
 
 ```
 brew install mysql
