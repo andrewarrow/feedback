@@ -21,6 +21,12 @@ func Serve() {
 	user := router.Group("/user")
 	user.GET("/:id", controllers.UsersShow)
 
+	admin := router.Group("/admin")
+	users = admin.Group("/users")
+	users.GET("/", controllers.AdminUsersIndex)
+	user = admin.Group("/user")
+	user.GET("/:id", controllers.AdminUsersShow)
+
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
