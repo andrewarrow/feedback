@@ -6,6 +6,7 @@ import "fmt"
 import "time"
 import "github.com/andrewarrow/feedback/util"
 import "github.com/andrewarrow/feedback/persist"
+import "github.com/andrewarrow/feedback/controllers"
 import "github.com/jmoiron/sqlx"
 
 var db *sqlx.DB
@@ -17,9 +18,12 @@ func Serve() {
 	router := gin.Default()
 
 	router.Static("/assets", prefix+"assets")
-	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "index")
-	})
+	router.GET("/", controllers.WelcomeIndex)
+	users := router.Group("/users")
+	users.GET("/", controllers.UsersIndex)
+	user := router.Group("/user")
+	user.GET("/:id", controllers.UsersShow)
+
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})

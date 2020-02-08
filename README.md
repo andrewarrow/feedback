@@ -1,15 +1,18 @@
-=FEEDBACK
+==FEEDBACK==
 
 Feedback is a rails inspired framework but in golang not ruby.
 
+```
 cp conf.toml.dist conf.toml
 go build
 ./feedback
 
 http://localhost:3000/
+```
 
-=SETUP on MAC
+==SETUP on MAC==
 
+```
 brew install mysql
 brew services start mysql
 mysql -uroot
@@ -18,3 +21,4 @@ mysql -uroot
   GRANT ALL ON *.* TO 'dev'@'localhost' WITH GRANT OPTION;
 
 create database feedback;
+```
