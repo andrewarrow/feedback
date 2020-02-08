@@ -2,11 +2,29 @@ package models
 
 import "fmt"
 import "github.com/jmoiron/sqlx"
+import "encoding/base64"
+import "encoding/json"
 
 type User struct {
-	Id        int
-	Email     string
-	CreatedAt int64
+	Id        int    `json:"id"`
+	Email     string `json:"email"`
+	CreatedAt int64  `json:"created_at"`
+}
+
+func (u *User) Encode() string {
+	b, _ := json.Marshal(u)
+	s := string(b)
+	sEnc := base64.StdEncoding.EncodeToString([]byte(s))
+	return sEnc
+}
+
+func DecodeUser(s string) *User {
+	var user User
+	err := json.Unmarshal([]byte(s), &user)
+	if err != nil {
+		return nil
+	}
+	return &user
 }
 
 func SelectUsers(db *sqlx.DB) ([]User, string) {

@@ -19,6 +19,7 @@ type PathConfig struct {
 }
 type HttpConfig struct {
 	Port int
+	Host string
 }
 
 type Config struct {
