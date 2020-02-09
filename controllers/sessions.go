@@ -11,7 +11,7 @@ import "net/http"
 var babbler = babble.NewBabbler()
 
 func SessionsNew(c *gin.Context) {
-	BeforeAll(c)
+	BeforeAll("", c)
 	c.HTML(http.StatusOK, "sessions__new.tmpl", gin.H{
 		"flash": "",
 		"name":  "name",

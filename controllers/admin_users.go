@@ -5,7 +5,7 @@ import "github.com/andrewarrow/feedback/models"
 import "net/http"
 
 func AdminUsersIndex(c *gin.Context) {
-	if !ValidAdminUser(c) {
+	if !BeforeAll("admin", c) {
 		return
 	}
 	users, err := models.SelectUsers(Db)

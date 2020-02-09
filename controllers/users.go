@@ -4,21 +4,8 @@ import "github.com/gin-gonic/gin"
 import "github.com/andrewarrow/feedback/models"
 import "net/http"
 
-var user *models.User
-
-func ValidAdminUser(c *gin.Context) bool {
-	json, _ := c.Cookie("user")
-	user = models.DecodeUser(json)
-	if user == nil || user.Flavor != "admin" {
-		SetFlash("you need to login", c)
-		c.Redirect(http.StatusFound, "/sessions/new")
-		c.Abort()
-		return false
-	}
-	return true
-}
 func UsersIndex(c *gin.Context) {
-	if !ValidAdminUser(c) {
+	if !BeforeAll("user", c) {
 		return
 	}
 	users, err := models.SelectUsers(Db)
