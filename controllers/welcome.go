@@ -25,13 +25,14 @@ func BeforeAll(flavor string, c *gin.Context) bool {
 	flash, _ = c.Cookie("flash")
 	SetFlash("", c)
 
+	json, _ := c.Cookie("user")
+	user = models.DecodeUser(json)
+
 	if flavor == "" {
 		return true
 	}
 
 	if flavor == "user" {
-		json, _ := c.Cookie("user")
-		user = models.DecodeUser(json)
 		if user == nil {
 			SetFlash("you need to login", c)
 			c.Redirect(http.StatusFound, "/sessions/new")
@@ -55,11 +56,7 @@ func SetFlash(s string, c *gin.Context) {
 }
 
 func WelcomeIndex(c *gin.Context) {
-	if !BeforeAll("", c) {
-		return
-	}
-	json, _ := c.Cookie("user")
-	user := models.DecodeUser(json)
+	BeforeAll("", c)
 
 	if user == nil {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
