@@ -31,8 +31,8 @@ type Config struct {
 func InitConfig() bool {
 
 	v := viper.New()
-	v.AddConfigPath("/")
 	v.AddConfigPath(".")
+	v.AddConfigPath("/")
 	v.AddConfigPath("..")
 	v.SetConfigName("conf")
 	v.SetConfigType("toml")
