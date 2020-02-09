@@ -52,12 +52,12 @@ div.ul-hor li {
 }
 
 a {
-    color: black;
+    color: #0000DD;
     text-decoration: none;
 }
 
 a:visited,
 a:hover,
 a:focus {
-    color: black;
+    color: #0000DD;
 }

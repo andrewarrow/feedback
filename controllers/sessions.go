@@ -1,10 +1,14 @@
 package controllers
 
 import "github.com/gin-gonic/gin"
-
+import "strings"
+import "fmt"
 import "github.com/andrewarrow/feedback/models"
 import "github.com/andrewarrow/feedback/util"
+import "github.com/tjarratt/babble"
 import "net/http"
+
+var babbler = babble.NewBabbler()
 
 func SessionsNew(c *gin.Context) {
 	c.HTML(http.StatusOK, "sessions__new.tmpl", gin.H{
@@ -15,11 +19,31 @@ func SessionsNew(c *gin.Context) {
 }
 func SessionsCreate(c *gin.Context) {
 	user := models.User{}
-	user.Email = "wfwe"
-
+	email := c.PostForm("email")
+	password := c.PostForm("password")
+	flash := ""
 	host := util.AllConfig.Http.Host
-	c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
 
+	if !strings.Contains(email, "@") || !strings.Contains(email, ".") || len(email) < 7 {
+		flash = "not valid email"
+	} else {
+		user.Email = email
+		sql := fmt.Sprintf("SELECT email, flavor from users where email=:email and phrase=SHA1(:phrase)")
+		rows, err := Db.NamedQuery(sql, map[string]interface{}{"email": email, "phrase": password})
+		if err != nil {
+			flash = err.Error()
+		} else {
+			c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
+			if !rows.Next() {
+				babbler.Count = 4
+				phrase := babbler.Babble()
+				m := map[string]interface{}{"email": email, "phrase": phrase, "flavor": "user"}
+				Db.NamedExec(`INSERT INTO users (email, phrase, flavor) 
+values (:email, SHA1(:phrase), :flavor)`, m)
+			}
+		}
+	}
+	c.SetCookie("flash", flash, 3600, "/", host, false, false)
 	c.Redirect(http.StatusMovedPermanently, "/")
 	c.Abort()
 }

@@ -10,4 +10,5 @@ require (
 	github.com/russross/blackfriday v2.0.0+incompatible
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/spf13/viper v1.6.2
+	github.com/tjarratt/babble v0.0.0-20191209142150-eecdf8c2339d
 )
