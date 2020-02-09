@@ -10,12 +10,7 @@
 
  <div class="wrapper">
 	 	<div class="box header">
-{{if .user}}
-hi {{.user.Email}} 
-        <a href="#" onclick="event.preventDefault(); logOut();">Log Out</a></li>
-{{else}}
-hello you <a href="/sessions/new">Log In</a>
-{{end}}
+{{template "whoami" .}}
 </div>
 		<div class="box sidebar">Sidebar</div>
 		<div class="box content">Content

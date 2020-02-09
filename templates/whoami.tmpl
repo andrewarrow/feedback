@@ -1,0 +1,9 @@
+
+{{define "whoami"}}
+  {{if .user}}
+  hi {{.user.Email}} 
+          <a href="#" onclick="event.preventDefault(); logOut();">Log Out</a></li>
+  {{else}}
+  hello you <a href="/sessions/new">Log In</a>
+  {{end}}
+{{end}}
