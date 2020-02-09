@@ -1,18 +1,8 @@
-{{template "header" .}}
+{{template "_header" .}}
   
-<body>
-{{template "flash" .}}
-
-
- <div class="wrapper">
-	 	<div class="box header">
-{{template "whoami" .}}
-</div>
+{{template "_whoami" .}}
 		<div class="box sidebar">Sidebar</div>
 		<div class="box content">Content
 			<br /> More content than we had before so this column is now quite tall.</div>
-		<div class="box footer">Footer</div>
-	</div>
 
-</body>
-</html>
+{{template "_footer" .}}

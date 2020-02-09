@@ -1,4 +1,4 @@
-{{define "header"}}
+{{define "_header"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,4 +65,7 @@ talic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
    </style>
 </head>
+<body>
+{{template "_flash" .}}
+ <div class="wrapper">
 {{end}}
