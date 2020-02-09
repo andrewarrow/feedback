@@ -14,10 +14,17 @@ func WelcomeIndex(c *gin.Context) {
 	c.SetCookie("flash", "", 3600, "/", host, false, false)
 	json, _ := c.Cookie("user")
 	user := models.DecodeUser(json)
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{
+
+	if user == nil {
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{
+			"user":  nil,
+			"flash": flash,
+		})
+		return
+	}
+
+	c.HTML(http.StatusOK, "homepage.tmpl", gin.H{
 		"user":  user,
 		"flash": flash,
-		"name":  "name",
 	})
-
 }

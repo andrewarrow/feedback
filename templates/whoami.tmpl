@@ -3,6 +3,13 @@
   {{if .user}}
   hi {{.user.Email}} 
           <a href="#" onclick="event.preventDefault(); logOut();">Log Out</a></li>
+<form id="out" method="POST" action="/sessions/destroy">
+</form>
+<script>
+function logOut() {
+  document.getElementById("out").submit();
+}
+</script>
   {{else}}
   hello you <a href="/sessions/new">Log In</a>
   {{end}}
