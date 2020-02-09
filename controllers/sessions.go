@@ -28,6 +28,7 @@ func SessionsCreate(c *gin.Context) {
 		flash = "not valid email"
 	} else {
 		user.Email = email
+		user.Flavor = "user"
 		sql := fmt.Sprintf("SELECT email, flavor from users where email=:email and phrase=SHA1(:phrase)")
 		rows, err := Db.NamedQuery(sql, map[string]interface{}{"email": email, "phrase": password})
 		if err != nil {
@@ -35,14 +36,19 @@ func SessionsCreate(c *gin.Context) {
 		} else {
 			if rows.Next() {
 				rows.StructScan(&user)
+				c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
 			} else {
 				babbler.Count = 4
 				phrase := babbler.Babble()
 				m := map[string]interface{}{"email": email, "phrase": phrase, "flavor": "user"}
-				Db.NamedExec(`INSERT INTO users (email, phrase, flavor) 
+				_, err = Db.NamedExec(`INSERT INTO users (email, phrase, flavor) 
 values (:email, SHA1(:phrase), :flavor)`, m)
+				if err != nil {
+					flash = "was not able to login"
+				} else {
+					c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
+				}
 			}
-			c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
 		}
 	}
 	c.SetCookie("flash", flash, 3600, "/", host, false, false)
