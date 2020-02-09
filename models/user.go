@@ -8,6 +8,7 @@ import "encoding/json"
 type User struct {
 	Id        int    `json:"id"`
 	Email     string `json:"email"`
+	Flavor    string `json:"flavor"`
 	CreatedAt int64  `json:"created_at"`
 }
 

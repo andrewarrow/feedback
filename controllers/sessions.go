@@ -33,14 +33,16 @@ func SessionsCreate(c *gin.Context) {
 		if err != nil {
 			flash = err.Error()
 		} else {
-			c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
-			if !rows.Next() {
+			if rows.Next() {
+				rows.StructScan(&user)
+			} else {
 				babbler.Count = 4
 				phrase := babbler.Babble()
 				m := map[string]interface{}{"email": email, "phrase": phrase, "flavor": "user"}
 				Db.NamedExec(`INSERT INTO users (email, phrase, flavor) 
 values (:email, SHA1(:phrase), :flavor)`, m)
 			}
+			c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
 		}
 	}
 	c.SetCookie("flash", flash, 3600, "/", host, false, false)
