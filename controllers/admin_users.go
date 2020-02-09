@@ -5,6 +5,9 @@ import "github.com/andrewarrow/feedback/models"
 import "net/http"
 
 func AdminUsersIndex(c *gin.Context) {
+	if !ValidAdminUser(c) {
+		return
+	}
 	users, err := models.SelectUsers(Db)
 
 	c.HTML(http.StatusOK, "users__index.tmpl", gin.H{

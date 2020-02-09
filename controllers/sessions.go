@@ -11,6 +11,7 @@ import "net/http"
 var babbler = babble.NewBabbler()
 
 func SessionsNew(c *gin.Context) {
+	BeforeAll(c)
 	c.HTML(http.StatusOK, "sessions__new.tmpl", gin.H{
 		"flash": "",
 		"name":  "name",
@@ -52,13 +53,13 @@ values (:email, SHA1(:phrase), :flavor)`, m)
 		}
 	}
 	c.SetCookie("flash", flash, 3600, "/", host, false, false)
-	c.Redirect(http.StatusMovedPermanently, "/")
+	c.Redirect(http.StatusFound, "/")
 	c.Abort()
 }
 func SessionsDestroy(c *gin.Context) {
 	host := util.AllConfig.Http.Host
 	c.SetCookie("user", "", 3600, "/", host, false, false)
 
-	c.Redirect(http.StatusMovedPermanently, "/")
+	c.Redirect(http.StatusFound, "/")
 	c.Abort()
 }

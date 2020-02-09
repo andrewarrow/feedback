@@ -7,11 +7,21 @@ import "github.com/andrewarrow/feedback/util"
 import "github.com/andrewarrow/feedback/models"
 
 var Db *sqlx.DB
+var flash = ""
 
-func WelcomeIndex(c *gin.Context) {
-	flash, _ := c.Cookie("flash")
+func BeforeAll(c *gin.Context) {
+	flash, _ = c.Cookie("flash")
 	host := util.AllConfig.Http.Host
 	c.SetCookie("flash", "", 3600, "/", host, false, false)
+}
+
+func SetFlash(s string, c *gin.Context) {
+	host := util.AllConfig.Http.Host
+	c.SetCookie("flash", s, 3600, "/", host, false, false)
+}
+
+func WelcomeIndex(c *gin.Context) {
+	BeforeAll(c)
 	json, _ := c.Cookie("user")
 	user := models.DecodeUser(json)
 
