@@ -22,7 +22,7 @@ type HttpConfig struct {
 	Host string
 }
 type DirectoryConfig struct {
-	Active []string
+	Active string
 }
 
 type Config struct {

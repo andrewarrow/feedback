@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>list</title>
+</head>
+<body>
+
+<div style="padding: 50px">
+  <a href="../"/>../</a><br/> 
+{{range $element := .dirs}}
+  <a href="./{{$element}}/"/>{{$element}}/</a><br/> 
+{{end}}
+{{range $element := .files}}
+  <a href="./{{$element}}"/>{{$element}}</a><br/> 
+{{end}}
+</div>
+
+</body>
+</html>
