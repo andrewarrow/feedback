@@ -33,12 +33,12 @@ func Serve(port string) {
 	user = admin.Group("/user")
 	user.GET("/:id", controllers.AdminUsersShow)
 
-	active := util.AllConfig.Directories.Active
-	if active != "" {
-		router.GET("/"+active+"/", controllers.DirectoriesIndex)
-		router.GET("/"+active+"/:name", controllers.DirectoriesDownload)
-		router.GET("/"+active+"/:name/", controllers.DirectoriesNameIndex)
-		router.GET("/"+active+"/:name/:extra", controllers.DirectoriesDownloadExtra)
+	guid := util.AllConfig.Directories.Guid
+	if guid != "" {
+		router.GET("/"+guid+"/", controllers.DirectoriesIndex)
+		router.GET("/"+guid+"/:name", controllers.DirectoriesDownload)
+		router.GET("/"+guid+"/:name/", controllers.DirectoriesNameIndex)
+		router.GET("/"+guid+"/:name/:extra", controllers.DirectoriesDownloadExtra)
 	}
 
 	router.GET("/ping", func(c *gin.Context) {

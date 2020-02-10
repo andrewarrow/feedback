@@ -23,6 +23,7 @@ type HttpConfig struct {
 }
 type DirectoryConfig struct {
 	Active string
+	Guid   string
 }
 
 type Config struct {
