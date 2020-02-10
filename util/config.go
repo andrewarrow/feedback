@@ -21,11 +21,15 @@ type HttpConfig struct {
 	Port string
 	Host string
 }
+type DirectoryConfig struct {
+	Active []string
+}
 
 type Config struct {
-	Db   DatabaseConfig `mapstructure:"database"`
-	Path PathConfig     `mapstructure:"paths"`
-	Http HttpConfig     `mapstructure:"http"`
+	Db          DatabaseConfig  `mapstructure:"database"`
+	Path        PathConfig      `mapstructure:"paths"`
+	Http        HttpConfig      `mapstructure:"http"`
+	Directories DirectoryConfig `mapstructure:"directories"`
 }
 
 func InitConfig() bool {

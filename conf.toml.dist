@@ -8,3 +8,9 @@ database="many_pw"
 [paths]
 prefix="./"
 videos="/Users/aa/videos/"
+
+[directories]
+active = [
+  "/path/to/dir1",
+  "/path/to/dir2"
+]

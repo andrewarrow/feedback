@@ -33,6 +33,13 @@ func Serve(port string) {
 	user = admin.Group("/user")
 	user.GET("/:id", controllers.AdminUsersShow)
 
+	for _, path := range util.AllConfig.Directories.Active {
+		router.GET("/"+path+"/", controllers.DirectoriesIndex)
+		router.GET("/"+path+"/:name", controllers.DirectoriesDownload)
+		router.GET("/"+path+"/:name/", controllers.DirectoriesNameIndex)
+		router.GET("/"+path+"/:name/:extra", controllers.DirectoriesDownloadExtra)
+	}
+
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
