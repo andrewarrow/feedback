@@ -1,0 +1,22 @@
+{{template "_header" .}}
+{{template "_whoami" .}}
+<div class="box sidebar"><a href="/">Home</a></div>
+<div class="content">
+<hr/>
+<pre>
+    {{.selected}}
+</pre>
+<hr/>
+  <table width="100%">
+  {{range $i, $item := .items}}
+  <tr>
+    <td>{{add $i 1}}</td>
+    <td>{{$item.SentFrom}}</td>
+    <td>{{$item.SentTo}}</td>
+    <td><a href="/inboxes?i={{$i}}">{{$item.Subject}}</a></td>
+    <td>{{ago $item.CreatedAt}}</td>
+  </tr>
+  {{end}}
+  </table>
+</div>
+{{template "_footer" .}}

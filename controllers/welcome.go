@@ -41,7 +41,7 @@ func BeforeAll(flavor string, c *gin.Context) bool {
 		}
 		return true
 	}
-	if user.Flavor != "admin" {
+	if user == nil || user.Flavor != "admin" {
 		SetFlash("you need to login", c)
 		c.Redirect(http.StatusFound, "/sessions/new")
 		c.Abort()

@@ -16,6 +16,8 @@ func Serve(port string) {
 
 	router.Static("/assets", prefix+"assets")
 	router.GET("/", controllers.WelcomeIndex)
+	inboxes := router.Group("/inboxes")
+	inboxes.GET("/", controllers.InboxesIndex)
 	users := router.Group("/users")
 	users.GET("/", controllers.UsersIndex)
 	user := router.Group("/user")
