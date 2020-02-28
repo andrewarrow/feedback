@@ -1,12 +1,15 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
-import "strings"
-import "fmt"
-import "github.com/andrewarrow/feedback/models"
-import "github.com/andrewarrow/feedback/util"
-import "github.com/tjarratt/babble"
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/util"
+	"github.com/gin-gonic/gin"
+	"github.com/tjarratt/babble"
+)
 
 var babbler = babble.NewBabbler()
 
@@ -41,6 +44,7 @@ func SessionsCreate(c *gin.Context) {
 			} else {
 				babbler.Count = 4
 				phrase := babbler.Babble()
+				fmt.Println(phrase)
 				m := map[string]interface{}{"email": email, "phrase": phrase, "flavor": "user"}
 				_, err = Db.NamedExec(`INSERT INTO users (email, phrase, flavor) 
 values (:email, SHA1(:phrase), :flavor)`, m)

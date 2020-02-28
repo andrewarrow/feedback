@@ -1,12 +1,15 @@
 package server
 
-import "github.com/gin-gonic/gin"
-import "net/http"
-import "fmt"
-import "time"
-import "github.com/andrewarrow/feedback/util"
-import "github.com/andrewarrow/feedback/persist"
-import "github.com/andrewarrow/feedback/controllers"
+import (
+	"fmt"
+	"net/http"
+	"time"
+
+	"github.com/andrewarrow/feedback/controllers"
+	"github.com/andrewarrow/feedback/persist"
+	"github.com/andrewarrow/feedback/util"
+	"github.com/gin-gonic/gin"
+)
 
 func Serve(port string) {
 	prefix := util.AllConfig.Path.Prefix
