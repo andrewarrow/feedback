@@ -34,21 +34,31 @@ func getDirsAndFiles(dir string) {
 	}
 }
 
+func replacePackageNames(all, name, path string) []byte {
+	if !strings.HasSuffix(path, ".go") {
+		return []byte(all)
+	}
+
+	fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback/", name+"/")
+	return []byte(fixed)
+}
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	if len(os.Args) > 1 {
 		if strings.HasPrefix(os.Args[1], "--install=") {
+			getDirsAndFiles(".")
 			tokens := strings.Split(os.Args[1], "=")
 			install := tokens[1]
-			getDirsAndFiles(".")
+			tokens = strings.Split(install, "/")
+			name := tokens[len(tokens)-2]
 			for _, path := range paths {
 				all, _ := ioutil.ReadFile(path)
 				tokens = strings.Split(path, "/")
 				os.MkdirAll(install+strings.Join(tokens[:len(tokens)-1], "/"), 0755)
-				//outfile := tokens[len(tokens)-1]
-				ioutil.WriteFile(install+path, all, 0755)
-
+				fmt.Println(name)
+				ioutil.WriteFile(install+path, replacePackageNames(string(all), name, path), 0666)
 			}
 		}
 	}
