@@ -77,10 +77,42 @@ sessions.POST("/", controllers.{{.upperThing}}Create)
 sessions.POST("/destroy", controllers.{{.upperThing}}Destroy)
 {{end}}
 `
+
+			controllers := `
+{{define "T"}}
+package controllers
+
+import (
+	"net/http"
+	"github.com/gin-gonic/gin"
+)
+func {{.upperThing}}New(c *gin.Context) {
+	BeforeAll("", c)
+	c.HTML(http.StatusOK, "{{.thing}}__new.tmpl", gin.H{
+		"flash": "",
+	})
+
+}
+func {{.upperThing}}Create(c *gin.Context) {
+	BeforeAll("", c)
+	c.Redirect(http.StatusFound, "/")
+	c.Abort()
+}
+func {{.upperThing}}Destroy(c *gin.Context) {
+
+	c.Redirect(http.StatusFound, "/")
+	c.Abort()
+}
+{{end}}
+`
 			var buf bytes.Buffer
 			t, err := template.New("").Parse(routes)
 			capital := strings.ToUpper(thing[0:1])
 			m := map[string]interface{}{"thing": thing, "upperThing": capital + thing[1:]}
+			err = t.ExecuteTemplate(&buf, "T", m)
+			fmt.Println(err, buf.String())
+			buf.Reset()
+			t, err = template.New("").Parse(controllers)
 			err = t.ExecuteTemplate(&buf, "T", m)
 			fmt.Println(err, buf.String())
 		}
