@@ -51,6 +51,7 @@ func main() {
 		if strings.HasPrefix(os.Args[1], "--help") {
 			fmt.Println("--install=dir")
 			fmt.Println("--form=thing")
+			fmt.Println("--model=thing")
 		} else if strings.HasPrefix(os.Args[1], "--install=") {
 			getDirsAndFiles(".")
 			tokens := strings.Split(os.Args[1], "=")
