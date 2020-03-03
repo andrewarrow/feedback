@@ -80,9 +80,11 @@ type {{.upperThing}} struct {
 	CreatedAt int64 {{.jsonCreatedAt}}
 }
 
+const {{.allUpper}}_SELECT = "SELECT id, UNIX_TIMESTAMP(created_at) as createdat from {{.thing}}s"
+
 func Select{{.upperThing}}s(db *sqlx.DB) ([]{{.upperThing}}, string) {
 	{{.thing}}s := []{{.upperThing}}{}
-	sql := fmt.Sprintf("SELECT id, UNIX_TIMESTAMP(created_at) as createdat from {{.thing}}s order by created_at desc")
+	sql := fmt.Sprintf("%s order by created_at desc", {{.allUpper}}_SELECT)
 	err := db.Select(&{{.thing}}s, sql)
 	s := ""
 	if err != nil {
@@ -108,6 +110,7 @@ func Insert{{.upperThing}}(db *sqlx.DB) string {
 			m := map[string]interface{}{"thing": thing,
 				"jsonId":        "`json:\"id\"`",
 				"jsonCreatedAt": "`json:\"created_at\"`",
+				"allUpper":      strings.ToUpper(thing),
 				"upperThing":    capital + thing[1:]}
 
 			t, _ := template.New("").Parse(models)
