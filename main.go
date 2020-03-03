@@ -47,9 +47,11 @@ func replacePackageNames(all, name, path string) []byte {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-
 	if len(os.Args) > 1 {
-		if strings.HasPrefix(os.Args[1], "--install=") {
+		if strings.HasPrefix(os.Args[1], "--help") {
+			fmt.Println("--install=dir")
+			fmt.Println("--form=thing")
+		} else if strings.HasPrefix(os.Args[1], "--install=") {
 			getDirsAndFiles(".")
 			tokens := strings.Split(os.Args[1], "=")
 			install := tokens[1]
@@ -70,11 +72,21 @@ func main() {
 			// - controller
 			// - routes
 
+			templates := `{{define "T"}}
+{{printf "%s" "{{template \"_header\" .}}"}}
+<form method="post" action="/{{.thing}}">
+<input type="text" name="thing"/>
+<br/>
+<input type="submit"/>
+</form>
+{{printf "%s" "{{template \"_footer\" .}}"}}
+{{end}}`
+
 			routes := `{{define "T"}}
 {{.thing}} := router.Group("/{{.thing}}")
-sessions.GET("/new", controllers.{{.upperThing}}New)
-sessions.POST("/", controllers.{{.upperThing}}Create)
-sessions.POST("/destroy", controllers.{{.upperThing}}Destroy)
+{{.thing}}.GET("/new", controllers.{{.upperThing}}New)
+{{.thing}}.POST("/", controllers.{{.upperThing}}Create)
+{{.thing}}.POST("/destroy", controllers.{{.upperThing}}Destroy)
 {{end}}
 `
 
@@ -106,15 +118,27 @@ func {{.upperThing}}Destroy(c *gin.Context) {
 {{end}}
 `
 			var buf bytes.Buffer
+			path, _ := os.Getwd()
+
 			t, err := template.New("").Parse(routes)
 			capital := strings.ToUpper(thing[0:1])
 			m := map[string]interface{}{"thing": thing, "upperThing": capital + thing[1:]}
 			err = t.ExecuteTemplate(&buf, "T", m)
 			fmt.Println(err, buf.String())
+
 			buf.Reset()
+
 			t, err = template.New("").Parse(controllers)
 			err = t.ExecuteTemplate(&buf, "T", m)
-			fmt.Println(err, buf.String())
+			ioutil.WriteFile(fmt.Sprintf("%s/controllers/%s.go", path, thing),
+				buf.Bytes(), 0666)
+
+			buf.Reset()
+
+			t, err = template.New("").Parse(templates)
+			err = t.ExecuteTemplate(&buf, "T", m)
+			ioutil.WriteFile(fmt.Sprintf("%s/templates/%s__new.tmpl", path, thing),
+				buf.Bytes(), 0666)
 		}
 		return
 	}
