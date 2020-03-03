@@ -19,7 +19,7 @@ var paths []string = []string{}
 func getDirsAndFiles(dir string) {
 	files, _ := ioutil.ReadDir(dir)
 	for _, f := range files {
-		if f.Name() == ".git" || f.Name() == ".gitattributes" {
+		if f.Name() == ".git" || f.Name() == ".gitattributes" || f.Name() == ".gitignore" {
 			continue
 		}
 		fi, _ := os.Lstat(dir + "/" + f.Name())
@@ -64,6 +64,47 @@ func main() {
 				fmt.Println(name)
 				ioutil.WriteFile(install+path, replacePackageNames(string(all), name, path), 0666)
 			}
+		} else if strings.HasPrefix(os.Args[1], "--model=") {
+			tokens := strings.Split(os.Args[1], "=")
+			thing := tokens[1]
+			models := `
+{{define "T"}}
+package models
+
+import "github.com/jmoiron/sqlx"
+import "fmt"
+
+type {{.upperThing}} struct {
+	Id        int   {{.jsonId}} 
+	CreatedAt int64 {{.jsonCreatedAt}}
+}
+
+func Select{{.upperThing}}s(db *sqlx.DB) ([]{{.upperThing}}, string) {
+	{{.thing}}s := []{{.upperThing}}{}
+	sql := fmt.Sprintf("SELECT id, UNIX_TIMESTAMP(created_at) as createdat from {{.thing}}s order by created_at desc")
+	err := db.Select(&{{.thing}}s, sql)
+	s := ""
+	if err != nil {
+		s = err.Error()
+	}
+
+	return {{.thing}}s, s
+}
+{{end}}
+`
+			var buf bytes.Buffer
+			path, _ := os.Getwd()
+
+			capital := strings.ToUpper(thing[0:1])
+			m := map[string]interface{}{"thing": thing,
+				"jsonId":        "`json:\"id\"`",
+				"jsonCreatedAt": "`json:\"created_at\"`",
+				"upperThing":    capital + thing[1:]}
+
+			t, _ := template.New("").Parse(models)
+			t.ExecuteTemplate(&buf, "T", m)
+			ioutil.WriteFile(fmt.Sprintf("%s/models/%s.go", path, thing),
+				buf.Bytes(), 0666)
 		} else if strings.HasPrefix(os.Args[1], "--form=") {
 			tokens := strings.Split(os.Args[1], "=")
 			thing := tokens[1]
