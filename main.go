@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"os"
 	"strings"
+	"text/template"
 	"time"
 
 	"github.com/andrewarrow/feedback/server"
@@ -60,7 +62,29 @@ func main() {
 				fmt.Println(name)
 				ioutil.WriteFile(install+path, replacePackageNames(string(all), name, path), 0666)
 			}
+		} else if strings.HasPrefix(os.Args[1], "--form=") {
+			tokens := strings.Split(os.Args[1], "=")
+			thing := tokens[1]
+
+			// - tmpl
+			// - controller
+			// - routes
+
+			routes := `{{define "T"}}
+{{.thing}} := router.Group("/{{.thing}}")
+sessions.GET("/new", controllers.{{.upperThing}}New)
+sessions.POST("/", controllers.{{.upperThing}}Create)
+sessions.POST("/destroy", controllers.{{.upperThing}}Destroy)
+{{end}}
+`
+			var buf bytes.Buffer
+			t, err := template.New("").Parse(routes)
+			capital := strings.ToUpper(thing[0:1])
+			m := map[string]interface{}{"thing": thing, "upperThing": capital + thing[1:]}
+			err = t.ExecuteTemplate(&buf, "T", m)
+			fmt.Println(err, buf.String())
 		}
+		return
 	}
 
 	if util.InitConfig() == false {
