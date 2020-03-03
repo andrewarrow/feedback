@@ -33,7 +33,7 @@ func SessionsCreate(c *gin.Context) {
 	} else {
 		user.Email = email
 		user.Flavor = "user"
-		sql := fmt.Sprintf("SELECT email, flavor from users where email=:email and phrase=SHA1(:phrase)")
+		sql := fmt.Sprintf("SELECT id, email, flavor from users where email=:email and phrase=SHA1(:phrase)")
 		rows, err := Db.NamedQuery(sql, map[string]interface{}{"email": email, "phrase": password})
 		if err != nil {
 			flash = err.Error()
