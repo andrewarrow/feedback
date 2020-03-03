@@ -120,23 +120,23 @@ func {{.upperThing}}Destroy(c *gin.Context) {
 			var buf bytes.Buffer
 			path, _ := os.Getwd()
 
-			t, err := template.New("").Parse(routes)
+			t, _ := template.New("").Parse(routes)
 			capital := strings.ToUpper(thing[0:1])
 			m := map[string]interface{}{"thing": thing, "upperThing": capital + thing[1:]}
-			err = t.ExecuteTemplate(&buf, "T", m)
-			fmt.Println(err, buf.String())
+			t.ExecuteTemplate(&buf, "T", m)
+			fmt.Println(buf.String())
 
 			buf.Reset()
 
-			t, err = template.New("").Parse(controllers)
-			err = t.ExecuteTemplate(&buf, "T", m)
+			t, _ = template.New("").Parse(controllers)
+			t.ExecuteTemplate(&buf, "T", m)
 			ioutil.WriteFile(fmt.Sprintf("%s/controllers/%s.go", path, thing),
 				buf.Bytes(), 0666)
 
 			buf.Reset()
 
-			t, err = template.New("").Parse(templates)
-			err = t.ExecuteTemplate(&buf, "T", m)
+			t, _ = template.New("").Parse(templates)
+			t.ExecuteTemplate(&buf, "T", m)
 			ioutil.WriteFile(fmt.Sprintf("%s/templates/%s__new.tmpl", path, thing),
 				buf.Bytes(), 0666)
 		}
