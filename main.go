@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"os/exec"
 	"strings"
 	"text/template"
 	"time"
@@ -52,6 +53,16 @@ func main() {
 			fmt.Println("--install=dir")
 			fmt.Println("--form=thing")
 			fmt.Println("--model=thing")
+			fmt.Println("--migrate")
+			fmt.Println("--sample")
+		} else if strings.HasPrefix(os.Args[1], "--migrate") {
+			cmd := exec.Command("mysql", os.Args[2])
+			cmd.Stdin, _ = os.Open("migrations/first.sql")
+			err := cmd.Run()
+			if err != nil {
+				fmt.Printf("%v\n", err)
+			}
+		} else if strings.HasPrefix(os.Args[1], "--sample") {
 		} else if strings.HasPrefix(os.Args[1], "--install=") {
 			getDirsAndFiles(".")
 			tokens := strings.Split(os.Args[1], "=")
