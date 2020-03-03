@@ -91,6 +91,14 @@ func Select{{.upperThing}}s(db *sqlx.DB) ([]{{.upperThing}}, string) {
 
 	return {{.thing}}s, s
 }
+func Insert{{.upperThing}}(db *sqlx.DB) string {
+	_, err := db.NamedExec("INSERT INTO {{.thing}}s (col) values (:col)",
+		map[string]interface{}{"": ""})
+	if err != nil {
+		return err.Error()
+	}
+	return ""
+}
 {{end}}
 `
 			var buf bytes.Buffer
