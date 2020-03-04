@@ -1,10 +1,13 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
-import "net/http"
-import "github.com/jmoiron/sqlx"
-import "github.com/andrewarrow/feedback/util"
-import "github.com/andrewarrow/feedback/models"
+import (
+	"net/http"
+
+	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/util"
+	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
+)
 
 var Db *sqlx.DB
 var flash = ""
@@ -22,6 +25,14 @@ func ValidAdminUser(c *gin.Context) bool {
 	return true
 }
 func BeforeAll(flavor string, c *gin.Context) bool {
+	gdpr, _ := c.Cookie("gdpr_ok")
+	if gdpr == "" {
+		c.HTML(http.StatusOK, "gdpr.tmpl", gin.H{
+			"user":  user,
+			"flash": flash,
+		})
+		return false
+	}
 	flash, _ = c.Cookie("flash")
 	SetFlash("", c)
 
@@ -56,8 +67,9 @@ func SetFlash(s string, c *gin.Context) {
 }
 
 func WelcomeIndex(c *gin.Context) {
-	BeforeAll("", c)
-
+	if !BeforeAll("", c) {
+		return
+	}
 	if user == nil {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
 			"user":  nil,

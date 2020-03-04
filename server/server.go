@@ -19,6 +19,7 @@ func Serve(port string) {
 
 	router.Static("/assets", prefix+"assets")
 	router.GET("/", controllers.WelcomeIndex)
+	router.GET("/gdpr", controllers.GdprAsk)
 	inboxes := router.Group("/inboxes")
 	inboxes.GET("/", controllers.InboxesIndex)
 	users := router.Group("/users")

@@ -14,7 +14,9 @@ import (
 var babbler = babble.NewBabbler()
 
 func SessionsNew(c *gin.Context) {
-	BeforeAll("", c)
+	if !BeforeAll("", c) {
+		return
+	}
 	c.HTML(http.StatusOK, "sessions__new.tmpl", gin.H{
 		"flash": "",
 		"name":  "name",
