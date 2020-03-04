@@ -11,4 +11,5 @@ require (
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/spf13/viper v1.6.2
 	github.com/tjarratt/babble v0.0.0-20191209142150-eecdf8c2339d
+	golang.org/x/mobile v0.0.0-20200222142934-3c8601c510d0
 )
