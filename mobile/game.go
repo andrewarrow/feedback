@@ -73,7 +73,7 @@ func (g *Game) Render(sz size.Event, glctx gl.Context, images *glutil.Images) {
 
 	loading := &TextSprite{
 		placeholder:     "feedback",
-		text:            "feedback" + strings.Repeat(".", int(time.Now().Unix()%4)),
+		text:            display + strings.Repeat(".", int(time.Now().Unix()%4)),
 		font:            g.font,
 		widthPx:         sz.WidthPx,
 		heightPx:        sz.HeightPx - headerHeightPx - footerHeightPx,

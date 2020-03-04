@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -17,6 +18,8 @@ import (
 	"golang.org/x/mobile/exp/sprite/clock"
 	"golang.org/x/mobile/gl"
 )
+
+var display = "test"
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -63,10 +66,11 @@ func main() {
 }
 
 func checkNetwork() {
-	_, err := http.Get("http://golang.org/")
+	data, err := http.Get("http://golang.org/")
 	if err != nil {
 		return
 	}
+	display = fmt.Sprintf("%v", data)
 }
 
 var (
