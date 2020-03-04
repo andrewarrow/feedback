@@ -6,6 +6,7 @@ Read [the feedbacks readme](https://github.com/andrewarrow/feedbacks/blob/master
 
 
 ANDROID_NDK_HOME=~/android-ndk-r21/ gomobile build -target=android github.com/andrewarrow/feedback/mobile
+ANDROID_NDK_HOME=~/android-ndk-r21/ gomobile install github.com/andrewarrow/feedback/mobile
 
 cd Android/Sdk/emulator
 ./emulator -avd Galaxy_Nexus_API_23
