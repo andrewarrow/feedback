@@ -4,6 +4,7 @@ package main
 
 import (
 	"math/rand"
+	"net/http"
 	"time"
 
 	"golang.org/x/mobile/app"
@@ -19,6 +20,7 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
+	go checkNetwork()
 
 	app.Main(func(a app.App) {
 		var glctx gl.Context
@@ -58,6 +60,13 @@ func main() {
 			}
 		}
 	})
+}
+
+func checkNetwork() {
+	_, err := http.Get("http://golang.org/")
+	if err != nil {
+		return
+	}
 }
 
 var (

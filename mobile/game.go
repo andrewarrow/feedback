@@ -61,13 +61,13 @@ func (g *Game) Render(sz size.Event, glctx gl.Context, images *glutil.Images) {
 		text:            fmt.Sprintf("%vpx * %vpx", sz.WidthPx, sz.HeightPx),
 		font:            g.font,
 		widthPx:         sz.WidthPx,
-		heightPx:        headerHeightPx,
+		heightPx:        headerHeightPx * 2,
 		textColor:       image.White,
 		backgroundColor: image.NewUniform(color.RGBA{0x31, 0xA6, 0xA2, 0xFF}),
-		fontSize:        24,
-		xPt:             0,
-		yPt:             0,
-		align:           Left,
+		fontSize:        30,
+		xPt:             10,
+		yPt:             -5,
+		align:           Center,
 	}
 	header.Render(sz)
 
@@ -92,10 +92,10 @@ func (g *Game) Render(sz size.Event, glctx gl.Context, images *glutil.Images) {
 		heightPx:        footerHeightPx,
 		textColor:       image.White,
 		backgroundColor: image.NewUniform(color.RGBA{0x31, 0xA6, 0xA2, 0xFF}),
-		fontSize:        24,
+		fontSize:        30,
 		xPt:             0,
-		yPt:             PxToPt(sz, sz.HeightPx-footerHeightPx),
-		align:           Right,
+		yPt:             PxToPt(sz, sz.HeightPx-footerHeightPx-20),
+		align:           Center,
 	}
 	footer.Render(sz)
 }
