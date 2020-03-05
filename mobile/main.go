@@ -66,11 +66,14 @@ func main() {
 }
 
 func checkNetwork() {
-	data, err := http.Get("http://golang.org/")
+	host := "many.pw"
+	data, err := http.Get(fmt.Sprintf("https://%s/api/version", host))
 	if err != nil {
 		return
 	}
-	display = fmt.Sprintf("%v", data)
+	all, _ := ioutil.ReadAll(data.Body)
+	data.Body.Close()
+	display = fmt.Sprintf("%v", string(all))
 }
 
 var (
