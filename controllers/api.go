@@ -6,8 +6,8 @@ import (
 )
 
 type ApiReponse struct {
-	Version string
-	Items   []interface{}
+	Version string        `json:"version"`
+	Items   []interface{} `json:"items"`
 }
 
 func ApiVersion(c *gin.Context) {
