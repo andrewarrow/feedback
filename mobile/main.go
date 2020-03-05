@@ -3,12 +3,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"time"
 
-	"github.com/andrewarrow/feedback/api"
 	"golang.org/x/mobile/app"
 	"golang.org/x/mobile/event/key"
 	"golang.org/x/mobile/event/lifecycle"
@@ -75,7 +76,7 @@ func hitApi() {
 	all, _ := ioutil.ReadAll(data.Body)
 	data.Body.Close()
 
-	var ap api.ApiResponse
+	var ar TextSprite
 	json.Unmarshal(all, &ar)
 	display = fmt.Sprintf("%v", ar.SentAt)
 }

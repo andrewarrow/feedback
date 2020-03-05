@@ -26,7 +26,16 @@ const (
 	Right
 )
 
+type MobileApiReponse struct {
+	Version string        `json:"version"`
+	Items   []interface{} `json:"items"`
+	SentAt  int64         `json:"sent_at"`
+}
+
 type TextSprite struct {
+	Version         string        `json:"version"`
+	Items           []interface{} `json:"items"`
+	SentAt          int64         `json:"sent_at"`
 	placeholder     string
 	text            string
 	font            *truetype.Font
