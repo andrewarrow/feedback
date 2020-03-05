@@ -5,6 +5,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/andrewarrow/feedback/api"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -76,7 +77,7 @@ func hitApi() {
 	all, _ := ioutil.ReadAll(data.Body)
 	data.Body.Close()
 
-	var ar TextSprite
+	var ar api.ApiResponse
 	json.Unmarshal(all, &ar)
 	display = fmt.Sprintf("%v", ar.SentAt)
 }
