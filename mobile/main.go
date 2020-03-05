@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/andrewarrow/feedback/api"
 	"golang.org/x/mobile/app"
 	"golang.org/x/mobile/event/key"
 	"golang.org/x/mobile/event/lifecycle"
@@ -23,7 +24,7 @@ var display = "test"
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	go checkNetwork()
+	go hitApi()
 
 	app.Main(func(a app.App) {
 		var glctx gl.Context
@@ -65,7 +66,7 @@ func main() {
 	})
 }
 
-func checkNetwork() {
+func hitApi() {
 	host := "many.pw"
 	data, err := http.Get(fmt.Sprintf("https://%s/api/version", host))
 	if err != nil {
@@ -73,7 +74,10 @@ func checkNetwork() {
 	}
 	all, _ := ioutil.ReadAll(data.Body)
 	data.Body.Close()
-	display = fmt.Sprintf("%v", string(all))
+
+	var ap api.ApiResponse
+	json.Unmarshal(all, &ar)
+	display = fmt.Sprintf("%v", ar.SentAt)
 }
 
 var (

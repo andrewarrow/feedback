@@ -40,6 +40,7 @@ func (g *Game) reset() {
 
 func (g *Game) Touch(down bool) {
 	if down {
+		go hitApi()
 		g.touchCount++
 	}
 }
