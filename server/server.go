@@ -22,6 +22,8 @@ func Serve(port string) {
 	router.GET("/gdpr", controllers.LegalGdpr)
 	router.GET("/privacy", controllers.LegalPrivacy)
 	router.GET("/terms", controllers.LegalTerms)
+	api := router.Group("/api")
+	api.GET("/version", controllers.ApiVersion)
 	inboxes := router.Group("/inboxes")
 	inboxes.GET("/", controllers.InboxesIndex)
 	users := router.Group("/users")
