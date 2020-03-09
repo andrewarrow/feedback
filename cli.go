@@ -196,6 +196,9 @@ func handledByCli() bool {
 		fmt.Println("--migrate")
 		fmt.Println("--sample")
 		return true
+	} else if strings.HasPrefix(os.Args[1], "--version") {
+		fmt.Println("v1.0.0")
+		return true
 	} else if strings.HasPrefix(os.Args[1], "--migrate") {
 		cmd := exec.Command("mysql", os.Args[2])
 		cmd.Stdin, _ = os.Open("migrations/first.sql")
