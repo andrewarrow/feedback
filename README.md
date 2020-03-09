@@ -17,3 +17,13 @@ cd Android/Sdk/emulator
 
 cd Android/Sdk/platform-tools/
 ./adb install ~/src/feedback/mobile.apk
+
+./sdkmanager  --sdk_root=.. --licenses
+./sdkmanager  --sdk_root=.. --install 'emulator'
+./sdkmanager  --sdk_root=.. --install 'system-images;android-23;google_apis;x86_64'
+
+https://github.com/benvium/libimobiledevice-macosx
+
+./avdmanager create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-23;google_apis;x86_64'
+
+ vi ~/.android/avd/generic_10.avd/config.ini
