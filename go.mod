@@ -3,6 +3,7 @@ module github.com/andrewarrow/feedback
 go 1.13
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v0.0.0-20200316165202-73ccfea3ba5a
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
