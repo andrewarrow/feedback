@@ -5,7 +5,7 @@ import "github.com/gin-gonic/gin"
 import "fmt"
 import "time"
 import "strings"
-import "github.com/russross/blackfriday/v2"
+import "github.com/russross/blackfriday"
 import "github.com/justincampbell/timeago"
 import "html/template"
 
@@ -19,7 +19,7 @@ func AddTemplates(r *gin.Engine, prefix string) {
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
 		"md": func(s string) template.HTML {
-			md := blackfriday.Run([]byte(s))
+			md := blackfriday.MarkdownCommon([]byte(s))
 			return template.HTML(string(md))
 		},
 	}
