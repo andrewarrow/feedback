@@ -42,7 +42,7 @@ func SessionsCreate(c *gin.Context) {
 		} else {
 			if rows.Next() {
 				rows.StructScan(&user)
-				c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
+				c.SetCookie("user", user.Encode(), 3600, "/", host, http.SameSiteLaxMode, false, false)
 			} else {
 				babbler.Count = 4
 				phrase := babbler.Babble()
@@ -53,18 +53,18 @@ values (:email, SHA1(:phrase), :flavor)`, m)
 				if err != nil {
 					flash = "was not able to login"
 				} else {
-					c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
+					c.SetCookie("user", user.Encode(), 3600, "/", host, http.SameSiteLaxMode, false, false)
 				}
 			}
 		}
 	}
-	c.SetCookie("flash", flash, 3600, "/", host, false, false)
+	c.SetCookie("flash", flash, 3600, "/", host, http.SameSiteLaxMode, false, false)
 	c.Redirect(http.StatusFound, "/")
 	c.Abort()
 }
 func SessionsDestroy(c *gin.Context) {
 	host := util.AllConfig.Http.Host
-	c.SetCookie("user", "", 3600, "/", host, false, false)
+	c.SetCookie("user", "", 3600, "/", host, http.SameSiteLaxMode, false, false)
 
 	c.Redirect(http.StatusFound, "/")
 	c.Abort()

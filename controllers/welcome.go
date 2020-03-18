@@ -63,7 +63,7 @@ func BeforeAll(flavor string, c *gin.Context) bool {
 
 func SetFlash(s string, c *gin.Context) {
 	host := util.AllConfig.Http.Host
-	c.SetCookie("flash", s, 3600, "/", host, false, false)
+	c.SetCookie("flash", s, 3600, "/", host, http.SameSiteLaxMode, false, false)
 }
 
 func WelcomeIndex(c *gin.Context) {
