@@ -3,11 +3,11 @@ user="dev"
 host="localhost"
 port=3306
 password="password"
-database="many_pw"
+database="blog"
 
 [paths]
 prefix="./"
-videos="/Users/aa/videos/"
+videos="/videos/"
 
 [directories]
 active="/path/to/dir"

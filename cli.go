@@ -42,7 +42,7 @@ func replacePackageNames(all, name, path string) []byte {
 		fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback", name)
 		return []byte(fixed)
 	}
-	return []byte{}
+	return []byte(all)
 
 }
 
@@ -61,6 +61,9 @@ func cliInstall(gpPlusFeedback, name string) {
 		dir := name+"/"+strings.Join(tokens[index+1:len(tokens)-1], "/")
 		fmt.Println(dir)
 		os.MkdirAll(dir, 0755)
+		if tokens[len(tokens)-1] == "conf.toml.dist" {
+			tokens[len(tokens)-1] = "conf.toml"
+		}
 		ioutil.WriteFile(dir + "/" + tokens[len(tokens)-1], 
 		  replacePackageNames(string(all), name, path), 0666)
 	}
