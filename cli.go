@@ -34,12 +34,16 @@ func getDirsAndFiles(dir string) {
 }
 
 func replacePackageNames(all, name, path string) []byte {
-	if !strings.HasSuffix(path, ".go") {
-		return []byte(all)
+	if strings.HasSuffix(path, ".go") {
+		fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback/", name+"/")
+		return []byte(fixed)
 	}
+	if strings.HasSuffix(path, ".mod") {
+		fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback", name)
+		return []byte(fixed)
+	}
+	return []byte{}
 
-	fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback/", name+"/")
-	return []byte(fixed)
 }
 
 func cliInstall(gpPlusFeedback, name string) {
@@ -218,6 +222,10 @@ func handledByCli(gpPlusFeedback string) bool {
 			fmt.Println("missing name")
 			return true
     }
+		if os.Args[2] == "-h" {
+			fmt.Println("no options yet")
+			return true
+		}
 		cliInstall(gpPlusFeedback, os.Args[2])
 		return true
 	} else if strings.HasPrefix(os.Args[1], "--model=") {

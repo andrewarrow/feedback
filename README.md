@@ -5,6 +5,17 @@ Start Here
 Read [the feedbacks readme](https://github.com/andrewarrow/feedbacks/blob/master/README.md) first. 
 
 
+  brew install mariadb
+  brew services start mariadb
+
+
+
+
+
+
+
+
+
 ANDROID_NDK_HOME=~/android-ndk-r21/ gomobile build -target=android github.com/andrewarrow/feedback/mobile
 ANDROID_NDK_HOME=~/android-ndk-r21/ gomobile install github.com/andrewarrow/feedback/mobile
 
