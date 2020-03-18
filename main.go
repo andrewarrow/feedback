@@ -12,7 +12,18 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	if len(os.Args) > 1 && handledByCli() {
+	gpPlusFeedback := os.Getenv("GOPATH") + "/src/github.com/andrewarrow/feedback/"
+	fi, err := os.Stat(gpPlusFeedback + "main.go")
+	if err != nil {
+		fmt.Println("go get github.com/andrewarrow/feedback")
+		return
+	}
+	if fi.Size() == 0 {
+		fmt.Println("go get github.com/andrewarrow/feedback")
+		return
+	}
+
+	if len(os.Args) > 1 && handledByCli(gpPlusFeedback) {
 		return
 	}
 

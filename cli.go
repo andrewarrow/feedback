@@ -42,18 +42,23 @@ func replacePackageNames(all, name, path string) []byte {
 	return []byte(fixed)
 }
 
-func cliInstall() {
-	getDirsAndFiles(".")
-	tokens := strings.Split(os.Args[1], "=")
-	install := tokens[1]
-	tokens = strings.Split(install, "/")
-	name := tokens[len(tokens)-2]
+func cliInstall(gpPlusFeedback, name string) {
+	getDirsAndFiles(gpPlusFeedback)
 	for _, path := range paths {
 		all, _ := ioutil.ReadFile(path)
-		tokens = strings.Split(path, "/")
-		os.MkdirAll(install+strings.Join(tokens[:len(tokens)-1], "/"), 0755)
-		fmt.Println(name)
-		ioutil.WriteFile(install+path, replacePackageNames(string(all), name, path), 0666)
+		tokens := strings.Split(path, "/")
+		index := 0
+		for i, token := range tokens {
+			if token == "feedback" {
+				index = i
+				break
+			}
+		}
+		dir := name+"/"+strings.Join(tokens[index+1:len(tokens)-1], "/")
+		fmt.Println(dir)
+		os.MkdirAll(dir, 0755)
+		ioutil.WriteFile(dir + "/" + tokens[len(tokens)-1], 
+		  replacePackageNames(string(all), name, path), 0666)
 	}
 }
 
@@ -188,7 +193,7 @@ func {{.upperThing}}Destroy(c *gin.Context) {
 		buf.Bytes(), 0666)
 }
 
-func handledByCli() bool {
+func handledByCli(gpPlusFeedback string) bool {
 	if strings.HasPrefix(os.Args[1], "--help") {
 		fmt.Println("--install=dir")
 		fmt.Println("--form=thing")
@@ -208,8 +213,12 @@ func handledByCli() bool {
 		}
 		return true
 	} else if strings.HasPrefix(os.Args[1], "--sample") {
-	} else if strings.HasPrefix(os.Args[1], "--install=") {
-		cliInstall()
+	} else if os.Args[1] == "new" {
+		if len(os.Args) < 3 {
+			fmt.Println("missing name")
+			return true
+    }
+		cliInstall(gpPlusFeedback, os.Args[2])
 		return true
 	} else if strings.HasPrefix(os.Args[1], "--model=") {
 		cliModel()
