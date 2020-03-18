@@ -5,7 +5,7 @@ import "github.com/gin-gonic/gin"
 import "fmt"
 import "time"
 import "strings"
-import "github.com/russross/blackfriday/v2"
+import "github.com/russross/blackfriday"
 import "github.com/justincampbell/timeago"
 import "html/template"
 
