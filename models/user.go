@@ -46,7 +46,7 @@ func DecodeUser(s string) *User {
 
 	if err != nil {
 		fmt.Println(err)
-		return &user
+		return nil
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -55,6 +55,7 @@ func DecodeUser(s string) *User {
 		user.Flavor = claims["flavor"].(string)
 	} else {
 		fmt.Println(err)
+		return nil
 	}
 
 	return &user
