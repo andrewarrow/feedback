@@ -5,37 +5,41 @@ import (
 	"math/rand"
 	"os"
 	"time"
-
-	"github.com/andrewarrow/feedback/server"
-	"github.com/andrewarrow/feedback/util"
 )
+
+func PrintHelp() {
+	fmt.Println("")
+	fmt.Println("feedback v1.0")
+	fmt.Println("")
+	fmt.Println("  help              # this menu")
+	fmt.Println("  new               # just like rails new")
+	fmt.Println("")
+}
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	gpPlusFeedback := os.Getenv("GOPATH") + "/src/github.com/andrewarrow/feedback/"
-	fi, err := os.Stat(gpPlusFeedback + "main.go")
-	if err != nil {
-		fmt.Println("go get github.com/andrewarrow/feedback")
+	if len(os.Args) == 1 {
+		PrintHelp()
 		return
 	}
-	if fi.Size() == 0 {
-		fmt.Println("go get github.com/andrewarrow/feedback")
-		return
+	command := os.Args[1]
+
+	if command == "new" {
+	} else if command == "login" {
+	} else if command == "help" {
+		PrintHelp()
 	}
 
-	if len(os.Args) > 1 && handledByCli(gpPlusFeedback) {
-		return
-	}
-
-	if util.InitConfig() == false {
-		print("no config")
-		return
-	}
-	fmt.Println(util.AllConfig)
-	if len(os.Args) > 2 {
-		server.Serve(os.Args[1])
-		util.AllConfig.Http.Host = os.Args[2]
-	} else {
-		server.Serve(util.AllConfig.Http.Port)
-	}
+	/*
+		if util.InitConfig() == false {
+			print("no config")
+			return
+		}
+		fmt.Println(util.AllConfig)
+		if len(os.Args) > 2 {
+			server.Serve(os.Args[1])
+			util.AllConfig.Http.Host = os.Args[2]
+		} else {
+			server.Serve(util.AllConfig.Http.Port)
+		}*/
 }
