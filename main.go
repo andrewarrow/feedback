@@ -5,6 +5,8 @@ import (
 	"math/rand"
 	"os"
 	"time"
+
+	"github.com/andrewarrow/feedback/command"
 )
 
 func PrintHelp() {
@@ -22,11 +24,12 @@ func main() {
 		PrintHelp()
 		return
 	}
-	command := os.Args[1]
+	arg := os.Args[1]
 
-	if command == "new" {
-	} else if command == "login" {
-	} else if command == "help" {
+	if arg == "new" {
+		command.NewMenu()
+	} else if arg == "login" {
+	} else if arg == "help" {
 		PrintHelp()
 	}
 
