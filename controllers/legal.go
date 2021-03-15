@@ -9,7 +9,8 @@ import (
 
 func LegalGdpr(c *gin.Context) {
 	host := util.AllConfig.Http.Host
-	c.SetCookie("gdpr_ok", "cookies, yes", 2147483647, "/", host, http.SameSiteLaxMode, false, false)
+	c.SetCookie("gdpr_ok", "cookies", 2147483647, "/", "localhost", false, true)
+
 	c.Redirect(http.StatusFound, "/")
 	c.Abort()
 }

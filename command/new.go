@@ -46,9 +46,6 @@ func cliInstall(name string) {
 		dest := name + "/" + strings.Join(tokens[index+1:len(tokens)-1], "/")
 		fmt.Println(dest)
 		os.MkdirAll(dest, 0755)
-		if tokens[len(tokens)-1] == "conf.toml.dist" {
-			tokens[len(tokens)-1] = "conf.toml"
-		}
 		if tokens[len(tokens)-1] == "go.sum" {
 			continue
 		}
@@ -96,9 +93,9 @@ var feedbackMain = `package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
+  "foo/controllers"
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
 )
@@ -115,9 +112,7 @@ func main() {
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
 
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
-	})
+	router.GET("/", controllers.WelcomeIndex)
 
 	router.Run(":" + port)
 }`
