@@ -49,9 +49,14 @@ func cliInstall(name string) {
 		if tokens[len(tokens)-1] == "conf.toml.dist" {
 			tokens[len(tokens)-1] = "conf.toml"
 		}
+		if tokens[len(tokens)-1] == "go.sum" {
+			continue
+		}
 		ioutil.WriteFile(dest+"/"+tokens[len(tokens)-1],
 			replacePackageNames(string(all), name, path), 0666)
 	}
+	ioutil.WriteFile(name+"/main.go", []byte(feedbackMain), 0666)
+	ioutil.WriteFile(name+"/go.mod", []byte(feedbackGomod), 0666)
 }
 
 func getDirsAndFiles(dir string) {
@@ -86,3 +91,37 @@ func replacePackageNames(all, name, path string) []byte {
 	return []byte(all)
 
 }
+
+var feedbackMain = `package main
+
+import (
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/heroku/x/hmetrics/onload"
+)
+
+func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
+	router := gin.New()
+	router.Use(gin.Logger())
+	router.LoadHTMLGlob("templates/*.tmpl.html")
+	router.Static("/static", "static")
+
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+	})
+
+	router.Run(":" + port)
+}`
+
+var feedbackGomod = `module foo
+
+go 1.15`
