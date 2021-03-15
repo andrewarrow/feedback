@@ -1,74 +1,6 @@
 package main
 
-import (
-	"text/template"
-
-	"bytes"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"os/exec"
-	"strings"
-)
-
-var paths []string = []string{}
-
-func getDirsAndFiles(dir string) {
-	files, _ := ioutil.ReadDir(dir)
-	for _, f := range files {
-		if f.Name() == ".git" || f.Name() == ".gitattributes" || f.Name() == ".gitignore" {
-			continue
-		}
-		fi, _ := os.Lstat(dir + "/" + f.Name())
-		if fi.IsDir() {
-			getDirsAndFiles(dir + "/" + f.Name())
-		} else {
-			path := dir + "/" + f.Name()
-			tokens := strings.Split(path, "/")
-			if len(tokens) > 2 {
-				fmt.Println(path)
-				paths = append(paths, path)
-			}
-		}
-	}
-}
-
-func replacePackageNames(all, name, path string) []byte {
-	if strings.HasSuffix(path, ".go") {
-		fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback/", name+"/")
-		return []byte(fixed)
-	}
-	if strings.HasSuffix(path, ".mod") {
-		fixed := strings.ReplaceAll(all, "github.com/andrewarrow/feedback", name)
-		return []byte(fixed)
-	}
-	return []byte(all)
-
-}
-
-func cliInstall(gpPlusFeedback, name string) {
-	getDirsAndFiles(gpPlusFeedback)
-	for _, path := range paths {
-		all, _ := ioutil.ReadFile(path)
-		tokens := strings.Split(path, "/")
-		index := 0
-		for i, token := range tokens {
-			if token == "feedback" {
-				index = i
-				break
-			}
-		}
-		dir := name+"/"+strings.Join(tokens[index+1:len(tokens)-1], "/")
-		fmt.Println(dir)
-		os.MkdirAll(dir, 0755)
-		if tokens[len(tokens)-1] == "conf.toml.dist" {
-			tokens[len(tokens)-1] = "conf.toml"
-		}
-		ioutil.WriteFile(dir + "/" + tokens[len(tokens)-1], 
-		  replacePackageNames(string(all), name, path), 0666)
-	}
-}
-
+/*
 func cliModel() {
 	tokens := strings.Split(os.Args[1], "=")
 	thing := tokens[1]
@@ -80,7 +12,7 @@ import "github.com/jmoiron/sqlx"
 import "fmt"
 
 type {{.upperThing}} struct {
-	Id        int   {{.jsonId}} 
+	Id        int   {{.jsonId}}
 	CreatedAt int64 {{.jsonCreatedAt}}
 }
 
@@ -224,7 +156,7 @@ func handledByCli(gpPlusFeedback string) bool {
 		if len(os.Args) < 3 {
 			fmt.Println("missing name")
 			return true
-    }
+		}
 		if os.Args[2] == "-h" {
 			fmt.Println("no options yet")
 			return true
@@ -239,4 +171,4 @@ func handledByCli(gpPlusFeedback string) bool {
 		return true
 	}
 	return false
-}
+}*/
