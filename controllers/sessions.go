@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/util"
 	"github.com/gin-gonic/gin"
 	"github.com/tjarratt/babble"
 )
@@ -28,7 +27,6 @@ func SessionsCreate(c *gin.Context) {
 	email := c.PostForm("email")
 	password := c.PostForm("password")
 	flash := ""
-	host := util.AllConfig.Http.Host
 
 	if !strings.Contains(email, "@") || !strings.Contains(email, ".") || len(email) < 7 {
 		flash = "not valid email"
@@ -63,7 +61,6 @@ values (:email, SHA1(:phrase), :flavor)`, m)
 	c.Abort()
 }
 func SessionsDestroy(c *gin.Context) {
-	host := util.AllConfig.Http.Host
 	c.SetCookie("user", "", 3600, "/", "localhost", false, true)
 
 	c.Redirect(http.StatusFound, "/")

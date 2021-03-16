@@ -1,15 +1,17 @@
 package server
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"html/template"
+	"strings"
+	"time"
 
-import "fmt"
-import "time"
-import "strings"
-import "github.com/russross/blackfriday"
-import "github.com/justincampbell/timeago"
-import "html/template"
+	"github.com/gin-gonic/gin"
+	"github.com/justincampbell/timeago"
+	"github.com/russross/blackfriday"
+)
 
-func AddTemplates(r *gin.Engine, prefix string) {
+func AddTemplates(r *gin.Engine) {
 	fm := template.FuncMap{
 		"mod": func(i, j int) bool { return i%j == 0 },
 		"ago": func(i int64) string {
@@ -24,5 +26,5 @@ func AddTemplates(r *gin.Engine, prefix string) {
 		},
 	}
 	r.SetFuncMap(fm)
-	r.LoadHTMLGlob(prefix + "templates/*.tmpl")
+	r.LoadHTMLGlob("templates/*.tmpl")
 }
