@@ -24,14 +24,6 @@ func ValidAdminUser(c *gin.Context) bool {
 	return true
 }
 func BeforeAll(flavor string, c *gin.Context) bool {
-	gdpr, _ := c.Cookie("gdpr_ok")
-	if gdpr == "" {
-		c.HTML(http.StatusOK, "gdpr.tmpl", gin.H{
-			"user":  user,
-			"flash": flash,
-		})
-		return false
-	}
 	flash, _ = c.Cookie("flash")
 	SetFlash("", c)
 

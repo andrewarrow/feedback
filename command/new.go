@@ -95,7 +95,6 @@ import (
 	"log"
 	"os"
 
-  "foo/controllers"
 	"foo/server"
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -110,11 +109,7 @@ func main() {
 
 	router := gin.New()
 	router.Use(gin.Logger())
-	server.AddTemplates(router)
-	router.Static("/static", "static")
-
-	router.GET("/", controllers.WelcomeIndex)
-
+	server.RoutesSetup(router)
 	router.Run(":" + port)
 }`
 
