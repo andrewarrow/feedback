@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/command"
+	"github.com/andrewarrow/feedback/server"
+	"github.com/gin-gonic/gin"
 )
 
 func PrintHelp() {
@@ -15,6 +17,7 @@ func PrintHelp() {
 	fmt.Println("")
 	fmt.Println("  help              # this menu")
 	fmt.Println("  new               # just like rails new")
+	fmt.Println("  run               # ")
 	fmt.Println("")
 }
 
@@ -28,7 +31,11 @@ func main() {
 
 	if arg == "new" {
 		command.NewMenu()
-	} else if arg == "login" {
+	} else if arg == "run" {
+		router := gin.New()
+		router.Use(gin.Logger())
+		server.RoutesSetup(router)
+		router.Run(":3000")
 	} else if arg == "help" {
 		PrintHelp()
 	}

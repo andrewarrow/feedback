@@ -49,11 +49,14 @@ func cliInstall(name string) {
 		if tokens[len(tokens)-1] == "go.sum" {
 			continue
 		}
+		if tokens[len(tokens)-1] == "feedback" {
+			continue
+		}
 		ioutil.WriteFile(dest+"/"+tokens[len(tokens)-1],
 			replacePackageNames(string(all), name, path), 0666)
 	}
-	ioutil.WriteFile(name+"/main.go", []byte(feedbackMain), 0666)
-	ioutil.WriteFile(name+"/go.mod", []byte(feedbackGomod), 0666)
+	ioutil.WriteFile(name+"/main.go", []byte(fmt.Sprintf(feedbackMain, name)), 0666)
+	ioutil.WriteFile(name+"/go.mod", []byte(fmt.Sprintf(feedbackGomod, name)), 0666)
 }
 
 func getDirsAndFiles(dir string) {
@@ -95,7 +98,7 @@ import (
 	"log"
 	"os"
 
-	"foo/server"
+	"%s/server"
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
 )
@@ -113,6 +116,6 @@ func main() {
 	router.Run(":" + port)
 }`
 
-var feedbackGomod = `module foo
+var feedbackGomod = `module %s
 
 go 1.15`
