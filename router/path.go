@@ -14,6 +14,7 @@ type Vars struct {
 	Title  string
 	Header string
 	Footer string
+	Phone  string
 }
 
 func NewVars() Vars {
@@ -22,16 +23,16 @@ func NewVars() Vars {
 	return v
 }
 
-func NewVarsWithHeaderFooter() Vars {
+func (r *Router) NewVarsWithHeaderFooter() Vars {
 	vars := NewVars()
-	vars.Header = TemplateAsString("_header")
-	vars.Footer = TemplateAsString("_footer")
+	vars.Header = TemplateAsString("_header", vars)
+	vars.Phone = r.Site.Phone
+	vars.Footer = TemplateAsString("_footer", vars)
 	return vars
 }
 
-func TemplateAsString(name string) string {
+func TemplateAsString(name string, vars Vars) string {
 	t, _ := template.ParseFiles(fmt.Sprintf("views/%s.html", name))
-	vars := NewVars()
 	var buffer bytes.Buffer
 	t.Execute(&buffer, vars)
 	fmt.Println(name, len(buffer.String()))
@@ -43,7 +44,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	fmt.Println(path)
 	if path == "/" {
 		t, _ := template.ParseFiles("views/welcome.html")
-		vars := NewVarsWithHeaderFooter()
+		vars := r.NewVarsWithHeaderFooter()
 		t.Execute(writer, vars)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
@@ -54,11 +55,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		if match == "" {
 			writer.WriteHeader(404)
 			t, _ := template.ParseFiles("views/404.html")
-			vars := NewVarsWithHeaderFooter()
+			vars := r.NewVarsWithHeaderFooter()
 			t.Execute(writer, vars)
 		} else {
 			t, _ := template.ParseFiles(fmt.Sprintf("views%s.html", path))
-			vars := NewVarsWithHeaderFooter()
+			vars := r.NewVarsWithHeaderFooter()
 			t.Execute(writer, vars)
 		}
 	}

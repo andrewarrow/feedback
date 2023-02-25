@@ -1,5 +1,5 @@
 package router
 
 type Site struct {
-	Models []string
+	Phone string `json:"phone"`
 }
