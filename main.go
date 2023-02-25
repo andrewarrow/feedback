@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/andrewarrow/feedback/files"
 )
 
 func PrintHelp() {
@@ -30,6 +32,8 @@ func main() {
 	if arg == "new" {
 	} else if arg == "run" {
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			welcome := files.ReadFile("views/welcome.html")
+			fmt.Fprintf(w, welcome)
 		})
 
 		log.Fatal(http.ListenAndServe(":3000", nil))
