@@ -3,6 +3,7 @@ package router
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/andrewarrow/feedback/files"
 )
@@ -13,6 +14,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	if path == "/" {
 		welcome := files.ReadFile("views/welcome.html")
 		fmt.Fprintf(writer, welcome)
+	} else if strings.HasPrefix(path, "/assets") {
+		r.HandleAsset(path, writer)
 	} else if path == "/feedback/add" {
 		fmt.Fprintf(writer, "ok")
 	} else {
@@ -26,4 +29,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			fmt.Fprintf(writer, matchFile)
 		}
 	}
+}
+
+func (r *Router) HandleAsset(path string, writer http.ResponseWriter) {
+	writer.Header().Set("Content-Type", "text/css")
+	matchFile := files.ReadFile(fmt.Sprintf("%s", path[1:]))
+	fmt.Fprintf(writer, matchFile)
 }

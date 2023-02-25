@@ -2,3 +2,4 @@ conf.toml
 go.sum
 .DS_Store
 feedback
+data
