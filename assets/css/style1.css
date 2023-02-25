@@ -19,9 +19,9 @@ a:visited { color:#828282; text-decoration:none; }
 .pagetop { font-family:Verdana, Geneva, sans-serif; font-size: 10pt; color:#222222; line-height:12px; }
 .comhead { font-family:Verdana, Geneva, sans-serif; font-size:  8pt; color:#828282; }
 .comment { font-family:Verdana, Geneva, sans-serif; font-size:  9pt; }
-.hnname  { margin-right: 5px; }
+.s1name  { margin-right: 5px; }
 
-#hnmain { min-width: 796px; }
+#s1main { min-width: 796px; }
 
 .title a { word-break: break-word; }
 
@@ -93,7 +93,7 @@ table.padtab td { padding:0px 10px }
 @media only screen
 and (min-width : 300px)
 and (max-width : 750px) {
-  #hnmain { width: 100%; min-width: 0; }
+  #s1main { width: 100%; min-width: 0; }
   body { padding: 0; margin: 0; width: 100%; -webkit-text-size-adjust: none; }
   td { height: inherit !important; }
   .title, .comment { font-size: inherit;  }
