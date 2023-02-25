@@ -4,16 +4,28 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"text/template"
 
 	"github.com/andrewarrow/feedback/files"
 )
+
+type Vars struct {
+	Title string
+}
+
+func NewVars() Vars {
+	v := Vars{}
+	v.Title = "Feedback"
+	return v
+}
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 	fmt.Println(path)
 	if path == "/" {
-		welcome := files.ReadFile("views/welcome.html")
-		fmt.Fprintf(writer, welcome)
+		t, _ := template.ParseFiles("views/welcome.html")
+		vars := NewVars()
+		t.Execute(writer, vars)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if path == "/feedback/add" {
@@ -22,11 +34,13 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		match := r.Paths[path]
 		if match == "" {
 			writer.WriteHeader(404)
-			notFound := files.ReadFile("views/404.html")
-			fmt.Fprintf(writer, notFound)
+			t, _ := template.ParseFiles("views/404.html")
+			vars := NewVars()
+			t.Execute(writer, vars)
 		} else {
-			matchFile := files.ReadFile(fmt.Sprintf("views%s.html", path))
-			fmt.Fprintf(writer, matchFile)
+			t, _ := template.ParseFiles(fmt.Sprintf("views%s.html", path))
+			vars := NewVars()
+			t.Execute(writer, vars)
 		}
 	}
 }
