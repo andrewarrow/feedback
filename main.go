@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/andrewarrow/feedback/files"
+	"github.com/andrewarrow/feedback/router"
 )
 
 func PrintHelp() {
@@ -32,14 +32,7 @@ func main() {
 	if arg == "new" {
 	} else if arg == "run" {
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			if r.URL.Path == "/" {
-				welcome := files.ReadFile("views/welcome.html")
-				fmt.Fprintf(w, welcome)
-			} else {
-				w.WriteHeader(404)
-				notFound := files.ReadFile("views/404.html")
-				fmt.Fprintf(w, notFound)
-			}
+			router.RouteFromRequest(w, r)
 		})
 
 		log.Fatal(http.ListenAndServe(":3000", nil))
