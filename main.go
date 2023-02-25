@@ -2,13 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"time"
-
-	"github.com/andrewarrow/feedback/command"
-	"github.com/andrewarrow/feedback/server"
-	"github.com/gin-gonic/gin"
 )
 
 func PrintHelp() {
@@ -30,26 +28,13 @@ func main() {
 	arg := os.Args[1]
 
 	if arg == "new" {
-		command.NewMenu()
 	} else if arg == "run" {
-		router := gin.New()
-		router.Use(gin.Logger())
-		server.RoutesSetup(router)
-		router.Run(":3000")
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		})
+
+		log.Fatal(http.ListenAndServe(":3000", nil))
 	} else if arg == "help" {
 		PrintHelp()
 	}
 
-	/*
-		if util.InitConfig() == false {
-			print("no config")
-			return
-		}
-		fmt.Println(util.AllConfig)
-		if len(os.Args) > 2 {
-			server.Serve(os.Args[1])
-			util.AllConfig.Http.Host = os.Args[2]
-		} else {
-			server.Serve(util.AllConfig.Http.Port)
-		}*/
 }
