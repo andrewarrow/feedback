@@ -31,8 +31,9 @@ func main() {
 
 	if arg == "new" {
 	} else if arg == "run" {
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			router.RouteFromRequest(w, r)
+		r := router.NewRouter()
+		http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+			r.RouteFromRequest(writer, request)
 		})
 
 		log.Fatal(http.ListenAndServe(":3000", nil))
