@@ -32,8 +32,14 @@ func main() {
 	if arg == "new" {
 	} else if arg == "run" {
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			welcome := files.ReadFile("views/welcome.html")
-			fmt.Fprintf(w, welcome)
+			if r.URL.Path == "/" {
+				welcome := files.ReadFile("views/welcome.html")
+				fmt.Fprintf(w, welcome)
+			} else {
+				w.WriteHeader(404)
+				notFound := files.ReadFile("views/404.html")
+				fmt.Fprintf(w, notFound)
+			}
 		})
 
 		log.Fatal(http.ListenAndServe(":3000", nil))
