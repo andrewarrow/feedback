@@ -18,10 +18,8 @@ func (r *Router) NewVars() controller.Vars {
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 	fmt.Println(path)
-	t := LoadTemplates()
-	vars := r.NewVars()
 	if path == "/" {
-		t.ExecuteTemplate(writer, "welcome.html", vars)
+		r.Template.ExecuteTemplate(writer, "welcome.html", r.Vars)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if path == "/feedback/add" {
@@ -30,9 +28,9 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		match := r.Paths[path]
 		if match == nil {
 			writer.WriteHeader(404)
-			t.ExecuteTemplate(writer, "404.html", vars)
+			r.Template.ExecuteTemplate(writer, "404.html", r.Vars)
 		} else {
-			match.HandlePath(writer, request, vars)
+			match.HandlePath(writer, request, r.Vars)
 		}
 	}
 }

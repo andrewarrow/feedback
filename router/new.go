@@ -2,6 +2,7 @@ package router
 
 import (
 	"encoding/json"
+	"html/template"
 
 	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
@@ -12,6 +13,8 @@ type Router struct {
 	Paths    map[string]controller.InterfaceController
 	Site     Site
 	Database persist.Database
+	Template *template.Template
+	Vars     controller.Vars
 }
 
 func NewRouter() *Router {
@@ -26,6 +29,8 @@ func NewRouter() *Router {
 	//for _, model := range r.Site.Models {
 	//	r.Paths[fmt.Sprintf("/admin/%s", util.Plural(model.Name))] = "GET"
 	//}
+	r.Template = LoadTemplates()
+	r.Vars = r.NewVars()
 
 	return &r
 }
