@@ -1,14 +1,16 @@
 {{ .Header }}
+             {{range $i, $item := .Models}}
                   <tr class="athing" id="34937127">
                     <td class="title" valign="top" align="right">
-                      <span class="rank">1.</span>
+                            <span class="rank">{{$i}}.</span>
                     </td>      
                     <td class="title">
                      <span class="titleline">
-                      <a href="#">Models</a>
+                             <a href="#">{{$item.Name}}</a>
                      </span>
                     </td>
                  </tr>
+             {{end}}
                   <tr class="athing">
                     <td class="title">
                             New Model:
