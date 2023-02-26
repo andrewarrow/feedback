@@ -1,9 +1,11 @@
 package controller
 
+import "html/template"
+
 type Vars struct {
 	Title  string
-	Header string
-	Footer string
+	Header template.HTML
+	Footer template.HTML
 	Phone  string
 }
 

@@ -3,9 +3,9 @@ package router
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
-	"text/template"
 
 	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
@@ -19,12 +19,12 @@ func (r *Router) NewVarsWithHeaderFooter() controller.Vars {
 	return vars
 }
 
-func TemplateAsString(name string, vars controller.Vars) string {
+func TemplateAsString(name string, vars controller.Vars) template.HTML {
 	t, _ := template.ParseFiles(fmt.Sprintf("views/%s.html", name))
 	var buffer bytes.Buffer
 	t.Execute(&buffer, vars)
 	fmt.Println(name, len(buffer.String()))
-	return buffer.String()
+	return template.HTML(buffer.String())
 }
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
