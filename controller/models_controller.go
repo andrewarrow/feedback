@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -50,6 +52,9 @@ func (m *ModelsController) HandlePath(writer http.ResponseWriter,
 	if method == "GET" {
 		m.Index()
 	} else if method == "POST" {
+		buffer := new(bytes.Buffer)
+		buffer.ReadFrom(request.Body)
+		fmt.Println("POST", buffer.String())
 		m.Create()
 	}
 }
