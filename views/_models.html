@@ -1,12 +1,14 @@
-{{define "_model"}}
+{{define "_models"}}
+             {{range $i, $item := .Models}}
                   <tr class="athing">
                     <td class="title" valign="top" align="right">
-                            <span class="rank">{{.Index}}.</span>
+                            <span class="rank">{{add $i 1}}.</span>
                     </td>      
                     <td class="title">
                      <span class="titleline">
-                             {{.Name}}
+                             {{$item.Name}}
                      </span>
                     </td>
                  </tr>
+             {{end}}
 {{end}}

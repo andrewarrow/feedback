@@ -2,9 +2,7 @@
                   <tr class="athing">
                     <td class="title" valign="top" align="right">
                       <table id="models">
-             {{range $item := .Models}}
-               {{template "_model" $item}}
-             {{end}}
+               {{template "_models" .}}
                       </table>
                     </td>
                   </tr>
