@@ -21,10 +21,18 @@ func (m *ModelsController) Index() {
 }
 
 func (m *ModelsController) Create() {
+	h := m.writer.Header()
+	h.Set("Location", "/models")
+	m.writer.WriteHeader(301)
 }
 
-func (m *ModelsController) HandlePath(writer http.ResponseWriter, path string, vars Vars) {
+func (m *ModelsController) HandlePath(writer http.ResponseWriter,
+	path, method string, vars Vars) {
 	m.vars = vars
 	m.writer = writer
-	m.Index()
+	if method == "GET" {
+		m.Index()
+	} else if method == "POST" {
+		m.Create()
+	}
 }

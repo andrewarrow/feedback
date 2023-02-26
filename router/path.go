@@ -47,9 +47,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			t.Execute(writer, vars)
 		} else {
 			vars := r.NewVarsWithHeaderFooter()
-			match.HandlePath(writer, path, vars)
-			//t, _ := template.ParseFiles(fmt.Sprintf("views%s.html", match.ViewName()))
-			//t.Execute(writer, vars)
+			match.HandlePath(writer, path, request.Method, vars)
 		}
 	}
 }
