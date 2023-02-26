@@ -11,7 +11,7 @@ import (
 type ModelsController struct {
 	render *Render
 	writer http.ResponseWriter
-	models []models.Model
+	site   *Site
 }
 
 type ModelVars struct {
@@ -21,14 +21,14 @@ type ModelVars struct {
 
 func NewModelsController(render *Render) *ModelsController {
 	m := ModelsController{}
-	m.models = render.Site.Models
+	m.site = &render.Site
 	m.render = render
 	return &m
 }
 
 func (m *ModelsController) Index() {
 	vars := ModelVars{}
-	vars.Models = m.models
+	vars.Models = m.site.Models
 	vars.Fill(m.render)
 	m.render.Execute(m.writer, "models_index.html", vars)
 }
@@ -41,10 +41,8 @@ func (m *ModelsController) Create() {
 
 func (m *ModelsController) CreateWithJson(jsonString string) {
 	vars := ModelVars{}
-	vars.Models = m.models
-	stringTemplate := `{{template "_models" .}}`
-	t, _ := m.render.Template.New("list_models").Parse(stringTemplate)
-	t.Execute(m.writer, vars)
+	vars.Models = m.site.Models
+	m.render.Execute(m.writer, "models_list.html", vars)
 }
 
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
