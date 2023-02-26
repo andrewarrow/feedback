@@ -29,7 +29,9 @@ func (m *ModelsController) Index() {
 	vars.Header = m.vars.Header
 	vars.Footer = m.vars.Footer
 	vars.Models = m.models
-	t, _ := template.ParseFiles("views/models_index.html")
+	t := template.New("models_index.html")
+	t = t.Funcs(TemplateFunctions())
+	t, _ = t.ParseFiles("views/models_index.html")
 	t.Execute(m.writer, vars)
 }
 
