@@ -16,6 +16,11 @@ func NewVars() *Vars {
 	return &v
 }
 
+func (v *Vars) Fill(r *Render) {
+	v.Title = r.Vars.Title
+	v.Phone = r.Vars.Phone
+}
+
 type Render struct {
 	Vars     *Vars
 	Template *template.Template
