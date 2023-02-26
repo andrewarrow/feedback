@@ -42,9 +42,11 @@ func (m *ModelsController) Create() {
 }
 
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
-	path, method string, vars Vars) {
+	request *http.Request, vars Vars) {
 	m.vars = vars
 	m.writer = writer
+	method := request.Method
+	// path := request.URL.Path
 	if method == "GET" {
 		m.Index()
 	} else if method == "POST" {

@@ -5,5 +5,5 @@ import "net/http"
 type InterfaceController interface {
 	Index()
 	Create()
-	HandlePath(http.ResponseWriter, string, string, Vars)
+	HandlePath(http.ResponseWriter, *http.Request, Vars)
 }
