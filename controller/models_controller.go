@@ -39,6 +39,12 @@ func (m *ModelsController) Create() {
 	m.writer.WriteHeader(301)
 }
 
+func (m *ModelsController) CreateWithJson(jsonString string) {
+	vars := ModelVars{}
+	vars.Models = m.models
+	m.render.Execute(m.writer, "_models.html", vars)
+}
+
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
 	request *http.Request) {
 	m.writer = writer
@@ -47,9 +53,15 @@ func (m *ModelsController) HandlePath(writer http.ResponseWriter,
 	if method == "GET" {
 		m.Index()
 	} else if method == "POST" {
+		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)
 		buffer.ReadFrom(request.Body)
 		fmt.Println("POST", buffer.String())
-		m.Create()
+		contentType := request.Header["Content-Type"]
+		if contentType[0] == "application/x-www-form-urlencoded" {
+			m.Create()
+		} else {
+			m.CreateWithJson(buffer.String())
+		}
 	}
 }
