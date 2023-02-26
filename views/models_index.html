@@ -1,16 +1,13 @@
 {{template "_header" .}}
-             {{range $i, $item := .Models}}
-                  <tr class="athing" id="34937127">
+                  <tr class="athing">
                     <td class="title" valign="top" align="right">
-                            <span class="rank">{{add $i 1}}.</span>
-                    </td>      
-                    <td class="title">
-                     <span class="titleline">
-                             <a href="#">{{$item.Name}}</a>
-                     </span>
-                    </td>
-                 </tr>
+                      <table id="models">
+             {{range $item := .Models}}
+               {{template "_model" $item}}
              {{end}}
+                      </table>
+                    </td>
+                  </tr>
                   <tr class="athing">
                     <td class="title">
                             New Model:

@@ -22,6 +22,9 @@ type ModelVars struct {
 func NewModelsController(models []models.Model, render *Render) *ModelsController {
 	m := ModelsController{}
 	m.models = models
+	for i, _ := range m.models {
+		m.models[i].Index = i + 1
+	}
 	m.render = render
 	return &m
 }
