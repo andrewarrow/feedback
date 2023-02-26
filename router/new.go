@@ -22,7 +22,7 @@ func NewRouter() *Router {
 	jsonString := files.ReadFile("data/site.json")
 	json.Unmarshal([]byte(jsonString), &r.Site)
 
-	r.Paths["/models"] = controller.NewModelsController()
+	r.Paths["/models"] = controller.NewModelsController(r.Site.Models)
 	//for _, model := range r.Site.Models {
 	//	r.Paths[fmt.Sprintf("/admin/%s", util.Plural(model.Name))] = "GET"
 	//}

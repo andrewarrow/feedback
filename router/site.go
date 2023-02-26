@@ -1,16 +1,8 @@
 package router
 
+import "github.com/andrewarrow/feedback/models"
+
 type Site struct {
-	Phone  string  `json:"phone"`
-	Models []Model `json:"models"`
-}
-
-type Model struct {
-	Name   string  `json:"name"`
-	Fields []Field `json:"fields"`
-}
-
-type Field struct {
-	Name   string `json:"name"`
-	Flavor string `json:"flavor"`
+	Phone  string         `json:"phone"`
+	Models []models.Model `json:"models"`
 }

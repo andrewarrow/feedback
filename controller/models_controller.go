@@ -3,6 +3,8 @@ package controller
 import (
 	"html/template"
 	"net/http"
+
+	"github.com/andrewarrow/feedback/models"
 )
 
 type ModelsController struct {
@@ -10,7 +12,7 @@ type ModelsController struct {
 	writer http.ResponseWriter
 }
 
-func NewModelsController() *ModelsController {
+func NewModelsController(models []models.Model) *ModelsController {
 	m := ModelsController{}
 	return &m
 }
