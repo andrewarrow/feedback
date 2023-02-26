@@ -41,6 +41,9 @@ func (m *ModelsController) Create() {
 
 func (m *ModelsController) CreateWithJson(jsonString string) {
 	vars := ModelVars{}
+	newModel := models.Model{}
+	newModel.Name = "foo"
+	m.site.Models = append(m.site.Models, newModel)
 	vars.Models = m.site.Models
 	m.render.Execute(m.writer, "models_list.html", vars)
 }
