@@ -29,7 +29,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 }
 
 func (r *Router) HandleAsset(path string, writer http.ResponseWriter) {
-	writer.Header().Set("Content-Type", "text/css")
+	contentType := "text/css"
+	if strings.HasSuffix(path, ".js") {
+		contentType = "application/javascript"
+	}
+	writer.Header().Set("Content-Type", contentType)
 	matchFile := files.ReadFile(fmt.Sprintf("%s", path[1:]))
 	fmt.Fprintf(writer, matchFile)
 }

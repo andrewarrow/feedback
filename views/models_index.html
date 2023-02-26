@@ -11,8 +11,8 @@
                             New Model:
                     </td>
                     <td class="title">
-                       <form method="POST" action="/models">
-                         <input type="text" name="name" autofocus="true"/>
+                       <form id="form1" method="POST" action="/models" onsubmit="sendFormAsJson(event);">
+                         <input type="text" name="name" id="name" autofocus="true"/>
                          <input type="submit" value="create"/>
                        </form>
                     </td>
