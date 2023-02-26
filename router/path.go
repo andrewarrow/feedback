@@ -1,9 +1,7 @@
 package router
 
 import (
-	"bytes"
 	"fmt"
-	"html/template"
 	"net/http"
 	"strings"
 
@@ -11,29 +9,19 @@ import (
 	"github.com/andrewarrow/feedback/files"
 )
 
-func (r *Router) NewVarsWithHeaderFooter() controller.Vars {
+func (r *Router) NewVars() controller.Vars {
 	vars := controller.NewVars()
-	vars.Header = TemplateAsString("_header", vars)
 	vars.Phone = r.Site.Phone
-	vars.Footer = TemplateAsString("_footer", vars)
 	return vars
-}
-
-func TemplateAsString(name string, vars controller.Vars) template.HTML {
-	t, _ := template.ParseFiles(fmt.Sprintf("views/%s.html", name))
-	var buffer bytes.Buffer
-	t.Execute(&buffer, vars)
-	fmt.Println(name, len(buffer.String()))
-	return template.HTML(buffer.String())
 }
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 	fmt.Println(path)
+	t := LoadTemplates()
+	vars := r.NewVars()
 	if path == "/" {
-		t, _ := template.ParseFiles("views/welcome.html")
-		vars := r.NewVarsWithHeaderFooter()
-		t.Execute(writer, vars)
+		t.ExecuteTemplate(writer, "welcome.html", vars)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if path == "/feedback/add" {
@@ -42,11 +30,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		match := r.Paths[path]
 		if match == nil {
 			writer.WriteHeader(404)
-			t, _ := template.ParseFiles("views/404.html")
-			vars := r.NewVarsWithHeaderFooter()
-			t.Execute(writer, vars)
+			t.ExecuteTemplate(writer, "404.html", vars)
 		} else {
-			vars := r.NewVarsWithHeaderFooter()
 			match.HandlePath(writer, request, vars)
 		}
 	}

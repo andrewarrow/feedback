@@ -1,4 +1,4 @@
-package controller
+package router
 
 import (
 	"html/template"
@@ -12,4 +12,11 @@ func TemplateFunctions() template.FuncMap {
 		"add":    func(i, j int) int { return i + j },
 	}
 	return fm
+}
+
+func LoadTemplates() *template.Template {
+	t := template.New("")
+	t = t.Funcs(TemplateFunctions())
+	t, _ = t.ParseGlob("views/*.html")
+	return t
 }
