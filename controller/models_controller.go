@@ -19,9 +19,9 @@ type ModelVars struct {
 	Models []models.Model
 }
 
-func NewModelsController(models []models.Model, render *Render) *ModelsController {
+func NewModelsController(render *Render) *ModelsController {
 	m := ModelsController{}
-	m.models = models
+	m.models = render.Site.Models
 	m.render = render
 	return &m
 }

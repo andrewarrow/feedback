@@ -5,15 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
 )
-
-func (r *Router) NewVars() *controller.Vars {
-	vars := controller.NewVars()
-	vars.Phone = r.Site.Phone
-	return vars
-}
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path

@@ -1,8 +1,11 @@
 package controller
 
 import (
+	"encoding/json"
 	"html/template"
 	"net/http"
+
+	"github.com/andrewarrow/feedback/files"
 )
 
 type Vars struct {
@@ -10,9 +13,10 @@ type Vars struct {
 	Phone string
 }
 
-func NewVars() *Vars {
+func NewVars(site *Site) *Vars {
 	v := Vars{}
 	v.Title = "Feedback"
+	v.Phone = site.Phone
 	return &v
 }
 
@@ -24,12 +28,16 @@ func (v *Vars) Fill(r *Render) {
 type Render struct {
 	Vars     *Vars
 	Template *template.Template
+	Site     Site
 }
 
-func NewRender(v *Vars, t *template.Template) *Render {
+func NewRender(t *template.Template) *Render {
 	r := Render{}
-	r.Vars = v
 	r.Template = t
+	jsonString := files.ReadFile("data/site.json")
+	json.Unmarshal([]byte(jsonString), &r.Site)
+	r.Vars = NewVars(&r.Site)
+
 	return &r
 }
 
