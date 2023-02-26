@@ -52,7 +52,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		fmt.Fprintf(writer, "ok")
 	} else {
 		match := r.Paths[path]
-		if match == "" {
+		if match == nil {
 			writer.WriteHeader(404)
 			t, _ := template.ParseFiles("views/404.html")
 			vars := r.NewVarsWithHeaderFooter()
