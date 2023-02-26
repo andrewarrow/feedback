@@ -29,6 +29,8 @@ func NewModelsController(models []models.Model, render *Render) *ModelsControlle
 func (m *ModelsController) Index() {
 	vars := ModelVars{}
 	vars.Models = m.models
+	vars.Title = m.render.Vars.Title
+	vars.Phone = m.render.Vars.Phone
 	m.render.Execute(m.writer, "models_index.html", vars)
 }
 
