@@ -1,6 +1,9 @@
 package controller
 
+import "net/http"
+
 type InterfaceController interface {
-	index()
-	create()
+	Index()
+	Create()
+	HandlePath(http.ResponseWriter, string, Vars)
 }

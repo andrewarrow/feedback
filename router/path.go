@@ -7,31 +7,19 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
 )
 
-type Vars struct {
-	Title  string
-	Header string
-	Footer string
-	Phone  string
-}
-
-func NewVars() Vars {
-	v := Vars{}
-	v.Title = "Feedback"
-	return v
-}
-
-func (r *Router) NewVarsWithHeaderFooter() Vars {
-	vars := NewVars()
+func (r *Router) NewVarsWithHeaderFooter() controller.Vars {
+	vars := controller.NewVars()
 	vars.Header = TemplateAsString("_header", vars)
 	vars.Phone = r.Site.Phone
 	vars.Footer = TemplateAsString("_footer", vars)
 	return vars
 }
 
-func TemplateAsString(name string, vars Vars) string {
+func TemplateAsString(name string, vars controller.Vars) string {
 	t, _ := template.ParseFiles(fmt.Sprintf("views/%s.html", name))
 	var buffer bytes.Buffer
 	t.Execute(&buffer, vars)
@@ -58,9 +46,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			vars := r.NewVarsWithHeaderFooter()
 			t.Execute(writer, vars)
 		} else {
-			t, _ := template.ParseFiles(fmt.Sprintf("views%s.html", path))
 			vars := r.NewVarsWithHeaderFooter()
-			t.Execute(writer, vars)
+			match.HandlePath(writer, path, vars)
+			//t, _ := template.ParseFiles(fmt.Sprintf("views%s.html", match.ViewName()))
+			//t.Execute(writer, vars)
 		}
 	}
 }
