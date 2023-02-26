@@ -9,7 +9,7 @@ import (
 	"github.com/andrewarrow/feedback/files"
 )
 
-func (r *Router) NewVars() controller.Vars {
+func (r *Router) NewVars() *controller.Vars {
 	vars := controller.NewVars()
 	vars.Phone = r.Site.Phone
 	return vars
@@ -30,7 +30,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			writer.WriteHeader(404)
 			r.Template.ExecuteTemplate(writer, "404.html", r.Vars)
 		} else {
-			match.HandlePath(writer, request, r.Vars)
+			match.HandlePath(writer, request)
 		}
 	}
 }

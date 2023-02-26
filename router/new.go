@@ -14,7 +14,7 @@ type Router struct {
 	Site     Site
 	Database persist.Database
 	Template *template.Template
-	Vars     controller.Vars
+	Vars     *controller.Vars
 }
 
 func NewRouter() *Router {
@@ -25,12 +25,13 @@ func NewRouter() *Router {
 	jsonString := files.ReadFile("data/site.json")
 	json.Unmarshal([]byte(jsonString), &r.Site)
 
-	r.Paths["/models"] = controller.NewModelsController(r.Site.Models)
+	r.Template = LoadTemplates()
+	r.Vars = r.NewVars()
+	render := controller.NewRender(r.Vars, r.Template)
+	r.Paths["/models"] = controller.NewModelsController(r.Site.Models, render)
 	//for _, model := range r.Site.Models {
 	//	r.Paths[fmt.Sprintf("/admin/%s", util.Plural(model.Name))] = "GET"
 	//}
-	r.Template = LoadTemplates()
-	r.Vars = r.NewVars()
 
 	return &r
 }

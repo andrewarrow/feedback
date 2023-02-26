@@ -3,14 +3,13 @@ package controller
 import (
 	"bytes"
 	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/andrewarrow/feedback/models"
 )
 
 type ModelsController struct {
-	vars   Vars
+	render *Render
 	writer http.ResponseWriter
 	models []models.Model
 }
@@ -20,21 +19,17 @@ type ModelVars struct {
 	Models []models.Model
 }
 
-func NewModelsController(models []models.Model) *ModelsController {
+func NewModelsController(models []models.Model, render *Render) *ModelsController {
 	m := ModelsController{}
 	m.models = models
+	m.render = render
 	return &m
 }
 
 func (m *ModelsController) Index() {
 	vars := ModelVars{}
-	vars.Header = m.vars.Header
-	vars.Footer = m.vars.Footer
 	vars.Models = m.models
-	t := template.New("models_index.html")
-	//t = t.Funcs(TemplateFunctions())
-	t, _ = t.ParseFiles("views/models_index.html")
-	t.Execute(m.writer, vars)
+	m.render.Execute(m.writer, "models_index.html", vars)
 }
 
 func (m *ModelsController) Create() {
@@ -44,8 +39,7 @@ func (m *ModelsController) Create() {
 }
 
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
-	request *http.Request, vars Vars) {
-	m.vars = vars
+	request *http.Request) {
 	m.writer = writer
 	method := request.Method
 	// path := request.URL.Path
