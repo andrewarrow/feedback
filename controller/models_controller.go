@@ -42,7 +42,9 @@ func (m *ModelsController) Create() {
 func (m *ModelsController) CreateWithJson(jsonString string) {
 	vars := ModelVars{}
 	vars.Models = m.models
-	m.render.Execute(m.writer, "_models.html", vars)
+	stringTemplate := `{{template "_models" .}}`
+	t, _ := m.render.Template.New("list_models").Parse(stringTemplate)
+	t.Execute(m.writer, vars)
 }
 
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
