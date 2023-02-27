@@ -31,7 +31,7 @@ func main() {
 
 	if arg == "new" {
 	} else if arg == "run" {
-		r := router.NewRouter()
+		r := router.NewRouter("data/site.json")
 		http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 			r.RouteFromRequest(writer, request)
 		})

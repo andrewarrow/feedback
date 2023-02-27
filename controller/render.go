@@ -1,25 +1,21 @@
 package controller
 
 import (
-	"encoding/json"
 	"html/template"
 	"net/http"
-
-	"github.com/andrewarrow/feedback/files"
 )
 
 type Render struct {
 	Vars     *Vars
 	Template *template.Template
-	Site     Site
+	Site     *Site
 }
 
-func NewRender(t *template.Template) *Render {
+func NewRender(t *template.Template, vars *Vars, site *Site) *Render {
 	r := Render{}
 	r.Template = t
-	jsonString := files.ReadFile("data/site.json")
-	json.Unmarshal([]byte(jsonString), &r.Site)
-	r.Vars = NewVars(&r.Site)
+	r.Vars = vars
+	r.Site = site
 
 	return &r
 }

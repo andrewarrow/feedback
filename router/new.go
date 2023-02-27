@@ -1,27 +1,30 @@
 package router
 
 import (
+	"encoding/json"
 	"html/template"
 
 	"github.com/andrewarrow/feedback/controller"
-	"github.com/andrewarrow/feedback/persist"
+	"github.com/andrewarrow/feedback/files"
 )
 
 type Router struct {
 	Paths    map[string]controller.InterfaceController
-	Database persist.Database
 	Template *template.Template
 	Vars     *controller.Vars
 }
 
-func NewRouter() *Router {
+func NewRouter(path string) *Router {
 	r := Router{}
 	r.Paths = map[string]controller.InterfaceController{}
-	r.Database = persist.NewInMemory()
 
+	var site controller.Site
+	jsonString := files.ReadFile(path)
+	json.Unmarshal([]byte(jsonString), &site)
+
+	r.Vars = controller.NewVars(&site)
 	r.Template = LoadTemplates()
-	render := controller.NewRender(r.Template)
-	r.Vars = render.Vars
+	render := controller.NewRender(r.Template, r.Vars, &site)
 	r.Paths["/models"] = controller.NewModelsController(render)
 	//for _, model := range r.Site.Models {
 	//	r.Paths[fmt.Sprintf("/admin/%s", util.Plural(model.Name))] = "GET"

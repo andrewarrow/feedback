@@ -22,7 +22,7 @@ type ModelVars struct {
 
 func NewModelsController(render *Render) *ModelsController {
 	m := ModelsController{}
-	m.site = &render.Site
+	m.site = render.Site
 	m.render = render
 	return &m
 }
