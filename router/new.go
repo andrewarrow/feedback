@@ -26,6 +26,7 @@ func NewRouter(path string) *Router {
 	r.Template = LoadTemplates()
 	render := controller.NewRender(r.Template, r.Vars, &site)
 	r.Paths["models"] = controller.NewModelsController(render)
+	r.Paths["sessions"] = controller.NewSessionsController(render)
 	//for _, model := range r.Site.Models {
 	//	r.Paths[fmt.Sprintf("/admin/%s", util.Plural(model.Name))] = "GET"
 	//}

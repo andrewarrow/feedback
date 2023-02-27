@@ -11,9 +11,8 @@ import (
 )
 
 type ModelsController struct {
-	render *Render
-	writer http.ResponseWriter
-	site   *Site
+	FeedbackController
+	site *Site
 }
 
 type ModelVars struct {

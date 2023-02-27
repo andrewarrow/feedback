@@ -7,3 +7,8 @@ type InterfaceController interface {
 	Create()
 	HandlePath(http.ResponseWriter, *http.Request, []string)
 }
+
+type FeedbackController struct {
+	render *Render
+	writer http.ResponseWriter
+}
