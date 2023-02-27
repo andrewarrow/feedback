@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/andrewarrow/feedback/models"
 )
@@ -43,12 +44,21 @@ func (m *ModelsController) Create() {
 func (m *ModelsController) CreateWithJson(jsonString string) {
 	var params map[string]any
 	json.Unmarshal([]byte(jsonString), &params)
-	vars := ModelVars{}
 	newModel := models.Model{}
-	newModel.Name = params["name"].(string)
-	m.site.Models = append(m.site.Models, newModel)
-	vars.Models = m.site.Models
-	m.render.Execute(m.writer, "models_list.html", vars)
+	name := params["name"]
+	if name != nil {
+		newModel.Name = name.(string)
+	}
+
+	if len(strings.TrimSpace(newModel.Name)) < 3 {
+		m.writer.WriteHeader(422)
+		fmt.Fprintf(m.writer, "test error")
+	} else {
+		m.site.Models = append(m.site.Models, newModel)
+		vars := ModelVars{}
+		vars.Models = m.site.Models
+		m.render.Execute(m.writer, "models_list.html", vars)
+	}
 }
 
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
