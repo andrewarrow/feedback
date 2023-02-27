@@ -2,6 +2,7 @@ package controller
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -40,9 +41,11 @@ func (m *ModelsController) Create() {
 }
 
 func (m *ModelsController) CreateWithJson(jsonString string) {
+	var params map[string]any
+	json.Unmarshal([]byte(jsonString), &params)
 	vars := ModelVars{}
 	newModel := models.Model{}
-	newModel.Name = "foo"
+	newModel.Name = params["name"].(string)
 	m.site.Models = append(m.site.Models, newModel)
 	vars.Models = m.site.Models
 	m.render.Execute(m.writer, "models_list.html", vars)
