@@ -8,6 +8,7 @@ function sendFormAsJson(e) {
   xhr.addEventListener('load', function(event) {
     console.log('Response received: ', event.target.response);
     document.getElementById('models').innerHTML = event.target.response;
+    document.getElementById('name').value = '';
   });
 
   const formData = new FormData(form);
