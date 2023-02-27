@@ -6,9 +6,13 @@ function sendFormAsJson(e) {
   xhr.open('POST', '/models');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', function(event) {
-    console.log('Response received: ', event.target.response);
-    document.getElementById('models').innerHTML = event.target.response;
-    document.getElementById('name').value = '';
+     if (xhr.status != 200) {
+        document.getElementById('flash').innerHTML = event.target.response;
+     } else {
+        document.getElementById('models').innerHTML = event.target.response;
+        document.getElementById('name').value = '';
+        document.getElementById('flash').innerHTML = '';
+     }
   });
 
   const formData = new FormData(form);

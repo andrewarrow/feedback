@@ -52,7 +52,7 @@ func (m *ModelsController) CreateWithJson(jsonString string) {
 
 	if len(strings.TrimSpace(newModel.Name)) < 3 {
 		m.writer.WriteHeader(422)
-		fmt.Fprintf(m.writer, "test error")
+		fmt.Fprintf(m.writer, "length of name must be > 2")
 	} else {
 		m.site.Models = append(m.site.Models, newModel)
 		vars := ModelVars{}
