@@ -35,6 +35,13 @@ func (m *ModelsController) Index() {
 	m.render.Execute(m.writer, "models_index.html", vars)
 }
 
+func (m *ModelsController) Show(name string) {
+	vars := ModelVars{}
+	vars.Models = m.site.Models
+	vars.Fill(m.render)
+	m.render.Execute(m.writer, "models_show.html", vars)
+}
+
 func (m *ModelsController) Create() {
 	h := m.writer.Header()
 	h.Set("Location", "/models")
@@ -69,7 +76,7 @@ func (m *ModelsController) HandlePath(writer http.ResponseWriter,
 	if method == "GET" && len(tokens) == 1 {
 		m.Index()
 	} else if method == "GET" && len(tokens) > 1 {
-		//m.Show(tokens[0])
+		m.Show(tokens[1])
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)

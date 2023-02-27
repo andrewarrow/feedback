@@ -3,7 +3,7 @@ function sendFormAsJson(e) {
   e.preventDefault();
   const form = document.getElementById('form1');
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/models');
+  xhr.open('POST', '/models/');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', function(event) {
      if (xhr.status != 200) {
