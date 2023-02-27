@@ -47,7 +47,7 @@ func (m *ModelsController) CreateWithJson(jsonString string) {
 	newModel := models.Model{}
 	name := params["name"]
 	if name != nil {
-		newModel.Name = name.(string)
+		newModel.Name = models.RemoveNonAlphanumeric(strings.ToLower(name.(string)))
 	}
 
 	if len(strings.TrimSpace(newModel.Name)) < 3 {
