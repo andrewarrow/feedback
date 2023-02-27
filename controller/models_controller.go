@@ -66,8 +66,10 @@ func (m *ModelsController) HandlePath(writer http.ResponseWriter,
 	m.writer = writer
 	method := request.Method
 	// path := request.URL.Path
-	if method == "GET" {
+	if method == "GET" && len(tokens) == 1 {
 		m.Index()
+	} else if method == "GET" && len(tokens) > 1 {
+		//m.Show(tokens[0])
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)

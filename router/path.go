@@ -15,8 +15,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		r.Template.ExecuteTemplate(writer, "welcome.html", r.Vars)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
-	} else if path == "/feedback/add" {
-		fmt.Fprintf(writer, "ok")
+	} else if !strings.HasSuffix(path, "/") {
+		http.Redirect(writer, request, fmt.Sprintf("%s/", path), 301)
 	} else {
 		tokens := strings.Split(path, "/")
 		first := tokens[1]
