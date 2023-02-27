@@ -62,7 +62,7 @@ func (m *ModelsController) CreateWithJson(jsonString string) {
 }
 
 func (m *ModelsController) HandlePath(writer http.ResponseWriter,
-	request *http.Request) {
+	request *http.Request, tokens []string) {
 	m.writer = writer
 	method := request.Method
 	// path := request.URL.Path

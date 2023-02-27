@@ -18,12 +18,14 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else if path == "/feedback/add" {
 		fmt.Fprintf(writer, "ok")
 	} else {
-		match := r.Paths[path]
+		tokens := strings.Split(path, "/")
+		first := tokens[1]
+		match := r.Paths[first]
 		if match == nil {
 			writer.WriteHeader(404)
 			r.Template.ExecuteTemplate(writer, "404.html", r.Vars)
 		} else {
-			match.HandlePath(writer, request)
+			match.HandlePath(writer, request, tokens[2:])
 		}
 	}
 }
