@@ -12,6 +12,7 @@ type Router struct {
 	Paths    map[string]controller.InterfaceController
 	Template *template.Template
 	Vars     *controller.Vars
+	Site     *controller.Site
 }
 
 func NewRouter(path string) *Router {
@@ -21,6 +22,7 @@ func NewRouter(path string) *Router {
 	var site controller.Site
 	jsonString := files.ReadFile(path)
 	json.Unmarshal([]byte(jsonString), &site)
+	r.Site = &site
 
 	r.Vars = controller.NewVars(&site)
 	r.Template = LoadTemplates()
