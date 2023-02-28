@@ -3,7 +3,6 @@ package router
 import (
 	"encoding/json"
 	"html/template"
-	"net/http"
 
 	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
@@ -13,7 +12,6 @@ type Router struct {
 	Paths    map[string]controller.InterfaceController
 	Template *template.Template
 	Vars     *controller.Vars
-	Writer   http.ResponseWriter
 }
 
 func NewRouter(path string) *Router {

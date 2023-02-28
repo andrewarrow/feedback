@@ -27,17 +27,18 @@ func (r *Router) PlaceContentInLayoutVars(filename string, vars any) *LayoutVars
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(filename string, contentVars any) {
+func (r *Router) SendContentInLayout(writer http.ResponseWriter,
+	filename string, contentVars any, status int) {
 	vars := r.PlaceContentInLayoutVars(filename, contentVars)
-	r.Template.ExecuteTemplate(r.Writer, "application_layout.html", vars)
+	writer.WriteHeader(status)
+	r.Template.ExecuteTemplate(writer, "application_layout.html", vars)
 }
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 	fmt.Println(path)
-	r.Writer = writer
 	if path == "/" {
-		r.SendContentInLayout("welcome.html", nil)
+		r.SendContentInLayout(writer, "welcome.html", nil, 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {
@@ -47,8 +48,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		first := tokens[1]
 		match := r.Paths[first]
 		if match == nil {
-			writer.WriteHeader(404)
-			r.Template.ExecuteTemplate(writer, "404.html", r.Vars)
+			r.SendContentInLayout(writer, "404.html", nil, 404)
 		} else {
 			match.HandlePath(writer, request, tokens[2:])
 		}
