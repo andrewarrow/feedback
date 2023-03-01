@@ -51,7 +51,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		if match == nil {
 			r.SendContentInLayout(writer, "404.html", nil, 404)
 		} else {
-			match.HandlePath(writer, request, tokens[2:])
+			match(writer)
 		}
 	}
 }
