@@ -51,7 +51,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		if match == nil {
 			r.SendContentInLayout(writer, "404.html", nil, 404)
 		} else {
-			match(writer)
+			c := Context{}
+			c.writer = writer
+			c.request = request
+			match(&c)
 		}
 	}
 }
@@ -60,10 +63,10 @@ type ModelsVars struct {
 	Models []models.Model
 }
 
-func (r *Router) ModelsIndex(writer http.ResponseWriter) {
+func (r *Router) ModelsResource(c *Context) {
 	vars := ModelsVars{}
 	vars.Models = r.Site.Models
-	r.SendContentInLayout(writer, "models_index.html", vars, 200)
+	r.SendContentInLayout(c.writer, "models_index.html", vars, 200)
 }
 
 func (r *Router) HandleAsset(path string, writer http.ResponseWriter) {

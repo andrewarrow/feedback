@@ -10,15 +10,21 @@ import (
 )
 
 type Router struct {
-	Paths    map[string]func(writer http.ResponseWriter)
+	Paths    map[string]func(c *Context)
 	Template *template.Template
 	Vars     *controller.Vars
 	Site     *controller.Site
 }
 
+type Context struct {
+	writer  http.ResponseWriter
+	request *http.Request
+	tokens  []string
+}
+
 func NewRouter(path string) *Router {
 	r := Router{}
-	r.Paths = map[string]func(writer http.ResponseWriter){}
+	r.Paths = map[string]func(c *Context){}
 
 	var site controller.Site
 	jsonString := files.ReadFile(path)
@@ -28,7 +34,7 @@ func NewRouter(path string) *Router {
 	r.Vars = controller.NewVars(&site)
 	r.Template = LoadTemplates()
 	//render := controller.NewRender(r.Template, r.Vars, &site)
-	r.Paths["models"] = r.ModelsIndex
+	r.Paths["models"] = r.ModelsResource
 	//r.Paths["models"] = controller.NewModelsController(render)
 	//r.Paths["sessions"] = controller.NewSessionsController(render)
 	//for _, model := range r.Site.Models {
