@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/files"
-	"github.com/andrewarrow/feedback/models"
 )
 
 type LayoutVars struct {
@@ -57,16 +56,6 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			match(&c)
 		}
 	}
-}
-
-type ModelsVars struct {
-	Models []models.Model
-}
-
-func (r *Router) ModelsResource(c *Context) {
-	vars := ModelsVars{}
-	vars.Models = r.Site.Models
-	r.SendContentInLayout(c.writer, "models_index.html", vars, 200)
 }
 
 func (r *Router) HandleAsset(path string, writer http.ResponseWriter) {
