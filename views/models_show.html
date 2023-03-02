@@ -6,3 +6,22 @@
                   <tr class="athing">
                     <td class="title">&nbsp; </td>
                   </tr>
+                  <tr class="athing">
+                    <td class="title">
+                      <table id="models" border="0">
+             {{range $i, $item := .Model.Fields}}
+                  <tr class="athing" colspan="2">
+                    <td class="title" valign="top" align="right">
+                            <span class="rank">{{add $i 1}}.</span>
+                    </td>      
+                    <td class="title">
+                     <span class="titleline">
+                             <a href="/models/{{$item.Name}}/">{{$item.Name}}</a>
+                     </span>
+                    </td>
+                    <td class="title">
+                            {{$item.Flavor}}
+                    </td>
+                 </tr>
+             {{end}}
+                      </table></td></tr>
