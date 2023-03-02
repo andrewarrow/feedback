@@ -6,37 +6,48 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+
+	"github.com/andrewarrow/feedback/models"
 )
 
 type LayoutVars struct {
 	Title   string
+	User    *models.User
 	Phone   string
 	Content template.HTML
 }
 
-func (r *Router) PlaceContentInLayoutVars(filename string, vars any) *LayoutVars {
+func (r *Router) PlaceContentInLayoutVars(user *models.User, filename string, vars any) *LayoutVars {
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
 	lvars := LayoutVars{}
-	lvars.Title = "test"
-	lvars.Phone = "test"
+	lvars.Title = "Feedback"
+	lvars.Phone = r.Site.Phone
+	lvars.User = user
 	lvars.Content = template.HTML(content.String())
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(user *models.User, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
-	vars := r.PlaceContentInLayoutVars(filename, contentVars)
+	vars := r.PlaceContentInLayoutVars(user, filename, contentVars)
 	writer.WriteHeader(status)
 	r.Template.ExecuteTemplate(writer, "application_layout.html", vars)
 }
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
-	fmt.Println(path)
+	cookie, err := request.Cookie("user")
+	var user *models.User
+	if err == nil {
+		fmt.Println(cookie)
+		// use cookie.Value
+		user = &models.User{}
+		user.Username = "fred"
+	}
 	if path == "/" {
-		r.SendContentInLayout(writer, "welcome.html", nil, 200)
+		r.SendContentInLayout(user, writer, "welcome.html", nil, 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {
@@ -46,12 +57,13 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		first := tokens[1]
 		match := r.Paths[first]
 		if match == nil {
-			r.SendContentInLayout(writer, "404.html", nil, 404)
+			r.SendContentInLayout(user, writer, "404.html", nil, 404)
 		} else {
 			c := Context{}
 			c.writer = writer
 			c.request = request
 			c.router = r
+			c.user = user
 			c.tokens = tokens[2:]
 			controller := match()
 			r.HandleController(controller, &c)

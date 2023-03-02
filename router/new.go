@@ -7,6 +7,7 @@ import (
 
 	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
+	"github.com/andrewarrow/feedback/models"
 )
 
 type Router struct {
@@ -21,10 +22,11 @@ type Context struct {
 	request *http.Request
 	tokens  []string
 	router  *Router
+	user    *models.User
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
-	c.router.SendContentInLayout(c.writer, filename, vars, status)
+	c.router.SendContentInLayout(c.user, c.writer, filename, vars, status)
 }
 
 type Controller interface {

@@ -27,6 +27,7 @@ func (sc *SessionsController) Create(c *Context, body string) {
 	cookie.MaxAge = 86400 * 30
 	cookie.Name = "user"
 	cookie.Value = "123"
+	cookie.Path = "/"
 	http.SetCookie(c.writer, &cookie)
 	http.Redirect(c.writer, c.request, "/", 301)
 }
