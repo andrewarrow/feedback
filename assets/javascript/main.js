@@ -1,4 +1,10 @@
 
+function doLogout(e) {
+  e.preventDefault();
+  const form = document.getElementById('logout');
+  form.submit();
+}
+
 function sendFormAsJson(e) {
   e.preventDefault();
   const form = document.getElementById('form1');

@@ -35,6 +35,7 @@ type Controller interface {
 	Create(*Context, string)
 	CreateWithJson(*Context, string)
 	Show(*Context, string)
+	Destroy(*Context)
 }
 
 func NewRouter(path string) *Router {

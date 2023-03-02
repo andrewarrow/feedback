@@ -32,5 +32,15 @@ func (sc *SessionsController) Create(c *Context, body string) {
 	http.Redirect(c.writer, c.request, "/", 301)
 }
 
+func (sc *SessionsController) Destroy(c *Context) {
+	cookie := http.Cookie{}
+	cookie.MaxAge = 0
+	cookie.Name = "user"
+	cookie.Value = ""
+	cookie.Path = "/"
+	http.SetCookie(c.writer, &cookie)
+	http.Redirect(c.writer, c.request, "/", 301)
+}
+
 func (sc *SessionsController) CreateWithJson(context *Context, body string) {
 }

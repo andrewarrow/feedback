@@ -85,6 +85,7 @@ func (r *Router) HandleController(c Controller, context *Context) {
 		} else {
 			c.Show(context, id)
 		}
+	} else if method == "DELETE" {
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)

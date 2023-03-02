@@ -55,3 +55,5 @@ func (mc *ModelsController) Show(c *Context, id string) {
 
 func (mc *ModelsController) New(c *Context) {
 }
+func (mc *ModelsController) Destroy(c *Context) {
+}
