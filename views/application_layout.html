@@ -28,8 +28,10 @@
                   <td style="text-align:right;padding-right:4px;">
                     <span class="pagetop">
                       {{ if .User }}
-                      <form id="logout" method="DELETE" action="/sessions/"></form>
-                      {{ .User.Username }} | <a onclick="doLogout(event)" href="#">logout</a>
+                      <form id="logout" method="POST" action="/sessions/">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                      </form>
+                      {{ .User.Username }} | <a onclick="doLogout(event);" href="#">logout</a>
                       {{ else }}
                       <a id="login" href="/sessions/new/">login</a>
                       {{ end }}

@@ -40,8 +40,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	path := request.URL.Path
 	cookie, err := request.Cookie("user")
 	var user *models.User
-	if err == nil {
-		fmt.Println(cookie)
+	if err == nil && cookie.Value != "" {
+		fmt.Println("cookie.Value", cookie.Value, path)
 		// use cookie.Value
 		user = &models.User{}
 		user.Username = "fred"
@@ -86,6 +86,7 @@ func (r *Router) HandleController(c Controller, context *Context) {
 			c.Show(context, id)
 		}
 	} else if method == "DELETE" {
+		c.Destroy(context)
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)
@@ -93,7 +94,12 @@ func (r *Router) HandleController(c Controller, context *Context) {
 		fmt.Println("POST", buffer.String())
 		contentType := request.Header["Content-Type"]
 		if len(contentType) == 0 || contentType[0] == "application/x-www-form-urlencoded" {
-			c.Create(context, buffer.String())
+			payload := buffer.String()
+			if payload == "_method=DELETE" {
+				c.Destroy(context)
+			} else {
+				c.Create(context, payload)
+			}
 		} else {
 			c.CreateWithJson(context, buffer.String())
 		}
