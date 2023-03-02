@@ -1,5 +1,9 @@
 package router
 
+import (
+	"net/http"
+)
+
 type SessionsController struct {
 }
 
@@ -18,7 +22,8 @@ func (sc *SessionsController) Index(context *Context) {
 func (sc *SessionsController) Show(c *Context, id string) {
 }
 
-func (sc *SessionsController) Create(context *Context, body string) {
+func (sc *SessionsController) Create(c *Context, body string) {
+	http.Redirect(c.writer, c.request, "/", 301)
 }
 
 func (sc *SessionsController) CreateWithJson(context *Context, body string) {
