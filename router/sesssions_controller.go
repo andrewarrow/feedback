@@ -23,6 +23,11 @@ func (sc *SessionsController) Show(c *Context, id string) {
 }
 
 func (sc *SessionsController) Create(c *Context, body string) {
+	cookie := http.Cookie{}
+	cookie.MaxAge = 86400 * 30
+	cookie.Name = "user"
+	cookie.Value = "123"
+	http.SetCookie(c.writer, &cookie)
 	http.Redirect(c.writer, c.request, "/", 301)
 }
 
