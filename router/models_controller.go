@@ -49,8 +49,15 @@ func (mc *ModelsController) CreateWithJson(c *Context, body string) {
 	}
 }
 
+type ModelVars struct {
+	Model *models.Model
+}
+
 func (mc *ModelsController) Show(c *Context, id string) {
-	c.SendContentInLayout("models_show.html", nil, 200)
+	model := c.router.Site.FindModel(id)
+	vars := ModelVars{}
+	vars.Model = model
+	c.SendContentInLayout("models_show.html", vars, 200)
 }
 
 func (mc *ModelsController) New(c *Context) {

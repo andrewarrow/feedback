@@ -41,7 +41,6 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	cookie, err := request.Cookie("user")
 	var user *models.User
 	if err == nil && cookie.Value != "" {
-		fmt.Println("cookie.Value", cookie.Value, path)
 		// use cookie.Value
 		user = &models.User{}
 		user.Username = "fred"
