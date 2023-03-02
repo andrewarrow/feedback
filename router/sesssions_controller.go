@@ -8,8 +8,8 @@ func NewSessionsController() Controller {
 	return &sc
 }
 
-func (mc *SessionsController) Index(r *Router, context *Context) {
+func (mc *SessionsController) Index(context *Context) {
 }
 
-func (mc *SessionsController) Create(r *Router, context *Context) {
+func (mc *SessionsController) Create(context *Context) {
 }

@@ -51,6 +51,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c := Context{}
 			c.writer = writer
 			c.request = request
+			c.router = r
 			controller := match()
 			r.HandleController(controller, &c)
 		}
@@ -62,9 +63,9 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	request := context.request
 	method := request.Method
 	if method == "GET" {
-		c.Index(r, context)
+		c.Index(context)
 	} else if method == "POST" {
-		c.Create(r, context)
+		c.Create(context)
 	}
 }
 

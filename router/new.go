@@ -20,11 +20,16 @@ type Context struct {
 	writer  http.ResponseWriter
 	request *http.Request
 	tokens  []string
+	router  *Router
+}
+
+func (c *Context) SendContentInLayout(filename string, vars any, status int) {
+	c.router.SendContentInLayout(c.writer, filename, vars, status)
 }
 
 type Controller interface {
-	Index(*Router, *Context)
-	Create(*Router, *Context)
+	Index(*Context)
+	Create(*Context)
 }
 
 func NewRouter(path string) *Router {

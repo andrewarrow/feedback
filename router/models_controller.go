@@ -14,11 +14,11 @@ type ModelsVars struct {
 	Models []models.Model
 }
 
-func (mc *ModelsController) Index(r *Router, context *Context) {
+func (mc *ModelsController) Index(context *Context) {
 	vars := ModelsVars{}
-	vars.Models = r.Site.Models
-	r.SendContentInLayout(context.writer, "models_index.html", vars, 200)
+	vars.Models = context.router.Site.Models
+	context.SendContentInLayout("models_index.html", vars, 200)
 }
 
-func (mc *ModelsController) Create(r *Router, context *Context) {
+func (mc *ModelsController) Create(context *Context) {
 }
