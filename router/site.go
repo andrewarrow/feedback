@@ -1,4 +1,4 @@
-package controller
+package router
 
 import "github.com/andrewarrow/feedback/models"
 

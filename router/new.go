@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/andrewarrow/feedback/controller"
 	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/models"
 )
@@ -13,8 +12,7 @@ import (
 type Router struct {
 	Paths    map[string]func() Controller
 	Template *template.Template
-	Vars     *controller.Vars
-	Site     *controller.Site
+	Site     *Site
 }
 
 type Context struct {
@@ -42,12 +40,11 @@ func NewRouter(path string) *Router {
 	r := Router{}
 	r.Paths = map[string]func() Controller{}
 
-	var site controller.Site
+	var site Site
 	jsonString := files.ReadFile(path)
 	json.Unmarshal([]byte(jsonString), &site)
 	r.Site = &site
 
-	r.Vars = controller.NewVars(&site)
 	r.Template = LoadTemplates()
 	r.Paths["models"] = NewModelsController
 	r.Paths["sessions"] = NewSessionsController
