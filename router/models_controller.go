@@ -52,3 +52,6 @@ func (mc *ModelsController) CreateWithJson(c *Context, body string) {
 func (mc *ModelsController) Show(c *Context, id string) {
 	c.SendContentInLayout("models_show.html", nil, 200)
 }
+
+func (mc *ModelsController) New(c *Context) {
+}

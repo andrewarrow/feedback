@@ -29,6 +29,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 
 type Controller interface {
 	Index(*Context)
+	New(*Context)
 	Create(*Context, string)
 	CreateWithJson(*Context, string)
 	Show(*Context, string)

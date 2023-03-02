@@ -8,6 +8,10 @@ func NewSessionsController() Controller {
 	return &sc
 }
 
+func (sc *SessionsController) New(c *Context) {
+	c.SendContentInLayout("sessions_new.html", nil, 200)
+}
+
 func (sc *SessionsController) Index(context *Context) {
 }
 

@@ -67,7 +67,12 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	if method == "GET" && len(tokens) == 1 {
 		c.Index(context)
 	} else if method == "GET" && len(tokens) > 1 {
-		c.Show(context, tokens[1])
+		id := tokens[0]
+		if id == "new" {
+			c.New(context)
+		} else {
+			c.Show(context, id)
+		}
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)
