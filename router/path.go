@@ -52,6 +52,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c.writer = writer
 			c.request = request
 			c.router = r
+			c.tokens = tokens[2:]
 			controller := match()
 			r.HandleController(controller, &c)
 		}
@@ -62,8 +63,11 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	//writer := c.context.writer
 	request := context.request
 	method := request.Method
-	if method == "GET" {
+	tokens := context.tokens
+	if method == "GET" && len(tokens) == 1 {
 		c.Index(context)
+	} else if method == "GET" && len(tokens) > 1 {
+		c.Show(context, tokens[1])
 	} else if method == "POST" {
 		c.Create(context)
 	}

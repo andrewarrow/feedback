@@ -8,8 +8,11 @@ func NewSessionsController() Controller {
 	return &sc
 }
 
-func (mc *SessionsController) Index(context *Context) {
+func (sc *SessionsController) Index(context *Context) {
 }
 
-func (mc *SessionsController) Create(context *Context) {
+func (sc *SessionsController) Create(context *Context) {
+}
+
+func (sc *SessionsController) Show(c *Context, id string) {
 }
