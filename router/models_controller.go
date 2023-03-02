@@ -2,6 +2,14 @@ package router
 
 import "github.com/andrewarrow/feedback/models"
 
+type ModelsController struct {
+}
+
+func NewModelsController(c *Context) Controller {
+	mc := ModelsController{}
+	return &mc
+}
+
 type ModelsVars struct {
 	Models []models.Model
 }

@@ -55,3 +55,28 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		}
 	}
 }
+
+/*
+func (r *Router) HandlePath(writer http.ResponseWriter,
+	request *http.Request, tokens []string) {
+	m.writer = writer
+	method := request.Method
+	// path := request.URL.Path
+	if method == "GET" && len(tokens) == 1 {
+		m.Index()
+	} else if method == "GET" && len(tokens) > 1 {
+		m.Show(tokens[1])
+	} else if method == "POST" {
+		//fmt.Printf("%+v\n", request.Header)
+		buffer := new(bytes.Buffer)
+		buffer.ReadFrom(request.Body)
+		fmt.Println("POST", buffer.String())
+		contentType := request.Header["Content-Type"]
+		if contentType[0] == "application/x-www-form-urlencoded" {
+			m.Create()
+		} else {
+			m.CreateWithJson(buffer.String())
+		}
+	}
+}
+*/
