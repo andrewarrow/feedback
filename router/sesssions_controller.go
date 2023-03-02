@@ -11,8 +11,11 @@ func NewSessionsController() Controller {
 func (sc *SessionsController) Index(context *Context) {
 }
 
-func (sc *SessionsController) Create(context *Context) {
+func (sc *SessionsController) Show(c *Context, id string) {
 }
 
-func (sc *SessionsController) Show(c *Context, id string) {
+func (sc *SessionsController) Create(context *Context, body string) {
+}
+
+func (sc *SessionsController) CreateWithJson(context *Context, body string) {
 }

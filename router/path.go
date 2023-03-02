@@ -69,31 +69,15 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	} else if method == "GET" && len(tokens) > 1 {
 		c.Show(context, tokens[1])
 	} else if method == "POST" {
-		c.Create(context)
-	}
-}
-
-/*
-func (r *Router) HandlePath(writer http.ResponseWriter,
-	request *http.Request, tokens []string) {
-	m.writer = writer
-	method := request.Method
-	// path := request.URL.Path
-	if method == "GET" && len(tokens) == 1 {
-		m.Index()
-	} else if method == "GET" && len(tokens) > 1 {
-		m.Show(tokens[1])
-	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		buffer := new(bytes.Buffer)
 		buffer.ReadFrom(request.Body)
 		fmt.Println("POST", buffer.String())
 		contentType := request.Header["Content-Type"]
-		if contentType[0] == "application/x-www-form-urlencoded" {
-			m.Create()
+		if len(contentType) == 0 || contentType[0] == "application/x-www-form-urlencoded" {
+			c.Create(context, buffer.String())
 		} else {
-			m.CreateWithJson(buffer.String())
+			c.CreateWithJson(context, buffer.String())
 		}
 	}
 }
-*/
