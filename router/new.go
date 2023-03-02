@@ -10,7 +10,7 @@ import (
 )
 
 type Router struct {
-	Paths    map[string]func(c *Context) Controller
+	Paths    map[string]func() Controller
 	Template *template.Template
 	Vars     *controller.Vars
 	Site     *controller.Site
@@ -23,11 +23,13 @@ type Context struct {
 }
 
 type Controller interface {
+	Index(*Router, *Context)
+	Create(*Router, *Context)
 }
 
 func NewRouter(path string) *Router {
 	r := Router{}
-	r.Paths = map[string]func(c *Context) Controller{}
+	r.Paths = map[string]func() Controller{}
 
 	var site controller.Site
 	jsonString := files.ReadFile(path)
