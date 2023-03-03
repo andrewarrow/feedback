@@ -10,20 +10,26 @@ import (
 )
 
 type Router struct {
-	Paths    map[string]func() Controller
-	Template *template.Template
-	Site     *Site
+	Paths             map[string]func() Controller
+	UserRequiredPaths map[string]bool
+	Template          *template.Template
+	Site              *Site
 }
 
 type Context struct {
-	writer  http.ResponseWriter
-	request *http.Request
-	tokens  []string
-	router  *Router
-	user    *models.User
+	writer       http.ResponseWriter
+	request      *http.Request
+	tokens       []string
+	router       *Router
+	user         *models.User
+	userRequired bool
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
+	if c.userRequired && c.user == nil {
+		http.Redirect(c.writer, c.request, "/sessions/new/", 301)
+		return
+	}
 	c.router.SendContentInLayout(c.user, c.writer, filename, vars, status)
 }
 
@@ -39,6 +45,7 @@ type Controller interface {
 func NewRouter(path string) *Router {
 	r := Router{}
 	r.Paths = map[string]func() Controller{}
+	r.UserRequiredPaths = map[string]bool{}
 
 	var site Site
 	jsonString := files.ReadFile(path)
@@ -48,6 +55,9 @@ func NewRouter(path string) *Router {
 	r.Template = LoadTemplates()
 	r.Paths["models"] = NewModelsController
 	r.Paths["sessions"] = NewSessionsController
+
+	r.UserRequiredPaths["/sessions/new/"] = true
+	r.UserRequiredPaths["/models/"] = true
 
 	return &r
 }

@@ -64,6 +64,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c.router = r
 			c.user = user
 			c.tokens = tokens[2:]
+			c.userRequired = r.UserRequiredPaths[path]
 			controller := match()
 			r.HandleController(controller, &c)
 		}
@@ -84,10 +85,12 @@ func (r *Router) HandleController(c Controller, context *Context) {
 		} else {
 			c.Show(context, id)
 		}
-	} else if method == "DELETE" {
-		c.Destroy(context)
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
+		if context.userRequired && context.user == nil {
+			http.Redirect(context.writer, context.request, "/sessions/new/", 301)
+			return
+		}
 		buffer := new(bytes.Buffer)
 		buffer.ReadFrom(request.Body)
 		fmt.Println("POST", buffer.String())
