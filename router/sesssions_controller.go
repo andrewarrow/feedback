@@ -32,7 +32,7 @@ func (sc *SessionsController) Create(c *Context, body string) {
 	cookie.Value = "123"
 	cookie.Path = "/"
 	http.SetCookie(c.writer, &cookie)
-	http.Redirect(c.writer, c.request, "/", 301)
+	http.Redirect(c.writer, c.request, "/", 302)
 }
 
 func (sc *SessionsController) Destroy(c *Context) {
@@ -42,7 +42,7 @@ func (sc *SessionsController) Destroy(c *Context) {
 	cookie.Value = ""
 	cookie.Path = "/"
 	http.SetCookie(c.writer, &cookie)
-	http.Redirect(c.writer, c.request, "/", 301)
+	http.Redirect(c.writer, c.request, "/", 302)
 }
 
 func (sc *SessionsController) CreateWithJson(context *Context, body string) {

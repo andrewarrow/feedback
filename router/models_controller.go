@@ -3,10 +3,12 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/util"
+	"github.com/brianvoe/gofakeit/v6"
 )
 
 type ModelsController struct {
@@ -29,7 +31,16 @@ func (mc *ModelsController) Index(c *Context) {
 
 func (mc *ModelsController) Create(context *Context, body string) {
 }
-func (mc *ModelsController) CreateWithId(context *Context, id, body string) {
+
+func (mc *ModelsController) CreateWithId(c *Context, id, body string) {
+	model := c.router.Site.FindModel(id)
+
+	tableName := util.Plural(model.Name)
+	sql := `INSERT INTO %s (username, guid) values ('%s', '%s');`
+	username := gofakeit.Username()
+	guid := util.PseudoUuid()
+	c.db.Exec(fmt.Sprintf(sql, tableName, username, guid))
+	http.Redirect(c.writer, c.request, c.path, 302)
 }
 
 func (mc *ModelsController) CreateWithJson(c *Context, body string) {
