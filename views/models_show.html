@@ -27,4 +27,11 @@
                     </td>
                  </tr>
              {{end}}
+                 <tr>
+                    <td class="title">
+                       <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
+                         <input type="submit" value="insert row"/>
+                       </form>
+                    </td>
+                 </tr>
                       </table></td></tr>

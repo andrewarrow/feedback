@@ -103,7 +103,11 @@ func (r *Router) HandleController(c Controller, context *Context) {
 			if payload == "_method=DELETE" {
 				c.Destroy(context)
 			} else {
-				c.Create(context, payload)
+				if len(tokens) == 1 {
+					c.Create(context, payload)
+				} else {
+					c.CreateWithId(context, tokens[0], payload)
+				}
 			}
 		} else {
 			c.CreateWithJson(context, buffer.String())

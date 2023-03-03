@@ -22,6 +22,9 @@ func (sc *SessionsController) Index(context *Context) {
 func (sc *SessionsController) Show(c *Context, id string) {
 }
 
+func (sc *SessionsController) CreateWithId(c *Context, id, body string) {
+}
+
 func (sc *SessionsController) Create(c *Context, body string) {
 	cookie := http.Cookie{}
 	cookie.MaxAge = 86400 * 30

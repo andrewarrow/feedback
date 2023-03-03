@@ -29,6 +29,8 @@ func (mc *ModelsController) Index(c *Context) {
 
 func (mc *ModelsController) Create(context *Context, body string) {
 }
+func (mc *ModelsController) CreateWithId(context *Context, id, body string) {
+}
 
 func (mc *ModelsController) CreateWithJson(c *Context, body string) {
 	var params map[string]any
