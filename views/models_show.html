@@ -28,8 +28,16 @@
                  </tr>
              {{end}}
                  <tr>
-                    <td class="title">
+                    <td class="title" colspan="4">
                        <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
+                         <input type="text" name="name" id="name" autofocus="true"/>
+                         <input type="submit" value="add field"/>
+                       </form>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td class="title" colspan="4">
+                       <form id="form2" method="POST" action="/models/{{.Model.Name}}/">
                          <input type="submit" value="insert row"/>
                        </form>
                     </td>

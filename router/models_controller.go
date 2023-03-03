@@ -21,7 +21,7 @@ func NewModelsController() Controller {
 }
 
 type ModelsVars struct {
-	Models []models.Model
+	Models []*models.Model
 }
 
 func (mc *ModelsController) Index(c *Context) {
@@ -35,9 +35,15 @@ func (mc *ModelsController) Create(context *Context, body string) {
 
 func (mc *ModelsController) CreateWithId(c *Context, id, body string) {
 	model := c.router.Site.FindModel(id)
-
 	tableName := util.Plural(model.Name)
-	c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
+	if body == "" {
+		c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
+	} else {
+		f := models.Field{}
+		f.Name = "foo"
+		f.Flavor = "bar"
+		c.router.Site.AddField(id, f)
+	}
 	http.Redirect(c.writer, c.request, c.path, 302)
 }
 
@@ -54,7 +60,7 @@ func (mc *ModelsController) CreateWithJson(c *Context, body string) {
 		c.writer.WriteHeader(422)
 		fmt.Fprintf(c.writer, "length of name must be > 2")
 	} else {
-		c.router.Site.Models = append(c.router.Site.Models, newModel)
+		c.router.Site.Models = append(c.router.Site.Models, &newModel)
 		vars := ModelsVars{}
 		vars.Models = c.router.Site.Models
 		c.router.Template.ExecuteTemplate(c.writer, "models_list.html", vars)
