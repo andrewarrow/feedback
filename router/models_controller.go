@@ -95,7 +95,7 @@ func (mc *ModelsController) Show(c *Context, id string) {
 		tds = append(tds, fmt.Sprintf("<th>%s</th>", field.Name))
 	}
 	vars.Rows = append(vars.Rows, template.HTML(strings.Join(tds, "")))
-	rows, _ := c.db.Queryx("SELECT * FROM users ORDER BY id limit 30")
+	rows, _ := c.db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
