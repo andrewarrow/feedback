@@ -63,8 +63,9 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c.request = request
 			c.router = r
 			c.user = user
+			c.path = path
 			c.tokens = tokens[2:]
-			c.userRequired = r.UserRequiredPaths[path]
+			c.userRequired = r.IsUserRequired(path, request.Method)
 			controller := match()
 			r.HandleController(controller, &c)
 		}
@@ -76,6 +77,7 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	request := context.request
 	method := request.Method
 	tokens := context.tokens
+	fmt.Println(method, context.path)
 	if method == "GET" && len(tokens) == 1 {
 		c.Index(context)
 	} else if method == "GET" && len(tokens) > 1 {
@@ -88,7 +90,7 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	} else if method == "POST" {
 		//fmt.Printf("%+v\n", request.Header)
 		if context.userRequired && context.user == nil {
-			http.Redirect(context.writer, context.request, "/sessions/new/", 301)
+			http.Redirect(context.writer, context.request, "/sessions/new/", 302)
 			return
 		}
 		buffer := new(bytes.Buffer)
