@@ -77,7 +77,7 @@ func (r *Router) HandleController(c Controller, context *Context) {
 	request := context.request
 	method := request.Method
 	tokens := context.tokens
-	fmt.Println(method, context.path)
+	//fmt.Println(method, context.path)
 	if method == "GET" && len(tokens) == 1 {
 		c.Index(context)
 	} else if method == "GET" && len(tokens) > 1 {
