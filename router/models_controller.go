@@ -65,6 +65,10 @@ func (mc *ModelsController) Show(c *Context, id string) {
     UNIQUE KEY unique_username (username)
 ) ENGINE InnoDB;`
 	c.db.Exec(fmt.Sprintf(sql, tableName))
+	sql = `ALTER TABLE %s ADD COLUMN %s varchar(255) default '';`
+	for _, field := range model.Fields {
+		c.db.Exec(fmt.Sprintf(sql, tableName, field.Name))
+	}
 
 	vars := ModelVars{}
 	vars.Model = model
