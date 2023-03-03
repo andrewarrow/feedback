@@ -30,17 +30,18 @@ func (mc *ModelsController) Index(c *Context) {
 	c.SendContentInLayout("models_index.html", vars, 200)
 }
 
-func (mc *ModelsController) Create(context *Context, body string) {
+func (mc *ModelsController) Create(context *Context) {
 }
 
-func (mc *ModelsController) CreateWithId(c *Context, id, body string) {
+func (mc *ModelsController) CreateWithId(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
 	tableName := util.Plural(model.Name)
-	if body == "" {
+	fieldName := c.request.FormValue("name")
+	if fieldName == "" {
 		c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
 	} else {
 		f := models.Field{}
-		f.Name = "foo"
+		f.Name = fieldName
 		f.Flavor = "bar"
 		c.router.Site.AddField(id, f)
 	}

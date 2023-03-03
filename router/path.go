@@ -94,22 +94,24 @@ func (r *Router) HandleController(c Controller, context *Context) {
 			http.Redirect(context.writer, context.request, "/sessions/new/", 302)
 			return
 		}
-		buffer := new(bytes.Buffer)
-		buffer.ReadFrom(request.Body)
-		fmt.Println("POST", buffer.String())
 		contentType := request.Header["Content-Type"]
 		if len(contentType) == 0 || contentType[0] == "application/x-www-form-urlencoded" {
-			payload := buffer.String()
-			if payload == "_method=DELETE" {
+			context.request.ParseForm()
+			hiddenMethod := request.FormValue("_method")
+
+			if hiddenMethod == "DELETE" {
 				c.Destroy(context)
 			} else {
 				if len(tokens) == 1 {
-					c.Create(context, payload)
+					c.Create(context)
 				} else {
-					c.CreateWithId(context, tokens[0], payload)
+					c.CreateWithId(context, tokens[0])
 				}
 			}
 		} else {
+			buffer := new(bytes.Buffer)
+			buffer.ReadFrom(request.Body)
+			fmt.Println("POST", buffer.String())
 			c.CreateWithJson(context, buffer.String())
 		}
 	}
