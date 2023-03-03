@@ -90,21 +90,19 @@ func (mc *ModelsController) Show(c *Context, id string) {
 	}
 
 	vars := ModelVars{}
+	tds := []string{}
+	for _, field := range model.Fields {
+		tds = append(tds, fmt.Sprintf("<th>%s</th>", field.Name))
+	}
+	vars.Rows = append(vars.Rows, template.HTML(strings.Join(tds, "")))
 	rows, _ := c.db.Queryx("SELECT * FROM users ORDER BY id limit 30")
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
 		tds := []string{}
-		if len(vars.Rows) == 0 {
-			for k, _ := range m {
-				tds = append(tds, fmt.Sprintf("<td>%s</td>", k))
-			}
-			vars.Rows = append(vars.Rows, template.HTML(strings.Join(tds, "")))
-			tds = []string{}
-		}
-		for k, v := range m {
-			fmt.Println(k, v)
-			tds = append(tds, "<td>foo</td>")
+		for _, field := range model.Fields {
+			data := m[field.Name]
+			tds = append(tds, fmt.Sprintf("<td>%s</td>", data))
 		}
 		vars.Rows = append(vars.Rows, template.HTML(strings.Join(tds, "")))
 	}
