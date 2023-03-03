@@ -64,6 +64,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c.router = r
 			c.user = user
 			c.path = path
+			c.db = r.Db
 			c.tokens = tokens[2:]
 			c.userRequired = r.IsUserRequired(path, request.Method)
 			controller := match()

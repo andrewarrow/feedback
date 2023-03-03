@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/jmoiron/sqlx"
 )
 
 type Context struct {
@@ -14,6 +15,7 @@ type Context struct {
 	user         *models.User
 	userRequired bool
 	path         string
+	db           *sqlx.DB
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {

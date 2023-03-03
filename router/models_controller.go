@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/util"
 )
 
 type ModelsController struct {
@@ -55,6 +56,16 @@ type ModelVars struct {
 
 func (mc *ModelsController) Show(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
+
+	tableName := util.Plural(model.Name)
+	sql := `CREATE TABLE %s (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username varchar(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_username (username)
+) ENGINE InnoDB;`
+	c.db.Exec(fmt.Sprintf(sql, tableName))
+
 	vars := ModelVars{}
 	vars.Model = model
 	c.SendContentInLayout("models_show.html", vars, 200)
