@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
 
@@ -65,6 +66,7 @@ func (mc *ModelsController) CreateWithJson(c *Context, body string) {
 
 type ModelVars struct {
 	Model *models.Model
+	Rows  []template.HTML
 }
 
 func (mc *ModelsController) Show(c *Context, id string) {
@@ -88,6 +90,18 @@ func (mc *ModelsController) Show(c *Context, id string) {
 	}
 
 	vars := ModelVars{}
+	rows, _ := c.db.Queryx("SELECT * FROM users ORDER BY id limit 30")
+	for rows.Next() {
+		m := make(map[string]any)
+		rows.MapScan(m)
+		tds := []string{}
+		for k, v := range m {
+			fmt.Println(k, v)
+			tds = append(tds, "<td>foo</td>")
+		}
+		vars.Rows = append(vars.Rows, template.HTML(strings.Join(tds, "")))
+	}
+
 	vars.Model = model
 	c.SendContentInLayout("models_show.html", vars, 200)
 }
