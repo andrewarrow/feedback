@@ -95,6 +95,13 @@ func (mc *ModelsController) Show(c *Context, id string) {
 		m := make(map[string]any)
 		rows.MapScan(m)
 		tds := []string{}
+		if len(vars.Rows) == 0 {
+			for k, _ := range m {
+				tds = append(tds, fmt.Sprintf("<td>%s</td>", k))
+			}
+			vars.Rows = append(vars.Rows, template.HTML(strings.Join(tds, "")))
+			tds = []string{}
+		}
 		for k, v := range m {
 			fmt.Println(k, v)
 			tds = append(tds, "<td>foo</td>")
