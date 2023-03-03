@@ -68,6 +68,10 @@ func (mc *ModelsController) Show(c *Context, id string) {
 	sql = `ALTER TABLE %s ADD COLUMN %s varchar(255) default '';`
 	for _, field := range model.Fields {
 		c.db.Exec(fmt.Sprintf(sql, tableName, field.Name))
+		if field.Index == "yes" {
+			sql := `create index %s_index on %s(%s);`
+			c.db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
+		}
 	}
 
 	vars := ModelVars{}

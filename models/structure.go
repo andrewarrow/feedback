@@ -8,4 +8,5 @@ type Model struct {
 type Field struct {
 	Name   string `json:"name"`
 	Flavor string `json:"flavor"`
+	Index  string `json:"index"`
 }
