@@ -1,9 +1,9 @@
 package router
 
-import (
-	"net/http"
-)
+func handleSessions(c *Context, second, third string) {
+}
 
+/*
 type SessionsController struct {
 }
 
@@ -46,4 +46,4 @@ func (sc *SessionsController) Destroy(c *Context) {
 }
 
 func (sc *SessionsController) CreateWithJson(context *Context, body string) {
-}
+}*/

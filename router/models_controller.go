@@ -1,27 +1,31 @@
 package router
 
-import (
-	"encoding/json"
-	"fmt"
-	"html/template"
-	"net/http"
-	"strings"
+import "github.com/andrewarrow/feedback/models"
 
-	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/sqlgen"
-	"github.com/andrewarrow/feedback/util"
-)
+type ModelsVars struct {
+	Models []*models.Model
+}
 
+func handleModelsIndex(c *Context) {
+	vars := ModelsVars{}
+	vars.Models = c.router.Site.Models
+	c.SendContentInLayout("models_index.html", vars, 200)
+}
+
+func handleModels(c *Context, second, third string) {
+	if second == "" {
+		handleModelsIndex(c)
+	} else if third != "" {
+	}
+}
+
+/*
 type ModelsController struct {
 }
 
 func NewModelsController() Controller {
 	mc := ModelsController{}
 	return &mc
-}
-
-type ModelsVars struct {
-	Models []*models.Model
 }
 
 func (mc *ModelsController) Index(c *Context) {
@@ -118,4 +122,4 @@ func (mc *ModelsController) Show(c *Context, id string) {
 func (mc *ModelsController) New(c *Context) {
 }
 func (mc *ModelsController) Destroy(c *Context) {
-}
+}*/

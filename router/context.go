@@ -36,9 +36,9 @@ func handleContext(c *Context) {
 		handlePathContext(c, tokens[1], tokens[2], "")
 	} else if len(tokens) == 5 { //   /foo/bar/more/
 		handlePathContext(c, tokens[1], tokens[2], tokens[3])
+	} else {
+		c.notFound = true
 	}
-
-	c.notFound = true
 }
 
 func handlePathContext(c *Context, first, second, third string) {
@@ -46,18 +46,7 @@ func handlePathContext(c *Context, first, second, third string) {
 		handleModels(c, second, third)
 	} else if first == "sessions" {
 		handleSessions(c, second, third)
+	} else {
+		c.notFound = true
 	}
-
-	c.notFound = true
-}
-
-func handleModels(c *Context, second, third string) {
-	if second == "" {
-		handleModelsIndex(c)
-	} else if third != "" {
-	}
-	c.notFound = true
-}
-func handleSessions(c *Context, second, third string) {
-	c.notFound = true
 }

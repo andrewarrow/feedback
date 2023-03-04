@@ -68,12 +68,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	}
 }
 
-func handleModelsIndex(c *Context) {
-	vars := ModelsVars{}
-	vars.Models = c.router.Site.Models
-	c.SendContentInLayout("models_index.html", vars, 200)
-}
-
+/*
 func (r *Router) HandleController(c Controller, context *Context) {
 	//writer := c.context.writer
 	request := context.request
@@ -116,4 +111,4 @@ func (r *Router) HandleController(c Controller, context *Context) {
 			c.CreateWithJson(context, buffer.String())
 		}
 	}
-}
+}*/
