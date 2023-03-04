@@ -61,7 +61,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		c.path = path
 		c.db = r.Db
 		c.tokens = strings.Split(path, "/")
-		c.userRequired = r.IsUserRequired(path, request.Method)
+		c.userRequired = r.IsUserRequired(path, c.method)
+		if c.userRequired && c.user == nil {
+			http.Redirect(c.writer, c.request, "/sessions/new/", 302)
+			return
+		}
 		handleContext(&c)
 		if c.notFound {
 			r.SendContentInLayout(user, writer, "404.html", nil, 404)
