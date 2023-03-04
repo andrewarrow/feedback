@@ -5,6 +5,12 @@ function doLogout(e) {
   form.submit();
 }
 
+function doDeletePost(guid, e) {
+  e.preventDefault();
+  const form = document.getElementById('f'+guid);
+  form.submit();
+}
+
 function sendFormAsJson(e) {
   e.preventDefault();
   const form = document.getElementById('form1');

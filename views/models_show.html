@@ -55,6 +55,7 @@
              {{end}}
                  </tr>
              {{$rows := .Rows}}
+             {{$model := .Model}}
              {{range $i, $item := $rows }}
                   <tr class="athing" colspan="2">
                     <td class="title" valign="top" align="right">
@@ -65,6 +66,12 @@
                             {{ index $item $key.Name }}
                     </td>
              {{end}}
+                    <td class="title">
+      <form id="f{{index $item "guid" }}" method="POST" action="/models/{{$model.Name}}/{{index $item "guid" }}">
+              <input type="hidden" name="_method" value="DELETE"/>
+      </form>
+              <a href="#" onclick="doDeletePost('{{index $item "guid" }}', event);">x</a> 
+                    </td>
                  </tr>
              {{end}}
                       </table></td></tr>
