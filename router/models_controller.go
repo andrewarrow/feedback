@@ -62,7 +62,7 @@ func handleModelsCreateWithJson(c *Context) {
 
 type ModelVars struct {
 	Model *models.Model
-	Rows  []map[string]string
+	Rows  []map[string]any
 }
 
 func ModelsShow(c *Context, id string) {
@@ -90,16 +90,15 @@ func ModelsShow(c *Context, id string) {
 	}
 
 	vars := ModelVars{}
-	vars.Rows = []map[string]string{}
+	vars.Rows = []map[string]any{}
 	rows, _ := c.db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
-		stringMap := make(map[string]string)
 		for k, v := range m {
-			stringMap[k] = fmt.Sprintf("%s", v)
+			m[k] = fmt.Sprintf("%s", v)
 		}
-		vars.Rows = append(vars.Rows, stringMap)
+		vars.Rows = append(vars.Rows, m)
 	}
 
 	vars.Model = model
