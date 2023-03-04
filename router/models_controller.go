@@ -30,7 +30,8 @@ func handleModels(c *Context, second, third string) {
 		handleModelsIndex(c)
 	} else if third != "" {
 		if c.method == "DELETE" {
-			c.db.Exec("delete from $1 where guid=$2", util.Plural(second), third)
+			safeName := models.RemoveNonAlphanumeric(second)
+			c.db.Exec(fmt.Sprintf("delete from %s where guid=$1", util.Plural(safeName)), third)
 			http.Redirect(c.writer, c.request, "/models/"+second, 302)
 			return
 		}
