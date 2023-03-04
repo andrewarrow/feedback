@@ -18,6 +18,7 @@ type Context struct {
 	path         string
 	db           *sqlx.DB
 	notFound     bool
+	method       string
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
@@ -32,6 +33,15 @@ func (c *Context) BodyAsString() string {
 	buffer := new(bytes.Buffer)
 	buffer.ReadFrom(c.request.Body)
 	return buffer.String()
+}
+
+func (c *Context) ReadFormPost() {
+	c.request.ParseForm()
+	c.method = c.request.Method
+	hiddenMethod := c.request.FormValue("_method")
+	if hiddenMethod != "" {
+		c.method = hiddenMethod
+	}
 }
 
 func handleContext(c *Context) {

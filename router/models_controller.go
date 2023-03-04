@@ -26,6 +26,9 @@ func handleModels(c *Context, second, third string) {
 	if second == "" {
 		handleModelsIndex(c)
 	} else if third != "" {
+		c.notFound = true
+	} else {
+		c.notFound = true
 	}
 }
 
