@@ -1,21 +1,52 @@
 package router
 
-import "github.com/andrewarrow/feedback/models"
+import (
+	"encoding/json"
+	"fmt"
+	"strings"
+
+	"github.com/andrewarrow/feedback/models"
+)
 
 type ModelsVars struct {
 	Models []*models.Model
 }
 
 func handleModelsIndex(c *Context) {
-	vars := ModelsVars{}
-	vars.Models = c.router.Site.Models
-	c.SendContentInLayout("models_index.html", vars, 200)
+	if c.request.Method == "GET" {
+		vars := ModelsVars{}
+		vars.Models = c.router.Site.Models
+		c.SendContentInLayout("models_index.html", vars, 200)
+		return
+	}
+	handleModelsCreateWithJson(c)
 }
 
 func handleModels(c *Context, second, third string) {
 	if second == "" {
 		handleModelsIndex(c)
 	} else if third != "" {
+	}
+}
+
+func handleModelsCreateWithJson(c *Context) {
+	body := c.BodyAsString()
+	var params map[string]any
+	json.Unmarshal([]byte(body), &params)
+	newModel := models.Model{}
+	name := params["name"]
+	if name != nil {
+		newModel.Name = models.RemoveNonAlphanumeric(strings.ToLower(name.(string)))
+	}
+
+	if len(strings.TrimSpace(newModel.Name)) < 3 {
+		c.writer.WriteHeader(422)
+		fmt.Fprintf(c.writer, "length of name must be > 2")
+	} else {
+		c.router.Site.Models = append(c.router.Site.Models, &newModel)
+		vars := ModelsVars{}
+		vars.Models = c.router.Site.Models
+		c.router.Template.ExecuteTemplate(c.writer, "models_list.html", vars)
 	}
 }
 
@@ -52,25 +83,6 @@ func (mc *ModelsController) CreateWithId(c *Context, id string) {
 	http.Redirect(c.writer, c.request, c.path, 302)
 }
 
-func (mc *ModelsController) CreateWithJson(c *Context, body string) {
-	var params map[string]any
-	json.Unmarshal([]byte(body), &params)
-	newModel := models.Model{}
-	name := params["name"]
-	if name != nil {
-		newModel.Name = models.RemoveNonAlphanumeric(strings.ToLower(name.(string)))
-	}
-
-	if len(strings.TrimSpace(newModel.Name)) < 3 {
-		c.writer.WriteHeader(422)
-		fmt.Fprintf(c.writer, "length of name must be > 2")
-	} else {
-		c.router.Site.Models = append(c.router.Site.Models, &newModel)
-		vars := ModelsVars{}
-		vars.Models = c.router.Site.Models
-		c.router.Template.ExecuteTemplate(c.writer, "models_list.html", vars)
-	}
-}
 
 type ModelVars struct {
 	Model *models.Model

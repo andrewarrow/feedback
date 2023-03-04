@@ -1,6 +1,7 @@
 package router
 
 import (
+	"bytes"
 	"net/http"
 
 	"github.com/andrewarrow/feedback/models"
@@ -25,6 +26,12 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 		return
 	}
 	c.router.SendContentInLayout(c.user, c.writer, filename, vars, status)
+}
+
+func (c *Context) BodyAsString() string {
+	buffer := new(bytes.Buffer)
+	buffer.ReadFrom(c.request.Body)
+	return buffer.String()
 }
 
 func handleContext(c *Context) {
