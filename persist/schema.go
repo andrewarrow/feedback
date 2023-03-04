@@ -55,7 +55,7 @@ func SchemaJson(db *sqlx.DB) string {
     {"name": "title", "flavor": "fewWords"},
     {"name": "url", "flavor": "fewWords"},
     {"name": "body", "flavor": "text"},
-    {"name": "guid", "flavor": "uuid", "index": "yes"},
+    {"name": "guid", "flavor": "uuid", "index": "yes"}
   ]}
 ]}`
 		db.Exec(fmt.Sprintf("insert into feedback_schema (json_string) values ('%s')", jsonString))
