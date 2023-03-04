@@ -16,12 +16,3 @@ func (s *Site) FindModel(id string) *models.Model {
 
 	return nil
 }
-
-func (s *Site) AddField(id string, field models.Field) {
-	for _, m := range s.Models {
-		if m.Name == id {
-			m.Fields = append(m.Fields, field)
-			break
-		}
-	}
-}
