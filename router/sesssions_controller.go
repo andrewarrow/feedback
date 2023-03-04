@@ -8,7 +8,7 @@ func handleSessions(c *Context, second, third string) {
 	} else if third != "" {
 		c.notFound = true
 	} else {
-		if second == "new" {
+		if second == "new" && c.method == "GET" {
 			c.SendContentInLayout("sessions_new.html", nil, 200)
 			return
 		}

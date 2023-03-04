@@ -55,6 +55,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		c := Context{}
 		c.writer = writer
 		c.request = request
+		c.method = request.Method
 		c.router = r
 		c.user = user
 		c.path = path
