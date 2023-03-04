@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"html/template"
 
-	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/persist"
 	"github.com/jmoiron/sqlx"
 )
@@ -21,7 +20,7 @@ func NewRouter(path string) *Router {
 	r.Db = persist.PostgresConnection()
 
 	var site Site
-	jsonString := files.ReadFile(path)
+	jsonString := persist.SchemaJson(r.Db)
 	json.Unmarshal([]byte(jsonString), &site)
 	r.Site = &site
 

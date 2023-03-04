@@ -8,3 +8,11 @@ func PgCreateTable(tableName string) string {
 );`
 	return fmt.Sprintf(sql, tableName)
 }
+
+func PgCreateSchemaTable() string {
+	sql := `CREATE TABLE feedback_schema (
+  id SERIAL PRIMARY KEY,
+	json_string text
+);`
+	return sql
+}
