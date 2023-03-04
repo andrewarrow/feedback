@@ -3,9 +3,11 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/util"
 )
 
 type ModelsVars struct {
@@ -28,6 +30,10 @@ func handleModels(c *Context, second, third string) {
 	} else if third != "" {
 		c.notFound = true
 	} else {
+		if c.method == "GET" {
+			ModelsShow(c, second)
+			return
+		}
 		c.notFound = true
 	}
 }
@@ -53,46 +59,12 @@ func handleModelsCreateWithJson(c *Context) {
 	}
 }
 
-/*
-type ModelsController struct {
-}
-
-func NewModelsController() Controller {
-	mc := ModelsController{}
-	return &mc
-}
-
-func (mc *ModelsController) Index(c *Context) {
-	vars := ModelsVars{}
-	vars.Models = c.router.Site.Models
-	c.SendContentInLayout("models_index.html", vars, 200)
-}
-
-func (mc *ModelsController) Create(context *Context) {
-}
-
-func (mc *ModelsController) CreateWithId(c *Context, id string) {
-	model := c.router.Site.FindModel(id)
-	tableName := util.Plural(model.Name)
-	fieldName := c.request.FormValue("name")
-	if fieldName == "" {
-		c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
-	} else {
-		f := models.Field{}
-		f.Name = fieldName
-		f.Flavor = "bar"
-		c.router.Site.AddField(id, f)
-	}
-	http.Redirect(c.writer, c.request, c.path, 302)
-}
-
-
 type ModelVars struct {
 	Model *models.Model
 	Rows  []template.HTML
 }
 
-func (mc *ModelsController) Show(c *Context, id string) {
+func ModelsShow(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
 
 	tableName := util.Plural(model.Name)
@@ -133,6 +105,41 @@ func (mc *ModelsController) Show(c *Context, id string) {
 	vars.Model = model
 	c.SendContentInLayout("models_show.html", vars, 200)
 }
+
+/*
+type ModelsController struct {
+}
+
+func NewModelsController() Controller {
+	mc := ModelsController{}
+	return &mc
+}
+
+func (mc *ModelsController) Index(c *Context) {
+	vars := ModelsVars{}
+	vars.Models = c.router.Site.Models
+	c.SendContentInLayout("models_index.html", vars, 200)
+}
+
+func (mc *ModelsController) Create(context *Context) {
+}
+
+func (mc *ModelsController) CreateWithId(c *Context, id string) {
+	model := c.router.Site.FindModel(id)
+	tableName := util.Plural(model.Name)
+	fieldName := c.request.FormValue("name")
+	if fieldName == "" {
+		c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
+	} else {
+		f := models.Field{}
+		f.Name = fieldName
+		f.Flavor = "bar"
+		c.router.Site.AddField(id, f)
+	}
+	http.Redirect(c.writer, c.request, c.path, 302)
+}
+
+
 
 func (mc *ModelsController) New(c *Context) {
 }
