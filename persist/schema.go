@@ -25,3 +25,11 @@ func MysqlConnection() *sqlx.DB {
 
 	return db
 }
+
+func PostgresConnection() *sqlx.DB {
+
+	url := os.Getenv("DATABASE_URL")
+	db := sqlx.MustConnect("postgres", url)
+
+	return db
+}

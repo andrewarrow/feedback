@@ -17,7 +17,8 @@ type Router struct {
 
 func NewRouter(path string) *Router {
 	r := Router{}
-	r.Db = persist.MysqlConnection()
+	//r.Db = persist.MysqlConnection()
+	r.Db = persist.PostgresConnection()
 
 	var site Site
 	jsonString := files.ReadFile(path)
