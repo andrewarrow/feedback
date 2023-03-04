@@ -52,25 +52,26 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else if !strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, fmt.Sprintf("%s/", path), 301)
 	} else {
-		tokens := strings.Split(path, "/")
-		first := tokens[1]
-		match := r.Paths[first]
-		if match == nil {
+		c := Context{}
+		c.writer = writer
+		c.request = request
+		c.router = r
+		c.user = user
+		c.path = path
+		c.db = r.Db
+		c.tokens = strings.Split(path, "/")
+		c.userRequired = r.IsUserRequired(path, request.Method)
+		handleContext(&c)
+		if c.notFound {
 			r.SendContentInLayout(user, writer, "404.html", nil, 404)
-		} else {
-			c := Context{}
-			c.writer = writer
-			c.request = request
-			c.router = r
-			c.user = user
-			c.path = path
-			c.db = r.Db
-			c.tokens = tokens[2:]
-			c.userRequired = r.IsUserRequired(path, request.Method)
-			controller := match()
-			r.HandleController(controller, &c)
 		}
 	}
+}
+
+func handleModelsIndex(c *Context) {
+	vars := ModelsVars{}
+	vars.Models = c.router.Site.Models
+	c.SendContentInLayout("models_index.html", vars, 200)
 }
 
 func (r *Router) HandleController(c Controller, context *Context) {

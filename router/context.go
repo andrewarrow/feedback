@@ -16,6 +16,7 @@ type Context struct {
 	userRequired bool
 	path         string
 	db           *sqlx.DB
+	notFound     bool
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
@@ -24,4 +25,39 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 		return
 	}
 	c.router.SendContentInLayout(c.user, c.writer, filename, vars, status)
+}
+
+func handleContext(c *Context) {
+	tokens := c.tokens
+
+	if len(tokens) == 3 { //          /foo/
+		handlePathContext(c, tokens[1], "", "")
+	} else if len(tokens) == 4 { //   /foo/bar/
+		handlePathContext(c, tokens[1], tokens[2], "")
+	} else if len(tokens) == 5 { //   /foo/bar/more/
+		handlePathContext(c, tokens[1], tokens[2], tokens[3])
+	}
+
+	c.notFound = true
+}
+
+func handlePathContext(c *Context, first, second, third string) {
+	if first == "models" {
+		handleModels(c, second, third)
+	} else if first == "sessions" {
+		handleSessions(c, second, third)
+	}
+
+	c.notFound = true
+}
+
+func handleModels(c *Context, second, third string) {
+	if second == "" {
+		handleModelsIndex(c)
+	} else if third != "" {
+	}
+	c.notFound = true
+}
+func handleSessions(c *Context, second, third string) {
+	c.notFound = true
 }
