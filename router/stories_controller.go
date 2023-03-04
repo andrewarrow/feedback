@@ -27,9 +27,9 @@ func handleStoriesIndex(c *Context) {
 		body := c.request.FormValue("body")
 		guid := util.PseudoUuid()
 		if url != "" {
-			c.db.Exec("insert into stories (title, url, guid) values ($1, $2, $3)", title, url, guid)
+			c.db.Exec("insert into stories (title, url, guid, username) values ($1, $2, $3, $4)", title, url, guid, c.user.Username)
 		} else {
-			c.db.Exec("insert into stories (title, body, guid) values ($1, $2, $3)", title, body, guid)
+			c.db.Exec("insert into stories (title, body, guid, username) values ($1, $2, $3, $4)", title, body, guid, c.user.Username)
 		}
 		http.Redirect(c.writer, c.request, "/", 302)
 		return
