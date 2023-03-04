@@ -39,8 +39,6 @@ func (c *Context) BodyAsString() string {
 }
 
 func (c *Context) ReadFormPost() {
-	//c.request.ParseForm()
-	c.method = c.request.Method
 	hiddenMethod := c.request.FormValue("_method")
 	if hiddenMethod != "" {
 		c.method = hiddenMethod

@@ -8,6 +8,7 @@ function doLogout(e) {
 function doDeletePost(guid, e) {
   e.preventDefault();
   const form = document.getElementById('f'+guid);
+        console.log(form)
   form.submit();
 }
 

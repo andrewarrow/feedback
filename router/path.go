@@ -66,6 +66,9 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			http.Redirect(c.writer, c.request, "/sessions/new/", 302)
 			return
 		}
+		if c.method == "POST" {
+			c.ReadFormPost()
+		}
 		handleContext(&c)
 		if c.notFound {
 			r.SendContentInLayout(user, writer, "404.html", nil, 404)

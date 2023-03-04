@@ -17,16 +17,13 @@ func handleSessions(c *Context, second, third string) {
 }
 
 func handleSessionsIndex(c *Context) {
-	if c.request.Method == "POST" {
-		c.ReadFormPost()
-		if c.method == "DELETE" {
-			DestroySession(c)
-		} else if c.method == "POST" {
-			CreateSession(c)
-		}
-		return
+	if c.method == "DELETE" {
+		DestroySession(c)
+	} else if c.method == "POST" {
+		CreateSession(c)
+	} else {
+		c.notFound = true
 	}
-	c.notFound = true
 }
 
 func DestroySession(c *Context) {

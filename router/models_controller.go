@@ -29,6 +29,11 @@ func handleModels(c *Context, second, third string) {
 	if second == "" {
 		handleModelsIndex(c)
 	} else if third != "" {
+		if c.method == "DELETE" {
+			c.db.Exec("delete from $1 where guid=$2", util.Plural(second), third)
+			http.Redirect(c.writer, c.request, "/models/"+second, 302)
+			return
+		}
 		c.notFound = true
 	} else {
 		if c.method == "GET" {
