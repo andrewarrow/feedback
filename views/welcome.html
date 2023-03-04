@@ -12,18 +12,18 @@
       </td>
       <td class="title">
               <span class="titleline">
-      <a href="{{index $item "url"}}" rel="nofollow">{{index $item "title"}}</a>
+      <a href="{{$item.Title}}" rel="nofollow">{{$item.Title}}</a>
                       <span class="sitebit comhead"> 
       (<a href="/sites/foo.com/"><span class="sitestr">barrons.com</span></a>)
                       </span></span></td></tr><tr>
         <td colspan="2"></td>
         <td class="subtext"><span class="subline">
           <span class="score" id="score_35023507">2 points</span> 
-          by <a href="/users/{{ index $item "username"}}/" class="user">{{ index $item "username"}}</a> 
-          <span class="age" title="{{index $item "timestamp"}}">
-                  <a href="/stories/{{ index $item "guid"}}/">{{index $item "ago"}}</a></span> |
-          <a href="/stories/{{ index $item "guid"}}/">discuss</a> |
-          <a href="/stories/{{ index $item "guid"}}/">1 comment</a>        
+          by <a href="/users/{{$item.Username}}/" class="user">{{$item.Username}}</a> 
+          <span class="age" title="{{$item.Timestamp}}">
+                  <a href="/stories/{{$item.Guid}}/">{{$item.Ago}}</a></span> |
+          <a href="/stories/{{ $item.Guid }}/">discuss</a> |
+          <a href="/stories/{{ $item.Guid }}/">1 comment</a>        
                 </span>
               </td></tr>
       <tr class="spacer" style="height:5px"></tr>
