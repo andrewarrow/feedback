@@ -68,6 +68,10 @@ type ModelVars struct {
 
 func ModelsShow(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
+	if model == nil {
+		c.notFound = true
+		return
+	}
 
 	tableName := util.Plural(model.Name)
 	sql := `CREATE TABLE %s (
@@ -110,6 +114,10 @@ func ModelsShow(c *Context, id string) {
 
 func ModelsCreateWithId(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
+	if model == nil {
+		c.notFound = true
+		return
+	}
 	tableName := util.Plural(model.Name)
 	fieldName := c.request.FormValue("name")
 	if fieldName == "" {
