@@ -6,7 +6,8 @@ import (
 
 	"github.com/jmoiron/sqlx"
 
-	_ "github.com/go-sql-driver/mysql"
+	//_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
 func MysqlConnection() *sqlx.DB {
