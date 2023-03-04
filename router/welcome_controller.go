@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/jmoiron/sqlx"
@@ -15,6 +16,8 @@ type Story struct {
 	Ago       string
 	Timestamp string
 	Username  string
+	HasUrl    bool
+	Domain    string
 }
 
 type WelcomeVars struct {
@@ -33,6 +36,18 @@ func WelcomeIndexVars(db *sqlx.DB, location *time.Location) *WelcomeVars {
 		story := Story{}
 		story.Title = fmt.Sprintf("%s", m["title"])
 		story.Url = fmt.Sprintf("%s", m["url"])
+		story.Guid = fmt.Sprintf("%s", m["guid"])
+		if story.Url != "" {
+			story.HasUrl = true
+			tokens := strings.Split(story.Url, "/")
+			if len(tokens) > 2 {
+				tokens = strings.Split(tokens[2], ".")
+				if len(tokens) == 3 {
+					tokens = tokens[1:]
+				}
+				story.Domain = strings.Join(tokens, ".")
+			}
+		}
 
 		tm := m["created_at"].(time.Time)
 		tm = tm.Add(time.Hour * 8)
