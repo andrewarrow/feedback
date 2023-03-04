@@ -1,11 +1,16 @@
-                  <tr class="athing" id="34937127">
-                    <td class="title" valign="top" align="right">
-                      <span class="rank">1.</span>
-                    </td>      
-                    <td class="votelinks" valign="top"> &nbsp; </td>
+                  <tr class="athing">
                     <td class="title">
-                     <span class="titleline">
-                      <a href="#">Welcome</a>
-                     </span>
+                      <table id="models" border="0">
+             {{range $i, $item := .Rows}}
+                  <tr class="athing" colspan="2">
+                    <td class="title" valign="top" align="right">
+                            <span class="rank">{{add $i 1}}.</span>
+                    </td>      
+                    <td class="title">
+                            {{index $item "title"}}
                     </td>
                  </tr>
+             {{end}}
+                      </table>
+                    </td>
+                  </tr>

@@ -46,7 +46,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		user.Username = "fred"
 	}
 	if path == "/" {
-		r.SendContentInLayout(user, writer, "welcome.html", nil, 200)
+		r.SendContentInLayout(user, writer, "welcome.html",
+			WelcomeIndexVars(r.Db), 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {

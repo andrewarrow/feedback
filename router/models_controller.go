@@ -71,7 +71,8 @@ type ModelVars struct {
 	Rows  []map[string]any
 }
 
-func ModelsShow(c *Context, id string) {
+func ModelsShow(c *Context, rawId string) {
+	id := models.RemoveNonAlphanumeric(rawId)
 	model := c.router.Site.FindModel(id)
 	if model == nil {
 		c.notFound = true
