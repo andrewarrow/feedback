@@ -7,12 +7,10 @@
       <tr><td>password:</td><td><input type="password" name="password" size="20"></td></tr></table><br>
 <input type="submit" value="login"></form>
 
-<br/><a href="forgot">Forgot your password?</a><br><br>
+<br/><a href="https://github.com/andrewarrow/feedback">Forgot your password?</a><br><br>
 <b>Create Account</b><br><br>
-<form action="login" method="post">
-    <input type="hidden" name="goto" value="news">
-    <input type="hidden" name="creating" value="t">
-    <table border="0"><tr><td>username:</td><td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off"></td></tr><tr><td>password:</td><td><input type="password" name="pw" size="20"></td></tr></table><br>
+<form action="/users/" method="POST">
+    <table border="0"><tr><td>username:</td><td><input type="text" name="username" size="20" autocorrect="off" spellcheck="false" autocapitalize="off"></td></tr><tr><td>password:</td><td><input type="password" name="password" size="20"></td></tr></table><br>
 <input type="submit" value="create account"></form>
                     </td>
                  </tr>

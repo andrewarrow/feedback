@@ -15,6 +15,9 @@ func (r *Router) IsUserRequired(path string, method string) bool {
 	if path == "/sessions/" {
 		return false
 	}
+	if path == "/users/" {
+		return false
+	}
 	return true
 }
 

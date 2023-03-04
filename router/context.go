@@ -67,6 +67,8 @@ func handlePathContext(c *Context, first, second, third string) {
 		handleSessions(c, second, third)
 	} else if first == "stories" {
 		handleStories(c, second, third)
+	} else if first == "users" {
+		handleUsers(c, second, third)
 	} else {
 		c.notFound = true
 	}
