@@ -8,6 +8,10 @@ func handleSessions(c *Context, second, third string) {
 	} else if third != "" {
 		c.notFound = true
 	} else {
+		if second == "new" {
+			c.SendContentInLayout("sessions_new.html", nil, 200)
+			return
+		}
 		c.notFound = true
 	}
 }
@@ -55,7 +59,6 @@ func NewSessionsController() Controller {
 }
 
 func (sc *SessionsController) New(c *Context) {
-	c.SendContentInLayout("sessions_new.html", nil, 200)
 }
 
 func (sc *SessionsController) Index(context *Context) {
