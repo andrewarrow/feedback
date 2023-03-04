@@ -2,7 +2,9 @@ package router
 
 import (
 	"net/http"
+	"strings"
 
+	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/util"
 )
 
@@ -18,16 +20,39 @@ func handleUsers(c *Context, second, third string) {
 
 func handleUsersIndex(c *Context) {
 	if c.method == "POST" {
-		username := c.request.FormValue("username")
-		password := c.request.FormValue("password")
+		username := strings.TrimSpace(c.request.FormValue("username"))
+		password := strings.TrimSpace(c.request.FormValue("password"))
+		returnPath := "/sessions/new/"
+
+		if len(password) < 8 {
+			setFlash(c, "password too short.")
+			http.Redirect(c.writer, c.request, returnPath, 302)
+			return
+		}
+		if len(password) > 255 {
+			setFlash(c, "password too long.")
+			http.Redirect(c.writer, c.request, returnPath, 302)
+			return
+		}
+		username = models.RemoveNonAlphanumeric(username)
+		if len(username) < 2 {
+			setFlash(c, "username too short.")
+			http.Redirect(c.writer, c.request, returnPath, 302)
+			return
+		}
+		if len(username) > 20 {
+			setFlash(c, "username too long.")
+			http.Redirect(c.writer, c.request, returnPath, 302)
+			return
+		}
+
 		guid := util.PseudoUuid()
 		_, err := c.db.Exec("insert into users (username, password, guid) values ($1, $2, $3)", username, password, guid)
-		returnPath := "/"
 		if err != nil {
 			setFlash(c, "username is taken.")
-			returnPath = "/sessions/new/"
 		} else {
 			setUser(c, guid)
+			returnPath = "/"
 		}
 		http.Redirect(c.writer, c.request, returnPath, 302)
 		return
