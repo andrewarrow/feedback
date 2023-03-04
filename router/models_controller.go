@@ -73,14 +73,9 @@ func ModelsShow(c *Context, id string) {
 	}
 
 	tableName := util.Plural(model.Name)
-	sql := `CREATE TABLE %s (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username varchar(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_username (username)
-) ENGINE InnoDB;`
-	c.db.Exec(fmt.Sprintf(sql, tableName))
-	sql = `ALTER TABLE %s ADD COLUMN %s varchar(255) default '';`
+	//c.db.Exec(sqlgen.MysqlCreateTable(tableName))
+	c.db.Exec(sqlgen.PgCreateTable(tableName))
+	sql := `ALTER TABLE %s ADD COLUMN %s varchar(255) default '';`
 	for _, field := range model.Fields {
 		c.db.Exec(fmt.Sprintf(sql, tableName, field.Name))
 		if field.Index == "yes" {
