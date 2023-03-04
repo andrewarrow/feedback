@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"net/http"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/andrewarrow/feedback/util"
 )
 
@@ -32,9 +34,9 @@ func handleModels(c *Context, second, third string) {
 	} else {
 		if c.method == "GET" {
 			ModelsShow(c, second)
-			return
+		} else {
+			ModelsCreateWithId(c, second)
 		}
-		c.notFound = true
 	}
 }
 
@@ -106,25 +108,7 @@ func ModelsShow(c *Context, id string) {
 	c.SendContentInLayout("models_show.html", vars, 200)
 }
 
-/*
-type ModelsController struct {
-}
-
-func NewModelsController() Controller {
-	mc := ModelsController{}
-	return &mc
-}
-
-func (mc *ModelsController) Index(c *Context) {
-	vars := ModelsVars{}
-	vars.Models = c.router.Site.Models
-	c.SendContentInLayout("models_index.html", vars, 200)
-}
-
-func (mc *ModelsController) Create(context *Context) {
-}
-
-func (mc *ModelsController) CreateWithId(c *Context, id string) {
+func ModelsCreateWithId(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
 	tableName := util.Plural(model.Name)
 	fieldName := c.request.FormValue("name")
@@ -138,10 +122,3 @@ func (mc *ModelsController) CreateWithId(c *Context, id string) {
 	}
 	http.Redirect(c.writer, c.request, c.path, 302)
 }
-
-
-
-func (mc *ModelsController) New(c *Context) {
-}
-func (mc *ModelsController) Destroy(c *Context) {
-}*/
