@@ -65,7 +65,7 @@ pre:hover { overflow:auto }
   height:     10px;
   border:     0px;
   margin:     3px 2px 6px;
-  background: url("grayarrow.gif")
+  background: url("/assets/images/grayarrow.gif")
   no-repeat;
 }
 
@@ -76,7 +76,7 @@ pre:hover { overflow:auto }
 table.padtab td { padding:0px 10px }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-  .votearrow { background-size: 10px; background-image: url("grayarrow2x.gif"); }
+  .votearrow { background-size: 10px; background-image: url("/assets/images/grayarrow2x.gif"); }
 }
 
 .rotate180 {

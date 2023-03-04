@@ -1,16 +1,44 @@
-                  <tr class="athing">
-                    <td class="title">
-                      <table id="models" border="0">
-             {{range $i, $item := .Rows}}
-                  <tr class="athing" colspan="2">
-                    <td class="title" valign="top" align="right">
-                            <span class="rank">{{add $i 1}}.</span>
-                    </td>      
-                    <td class="title">
-                            {{index $item "title"}}
-                    </td>
-                 </tr>
-             {{end}}
-                      </table>
-                    </td>
-                  </tr>
+{{range $i, $item := .Rows}}
+ <tr class='athing'>
+      <td align="right" valign="top" class="title">
+              <span class="rank">{{add $i 1}}.</span>
+      </td>      
+      <td valign="top" class="votelinks">
+              <center><a id='up_35023507' class='clicky' 
+                              href='vote?it'>
+        <div class='votearrow' title='upvote'></div>
+                      </a>
+              </center>
+      </td>
+      <td class="title">
+              <span class="titleline">
+                      <a href="" rel="nofollow">{{index $item "title"}}</a>
+                      <span class="sitebit comhead"> 
+      (<a href=""><span class="sitestr">barrons.com</span></a>)
+                      </span></span></td></tr><tr>
+        <td colspan="2"></td>
+        <td class="subtext"><span class="subline">
+          <span class="score" id="score_35023507">2 points</span> 
+          by <a href="user?id=pg_1234" class="hnuser">pg_1234</a> 
+          <span class="age" title="2023-03-04T19:07:25">
+                  <a href="item?id=35023507">3 minutes ago</a></span> 
+          <span id="unv_35023507"></span> | <a href="">flag</a> |
+          <a href="hwest" class="clicky">hide</a> | 
+          <a href="page=0" class="hnpast">past</a> | 
+          <a href="item?id=35023507">discuss</a>        
+                </span>
+              </td></tr>
+      <tr class="spacer" style="height:5px"></tr>
+{{end}}
+                        
+
+
+
+
+
+
+
+
+
+
+

@@ -22,6 +22,9 @@ func (r *Router) IsUserRequired(path string, method string) bool {
 }
 
 func (r *Router) LookupUser(guid string) *models.User {
+	if guid == "" {
+		return nil
+	}
 	rows, _ := r.Db.Queryx("SELECT * FROM users where guid=$1", guid)
 	m := make(map[string]any)
 	rows.Next()
