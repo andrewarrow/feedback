@@ -2,6 +2,8 @@ package router
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/andrewarrow/feedback/models"
@@ -23,6 +25,11 @@ type Context struct {
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	c.router.SendContentInLayout(c.user, c.writer, filename, vars, status)
+}
+
+func (c *Context) saveSchema() {
+	asBytes, _ := json.Marshal(c.router.Site)
+	c.db.Exec(fmt.Sprintf("update feedback_schema set json_string = '%s'", string(asBytes)))
 }
 
 func (c *Context) BodyAsString() string {

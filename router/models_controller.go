@@ -116,6 +116,7 @@ func ModelsCreateWithId(c *Context, id string) {
 		f.Flavor = "bar"
 		//c.router.Site.AddField(id, f)
 		model.Fields = append(model.Fields, f)
+		c.saveSchema()
 	}
 	http.Redirect(c.writer, c.request, c.path, 302)
 }
