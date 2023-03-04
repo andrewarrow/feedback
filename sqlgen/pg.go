@@ -4,7 +4,8 @@ import "fmt"
 
 func PgCreateTable(tableName string) string {
 	sql := `CREATE TABLE %s (
-  id SERIAL PRIMARY KEY
+  id SERIAL PRIMARY KEY,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );`
 	return fmt.Sprintf(sql, tableName)
 }

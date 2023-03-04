@@ -1,8 +1,9 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/andrewarrow/feedback/util"
 )
 
 func handleStories(c *Context, second, third string) {
@@ -23,8 +24,13 @@ func handleStoriesIndex(c *Context) {
 	if c.method == "POST" {
 		title := c.request.FormValue("title")
 		url := c.request.FormValue("url")
-		text := c.request.FormValue("text")
-		fmt.Println(title, url, text)
+		body := c.request.FormValue("body")
+		guid := util.PseudoUuid()
+		if url != "" {
+			c.db.Exec("insert into stories (title, url, guid) values ($1, $2, $3)", title, url, guid)
+		} else {
+			c.db.Exec("insert into stories (title, body, guid) values ($1, $2, $3)", title, body, guid)
+		}
 		http.Redirect(c.writer, c.request, "/", 302)
 		return
 	}
