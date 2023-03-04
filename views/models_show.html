@@ -45,6 +45,9 @@
                   <tr class="athing" colspan="2">
 
              {{$fields := .Model.Fields}}
+                    <th class="title" valign="top" align="right">
+                            &nbsp;
+                    </th>      
              {{range $i, $item := $fields}}
                     <th class="title" valign="top" align="right">
                             {{ $item.Name }}

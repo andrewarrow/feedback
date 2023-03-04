@@ -1,5 +1,6 @@
 body  { font-family:Verdana, Geneva, sans-serif; font-size:10pt; color:#828282; }
 td    { font-family:Verdana, Geneva, sans-serif; font-size:10pt; color:#828282; }
+th    { text-align: left; }
 
 .admin td   { font-family:Verdana, Geneva, sans-serif; font-size:8.5pt; color:#000000; }
 .subtext td { font-family:Verdana, Geneva, sans-serif; font-size:  7pt; color:#828282; }
