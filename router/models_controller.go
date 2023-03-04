@@ -88,6 +88,9 @@ func ModelsShow(c *Context, rawId string) {
 		if field.Index == "yes" {
 			sql := `create index %s_index on %s(%s);`
 			c.db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
+		} else if field.Index == "unique" {
+			sql := `create unique index %s_index on %s(%s);`
+			c.db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
 		}
 	}
 

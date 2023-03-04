@@ -1,6 +1,9 @@
 package router
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 func handleSessions(c *Context, second, third string) {
 	if second == "" {
@@ -26,21 +29,36 @@ func handleSessionsIndex(c *Context) {
 	}
 }
 
+func CreateSession(c *Context) {
+	username := c.request.FormValue("username")
+	password := c.request.FormValue("password")
+	rows, _ := c.db.Queryx("SELECT * FROM users where username=$1 and password=$2", username, password)
+	m := make(map[string]any)
+	rows.Next()
+	rows.MapScan(m)
+
+	returnPath := "/"
+	cookie := http.Cookie{}
+	cookie.Path = "/"
+	if len(m) > 0 {
+		cookie.MaxAge = 86400 * 30
+		cookie.Name = "user"
+		cookie.Value = fmt.Sprintf("%s", m["guid"])
+	} else {
+		cookie.MaxAge = 86400 * 30
+		cookie.Name = "flash"
+		cookie.Value = "username not found."
+		returnPath = "/sessions/new/"
+	}
+	http.SetCookie(c.writer, &cookie)
+	http.Redirect(c.writer, c.request, returnPath, 302)
+}
+
 func DestroySession(c *Context) {
 	cookie := http.Cookie{}
 	cookie.MaxAge = 0
 	cookie.Name = "user"
 	cookie.Value = ""
-	cookie.Path = "/"
-	http.SetCookie(c.writer, &cookie)
-	http.Redirect(c.writer, c.request, "/", 302)
-}
-
-func CreateSession(c *Context) {
-	cookie := http.Cookie{}
-	cookie.MaxAge = 86400 * 30
-	cookie.Name = "user"
-	cookie.Value = "123"
 	cookie.Path = "/"
 	http.SetCookie(c.writer, &cookie)
 	http.Redirect(c.writer, c.request, "/", 302)

@@ -15,9 +15,10 @@ type LayoutVars struct {
 	User    *models.User
 	Phone   string
 	Content template.HTML
+	Flash   string
 }
 
-func (r *Router) PlaceContentInLayoutVars(user *models.User, filename string, vars any) *LayoutVars {
+func (r *Router) PlaceContentInLayoutVars(flash string, user *models.User, filename string, vars any) *LayoutVars {
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
@@ -25,13 +26,14 @@ func (r *Router) PlaceContentInLayoutVars(user *models.User, filename string, va
 	lvars.Title = "Feedback"
 	lvars.Phone = r.Site.Phone
 	lvars.User = user
+	lvars.Flash = flash
 	lvars.Content = template.HTML(content.String())
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(user *models.User, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(flash string, user *models.User, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
-	vars := r.PlaceContentInLayoutVars(user, filename, contentVars)
+	vars := r.PlaceContentInLayoutVars(flash, user, filename, contentVars)
 	writer.WriteHeader(status)
 	r.Template.ExecuteTemplate(writer, "application_layout.html", vars)
 }
@@ -41,12 +43,17 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	cookie, err := request.Cookie("user")
 	var user *models.User
 	if err == nil && cookie.Value != "" {
-		// use cookie.Value
-		user = &models.User{}
-		user.Username = "fred"
+		user = r.LookupUser(cookie.Value)
 	}
+	cookie, err = request.Cookie("flash")
+	flash := ""
+	if err == nil && cookie.Value != "" {
+		flash = cookie.Value
+		DestroyFlash(writer)
+	}
+
 	if path == "/" {
-		r.SendContentInLayout(user, writer, "welcome.html",
+		r.SendContentInLayout(flash, user, writer, "welcome.html",
 			WelcomeIndexVars(r.Db), 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
@@ -56,6 +63,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		c := Context{}
 		c.writer = writer
 		c.request = request
+		c.flash = flash
 		c.method = request.Method
 		c.router = r
 		c.user = user
@@ -72,7 +80,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		}
 		handleContext(&c)
 		if c.notFound {
-			r.SendContentInLayout(user, writer, "404.html", nil, 404)
+			r.SendContentInLayout("", user, writer, "404.html", nil, 404)
 		}
 	}
 }

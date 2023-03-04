@@ -21,10 +21,11 @@ type Context struct {
 	db           *sqlx.DB
 	notFound     bool
 	method       string
+	flash        string
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
-	c.router.SendContentInLayout(c.user, c.writer, filename, vars, status)
+	c.router.SendContentInLayout(c.flash, c.user, c.writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {
