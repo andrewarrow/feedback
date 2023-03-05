@@ -26,6 +26,10 @@ func handleModelsIndex(c *Context) {
 }
 
 func handleModels(c *Context, second, third string) {
+	if c.IsAdmin() == false {
+		c.notFound = true
+		return
+	}
 	if second == "" {
 		handleModelsIndex(c)
 	} else if third != "" {

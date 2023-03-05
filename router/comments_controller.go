@@ -105,6 +105,9 @@ func FetchComment(db *sqlx.DB, guid string) *Comment {
 	rows.Next()
 	m := make(map[string]any)
 	rows.MapScan(m)
+	if len(m) == 0 {
+		return nil
+	}
 	comment := commentFromMap(m)
 	return comment
 }

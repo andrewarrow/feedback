@@ -46,6 +46,9 @@ func FetchStory(db *sqlx.DB, guid string) *Story {
 	rows.Next()
 	m := make(map[string]any)
 	rows.MapScan(m)
+	if len(m) == 0 {
+		return nil
+	}
 	return storyFromMap(m)
 }
 

@@ -25,6 +25,10 @@ func handleUsers(c *Context, second, third string) {
 func handleUsersShow(c *Context, username string) {
 	c.title = username
 	u := c.router.LookupUsername(username)
+	if u == nil {
+		c.notFound = true
+		return
+	}
 	c.SendContentInLayout("users_show.html", u, 200)
 }
 

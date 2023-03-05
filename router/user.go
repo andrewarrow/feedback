@@ -3,6 +3,7 @@ package router
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/andrewarrow/feedback/models"
 )
@@ -21,6 +22,11 @@ func (r *Router) IsUserRequired(path string, method string) bool {
 	return true
 }
 
+func (c *Context) IsAdmin() bool {
+	adminUser := os.Getenv("ADMIN_USER")
+	return c.user.Guid == adminUser
+}
+
 func (r *Router) LookupUser(guid string) *models.User {
 	if guid == "" {
 		return nil
@@ -37,6 +43,7 @@ func (r *Router) LookupUser(guid string) *models.User {
 	}
 	user := models.User{}
 	user.Username = fmt.Sprintf("%s", m["username"])
+	user.Guid = guid
 	return &user
 }
 
