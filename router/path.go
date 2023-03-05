@@ -13,7 +13,7 @@ import (
 type LayoutVars struct {
 	Title   string
 	User    *models.User
-	Phone   string
+	Footer  string
 	Content template.HTML
 	Flash   string
 }
@@ -24,7 +24,7 @@ func (r *Router) PlaceContentInLayoutVars(title, flash string, user *models.User
 
 	lvars := LayoutVars{}
 	lvars.Title = models.RemoveMostNonAlphanumeric(title)
-	lvars.Phone = r.Site.Phone
+	lvars.Footer = r.Site.Footer
 	lvars.User = user
 	lvars.Flash = flash
 	lvars.Content = template.HTML(content.String())

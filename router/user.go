@@ -25,7 +25,10 @@ func (r *Router) LookupUser(guid string) *models.User {
 	if guid == "" {
 		return nil
 	}
-	rows, _ := r.Db.Queryx("SELECT * FROM users where guid=$1", guid)
+	rows, err := r.Db.Queryx("SELECT * FROM users where guid=$1", guid)
+	if err != nil {
+		return nil
+	}
 	m := make(map[string]any)
 	rows.Next()
 	rows.MapScan(m)

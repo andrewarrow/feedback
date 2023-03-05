@@ -18,7 +18,7 @@ type Router struct {
 	Location *time.Location
 }
 
-func NewRouter(path string) *Router {
+func NewRouter() *Router {
 	r := Router{}
 	//r.Db = persist.MysqlConnection()
 	r.Db = persist.PostgresConnection()

@@ -3,7 +3,7 @@ package router
 import "github.com/andrewarrow/feedback/models"
 
 type Site struct {
-	Phone  string          `json:"phone"`
+	Footer string          `json:"footer"`
 	Models []*models.Model `json:"models"`
 }
 

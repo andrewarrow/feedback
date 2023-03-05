@@ -16,7 +16,7 @@ func PrintHelp() {
 	fmt.Println("feedback v1.0")
 	fmt.Println("")
 	fmt.Println("  help              # this menu")
-	fmt.Println("  new               # just like rails new")
+	fmt.Println("  reset             # reset database")
 	fmt.Println("  run               # ")
 	fmt.Println("")
 }
@@ -29,9 +29,11 @@ func main() {
 	}
 	arg := os.Args[1]
 
-	if arg == "new" {
+	if arg == "reset" {
+		r := router.NewRouter()
+		r.ResetDatabase()
 	} else if arg == "run" {
-		r := router.NewRouter("data/site.json")
+		r := router.NewRouter()
 		http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 			r.RouteFromRequest(writer, request)
 		})

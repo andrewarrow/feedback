@@ -43,7 +43,7 @@ func SchemaJson(db *sqlx.DB) string {
 	rows.Next()
 	rows.MapScan(m)
 	if len(m) == 0 {
-		jsonString := `{"phone": "github.com/andrewarrow/feedback",
+		jsonString := `{"footer": "github.com/andrewarrow/feedback",
 "models": [
   {"name": "user", "fields": [
     {"name": "username", "flavor": "username", "index": "unique"},
