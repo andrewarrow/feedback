@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"html/template"
 	"strings"
 	"time"
 
@@ -18,7 +19,7 @@ type Story struct {
 	Username  string
 	HasUrl    bool
 	Domain    string
-	Body      string
+	Body      template.HTML
 }
 
 type WelcomeVars struct {
@@ -48,7 +49,9 @@ func storyFromMap(m map[string]any) *Story {
 	story.Title = fmt.Sprintf("%s", m["title"])
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
-	story.Body = fmt.Sprintf("%s", m["body"])
+	body := fmt.Sprintf("%s", m["body"])
+	body = strings.Replace(body, "\n", "<br/>", -1)
+	story.Body = template.HTML(body)
 	if story.Url != "" {
 		story.HasUrl = true
 		tokens := strings.Split(story.Url, "/")
