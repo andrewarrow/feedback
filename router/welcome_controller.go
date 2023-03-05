@@ -18,6 +18,7 @@ type Story struct {
 	Username  string
 	HasUrl    bool
 	Domain    string
+	Body      string
 }
 
 type WelcomeVars struct {
@@ -29,7 +30,10 @@ const layout = "2006-01-02 15:04:05"
 func WelcomeIndexVars(db *sqlx.DB, location *time.Location) *WelcomeVars {
 	vars := WelcomeVars{}
 	vars.Rows = []*Story{}
-	rows, _ := db.Queryx("SELECT * FROM stories ORDER BY created_at desc limit 30")
+	rows, err := db.Queryx("SELECT * FROM stories ORDER BY created_at desc limit 30")
+	if err != nil {
+		return &vars
+	}
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
@@ -44,6 +48,7 @@ func storyFromMap(m map[string]any) *Story {
 	story.Title = fmt.Sprintf("%s", m["title"])
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
+	story.Body = fmt.Sprintf("%s", m["body"])
 	if story.Url != "" {
 		story.HasUrl = true
 		tokens := strings.Split(story.Url, "/")
