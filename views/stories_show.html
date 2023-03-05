@@ -35,13 +35,21 @@
           <a href="/stories/{{ .Guid }}/">1 comment</a>        
                 </span>
               </td></tr>
-      <tr class="spacer" style="height:5px"></tr>
 
+      {{if .HasUrl}}
+       <tr class="spacer" style="height:15px"></tr>
+      {{else}}
+       <tr class="spacer" style="height:5px"></tr>
        <tr>
         <td colspan="2"></td>
         <td>
-                <div class="toptext">
           {{.Body}}
-                </div>
         </td>
+       </tr>
+      {{end}}
+
+       <tr>
+       <td colspan="2"></td><td><form action="/comments/{{.Guid}}/" method="POST">
+         <textarea name="body" rows="8" cols="80" wrap="virtual"></textarea><br><br>
+<input type="submit" value="add comment"></form></td>
        </tr>

@@ -52,7 +52,7 @@ func storyFromMap(m map[string]any) *Story {
 	story.Guid = fmt.Sprintf("%s", m["guid"])
 	body := fmt.Sprintf("%s", m["body"])
 	body = strings.Replace(html.EscapeString(body), "\n", "<br/>", -1)
-	story.Body = template.HTML(body)
+	story.Body = template.HTML(body + "<br/><br/>")
 	if story.Url != "" {
 		story.HasUrl = true
 		tokens := strings.Split(story.Url, "/")
