@@ -28,8 +28,15 @@
                   <span class="commtext c00">
                           {{.Body}}
               <div class="reply">       
-                      <p><font size="1">
-                      <u><a href="/comments/{{.Guid}}/">reply</a></u>
-                  </font>
-      </p></div></span></div></td></tr>
+
+              </div></span></div>
+        </td>
+</tr>
+       <tr class="spacer" style="height:15px"></tr>
+       <tr>
+       <td colspan="2">&nbsp;</td>
+       <td><form action="/comments/{{.StoryGuid}}/" method="POST">
+         <textarea name="body" rows="8" cols="80" wrap="virtual"></textarea><br><br>
+<input type="submit" value="add comment"></form></td>
+       </tr>
        <tr class="spacer" style="height:15px"></tr>
