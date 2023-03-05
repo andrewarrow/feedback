@@ -13,8 +13,16 @@ func handleStories(c *Context, second, third string) {
 	} else if third != "" {
 		c.notFound = true
 	} else {
-		if second == "new" && c.method == "GET" {
+		if second == "new" {
 			c.SendContentInLayout("stories_new.html", nil, 200)
+			return
+		} else if second != "" {
+			rows, _ := c.db.Queryx("select * from stories where guid=$1", second)
+			rows.Next()
+			m := make(map[string]any)
+			rows.MapScan(m)
+			story := storyFromMap(m)
+			c.SendContentInLayout("stories_show.html", story, 200)
 			return
 		}
 		c.notFound = true
