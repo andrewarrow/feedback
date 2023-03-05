@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/andrewarrow/feedback/models"
 )
@@ -16,7 +17,19 @@ func (r *Router) IsUserRequired(path string, method string) bool {
 	if path == "/sessions/" {
 		return false
 	}
-	if path == "/users/" {
+	if path == "/fresh/" {
+		return false
+	}
+	if path == "/about/" {
+		return false
+	}
+	if strings.HasPrefix(path, "/stories/") && method == "GET" {
+		return false
+	}
+	if strings.HasPrefix(path, "/comments/") && method == "GET" {
+		return false
+	}
+	if strings.HasPrefix(path, "/users/") {
 		return false
 	}
 	return true
