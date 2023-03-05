@@ -11,11 +11,12 @@ import (
 )
 
 type LayoutVars struct {
-	Title   string
-	User    *models.User
-	Footer  string
-	Content template.HTML
-	Flash   string
+	Title    string
+	SiteName string
+	User     *models.User
+	Footer   string
+	Content  template.HTML
+	Flash    string
 }
 
 func (r *Router) PlaceContentInLayoutVars(title, flash string, user *models.User, filename string, vars any) *LayoutVars {
@@ -25,6 +26,7 @@ func (r *Router) PlaceContentInLayoutVars(title, flash string, user *models.User
 	lvars := LayoutVars{}
 	lvars.Title = models.RemoveMostNonAlphanumeric(title)
 	lvars.Footer = r.Site.Footer
+	lvars.SiteName = r.Site.Title
 	lvars.User = user
 	lvars.Flash = flash
 	lvars.Content = template.HTML(content.String())
@@ -53,7 +55,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	}
 
 	if path == "/" {
-		r.SendContentInLayout("Feedback", flash, user, writer, "welcome.html",
+		r.SendContentInLayout(r.Site.Title, flash, user, writer, "welcome.html",
 			WelcomeIndexVars(r.Db, "points desc"), 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)

@@ -4,6 +4,7 @@ import "github.com/andrewarrow/feedback/models"
 
 type Site struct {
 	Footer string          `json:"footer"`
+	Title  string          `json:"title"`
 	Models []*models.Model `json:"models"`
 }
 

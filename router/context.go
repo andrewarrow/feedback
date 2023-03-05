@@ -27,7 +27,7 @@ type Context struct {
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	if c.title == "" {
-		c.title = "Feedback"
+		c.title = c.router.Site.Title
 	}
 	c.router.SendContentInLayout(c.title, c.flash, c.user, c.writer, filename, vars, status)
 }
