@@ -83,12 +83,20 @@ func ModelsShow(c *Context, rawId string) {
 	//c.db.Exec(sqlgen.MysqlCreateTable(tableName))
 	c.db.Exec(sqlgen.PgCreateTable(tableName))
 	flavor := "varchar(255)"
-	sql := `ALTER TABLE %s ADD COLUMN %s %s default '';`
+	defaultString := "''"
+	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 	for _, field := range model.Fields {
 		if field.Flavor == "text" {
 			flavor = "text"
+			defaultString = "''"
+		} else if field.Flavor == "int" {
+			flavor = "int"
+			defaultString = "0"
+		} else if field.Flavor == "uuid" {
+			flavor = "varchar(255)"
+			defaultString = "''"
 		}
-		c.db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor))
+		c.db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
 		if field.Index == "yes" {
 			sql := `create index %s_index on %s(%s);`
 			c.db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))

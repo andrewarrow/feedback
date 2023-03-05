@@ -7,6 +7,11 @@ import (
 	"github.com/andrewarrow/feedback/util"
 )
 
+type StoryShow struct {
+	Story    *Story
+	Comments []*Comment
+}
+
 func handleStories(c *Context, second, third string) {
 	if second == "" {
 		handleStoriesIndex(c)
@@ -21,8 +26,10 @@ func handleStories(c *Context, second, third string) {
 			rows.Next()
 			m := make(map[string]any)
 			rows.MapScan(m)
-			story := storyFromMap(m)
-			c.SendContentInLayout("stories_show.html", story, 200)
+			storyShow := StoryShow{}
+			storyShow.Story = storyFromMap(m)
+			storyShow.Comments = FetchComments(c.db)
+			c.SendContentInLayout("stories_show.html", storyShow, 200)
 			return
 		}
 		c.notFound = true

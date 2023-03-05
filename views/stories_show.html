@@ -11,14 +11,14 @@
       </td>
       <td class="title">
             <span class="titleline">
-      {{if .HasUrl}}
-      <a href="{{.Url}}" rel="nofollow">{{.Title}}</a>
+      {{if .Story.HasUrl}}
+      <a href="{{.Story.Url}}" rel="nofollow">{{.Story.Title}}</a>
       {{else}}
-      <a href="/stories/{{.Guid}}/" rel="nofollow">{{.Title}}</a>
+      <a href="/stories/{{.Story.Guid}}/" rel="nofollow">{{.Story.Title}}</a>
       {{end}}
              <span class="sitebit comhead"> 
-      {{if .HasUrl}}
-      (<a href="/sites/{{.Domain}}/"><span class="sitestr">{{.Domain}}</span></a>)
+      {{if .Story.HasUrl}}
+      (<a href="/sites/{{.Story.Domain}}/"><span class="sitestr">{{.Story.Domain}}</span></a>)
       {{end}}
               </span>
             </span>
@@ -28,28 +28,42 @@
         <td colspan="2"></td>
         <td class="subtext"><span class="subline">
           <span class="score" id="score_35023507">2 points</span> 
-          by <a href="/users/{{.Username}}/" class="user">{{.Username}}</a> 
-          <span class="age" title="{{.Timestamp}}">
-                  <a href="/stories/{{.Guid}}/">{{.Ago}}</a></span> |
-          <a href="/stories/{{ .Guid }}/">discuss</a> |
-          <a href="/stories/{{ .Guid }}/">1 comment</a>        
+          by <a href="/users/{{.Story.Username}}/" class="user">{{.Story.Username}}</a> 
+          <span class="age" title="{{.Story.Timestamp}}">
+                  <a href="/stories/{{.Story.Guid}}/">{{.Story.Ago}}</a></span> |
+          <a href="/stories/{{ .Story.Guid }}/">discuss</a> |
+          <a href="/stories/{{ .Story.Guid }}/">1 comment</a>        
                 </span>
               </td></tr>
 
-      {{if .HasUrl}}
+      {{if .Story.HasUrl}}
        <tr class="spacer" style="height:15px"></tr>
       {{else}}
        <tr class="spacer" style="height:5px"></tr>
        <tr>
         <td colspan="2"></td>
         <td>
-          {{.Body}}
+          {{.Story.Body}}
         </td>
        </tr>
       {{end}}
 
        <tr>
-       <td colspan="2"></td><td><form action="/comments/{{.Guid}}/" method="POST">
+       <td colspan="2"></td><td><form action="/comments/{{.Story.Guid}}/" method="POST">
          <textarea name="body" rows="8" cols="80" wrap="virtual"></textarea><br><br>
 <input type="submit" value="add comment"></form></td>
        </tr>
+
+       <tr class="spacer" style="height:15px"></tr>
+{{range $i, $item := .Comments}}
+ <tr class='athing'>
+      <td align="right" valign="top" class="title">
+              &nbsp;
+      </td>      
+      <td>      
+      </td>      
+      <td>
+              {{$item.Body}}
+      </td>      
+ </tr>
+{{end}}

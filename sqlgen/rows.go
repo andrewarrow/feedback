@@ -1,6 +1,8 @@
 package sqlgen
 
 import (
+	"fmt"
+	"math/rand"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
@@ -26,6 +28,8 @@ func InsertRow(tableName string, fields []models.Field) string {
 			val = "'" + util.PseudoUuid() + "'"
 		} else if field.Flavor == "username" {
 			val = "'" + gofakeit.Username() + "'"
+		} else if field.Flavor == "int" {
+			val = fmt.Sprintf("%d", rand.Intn(999))
 		} else {
 			val = "'" + gofakeit.Word() + "'"
 		}
