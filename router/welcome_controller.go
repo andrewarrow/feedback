@@ -54,6 +54,7 @@ func storyFromMap(m map[string]any) *Story {
 	story.Title = models.RemoveMostNonAlphanumeric(fmt.Sprintf("%s", m["title"]))
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
+	story.Username = fmt.Sprintf("%s", m["username"])
 	story.Id = m["id"].(int64)
 	story.Comments = m["comments"].(int64)
 	if story.Comments != 1 {
