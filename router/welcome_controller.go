@@ -5,7 +5,6 @@ import (
 	"html"
 	"html/template"
 	"strings"
-	"time"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/jmoiron/sqlx"
@@ -32,10 +31,10 @@ type WelcomeVars struct {
 
 const layout = "2006-01-02 15:04:05"
 
-func WelcomeIndexVars(db *sqlx.DB, location *time.Location) *WelcomeVars {
+func WelcomeIndexVars(db *sqlx.DB, order string) *WelcomeVars {
 	vars := WelcomeVars{}
 	vars.Rows = []*Story{}
-	rows, err := db.Queryx("SELECT * FROM stories ORDER BY created_at desc limit 30")
+	rows, err := db.Queryx(fmt.Sprintf("SELECT * FROM stories ORDER BY %s limit 30", order))
 	if err != nil {
 		return &vars
 	}
