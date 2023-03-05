@@ -1,8 +1,10 @@
 package persist
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/jmoiron/sqlx"
@@ -31,9 +33,14 @@ func MysqlConnection() *sqlx.DB {
 func PostgresConnection() *sqlx.DB {
 
 	url := os.Getenv("DATABASE_URL")
-	db := sqlx.MustConnect("postgres", url)
 
-	return db
+	db, _ := sql.Open("postgres", url)
+	dbx := sqlx.NewDb(db, "postgres")
+	dbx.SetMaxOpenConns(25)
+	dbx.SetMaxIdleConns(25)
+	dbx.SetConnMaxLifetime(5 * time.Minute)
+
+	return dbx
 }
 
 func SchemaJson(db *sqlx.DB) string {

@@ -25,7 +25,9 @@ func handleContext(c *Context) {
 This is the heart of the routing code.  You can have three levels of:
 
 /foo/
+
 /foo/bar/
+
 /foo/bar/more/
 
 ```
@@ -55,5 +57,5 @@ Each main section calls it's controller's handle method with second and third.
 Second might be "" if it's just /foo/
 Third will also be ""
 Second will be "something" if it's /foo/something/
-And thing will only not be "" if you have all three parts.
+And third will only not be "" if you have all three parts.
 
