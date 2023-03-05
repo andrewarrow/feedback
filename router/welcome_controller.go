@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"html"
 	"html/template"
 	"strings"
 	"time"
@@ -50,7 +51,7 @@ func storyFromMap(m map[string]any) *Story {
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
 	body := fmt.Sprintf("%s", m["body"])
-	body = strings.Replace(body, "\n", "<br/>", -1)
+	body = strings.Replace(html.EscapeString(body), "\n", "<br/>", -1)
 	story.Body = template.HTML(body)
 	if story.Url != "" {
 		story.HasUrl = true
