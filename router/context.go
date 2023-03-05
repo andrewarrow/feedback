@@ -75,6 +75,8 @@ func handlePathContext(c *Context, first, second, third string) {
 		handleUsers(c, second, third)
 	} else if first == "comments" {
 		handleComments(c, second, third)
+	} else if first == "about" {
+		handleAbout(c, second, third)
 	} else {
 		c.notFound = true
 	}
