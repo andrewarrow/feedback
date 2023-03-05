@@ -22,10 +22,14 @@ type Context struct {
 	notFound     bool
 	method       string
 	flash        string
+	title        string
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
-	c.router.SendContentInLayout(c.flash, c.user, c.writer, filename, vars, status)
+	if c.title == "" {
+		c.title = "Feedback"
+	}
+	c.router.SendContentInLayout(c.title, c.flash, c.user, c.writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {

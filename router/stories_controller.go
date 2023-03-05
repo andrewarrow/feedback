@@ -30,6 +30,7 @@ func handleStories(c *Context, second, third string) {
 				return
 			}
 			storyShow.Comments = FetchComments(c.db, storyShow.Story.Id)
+			c.title = storyShow.Story.Title
 			c.SendContentInLayout("stories_show.html", storyShow, 200)
 			return
 		}

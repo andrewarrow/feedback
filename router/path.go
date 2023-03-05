@@ -18,12 +18,12 @@ type LayoutVars struct {
 	Flash   string
 }
 
-func (r *Router) PlaceContentInLayoutVars(flash string, user *models.User, filename string, vars any) *LayoutVars {
+func (r *Router) PlaceContentInLayoutVars(title, flash string, user *models.User, filename string, vars any) *LayoutVars {
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
 	lvars := LayoutVars{}
-	lvars.Title = "Feedback"
+	lvars.Title = models.RemoveMostNonAlphanumeric(title)
 	lvars.Phone = r.Site.Phone
 	lvars.User = user
 	lvars.Flash = flash
@@ -31,9 +31,9 @@ func (r *Router) PlaceContentInLayoutVars(flash string, user *models.User, filen
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(flash string, user *models.User, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(title, flash string, user *models.User, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
-	vars := r.PlaceContentInLayoutVars(flash, user, filename, contentVars)
+	vars := r.PlaceContentInLayoutVars(title, flash, user, filename, contentVars)
 	writer.WriteHeader(status)
 	r.Template.ExecuteTemplate(writer, "application_layout.html", vars)
 }
@@ -53,7 +53,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	}
 
 	if path == "/" {
-		r.SendContentInLayout(flash, user, writer, "welcome.html",
+		r.SendContentInLayout("Feedback", flash, user, writer, "welcome.html",
 			WelcomeIndexVars(r.Db, r.Location), 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
@@ -80,7 +80,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		}
 		handleContext(&c)
 		if c.notFound {
-			r.SendContentInLayout("", user, writer, "404.html", nil, 404)
+			r.SendContentInLayout("Feedback 404", "", user, writer, "404.html", nil, 404)
 		}
 	}
 }

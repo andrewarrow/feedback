@@ -33,6 +33,10 @@ func showComment(c *Context, second string) {
 		c.notFound = true
 		return
 	}
+	c.title = comment.RawBody
+	if len(c.title) > 80 {
+		c.title = c.title[0:80] + "..."
+	}
 	c.SendContentInLayout("comments_show.html", comment, 200)
 	return
 }
@@ -66,6 +70,7 @@ type Comment struct {
 	Timestamp string
 	Username  string
 	Body      template.HTML
+	RawBody   string
 	StoryGuid string
 }
 
@@ -100,9 +105,9 @@ func commentFromMap(m map[string]any) *Comment {
 	c := Comment{}
 	c.Guid = fmt.Sprintf("%s", m["guid"])
 	c.StoryGuid = fmt.Sprintf("%s", m["story_guid"])
-	body := fmt.Sprintf("%s", m["body"])
+	c.RawBody = fmt.Sprintf("%s", m["body"])
 	c.Username = fmt.Sprintf("%s", m["username"])
-	body = strings.Replace(html.EscapeString(body), "\n", "<br/>", -1)
+	body := strings.Replace(html.EscapeString(c.RawBody), "\n", "<br/>", -1)
 	c.Body = template.HTML(body + "<br/>")
 
 	tm := m["created_at"].(time.Time)

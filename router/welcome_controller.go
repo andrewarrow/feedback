@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/andrewarrow/feedback/models"
 	"github.com/jmoiron/sqlx"
 	"github.com/xeonx/timeago"
 )
@@ -50,7 +51,7 @@ func WelcomeIndexVars(db *sqlx.DB, location *time.Location) *WelcomeVars {
 
 func storyFromMap(m map[string]any) *Story {
 	story := Story{}
-	story.Title = fmt.Sprintf("%s", m["title"])
+	story.Title = models.RemoveMostNonAlphanumeric(fmt.Sprintf("%s", m["title"]))
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
 	story.Id = m["id"].(int64)
