@@ -30,6 +30,7 @@ func NewRouter() *Router {
 	jsonString := persist.SchemaJson(r.Db)
 	json.Unmarshal([]byte(jsonString), &site)
 	r.Site = &site
+	MakeTables(r.Db, r.Site.Models)
 
 	r.Template = LoadTemplates()
 

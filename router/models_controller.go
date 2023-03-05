@@ -80,32 +80,6 @@ func ModelsShow(c *Context, rawId string) {
 	}
 
 	tableName := util.Plural(model.Name)
-	//c.db.Exec(sqlgen.MysqlCreateTable(tableName))
-	c.db.Exec(sqlgen.PgCreateTable(tableName))
-	flavor := "varchar(255)"
-	defaultString := "''"
-	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
-	for _, field := range model.Fields {
-		if field.Flavor == "text" {
-			flavor = "text"
-			defaultString = "''"
-		} else if field.Flavor == "int" {
-			flavor = "int"
-			defaultString = "0"
-		} else if field.Flavor == "uuid" {
-			flavor = "varchar(255)"
-			defaultString = "''"
-		}
-		c.db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
-		if field.Index == "yes" {
-			sql := `create index %s_index on %s(%s);`
-			c.db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
-		} else if field.Index == "unique" {
-			sql := `create unique index %s_index on %s(%s);`
-			c.db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
-		}
-	}
-
 	vars := ModelVars{}
 	vars.Rows = []map[string]any{}
 	rows, _ := c.db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
