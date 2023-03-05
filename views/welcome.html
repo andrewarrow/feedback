@@ -28,12 +28,12 @@
        <tr>
         <td colspan="2"></td>
         <td class="subtext"><span class="subline">
-          <span class="score" id="score_35023507">2 points</span> 
+          <span class="score">{{$item.Points}} point{{adds $item.Points}}</span> 
           by <a href="/users/{{$item.Username}}/" class="user">{{$item.Username}}</a> 
           <span class="age" title="{{$item.Timestamp}}">
                   <a href="/stories/{{$item.Guid}}/">{{$item.Ago}}</a></span> |
           <a href="/stories/{{ $item.Guid }}/">discuss</a> |
-          <a href="/stories/{{ $item.Guid }}/">{{$item.Comments}} comment{{$item.AddS}}</a>        
+          <a href="/stories/{{ $item.Guid }}/">{{$item.Comments}} comment{{adds $item.Comments}}</a>        
                 </span>
               </td></tr>
       <tr class="spacer" style="height:5px"></tr>

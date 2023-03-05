@@ -23,7 +23,7 @@ type Story struct {
 	Body      template.HTML
 	Id        int64
 	Comments  int64
-	AddS      string
+	Points    int64
 }
 
 type WelcomeVars struct {
@@ -56,9 +56,7 @@ func storyFromMap(m map[string]any) *Story {
 	story.Username = fmt.Sprintf("%s", m["username"])
 	story.Id = m["id"].(int64)
 	story.Comments = m["comments"].(int64)
-	if story.Comments != 1 {
-		story.AddS = "s"
-	}
+	story.Points = m["points"].(int64)
 	body := fmt.Sprintf("%s", m["body"])
 	body = strings.Replace(html.EscapeString(body), "\n", "<br/>", -1)
 	story.Body = template.HTML(body + "<br/><br/>")
