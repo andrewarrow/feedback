@@ -22,6 +22,8 @@ type Story struct {
 	Domain    string
 	Body      template.HTML
 	Id        int64
+	Comments  int64
+	AddS      string
 }
 
 type WelcomeVars struct {
@@ -52,6 +54,10 @@ func storyFromMap(m map[string]any) *Story {
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
 	story.Id = m["id"].(int64)
+	story.Comments = m["comments"].(int64)
+	if story.Comments != 1 {
+		story.AddS = "s"
+	}
 	body := fmt.Sprintf("%s", m["body"])
 	body = strings.Replace(html.EscapeString(body), "\n", "<br/>", -1)
 	story.Body = template.HTML(body + "<br/><br/>")

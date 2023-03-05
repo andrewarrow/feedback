@@ -30,7 +30,10 @@ func handleComments(c *Context, second, third string) {
 		guid := util.PseudoUuid()
 		story := FetchStory(c.db, second)
 
-		c.db.Exec("insert into comments (body, guid, username, story_id) values ($1, $2, $3, $4)", body, guid, c.user.Username, story.Id)
+		tx := c.db.MustBegin()
+		tx.Exec("insert into comments (body, guid, username, story_id) values ($1, $2, $3, $4)", body, guid, c.user.Username, story.Id)
+		tx.Exec("update stories set comments=comments+1 where id=$1", story.Id)
+		tx.Commit()
 		http.Redirect(c.writer, c.request, returnPath, 302)
 	}
 }

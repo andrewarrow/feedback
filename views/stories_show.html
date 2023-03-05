@@ -32,7 +32,7 @@
           <span class="age" title="{{.Story.Timestamp}}">
                   <a href="/stories/{{.Story.Guid}}/">{{.Story.Ago}}</a></span> |
           <a href="/stories/{{ .Story.Guid }}/">discuss</a> |
-          <a href="/stories/{{ .Story.Guid }}/">1 comment</a>        
+          <a href="/stories/{{ .Story.Guid }}/">{{.Story.Comments}} comment{{.Story.AddS}}</a>        
                 </span>
               </td></tr>
 
