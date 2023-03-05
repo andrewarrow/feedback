@@ -38,6 +38,7 @@ func WelcomeIndexVars(db *sqlx.DB, order string) *WelcomeVars {
 	if err != nil {
 		return &vars
 	}
+	defer rows.Close()
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)

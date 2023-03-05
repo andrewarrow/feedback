@@ -48,6 +48,7 @@ func (r *Router) LookupUser(guid string) *models.User {
 	if err != nil {
 		return nil
 	}
+	defer rows.Close()
 	m := make(map[string]any)
 	rows.Next()
 	rows.MapScan(m)

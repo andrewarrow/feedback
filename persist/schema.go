@@ -36,7 +36,7 @@ func PostgresConnection() *sqlx.DB {
 	db := sqlx.MustConnect("postgres", url)
 	db.SetMaxOpenConns(30)
 	db.SetMaxIdleConns(30)
-	db.SetConnMaxLifetime(1 * time.Minute)
+	db.SetConnMaxLifetime(5 * time.Minute)
 
 	return db
 }
