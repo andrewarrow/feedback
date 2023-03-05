@@ -56,14 +56,33 @@
 
        <tr class="spacer" style="height:15px"></tr>
 {{range $i, $item := .Comments}}
- <tr class='athing'>
-      <td align="right" valign="top" class="title">
-              &nbsp;
-      </td>      
-      <td>      
-      </td>      
-      <td>
-              {{$item.Body}}
-      </td>      
- </tr>
+
+<tr>    <td class="ind" indent="0">&nbsp;</td>
+        <td class="votelinks" valign="top">
+      <center><a id="up_35025405" class="clicky" href="5">
+      <div class="votearrow" title="upvote"></div></a>
+      <a id="down_35025405" class="clicky" href="5">
+      <div class="votearrow rotate180" title="downvote"></div></a>
+      </center>    
+        </td>
+        <td class="default">
+                <div style="margin-top:2px; margin-bottom:-10px;">
+                        <span class="comhead">
+     <a href="/users/{{$item.Username}}/" class="user">{{$item.Username}}</a> 
+     <span class="age" title="{{$item.Timestamp}}">
+             <a href="/comments/{{$item.Guid}}/">{{$item.Ago}}</a></span>
+     <span id="unv_35025405"></span>        
+     <span class="navs">
+             | <a href="#35025498" class="clicky" aria-hidden="true">prev</a> | <a href="#35025866" class="clicky" aria-hidden="true">next</a> <span class="onstory"></span>          </span>
+                  </span></div><br>
+
+                  <div class="comment">
+                  <span class="commtext c00">
+                          {{$item.Body}}
+              <div class="reply">       
+                      <p><font size="1">
+                      <u><a href="reply">reply</a></u>
+                  </font>
+      </p></div></span></div></td></tr>
+       <tr class="spacer" style="height:15px"></tr>
 {{end}}

@@ -65,8 +65,9 @@ func commentFromMap(m map[string]any) *Comment {
 	c := Comment{}
 	c.Guid = fmt.Sprintf("%s", m["guid"])
 	body := fmt.Sprintf("%s", m["body"])
+	c.Username = fmt.Sprintf("%s", m["username"])
 	body = strings.Replace(html.EscapeString(body), "\n", "<br/>", -1)
-	c.Body = template.HTML(body + "<br/><br/>")
+	c.Body = template.HTML(body + "<br/>")
 
 	tm := m["created_at"].(time.Time)
 	tm = tm.Add(time.Hour * 8)
