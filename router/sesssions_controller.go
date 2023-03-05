@@ -32,7 +32,12 @@ func handleSessionsIndex(c *Context) {
 func CreateSession(c *Context) {
 	username := c.request.FormValue("username")
 	password := c.request.FormValue("password")
-	rows, _ := c.db.Queryx("SELECT * FROM users where username=$1 and password=$2", username, password)
+	rows, err := c.db.Queryx("SELECT * FROM users where username=$1 and password=$2", username, password)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+
 	m := make(map[string]any)
 	rows.Next()
 	rows.MapScan(m)

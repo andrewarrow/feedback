@@ -45,6 +45,7 @@ func SchemaJson(db *sqlx.DB) string {
 	db.Exec(sqlgen.PgCreateSchemaTable())
 	m := make(map[string]any)
 	rows, _ := db.Queryx("select json_string from feedback_schema limit 1")
+	defer rows.Close()
 	rows.Next()
 	rows.MapScan(m)
 	if len(m) == 0 {

@@ -86,7 +86,12 @@ func ModelsShow(c *Context, rawId string) {
 	tableName := util.Plural(model.Name)
 	vars := ModelVars{}
 	vars.Rows = []map[string]any{}
-	rows, _ := c.db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
+	rows, err := c.db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)

@@ -65,7 +65,11 @@ func (r *Router) LookupUsername(username string) *models.User {
 	if username == "" {
 		return nil
 	}
-	rows, _ := r.Db.Queryx("SELECT * FROM users where username=$1", username)
+	rows, err := r.Db.Queryx("SELECT * FROM users where username=$1", username)
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
 	m := make(map[string]any)
 	rows.Next()
 	rows.MapScan(m)

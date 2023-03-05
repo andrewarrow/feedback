@@ -88,6 +88,7 @@ func FetchComments(db *sqlx.DB, storyId int64) []*Comment {
 	if err != nil {
 		return items
 	}
+	defer rows.Close()
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
@@ -102,6 +103,7 @@ func FetchComment(db *sqlx.DB, guid string) *Comment {
 	if err != nil {
 		return nil
 	}
+	defer rows.Close()
 	rows.Next()
 	m := make(map[string]any)
 	rows.MapScan(m)

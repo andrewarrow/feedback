@@ -43,6 +43,7 @@ func FetchStory(db *sqlx.DB, guid string) *Story {
 	if err != nil {
 		return nil
 	}
+	defer rows.Close()
 	rows.Next()
 	m := make(map[string]any)
 	rows.MapScan(m)
