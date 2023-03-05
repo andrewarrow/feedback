@@ -24,7 +24,8 @@ func handleUsers(c *Context, second, third string) {
 
 func handleUsersShow(c *Context, username string) {
 	c.title = username
-	c.SendContentInLayout("users_show.html", nil, 200)
+	u := c.router.LookupUsername(username)
+	c.SendContentInLayout("users_show.html", u, 200)
 }
 
 func handleUsersIndex(c *Context) {

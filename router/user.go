@@ -37,6 +37,23 @@ func (r *Router) LookupUser(guid string) *models.User {
 	return &user
 }
 
+func (r *Router) LookupUsername(username string) *models.User {
+	if username == "" {
+		return nil
+	}
+	rows, _ := r.Db.Queryx("SELECT * FROM users where username=$1", username)
+	m := make(map[string]any)
+	rows.Next()
+	rows.MapScan(m)
+	if len(m) == 0 {
+		return nil
+	}
+	user := models.User{}
+	user.Username = fmt.Sprintf("%s", m["username"])
+	user.Timestamp, user.Ago = FixTime(m)
+	return &user
+}
+
 func DestroyFlash(writer http.ResponseWriter) {
 	cookie := http.Cookie{}
 	cookie.MaxAge = 0

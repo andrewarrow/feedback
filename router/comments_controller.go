@@ -6,11 +6,9 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
-	"github.com/xeonx/timeago"
 )
 
 func handleComments(c *Context, second, third string) {
@@ -120,9 +118,6 @@ func commentFromMap(m map[string]any) *Comment {
 	body := strings.Replace(html.EscapeString(c.RawBody), "\n", "<br/>", -1)
 	c.Body = template.HTML(body + "<br/>")
 
-	tm := m["created_at"].(time.Time)
-	tm = tm.Add(time.Hour * 8)
-	c.Timestamp = fmt.Sprintf("%s", tm)
-	c.Ago = timeago.English.Format(tm)
+	c.Timestamp, c.Ago = FixTime(m)
 	return &c
 }

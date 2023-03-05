@@ -9,7 +9,6 @@ import (
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/jmoiron/sqlx"
-	"github.com/xeonx/timeago"
 )
 
 type Story struct {
@@ -75,9 +74,6 @@ func storyFromMap(m map[string]any) *Story {
 		}
 	}
 
-	tm := m["created_at"].(time.Time)
-	tm = tm.Add(time.Hour * 8)
-	story.Timestamp = fmt.Sprintf("%s", tm)
-	story.Ago = timeago.English.Format(tm)
+	story.Timestamp, story.Ago = FixTime(m)
 	return &story
 }

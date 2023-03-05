@@ -1,9 +1,27 @@
        <tr class="spacer" style="height:15px"></tr>
 
       <tr>    
-        <td class="ind" indent="0">&nbsp;</td>
         <td valign="top">
-                UserShow
+                User:
+        </td>
+        <td>
+                {{ .Username }}
+        </td>
+      </tr>
+      <tr>    
+        <td valign="top">
+                Created:
+        </td>
+        <td>
+                {{ .Timestamp }}
+        </td>
+      </tr>
+      <tr>    
+        <td valign="top">
+                Created Ago:
+        </td>
+        <td>
+                {{ .Ago }}
         </td>
       </tr>
        <tr class="spacer" style="height:15px"></tr>

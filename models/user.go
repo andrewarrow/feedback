@@ -1,5 +1,7 @@
 package models
 
 type User struct {
-	Username string
+	Username  string
+	Timestamp string
+	Ago       string
 }
