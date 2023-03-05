@@ -12,6 +12,22 @@ function doDeletePost(guid, e) {
   form.submit();
 }
 
+function vote(guid, e) {
+  e.preventDefault();
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/vote/'+guid+'/');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.addEventListener('load', function(event) {
+     if (xhr.status != 200) {
+        document.getElementById('flash').innerHTML = event.target.response;
+     } else {
+        document.getElementById('v'+guid).innerHTML = '&nbsp;&nbsp;&nbsp;';
+        document.getElementById('flash').innerHTML = '';
+     }
+  });
+  xhr.send();
+}
+
 function sendFormAsJson(e) {
   e.preventDefault();
   const form = document.getElementById('form1');
