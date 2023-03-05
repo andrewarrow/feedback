@@ -4,8 +4,9 @@
               <span class="rank">{{add $i 1}}.</span>
       </td>      
       <td valign="top" class="votelinks">
-              <center><a class='clicky' href='#'>
-        <div class='votearrow' title='upvote'></div>
+              <center>
+        <a class='clicky' href='#' onclick="vote('{{$item.Guid}}', event)">
+        <div id="v{{$item.Guid}}" class='votearrow' title='upvote'></div>
                       </a>
               </center>
       </td>

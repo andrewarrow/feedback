@@ -36,8 +36,8 @@ func PostgresConnection() *sqlx.DB {
 
 	db, _ := sql.Open("postgres", url)
 	dbx := sqlx.NewDb(db, "postgres")
-	dbx.SetMaxOpenConns(25)
-	dbx.SetMaxIdleConns(25)
+	//dbx.SetMaxOpenConns(10)
+	//dbx.SetMaxIdleConns(5)
 	dbx.SetConnMaxLifetime(5 * time.Minute)
 
 	return dbx

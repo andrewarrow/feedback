@@ -3,8 +3,9 @@
               &nbsp;
       </td>      
       <td valign="top" class="votelinks">
-              <center><a class='clicky' href='#'>
-        <div class='votearrow' title='upvote'></div>
+              <center>
+        <a class='clicky' href='#' onclick="vote('{{.Story.Guid}}', event)">
+        <div id="v{{.Story.Guid}}" class='votearrow' title='upvote'></div>
                       </a>
               </center>
       </td>
@@ -58,11 +59,13 @@
 
 <tr>    <td class="ind" indent="0">&nbsp;</td>
         <td class="votelinks" valign="top">
+                <!--
       <center><a id="up_35025405" class="clicky" href="5">
       <div class="votearrow" title="upvote"></div></a>
       <a id="down_35025405" class="clicky" href="5">
       <div class="votearrow rotate180" title="downvote"></div></a>
       </center>    
+                -->
         </td>
         <td class="default">
                 <div style="margin-top:2px; margin-bottom:-10px;">
