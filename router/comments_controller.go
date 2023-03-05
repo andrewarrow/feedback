@@ -37,6 +37,15 @@ func showComment(c *Context, second string) {
 	if len(c.title) > 80 {
 		c.title = c.title[0:80] + "..."
 	}
+	story := FetchStory(c.db, comment.StoryGuid)
+	if story == nil {
+		c.notFound = true
+		return
+	}
+	comment.StoryTitle = story.Title
+	if len(comment.StoryTitle) > 40 {
+		comment.StoryTitle = comment.StoryTitle[0:40] + "..."
+	}
 	c.SendContentInLayout("comments_show.html", comment, 200)
 	return
 }
@@ -65,13 +74,14 @@ func postComment(c *Context, second string) {
 }
 
 type Comment struct {
-	Guid      string
-	Ago       string
-	Timestamp string
-	Username  string
-	Body      template.HTML
-	RawBody   string
-	StoryGuid string
+	Guid       string
+	Ago        string
+	Timestamp  string
+	Username   string
+	Body       template.HTML
+	RawBody    string
+	StoryGuid  string
+	StoryTitle string
 }
 
 func FetchComments(db *sqlx.DB, storyId int64) []*Comment {

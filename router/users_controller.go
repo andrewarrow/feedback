@@ -14,8 +14,17 @@ func handleUsers(c *Context, second, third string) {
 	} else if third != "" {
 		c.notFound = true
 	} else {
+		if c.method == "GET" {
+			handleUsersShow(c, second)
+			return
+		}
 		c.notFound = true
 	}
+}
+
+func handleUsersShow(c *Context, username string) {
+	c.title = username
+	c.SendContentInLayout("users_show.html", nil, 200)
 }
 
 func handleUsersIndex(c *Context) {
