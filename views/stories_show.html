@@ -73,15 +73,21 @@
              <a href="/comments/{{$item.Guid}}/">{{$item.Ago}}</a></span>
      <span id="unv_35025405"></span>        
      <span class="navs">
-             | <a href="#35025498" class="clicky" aria-hidden="true">prev</a> | <a href="#35025866" class="clicky" aria-hidden="true">next</a> <span class="onstory"></span>          </span>
-                  </span></div><br>
+     <!--
+             | <a href="#35025498" class="clicky" aria-hidden="true">prev</a> |
+             <a href="#35025866" class="clicky" aria-hidden="true">next</a> -->
+             <span class="onstory"></span>         
+             </span>
+             </span>
+             </div>
+             <br>
 
                   <div class="comment">
                   <span class="commtext c00">
                           {{$item.Body}}
               <div class="reply">       
                       <p><font size="1">
-                      <u><a href="reply">reply</a></u>
+                      <u><a href="/comments/{{$item.Guid}}/">reply</a></u>
                   </font>
       </p></div></span></div></td></tr>
        <tr class="spacer" style="height:15px"></tr>
