@@ -28,9 +28,9 @@ func handleComments(c *Context, second, third string) {
 		}
 
 		guid := util.PseudoUuid()
-		storyId := 0
+		story := FetchStory(c.db, second)
 
-		c.db.Exec("insert into comments (body, guid, username, story_id) values ($1, $2, $3, $4)", body, guid, c.user.Username, storyId)
+		c.db.Exec("insert into comments (body, guid, username, story_id) values ($1, $2, $3, $4)", body, guid, c.user.Username, story.Id)
 		http.Redirect(c.writer, c.request, returnPath, 302)
 	}
 }
@@ -43,9 +43,9 @@ type Comment struct {
 	Body      template.HTML
 }
 
-func FetchComments(db *sqlx.DB) []*Comment {
+func FetchComments(db *sqlx.DB, storyId int64) []*Comment {
 	items := []*Comment{}
-	rows, err := db.Queryx("SELECT * FROM comments where story_id = $1 ORDER BY created_at desc limit 30", 0)
+	rows, err := db.Queryx("SELECT * FROM comments where story_id = $1 ORDER BY created_at desc limit 30", storyId)
 	if err != nil {
 		return items
 	}
