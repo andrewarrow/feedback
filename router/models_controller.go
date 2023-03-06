@@ -123,7 +123,7 @@ func ModelsCreateWithId(c *Context, id string) {
 	flavor := c.request.FormValue("flavor")
 	if fieldName == "" {
 		sql, params := sqlgen.InsertRow(tableName, model.Fields)
-		c.db.Exec(sql, params)
+		c.db.Exec(sql, params...)
 	} else {
 		f := models.Field{}
 		f.Name = fieldName
