@@ -13,13 +13,13 @@ import (
 type LayoutVars struct {
 	Title    string
 	SiteName string
-	User     *models.User
+	User     *User
 	Footer   string
 	Content  template.HTML
 	Flash    string
 }
 
-func (r *Router) PlaceContentInLayoutVars(title, flash string, user *models.User, filename string, vars any) *LayoutVars {
+func (r *Router) PlaceContentInLayoutVars(title, flash string, user *User, filename string, vars any) *LayoutVars {
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
@@ -33,7 +33,7 @@ func (r *Router) PlaceContentInLayoutVars(title, flash string, user *models.User
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(title, flash string, user *models.User, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(title, flash string, user *User, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 	vars := r.PlaceContentInLayoutVars(title, flash, user, filename, contentVars)
 	writer.WriteHeader(status)
@@ -43,7 +43,7 @@ func (r *Router) SendContentInLayout(title, flash string, user *models.User, wri
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 	cookie, err := request.Cookie("user")
-	var user *models.User
+	var user *User
 	if err == nil && cookie.Value != "" {
 		user = r.LookupUser(cookie.Value)
 	}

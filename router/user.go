@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
-	"github.com/andrewarrow/feedback/models"
 )
 
 func (r *Router) IsUserRequired(path string, method string) bool {
@@ -43,7 +41,7 @@ func (c *Context) IsAdmin() bool {
 	return c.user.Guid == adminUser
 }
 
-func (r *Router) LookupUser(guid string) *models.User {
+func (r *Router) LookupUser(guid string) *User {
 	if guid == "" {
 		return nil
 	}
@@ -58,13 +56,13 @@ func (r *Router) LookupUser(guid string) *models.User {
 	if len(m) == 0 {
 		return nil
 	}
-	user := models.User{}
+	user := User{}
 	user.Username = fmt.Sprintf("%s", m["username"])
 	user.Guid = guid
 	return &user
 }
 
-func (r *Router) LookupUsername(username string) *models.User {
+func (r *Router) LookupUsername(username string) *User {
 	if username == "" {
 		return nil
 	}
@@ -79,7 +77,7 @@ func (r *Router) LookupUsername(username string) *models.User {
 	if len(m) == 0 {
 		return nil
 	}
-	user := models.User{}
+	user := User{}
 	user.Username = fmt.Sprintf("%s", m["username"])
 	user.Timestamp, user.Ago = FixTime(m)
 	return &user

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/andrewarrow/feedback/models"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -15,7 +14,7 @@ type Context struct {
 	request      *http.Request
 	tokens       []string
 	router       *Router
-	user         *models.User
+	user         *User
 	userRequired bool
 	path         string
 	db           *sqlx.DB

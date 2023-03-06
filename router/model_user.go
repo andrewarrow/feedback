@@ -1,4 +1,4 @@
-package models
+package router
 
 type User struct {
 	Username  string
