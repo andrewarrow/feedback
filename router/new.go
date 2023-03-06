@@ -13,7 +13,7 @@ import (
 
 type Router struct {
 	Template *template.Template
-	Site     *Site
+	Site     *FeedbackSite
 	Db       *sqlx.DB
 	Location *time.Location
 }
@@ -26,7 +26,7 @@ func NewRouter() *Router {
 	r.Location, _ = time.LoadLocation("utc")
 	time.Local = r.Location
 
-	var site Site
+	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)
 	json.Unmarshal([]byte(jsonString), &site)
 	r.Site = &site
