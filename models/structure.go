@@ -1,5 +1,13 @@
 package models
 
+import (
+	"fmt"
+	"math/rand"
+
+	"github.com/andrewarrow/feedback/util"
+	"github.com/brianvoe/gofakeit/v6"
+)
+
 type Model struct {
 	Name   string  `json:"name"`
 	Fields []Field `json:"fields"`
@@ -21,4 +29,21 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "text"
 	}
 	return flavor, defaultString
+}
+
+func (f *Field) RandomValue() any {
+	var val any
+	if f.Flavor == "uuid" {
+		val = util.PseudoUuid()
+	} else if f.Flavor == "username" {
+		val = gofakeit.Username()
+	} else if f.Flavor == "int" {
+		val = fmt.Sprintf("%d", rand.Intn(999))
+	} else if f.Flavor == "int" {
+		val = fmt.Sprintf("%d", rand.Intn(999))
+	} else {
+		val = gofakeit.Word()
+	}
+
+	return val
 }

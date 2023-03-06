@@ -2,15 +2,12 @@ package sqlgen
 
 import (
 	"fmt"
-	"math/rand"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/util"
-	"github.com/brianvoe/gofakeit/v6"
 )
 
-func InsertRow(tableName string, fields []models.Field) string {
+func InsertRow(tableName string, fields []models.Field) (string, []any) {
 	buffer := []string{"INSERT INTO "}
 	buffer = append(buffer, tableName+" (")
 
@@ -20,23 +17,14 @@ func InsertRow(tableName string, fields []models.Field) string {
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
 	buffer = append(buffer, ") values (")
-
 	cols = []string{}
-	for _, field := range fields {
-		var val string
-		if field.Flavor == "uuid" {
-			val = "'" + util.PseudoUuid() + "'"
-		} else if field.Flavor == "username" {
-			val = "'" + gofakeit.Username() + "'"
-		} else if field.Flavor == "int" {
-			val = fmt.Sprintf("%d", rand.Intn(999))
-		} else {
-			val = "'" + gofakeit.Word() + "'"
-		}
-		cols = append(cols, val)
+	params := []any{}
+	for i, field := range fields {
+		cols = append(cols, fmt.Sprintf("$%d", i))
+		params = append(params, field.RandomValue())
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
-	buffer = append(buffer, ");")
+	buffer = append(buffer, ")")
 
-	return strings.Join(buffer, "")
+	return strings.Join(buffer, ""), params
 }

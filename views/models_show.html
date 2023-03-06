@@ -31,6 +31,20 @@
                  <tr>
                     <td class="title" colspan="16">
                        <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
+                         <select name="flavor">
+                                 <option>fewWords</option>
+                                 <option>oneWord</option>
+                                 <option>uuid</option>
+                                 <option>address</option>
+                                 <option>city</option>
+                                 <option>state</option>
+                                 <option>postal</option>
+                                 <option>country</option>
+                                 <option>url</option>
+                                 <option>phone</option>
+                                 <option>int</option>
+                                 <option>text</option>
+                         </select>
                          <select name="index">
                                  <option></option>
                                  <option>yes</option>

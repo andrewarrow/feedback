@@ -64,6 +64,8 @@ func handleModelsCreateWithJson(c *Context) {
 		fmt.Fprintf(c.writer, "length of name must be > 2")
 	} else {
 		c.router.Site.Models = append(c.router.Site.Models, &newModel)
+		c.saveSchema()
+		MakeTable(c.db, &newModel)
 		vars := ModelsVars{}
 		vars.Models = c.router.Site.Models
 		c.router.Template.ExecuteTemplate(c.writer, "models_list.html", vars)
@@ -118,12 +120,14 @@ func ModelsCreateWithId(c *Context, id string) {
 	tableName := util.Plural(model.Name)
 	fieldName := c.request.FormValue("name")
 	index := c.request.FormValue("index")
+	flavor := c.request.FormValue("flavor")
 	if fieldName == "" {
-		c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
+		sql, params := sqlgen.InsertRow(tableName, model.Fields)
+		c.db.Exec(sql, params)
 	} else {
 		f := models.Field{}
 		f.Name = fieldName
-		f.Flavor = "bar"
+		f.Flavor = flavor
 		f.Index = index
 		model.Fields = append(model.Fields, f)
 		c.saveSchema()
