@@ -63,6 +63,15 @@ func handleThird(c *Context, second, third string) {
 		c.SendContentInLayout("models_edit.html", &vars, 200)
 		return
 	} else if c.method == "POST" {
+
+		params := []any{}
+		for _, field := range model.Fields {
+			value := c.request.FormValue(field.Name)
+			params = append(params, value)
+		}
+		params = append(params, third)
+		sql := sqlgen.UpdateRow(model)
+		c.db.Exec(sql, params...)
 		http.Redirect(c.writer, c.request, "/models/"+second, 302)
 		return
 	}

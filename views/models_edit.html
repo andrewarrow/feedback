@@ -12,9 +12,9 @@
       </td>      
       <td class="title" valign="top">
               {{if eq $item.Flavor "text" }}
-              <textarea name="" rows="5" cols="30">{{ index $row $item.Name }}</textarea>
+              <textarea name="{{$item.Name}}" rows="5" cols="30">{{ index $row $item.Name }}</textarea>
               {{else}}
-              <input style="width:300px;" type="text" name="" value="{{ index $row $item.Name }}"/>
+              <input style="width:300px;" type="text" name="{{$item.Name}}" value="{{ index $row $item.Name }}"/>
               {{end}}
               <br/>
         </td>
