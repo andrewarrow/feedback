@@ -23,14 +23,19 @@ func handleStories(c *Context, second, third string) {
 			c.SendContentInLayout("stories_new.html", nil, 200)
 			return
 		} else if second != "" {
-			storyShow := StoryShow{}
-			storyShow.Story = FetchStory(c.db, second)
-			if storyShow.Story == nil {
+			story := FetchStory(c.db, second)
+			if story == nil {
 				c.notFound = true
 				return
 			}
-			storyShow.Comments = FetchComments(c.db, storyShow.Story.Id)
-			c.title = storyShow.Story.Title
+			if story.HasUrl && story.Domain == "" {
+				story.Domain = util.ExtractDomain(story.Url)
+				c.db.Exec("update stories set domain=$1 where guid=$2", story.Domain, second)
+			}
+			storyShow := StoryShow{}
+			storyShow.Story = story
+			storyShow.Comments = FetchComments(c.db, story.Id)
+			c.title = story.Title
 			c.SendContentInLayout("stories_show.html", storyShow, 200)
 			return
 		}
