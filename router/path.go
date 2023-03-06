@@ -51,7 +51,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	flash := ""
 	if err == nil && cookie.Value != "" {
 		flash = cookie.Value
-		DestroyFlash(writer)
+		removeFlash(writer)
 	}
 
 	if path == "/" {

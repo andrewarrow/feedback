@@ -21,3 +21,12 @@ func setUser(c *Context, guid string) {
 	cookie.Value = guid
 	http.SetCookie(c.writer, &cookie)
 }
+
+func removeFlash(writer http.ResponseWriter) {
+	cookie := http.Cookie{}
+	cookie.MaxAge = 0
+	cookie.Name = "flash"
+	cookie.Value = ""
+	cookie.Path = "/"
+	http.SetCookie(writer, &cookie)
+}
