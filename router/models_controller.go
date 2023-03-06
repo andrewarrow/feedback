@@ -26,7 +26,7 @@ func handleModelsIndex(c *Context) {
 }
 
 func handleModels(c *Context, second, third string) {
-	if c.IsAdmin() == false {
+	if c.user.IsAdmin() == false {
 		c.notFound = true
 		return
 	}
