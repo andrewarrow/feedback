@@ -30,6 +30,11 @@
                  <tr>
                     <td class="title" colspan="4">
                        <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
+                         <select name="index">
+                                 <option></option>
+                                 <option>yes</option>
+                                 <option>unique</option>
+                         </select>
                          <input type="text" name="name" id="name" autofocus="true"/>
                          <input type="submit" value="add field"/>
                        </form>

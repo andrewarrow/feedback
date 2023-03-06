@@ -37,6 +37,9 @@ func (r *Router) IsUserRequired(path string, method string) bool {
 
 func (c *Context) IsAdmin() bool {
 	adminUser := os.Getenv("ADMIN_USER")
+	if adminUser == "*" {
+		return true
+	}
 	return c.user.Guid == adminUser
 }
 

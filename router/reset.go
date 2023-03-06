@@ -28,20 +28,9 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 	tableName := util.Plural(model.Name)
 	//c.db.Exec(sqlgen.MysqlCreateTable(tableName))
 	db.Exec(sqlgen.PgCreateTable(tableName))
-	flavor := "varchar(255)"
-	defaultString := "''"
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 	for _, field := range model.Fields {
-		if field.Flavor == "text" {
-			flavor = "text"
-			defaultString = "''"
-		} else if field.Flavor == "int" {
-			flavor = "int"
-			defaultString = "0"
-		} else if field.Flavor == "uuid" {
-			flavor = "varchar(255)"
-			defaultString = "''"
-		}
+		flavor, defaultString := field.SqlTypeAndDefault()
 		db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
 		if field.Index == "yes" {
 			sql := `create index %s_index on %s(%s);`

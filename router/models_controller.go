@@ -113,13 +113,14 @@ func ModelsCreateWithId(c *Context, id string) {
 	}
 	tableName := util.Plural(model.Name)
 	fieldName := c.request.FormValue("name")
+	index := c.request.FormValue("index")
 	if fieldName == "" {
 		c.db.Exec(sqlgen.InsertRow(tableName, model.Fields))
 	} else {
 		f := models.Field{}
 		f.Name = fieldName
 		f.Flavor = "bar"
-		//c.router.Site.AddField(id, f)
+		f.Index = index
 		model.Fields = append(model.Fields, f)
 		c.saveSchema()
 	}
