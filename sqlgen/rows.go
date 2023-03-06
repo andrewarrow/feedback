@@ -20,7 +20,7 @@ func InsertRow(tableName string, fields []models.Field) (string, []any) {
 	cols = []string{}
 	params := []any{}
 	for i, field := range fields {
-		cols = append(cols, fmt.Sprintf("$%d", i))
+		cols = append(cols, fmt.Sprintf("$%d", i+1))
 		params = append(params, field.RandomValue())
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
