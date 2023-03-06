@@ -31,10 +31,16 @@ type WelcomeVars struct {
 
 const layout = "2006-01-02 15:04:05"
 
-func WelcomeIndexVars(db *sqlx.DB, order string) *WelcomeVars {
+func WelcomeIndexVars(db *sqlx.DB, order, domain string) *WelcomeVars {
 	vars := WelcomeVars{}
 	vars.Rows = []*Story{}
-	rows, err := db.Queryx(fmt.Sprintf("SELECT * FROM stories ORDER BY %s limit 30", order))
+	params := []any{}
+	sql := fmt.Sprintf("SELECT * FROM stories ORDER BY %s limit 30", order)
+	if domain != "" {
+		sql = fmt.Sprintf("SELECT * FROM stories where domain=$1 ORDER BY %s limit 30", order)
+		params = append(params, domain)
+	}
+	rows, err := db.Queryx(sql, params...)
 	if err != nil {
 		return &vars
 	}

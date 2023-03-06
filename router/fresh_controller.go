@@ -10,5 +10,5 @@ func handleFresh(c *Context, second, third string) {
 	}
 }
 func handleFreshIndex(c *Context) {
-	c.SendContentInLayout("welcome.html", WelcomeIndexVars(c.db, "created_at desc"), 200)
+	c.SendContentInLayout("welcome.html", WelcomeIndexVars(c.db, "created_at desc", ""), 200)
 }

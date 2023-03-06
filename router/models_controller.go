@@ -123,6 +123,7 @@ func ModelsCreateWithId(c *Context, id string) {
 		f.Index = index
 		model.Fields = append(model.Fields, f)
 		c.saveSchema()
+		MakeTable(c.db, model)
 	}
 	http.Redirect(c.writer, c.request, c.path, 302)
 }

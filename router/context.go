@@ -81,6 +81,8 @@ func handlePathContext(c *Context, first, second, third string) {
 		handleFresh(c, second, third)
 	} else if first == "vote" {
 		handleVote(c, second, third)
+	} else if first == "sites" {
+		handleSites(c, second, third)
 	} else {
 		c.notFound = true
 	}
