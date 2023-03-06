@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/util"
-	"github.com/jmoiron/sqlx"
 )
 
 type StoryShow struct {
@@ -41,21 +40,6 @@ func handleStories(c *Context, second, third string) {
 		}
 		c.notFound = true
 	}
-}
-
-func FetchStory(db *sqlx.DB, guid string) *Story {
-	rows, err := db.Queryx("select * from stories where guid=$1", guid)
-	if err != nil {
-		return nil
-	}
-	defer rows.Close()
-	rows.Next()
-	m := make(map[string]any)
-	rows.MapScan(m)
-	if len(m) == 0 {
-		return nil
-	}
-	return storyFromMap(m)
 }
 
 func handleStoriesIndex(c *Context) {
