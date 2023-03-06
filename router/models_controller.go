@@ -95,8 +95,12 @@ func ModelsShow(c *Context, rawId string) {
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
-		for k, v := range m {
-			m[k] = fmt.Sprintf("%s", v)
+		for _, f := range model.Fields {
+			if f.Flavor == "int" {
+				m[f.Name] = m[f.Name].(int64)
+			} else {
+				m[f.Name] = fmt.Sprintf("%s", m[f.Name])
+			}
 		}
 		vars.Rows = append(vars.Rows, m)
 	}
