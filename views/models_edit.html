@@ -1,0 +1,33 @@
+              <form method="POST">
+{{ $row := .Row }}
+{{range $i, $item := .Rows}}
+ <tr class='athing'>
+      <td valign="top">      
+              &nbsp;
+              &nbsp;
+      </td>      
+      <td align="right" valign="top" class="title">
+              <span class="rank">{{$item.Name}}</span>
+              &nbsp;
+      </td>      
+      <td class="title" valign="top">
+              {{if eq $item.Flavor "text" }}
+              <textarea name="" rows="5" cols="30">{{ index $row $item.Name }}</textarea>
+              {{else}}
+              <input style="width:300px;" type="text" name="" value="{{ index $row $item.Name }}"/>
+              {{end}}
+              <br/>
+        </td>
+       </tr>
+      <tr class="spacer" style="height:5px"></tr>
+{{end}}
+       <tr>
+      <td>      
+              &nbsp;
+              &nbsp;
+      </td>      
+      <td>      
+              <input type="submit" value="save"/>
+              </form>
+      </td>      
+       </tr>

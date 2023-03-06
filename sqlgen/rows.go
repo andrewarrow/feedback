@@ -7,7 +7,7 @@ import (
 	"github.com/andrewarrow/feedback/models"
 )
 
-func InsertRow(tableName string, fields []models.Field) (string, []any) {
+func InsertRow(tableName string, fields []*models.Field) (string, []any) {
 	buffer := []string{"INSERT INTO "}
 	buffer = append(buffer, tableName+" (")
 

@@ -18,6 +18,9 @@ func (r *Router) IsUserRequired(path string, method string) bool {
 	if path == "/about/" {
 		return false
 	}
+	if path == "/buildings/" {
+		return false
+	}
 	if strings.HasPrefix(path, "/stories/") && method == "GET" {
 		return false
 	}

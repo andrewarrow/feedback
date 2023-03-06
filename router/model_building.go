@@ -45,6 +45,11 @@ func buildingFromMap(m map[string]any) *Building {
 	building.Name = fmt.Sprintf("%s", m["name"])
 	building.Units = m["units"].(int64)
 	building.About = fmt.Sprintf("%s", m["about"])
+	building.Country = fmt.Sprintf("%s", m["country"])
+	building.City = fmt.Sprintf("%s", m["city"])
+	building.State = fmt.Sprintf("%s", m["state"])
+	building.Address = fmt.Sprintf("%s", m["address"])
+	building.Url = fmt.Sprintf("%s", m["url"])
 
 	building.Timestamp, building.Ago = FixTime(m)
 	return &building

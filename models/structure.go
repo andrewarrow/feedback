@@ -8,8 +8,8 @@ import (
 )
 
 type Model struct {
-	Name   string  `json:"name"`
-	Fields []Field `json:"fields"`
+	Name   string   `json:"name"`
+	Fields []*Field `json:"fields"`
 }
 
 type Field struct {

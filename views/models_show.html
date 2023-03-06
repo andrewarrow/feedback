@@ -79,6 +79,10 @@
               <input type="hidden" name="_method" value="DELETE"/>
       </form>
               <a href="#" onclick="doDeletePost('{{index $item "guid" }}', event);">x</a> 
+              <br/>
+
+              <a href="/models/{{$model.Name}}/{{index $item "guid" }}/">e</a> 
+              <br/>
                     </td>
                     <td class="title" valign="top" align="right">
                             <span class="rank">{{add $i 1}}.</span>
