@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
@@ -66,7 +67,13 @@ func handleThird(c *Context, second, third string) {
 
 		params := []any{}
 		for _, field := range model.Fields {
-			value := c.request.FormValue(field.Name)
+			var value any
+			if field.Flavor == "int" {
+				stringValue := c.request.FormValue(field.Name)
+				value, _ = strconv.Atoi(stringValue)
+			} else {
+				value = c.request.FormValue(field.Name)
+			}
 			params = append(params, value)
 		}
 		params = append(params, third)
