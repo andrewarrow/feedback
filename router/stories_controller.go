@@ -89,7 +89,8 @@ func handleStoriesIndex(c *Context) {
 		}
 		guid := util.PseudoUuid()
 		if url != "" {
-			c.db.Exec("insert into stories (title, url, guid, username) values ($1, $2, $3, $4)", title, url, guid, c.user.Username)
+			domain := util.ExtractDomain(url)
+			c.db.Exec("insert into stories (title, url, guid, username, domain) values ($1, $2, $3, $4, $5)", title, url, guid, c.user.Username, domain)
 		} else {
 			c.db.Exec("insert into stories (title, body, guid, username) values ($1, $2, $3, $4)", title, body, guid, c.user.Username)
 		}

@@ -53,6 +53,7 @@ func storyFromMap(m map[string]any) *Story {
 	story.Title = models.RemoveMostNonAlphanumeric(fmt.Sprintf("%s", m["title"]))
 	story.Url = fmt.Sprintf("%s", m["url"])
 	story.Guid = fmt.Sprintf("%s", m["guid"])
+	story.Domain = fmt.Sprintf("%s", m["domain"])
 	story.Username = fmt.Sprintf("%s", m["username"])
 	story.Id = m["id"].(int64)
 	story.Comments = m["comments"].(int64)
@@ -62,14 +63,6 @@ func storyFromMap(m map[string]any) *Story {
 	story.Body = template.HTML(body + "<br/><br/>")
 	if story.Url != "" {
 		story.HasUrl = true
-		tokens := strings.Split(story.Url, "/")
-		if len(tokens) > 2 {
-			tokens = strings.Split(tokens[2], ".")
-			if len(tokens) == 3 {
-				tokens = tokens[1:]
-			}
-			story.Domain = strings.Join(tokens, ".")
-		}
 	}
 
 	story.Timestamp, story.Ago = FixTime(m)
