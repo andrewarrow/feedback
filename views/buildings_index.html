@@ -1,0 +1,27 @@
+{{range $i, $item := .Rows}}
+ <tr class='athing'>
+      <td align="right" valign="top" class="title">
+              <span class="rank">{{add $i 1}}.</span>
+      </td>      
+      <td class="title">
+            <span class="titleline">
+      <a href="/buildings/{{$item.Guid}}/" rel="nofollow">{{$item.Name}}</a>
+             <span class="sitebit comhead"> 
+      (<a href="/sites/"><span class="sitestr">hello</span></a>)
+              </span>
+            </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2"></td>
+        <td class="subtext"><span class="subline">
+          <span class="score">317 units</span> 
+          by <a href="/users/" class="user">hello</a> 
+          <span class="age" title="{{$item.Timestamp}}">
+                  <a href="/stories/{{$item.Guid}}/">{{$item.Ago}}</a></span> |
+          <a href="/stories/{{ $item.Guid }}/">discuss</a> |
+          <a href="/stories/{{ $item.Guid }}/">more</a>        
+                </span>
+              </td></tr>
+      <tr class="spacer" style="height:5px"></tr>
+{{end}}

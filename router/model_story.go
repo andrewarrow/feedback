@@ -60,3 +60,25 @@ func storyFromMap(m map[string]any) *Story {
 	story.Timestamp, story.Ago = FixTime(m)
 	return &story
 }
+
+func FetchStories(db *sqlx.DB, order, domain string) []*Story {
+	stories := []*Story{}
+	params := []any{}
+	sql := fmt.Sprintf("SELECT * FROM stories ORDER BY %s limit 30", order)
+	if domain != "" {
+		sql = fmt.Sprintf("SELECT * FROM stories where domain=$1 ORDER BY %s limit 30", order)
+		params = append(params, domain)
+	}
+	rows, err := db.Queryx(sql, params...)
+	if err != nil {
+		return stories
+	}
+	defer rows.Close()
+	for rows.Next() {
+		m := make(map[string]any)
+		rows.MapScan(m)
+		story := storyFromMap(m)
+		stories = append(stories, story)
+	}
+	return stories
+}
