@@ -11,6 +11,7 @@
                       <table id="models" border="0">
              {{range $i, $item := .Model.Fields}}
                   <tr class="athing" colspan="2">
+                          <td>x</td>
                     <td class="title" valign="top" align="right">
                             <span class="rank">{{add $i 1}}.</span>
                     </td>      
@@ -28,7 +29,7 @@
                  </tr>
              {{end}}
                  <tr>
-                    <td class="title" colspan="4">
+                    <td class="title" colspan="16">
                        <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
                          <select name="index">
                                  <option></option>
@@ -40,16 +41,12 @@
                        </form>
                     </td>
                  </tr>
-                 <tr>
-                    <td class="title" colspan="4">
-                       <form id="form2" method="POST" action="/models/{{.Model.Name}}/">
-                         <input type="submit" value="insert row"/>
-                       </form>
-                    </td>
-                 </tr>
                   <tr class="athing" colspan="2">
 
              {{$fields := .Model.Fields}}
+                    <th class="title" valign="top" align="right">
+                            &nbsp;
+                    </th>      
                     <th class="title" valign="top" align="right">
                             &nbsp;
                     </th>      
@@ -63,20 +60,25 @@
              {{$model := .Model}}
              {{range $i, $item := $rows }}
                   <tr class="athing" colspan="2">
-                    <td class="title" valign="top" align="right">
-                            <span class="rank">{{add $i 1}}.</span>
-                    </td>      
-             {{range $key := $fields}}
-                    <td class="title">
-                            {{ index $item $key.Name }}
-                    </td>
-             {{end}}
-                    <td class="title">
+                    <td class="title" valign="top">
       <form id="f{{index $item "guid" }}" method="POST" action="/models/{{$model.Name}}/{{index $item "guid" }}/">
               <input type="hidden" name="_method" value="DELETE"/>
       </form>
               <a href="#" onclick="doDeletePost('{{index $item "guid" }}', event);">x</a> 
                     </td>
+                    <td class="title" valign="top" align="right">
+                            <span class="rank">{{add $i 1}}.</span>
+                    </td>      
+             {{range $key := $fields}}
+                    <td class="title" valign="top">
+                            {{ index $item $key.Name }}
+                    </td>
+             {{end}}
                  </tr>
              {{end}}
+             <tr><td colspan="20">
+                       <form id="form2" method="POST" action="/models/{{.Model.Name}}/">
+                         <input type="submit" value="insert row"/>
+                       </form>
+                     </td></tr>
                       </table></td></tr>
