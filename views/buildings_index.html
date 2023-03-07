@@ -1,3 +1,25 @@
+ <tr class='athing'>
+      <td>      
+              &nbsp;
+              &nbsp;
+      </td>      
+      <td align="right" valign="top" class="title">
+              &nbsp;
+              &nbsp;
+      </td>      
+      <td class="title">
+            <span class="titleline">
+              &nbsp;
+            </span>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="2"></td>
+        <td class="subtext2">
+                Checkout our <a href="/buildings/example">example building</a>
+                        of how we think the remote renter experience should be!
+              </td></tr>
+      <tr class="spacer" style="height:15px"></tr>
 {{range $i, $item := .Rows}}
  <tr class='athing'>
       <td>      
@@ -5,13 +27,13 @@
               &nbsp;
       </td>      
       <td align="right" valign="top" class="title">
-              <span class="rank">{{add $i 1}}.</span>
+              <span class="rank">{{add $i 1}}.</span>&nbsp;
       </td>      
       <td class="title">
             <span class="titleline">
       <a href="/buildings/{{$item.Guid}}/" rel="nofollow">{{$item.Name}}</a>
              <span class="sitebit comhead"> 
-                     (<a href="/sites/"><span class="sitestr">{{$item.City}}, {{$item.State}} {{$item.Country}}</span></a>)
+                     (<a href="/buildings/{{$item.Guid}}/"><span class="sitestr">{{$item.City}}, {{$item.State}}</span></a>)
               </span>
             </span>
         </td>
@@ -22,9 +44,8 @@
           <span class="score">{{$item.Units}} units</span> 
           at {{$item.Address}}
           <span class="age" title="{{$item.Timestamp}}">
-                  <a href="/stories/{{$item.Guid}}/">{{$item.Ago}}</a></span> |
-          <a href="/stories/{{ $item.Guid }}/">discuss</a> |
-          <a href="/stories/{{ $item.Guid }}/">more</a>        
+                  <a href="/buildings/{{$item.Guid}}/">{{$item.Ago}}</a></span> |
+          <a href="/buildings/{{ $item.Guid }}/">details</a> 
                 </span>
               </td></tr>
       <tr class="spacer" style="height:5px"></tr>

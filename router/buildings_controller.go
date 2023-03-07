@@ -6,7 +6,7 @@ func handleBuildings(c *Context, second, third string) {
 	} else if third != "" {
 		c.notFound = true
 	} else {
-		c.notFound = true
+		handleBuildingsShow(c)
 	}
 }
 
@@ -18,4 +18,8 @@ func handleBuildingsIndex(c *Context) {
 	vars := BuildingVars{}
 	vars.Rows = FetchBuildings(c.db)
 	c.SendContentInLayout("buildings_index.html", &vars, 200)
+}
+
+func handleBuildingsShow(c *Context) {
+	c.SendContentInLayout("buildings_show.html", nil, 200)
 }
