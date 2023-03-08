@@ -24,11 +24,11 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 		flavor, defaultString := field.SqlTypeAndDefault()
 		db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
 		if field.Index == "yes" {
-			sql := `create index %s_index on %s(%s);`
-			db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
+			sql := `create index %s_%s_index on %s(%s);`
+			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
 		} else if field.Index == "unique" {
-			sql := `create unique index %s_index on %s(%s);`
-			db.Exec(fmt.Sprintf(sql, field.Name, tableName, field.Name))
+			sql := `create unique index %s_%s_index on %s(%s);`
+			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
 		}
 	}
 }
