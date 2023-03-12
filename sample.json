@@ -1,7 +1,0 @@
-{"phone": "+1 (310) 555-1234",
-"models": [
-  {"name": "user", "fields": [
-    {"name": "first_name", "flavor": "firstName"},
-    {"name": "last_name", "flavor": "lastName"}
-  ]}
-]}

@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
-	"net/http"
 	"os"
 	"time"
 
@@ -34,11 +32,7 @@ func main() {
 		r.ResetDatabase()
 	} else if arg == "run" {
 		r := router.NewRouter()
-		http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-			r.RouteFromRequest(writer, request)
-		})
-
-		log.Fatal(http.ListenAndServe(":3000", nil))
+		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 		PrintHelp()
 	}
