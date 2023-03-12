@@ -2,7 +2,7 @@
 
 This is a [rails](https://rubyonrails.org) inspired [golang](https://go.dev/) framework that uses [Hacker News](https://news.ycombinator.com/) style article submission, comments, and voting in its demo app [RemoteRenters](https://github.com/andrewarrow/remoterenters).
  
-Look at [main.go](https://github.com/andrewarrow/remoterenters/blob/main/main.go) this file to see how to use feedback.
+Look at [main.go](https://github.com/andrewarrow/remoterenters/blob/main/main.go) to see how to use feedback.
 
 Our sample app is live at [remoterenters.com](https://remoterenters.com/)
 

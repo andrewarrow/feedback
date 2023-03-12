@@ -70,7 +70,13 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else {
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
-		c.UserRequired = r.IsUserRequired(path, c.Method)
+		c.UserRequired = true
+		for urPath, ur := range r.UserRequiredPaths {
+			if ur.ShouldNotRequire(urPath, path, c.Method) {
+				c.UserRequired = false
+				break
+			}
+		}
 		if c.UserRequired && c.User == nil {
 			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
 			return
