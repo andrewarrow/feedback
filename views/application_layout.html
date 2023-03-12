@@ -1,69 +1,65 @@
-<!DOCTYPE html>
-<html>
+
+<!doctype html>
+<html lang="en">
+
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ .Title }}</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="A minimalist layout for Login pages. Built with Pico CSS.">
+    <link rel="shortcut icon" href="https://picocss.com/favicon.ico">
+    <link rel="canonical" href="https://picocss.com/examples/sign-in/">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/style1.css">
     <script type='text/javascript' src="/assets/javascript/main.js"></script>
   </head>
+
   <body>
-    <center>
-      <table id="s1main" width="85%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f6f6ef">
-        <tbody>
-          <tr>
-            <td bgcolor="#A4B0F5">
-              <table style="padding:2px" width="100%" cellspacing="0" cellpadding="0" border="0">
-                <tbody>
-                <tr>
-                  <td style="width:18px;padding-right:4px">
-                          &nbsp;
-                  </td>
-                  <td style="line-height:12pt; height:10px;">
-                    <span class="pagetop">
-                            <b class="s1name"><a href="/">{{ .SiteName }}</a></b>
-                      <a href="/about/">about</a> | 
-                      <a href="/about/">your stuff here</a>  
-                    </span>
-                  </td>
-                  <td style="text-align:right;padding-right:4px;">
-                    <span class="pagetop">
-                      {{ if .User }}
-                      <form id="logout" method="POST" action="/sessions/">
-                        <input type="hidden" name="_method" value="DELETE"/>
-                      </form>
-                      <a href="/users/{{ .User.Username }}/">{{ .User.Username }}</a> | <a onclick="doLogout(event);" href="#">logout</a>
-                      {{ else }}
-                      <a id="login" href="/sessions/new/">login</a>
-                      {{ end }}
-                    </span>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-          <tr id="pagespace" title="" style="height:10px"></tr>
-          <tr>
-            <td>
-                    <div id="flash" style="background-color: red; color: white; text-align: center;">{{.Flash}}</div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <table cellspacing="0" cellpadding="0" border="0">
-                <tbody>
-                  {{ .Content }}
-                  <tr class="athing" id="34937128">
-                    <td class="title" valign="top" align="right">
-                         &nbsp;
-                    </td>      
-                 </tr>
-               </tbody>
-              </table>
-            </td>
-          </tr>
-      </table>
-      <p>{{ .Footer }}</p>
-    </center>
- </body>
+
+    <!-- Nav -->
+    <nav class="container-fluid">
+      <ul>
+        <li><a href="/" class="contrast"><strong>{{.SiteName}}</strong></a></li>
+      </ul>
+      <ul>
+        <li>
+          <details role="list" dir="rtl">
+            <summary aria-haspopup="listbox" role="link" class="secondary">Theme</summary>
+            <ul role="listbox">
+              <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+              <li><a href="#" data-theme-switcher="light">Light</a></li>
+              <li><a href="#" data-theme-switcher="dark">Dark</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details role="list" dir="rtl">
+            <summary aria-haspopup="listbox" role="link" class="secondary">Examples</summary>
+            <ul role="listbox">
+              <li><a href="../preview/">Preview</a></li>
+              <li><a href="../preview-rtl/">Right-to-left</a></li>
+              <li><a href="../classless/">Class-less</a></li>
+              <li><a href="../basic-template/">Basic template</a></li>
+              <li><a href="../company/">Company</a></li>
+              <li><a href="../google-amp/">Google Amp</a></li>
+              <li><a href="../sign-in/">Sign in</a></li>
+              <li><a href="../bootstrap-grid/">Bootstrap grid</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="container">
+    {{ .Content }}
+    </main>
+
+    <footer class="container-fluid">
+            <center>
+      <small>hi • there</small>
+            </center>
+    </footer>
+
+  </body>
+
 </html>
