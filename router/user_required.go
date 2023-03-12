@@ -1,6 +1,9 @@
 package router
 
 import (
+	"errors"
+	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -16,11 +19,21 @@ func NewUserRequired(method, matchBy string) *UserRequired {
 	return &ur
 }
 
-func (ur *UserRequired) ShouldNotRequire(urPath, path string, method string) bool {
+func UserRequiredPathsSorted(m map[string]*UserRequired) []string {
+	items := []string{}
+	for k, _ := range m {
+		items = append(items, k)
+	}
+	sort.Strings(items)
+	return items
+}
+
+func (ur *UserRequired) ShouldRequire(urPath, path string, method string) (bool, error) {
 	pathMatch := false
 	if urPath != path && !strings.HasPrefix(path, urPath) {
-		return false
+		return false, errors.New("wrong area")
 	}
+	fmt.Println(urPath, path, method)
 
 	if ur.MatchBy == "==" {
 		pathMatch = urPath == path
@@ -29,12 +42,12 @@ func (ur *UserRequired) ShouldNotRequire(urPath, path string, method string) boo
 	}
 
 	if pathMatch && ur.Method == "*" {
-		return true
+		return false, nil
 	}
 
 	if pathMatch && ur.Method == method {
-		return true
+		return false, nil
 	}
 
-	return false
+	return true, nil
 }
