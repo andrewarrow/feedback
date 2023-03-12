@@ -55,22 +55,20 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	}
 
 	if path == "/" {
-		r.SendContentInLayout(r.Site.Title, flash, user, writer, "welcome.html",
-			nil, 200)
+		funcToCall := r.Paths["/"]
+		if funcToCall == nil {
+			r.SendContentInLayout(r.Site.Title, flash, user, writer, "welcome.html",
+				nil, 200)
+		} else {
+			c := PrepareContext(r, user, "/", flash, writer, request)
+			funcToCall(c, "", "")
+		}
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, fmt.Sprintf("%s/", path), 301)
 	} else {
-		c := Context{}
-		c.Writer = writer
-		c.Request = request
-		c.flash = flash
-		c.Method = request.Method
-		c.router = r
-		c.User = user
-		c.path = path
-		c.Db = r.Db
+		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
 		c.UserRequired = r.IsUserRequired(path, c.Method)
 		if c.UserRequired && c.User == nil {
@@ -80,9 +78,22 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		if c.Method == "POST" {
 			c.ReadFormPost()
 		}
-		handleContext(&c)
+		handleContext(c)
 		if c.NotFound {
 			r.SendContentInLayout("Feedback 404", "", user, writer, "404.html", nil, 404)
 		}
 	}
+}
+
+func PrepareContext(r *Router, user *User, path, flash string, writer http.ResponseWriter, request *http.Request) *Context {
+	c := Context{}
+	c.Writer = writer
+	c.Request = request
+	c.flash = flash
+	c.Method = request.Method
+	c.router = r
+	c.User = user
+	c.path = path
+	c.Db = r.Db
+	return &c
 }
