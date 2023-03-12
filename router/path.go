@@ -70,11 +70,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else {
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
-		for _, urPath := range UserRequiredPathsSorted(r.UserRequiredPaths) {
-			ur := r.UserRequiredPaths[urPath]
-			val, err := ur.ShouldRequire(urPath, path, c.Method)
-			if err == nil {
-				c.UserRequired = val
+		for _, ur := range r.UserRequiredPaths {
+			if ur.ShouldRequire(path, c.Method) {
+				c.UserRequired = true
+				break
 			}
 		}
 		if c.UserRequired && c.User == nil {
