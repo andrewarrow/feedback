@@ -4,9 +4,9 @@ func handleAbout(c *Context, second, third string) {
 	if second == "" {
 		handleAboutIndex(c)
 	} else if third != "" {
-		c.notFound = true
+		c.NotFound = true
 	} else {
-		c.notFound = true
+		c.NotFound = true
 	}
 }
 func handleAboutIndex(c *Context) {

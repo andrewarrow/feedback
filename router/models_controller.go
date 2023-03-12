@@ -27,8 +27,8 @@ type FieldVars struct {
 }
 
 func handleModels(c *Context, second, third string) {
-	if c.user.IsAdmin() == false {
-		c.notFound = true
+	if c.User.IsAdmin() == false {
+		c.NotFound = true
 		return
 	}
 	if second == "" {
@@ -36,7 +36,7 @@ func handleModels(c *Context, second, third string) {
 	} else if third != "" {
 		handleThird(c, second, third)
 	} else {
-		if c.method == "GET" {
+		if c.Method == "GET" {
 			ModelsShow(c, second)
 		} else {
 			ModelsCreateWithId(c, second)
@@ -47,46 +47,46 @@ func handleModels(c *Context, second, third string) {
 func handleThird(c *Context, second, third string) {
 	model := c.router.Site.FindModel(second)
 	if model == nil {
-		c.notFound = true
+		c.NotFound = true
 		return
 	}
 
-	if c.method == "DELETE" {
+	if c.Method == "DELETE" {
 		safeName := models.RemoveNonAlphanumeric(second)
-		c.db.Exec(fmt.Sprintf("delete from %s where guid=$1", util.Plural(safeName)), third)
-		http.Redirect(c.writer, c.request, "/models/"+second, 302)
+		c.Db.Exec(fmt.Sprintf("delete from %s where guid=$1", util.Plural(safeName)), third)
+		http.Redirect(c.Writer, c.Request, "/models/"+second, 302)
 		return
-	} else if c.method == "GET" {
+	} else if c.Method == "GET" {
 		vars := FieldVars{}
 		vars.Rows = model.Fields
 		vars.Model = model
-		vars.Row = FetchOneRow(c.db, model, third)
+		vars.Row = FetchOneRow(c.Db, model, third)
 		c.SendContentInLayout("models_edit.html", &vars, 200)
 		return
-	} else if c.method == "POST" {
+	} else if c.Method == "POST" {
 
 		params := []any{}
 		for _, field := range model.Fields {
 			var value any
 			if field.Flavor == "int" {
-				stringValue := c.request.FormValue(field.Name)
+				stringValue := c.Request.FormValue(field.Name)
 				value, _ = strconv.Atoi(stringValue)
 			} else {
-				value = c.request.FormValue(field.Name)
+				value = c.Request.FormValue(field.Name)
 			}
 			params = append(params, value)
 		}
 		params = append(params, third)
 		sql := sqlgen.UpdateRow(model)
-		c.db.Exec(sql, params...)
-		http.Redirect(c.writer, c.request, "/models/"+second, 302)
+		c.Db.Exec(sql, params...)
+		http.Redirect(c.Writer, c.Request, "/models/"+second, 302)
 		return
 	}
-	c.notFound = true
+	c.NotFound = true
 }
 
 func handleModelsIndex(c *Context) {
-	if c.request.Method == "GET" {
+	if c.Request.Method == "GET" {
 		vars := ModelsVars{}
 		vars.Models = c.router.Site.Models
 		c.SendContentInLayout("models_index.html", vars, 200)
@@ -106,15 +106,15 @@ func handleModelsCreateWithJson(c *Context) {
 	}
 
 	if len(strings.TrimSpace(newModel.Name)) < 3 {
-		c.writer.WriteHeader(422)
-		fmt.Fprintf(c.writer, "length of name must be > 2")
+		c.Writer.WriteHeader(422)
+		fmt.Fprintf(c.Writer, "length of name must be > 2")
 	} else {
 		c.router.Site.Models = append(c.router.Site.Models, &newModel)
 		c.saveSchema()
-		MakeTable(c.db, &newModel)
+		MakeTable(c.Db, &newModel)
 		vars := ModelsVars{}
 		vars.Models = c.router.Site.Models
-		c.router.Template.ExecuteTemplate(c.writer, "models_list.html", vars)
+		c.router.Template.ExecuteTemplate(c.Writer, "models_list.html", vars)
 	}
 }
 
@@ -122,14 +122,14 @@ func ModelsShow(c *Context, rawId string) {
 	id := models.RemoveNonAlphanumeric(rawId)
 	model := c.router.Site.FindModel(id)
 	if model == nil {
-		c.notFound = true
+		c.NotFound = true
 		return
 	}
 
 	tableName := util.Plural(model.Name)
 	vars := ModelVars{}
 	vars.Rows = []map[string]any{}
-	rows, err := c.db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
+	rows, err := c.Db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
 	if err != nil {
 		return
 	}
@@ -155,16 +155,16 @@ func ModelsShow(c *Context, rawId string) {
 func ModelsCreateWithId(c *Context, id string) {
 	model := c.router.Site.FindModel(id)
 	if model == nil {
-		c.notFound = true
+		c.NotFound = true
 		return
 	}
 	tableName := util.Plural(model.Name)
-	fieldName := c.request.FormValue("name")
-	index := c.request.FormValue("index")
-	flavor := c.request.FormValue("flavor")
+	fieldName := c.Request.FormValue("name")
+	index := c.Request.FormValue("index")
+	flavor := c.Request.FormValue("flavor")
 	if fieldName == "" {
 		sql, params := sqlgen.InsertRow(tableName, model.Fields)
-		c.db.Exec(sql, params...)
+		c.Db.Exec(sql, params...)
 	} else {
 		f := models.Field{}
 		f.Name = fieldName
@@ -172,9 +172,9 @@ func ModelsCreateWithId(c *Context, id string) {
 		f.Index = index
 		model.Fields = append(model.Fields, &f)
 		c.saveSchema()
-		MakeTable(c.db, model)
+		MakeTable(c.Db, model)
 	}
-	http.Redirect(c.writer, c.request, c.path, 302)
+	http.Redirect(c.Writer, c.Request, c.path, 302)
 }
 
 func FetchOneRow(db *sqlx.DB, model *models.Model, guid string) map[string]any {

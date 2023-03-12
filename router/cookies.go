@@ -4,13 +4,13 @@ import (
 	"net/http"
 )
 
-func setFlash(c *Context, flash string) {
+func SetFlash(c *Context, flash string) {
 	cookie := http.Cookie{}
 	cookie.Path = "/"
 	cookie.MaxAge = 86400 * 30
 	cookie.Name = "flash"
 	cookie.Value = flash
-	http.SetCookie(c.writer, &cookie)
+	http.SetCookie(c.Writer, &cookie)
 }
 
 func setUser(c *Context, guid string) {
@@ -19,7 +19,7 @@ func setUser(c *Context, guid string) {
 	cookie.MaxAge = 86400 * 30
 	cookie.Name = "user"
 	cookie.Value = guid
-	http.SetCookie(c.writer, &cookie)
+	http.SetCookie(c.Writer, &cookie)
 }
 
 func removeFlash(writer http.ResponseWriter) {

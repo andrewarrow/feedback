@@ -10,81 +10,62 @@ import (
 )
 
 type Context struct {
-	writer       http.ResponseWriter
-	request      *http.Request
+	Writer       http.ResponseWriter
+	Request      *http.Request
 	tokens       []string
 	router       *Router
-	user         *User
-	userRequired bool
+	User         *User
+	UserRequired bool
 	path         string
-	db           *sqlx.DB
-	notFound     bool
-	method       string
+	Db           *sqlx.DB
+	NotFound     bool
+	Method       string
 	flash        string
-	title        string
+	Title        string
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
-	if c.title == "" {
-		c.title = c.router.Site.Title
+	if c.Title == "" {
+		c.Title = c.router.Site.Title
 	}
-	c.router.SendContentInLayout(c.title, c.flash, c.user, c.writer, filename, vars, status)
+	c.router.SendContentInLayout(c.Title, c.flash, c.User, c.Writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {
 	asBytes, _ := json.Marshal(c.router.Site)
-	c.db.Exec(fmt.Sprintf("update feedback_schema set json_string = '%s'", string(asBytes)))
+	c.Db.Exec(fmt.Sprintf("update feedback_schema set json_string = '%s'", string(asBytes)))
 }
 
 func (c *Context) BodyAsString() string {
 	buffer := new(bytes.Buffer)
-	buffer.ReadFrom(c.request.Body)
+	buffer.ReadFrom(c.Request.Body)
 	return buffer.String()
 }
 
 func (c *Context) ReadFormPost() {
-	hiddenMethod := c.request.FormValue("_method")
+	hiddenMethod := c.Request.FormValue("_method")
 	if hiddenMethod != "" {
-		c.method = hiddenMethod
+		c.Method = hiddenMethod
 	}
 }
 
 func handleContext(c *Context) {
 	tokens := c.tokens
+	first := tokens[1]
+	funcToRun := c.router.Paths[first]
+
+	if funcToRun == nil {
+		c.NotFound = true
+		return
+	}
 
 	if len(tokens) == 3 { //          /foo/
-		handlePathContext(c, tokens[1], "", "")
+		funcToRun(c, "", "")
 	} else if len(tokens) == 4 { //   /foo/bar/
-		handlePathContext(c, tokens[1], tokens[2], "")
+		funcToRun(c, tokens[2], "")
 	} else if len(tokens) == 5 { //   /foo/bar/more/
-		handlePathContext(c, tokens[1], tokens[2], tokens[3])
+		funcToRun(c, tokens[2], tokens[3])
 	} else {
-		c.notFound = true
-	}
-}
-
-func handlePathContext(c *Context, first, second, third string) {
-	if first == "models" {
-		handleModels(c, second, third)
-	} else if first == "sessions" {
-		handleSessions(c, second, third)
-	} else if first == "stories" {
-		handleStories(c, second, third)
-	} else if first == "users" {
-		handleUsers(c, second, third)
-	} else if first == "comments" {
-		handleComments(c, second, third)
-	} else if first == "about" {
-		handleAbout(c, second, third)
-	} else if first == "fresh" {
-		handleFresh(c, second, third)
-	} else if first == "vote" {
-		handleVote(c, second, third)
-	} else if first == "sites" {
-		handleSites(c, second, third)
-	} else if first == "buildings" {
-		handleBuildings(c, second, third)
-	} else {
-		c.notFound = true
+		c.NotFound = true
 	}
 }

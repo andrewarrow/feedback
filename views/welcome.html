@@ -1,52 +1,23 @@
-{{range $i, $item := .Rows}}
  <tr class='athing'>
-      <td align="right" valign="top" class="title">
-              <span class="rank">{{add $i 1}}.</span>
+      <td>      
+              &nbsp;
+              &nbsp;
       </td>      
-      <td valign="top" class="votelinks">
-              <center>
-        <a id="v{{$item.Guid}}" class='clicky' href='#' onclick="vote('{{$item.Guid}}', event)">
-        <div class='votearrow' title='upvote'></div>
-                      </a>
-              </center>
-      </td>
+      <td align="right" valign="top" class="title">
+              &nbsp;
+              &nbsp;
+      </td>      
       <td class="title">
             <span class="titleline">
-      {{if $item.HasUrl}}
-      <a href="{{$item.Url}}" rel="nofollow">{{$item.Title}}</a>
-      {{else}}
-      <a href="/stories/{{$item.Guid}}/" rel="nofollow">{{$item.Title}}</a>
-      {{end}}
-             <span class="sitebit comhead"> 
-      {{if $item.HasUrl}}
-      (<a href="/sites/{{$item.Domain}}/"><span class="sitestr">{{$item.Domain}}</span></a>)
-      {{end}}
-              </span>
+              &nbsp;
             </span>
         </td>
        </tr>
        <tr>
         <td colspan="2"></td>
-        <td class="subtext"><span class="subline">
-          <span class="score">{{$item.Points}} point{{adds $item.Points}}</span> 
-          by <a href="/users/{{$item.Username}}/" class="user">{{$item.Username}}</a> 
-          <span class="age" title="{{$item.Timestamp}}">
-                  <a href="/stories/{{$item.Guid}}/">{{$item.Ago}}</a></span> |
-          <a href="/stories/{{ $item.Guid }}/">discuss</a> |
-          <a href="/stories/{{ $item.Guid }}/">{{$item.Comments}} comment{{adds $item.Comments}}</a>        
-                </span>
+        <td class="subtext2">
+                <p>
+                Welcome to feedback!
+                </p>
               </td></tr>
-      <tr class="spacer" style="height:5px"></tr>
-{{end}}
-                        
-
-
-
-
-
-
-
-
-
-
-
+      <tr class="spacer" style="height:15px"></tr>

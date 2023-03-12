@@ -9,30 +9,30 @@ func handleSessions(c *Context, second, third string) {
 	if second == "" {
 		handleSessionsIndex(c)
 	} else if third != "" {
-		c.notFound = true
+		c.NotFound = true
 	} else {
-		if second == "new" && c.method == "GET" {
+		if second == "new" && c.Method == "GET" {
 			c.SendContentInLayout("sessions_new.html", nil, 200)
 			return
 		}
-		c.notFound = true
+		c.NotFound = true
 	}
 }
 
 func handleSessionsIndex(c *Context) {
-	if c.method == "DELETE" {
+	if c.Method == "DELETE" {
 		DestroySession(c)
-	} else if c.method == "POST" {
+	} else if c.Method == "POST" {
 		CreateSession(c)
 	} else {
-		c.notFound = true
+		c.NotFound = true
 	}
 }
 
 func CreateSession(c *Context) {
-	username := c.request.FormValue("username")
-	password := c.request.FormValue("password")
-	rows, err := c.db.Queryx("SELECT * FROM users where username=$1 and password=$2", username, password)
+	username := c.Request.FormValue("username")
+	password := c.Request.FormValue("password")
+	rows, err := c.Db.Queryx("SELECT * FROM users where username=$1 and password=$2", username, password)
 	if err != nil {
 		return
 	}
@@ -55,8 +55,8 @@ func CreateSession(c *Context) {
 		cookie.Value = "username not found."
 		returnPath = "/sessions/new/"
 	}
-	http.SetCookie(c.writer, &cookie)
-	http.Redirect(c.writer, c.request, returnPath, 302)
+	http.SetCookie(c.Writer, &cookie)
+	http.Redirect(c.Writer, c.Request, returnPath, 302)
 }
 
 func DestroySession(c *Context) {
@@ -65,6 +65,6 @@ func DestroySession(c *Context) {
 	cookie.Name = "user"
 	cookie.Value = ""
 	cookie.Path = "/"
-	http.SetCookie(c.writer, &cookie)
-	http.Redirect(c.writer, c.request, "/", 302)
+	http.SetCookie(c.Writer, &cookie)
+	http.Redirect(c.Writer, c.Request, "/", 302)
 }

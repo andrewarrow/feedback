@@ -17,7 +17,7 @@ func MakeTables(db *sqlx.DB, models []*models.Model) {
 
 func MakeTable(db *sqlx.DB, model *models.Model) {
 	tableName := util.Plural(model.Name)
-	//c.db.Exec(sqlgen.MysqlCreateTable(tableName))
+	//c.Db.Exec(sqlgen.MysqlCreateTable(tableName))
 	db.Exec(sqlgen.PgCreateTable(tableName))
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 	for _, field := range model.Fields {

@@ -56,32 +56,32 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 
 	if path == "/" {
 		r.SendContentInLayout(r.Site.Title, flash, user, writer, "welcome.html",
-			WelcomeIndexVars(r.Db, "points desc", ""), 200)
+			nil, 200)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, fmt.Sprintf("%s/", path), 301)
 	} else {
 		c := Context{}
-		c.writer = writer
-		c.request = request
+		c.Writer = writer
+		c.Request = request
 		c.flash = flash
-		c.method = request.Method
+		c.Method = request.Method
 		c.router = r
-		c.user = user
+		c.User = user
 		c.path = path
-		c.db = r.Db
+		c.Db = r.Db
 		c.tokens = strings.Split(path, "/")
-		c.userRequired = r.IsUserRequired(path, c.method)
-		if c.userRequired && c.user == nil {
-			http.Redirect(c.writer, c.request, "/sessions/new/", 302)
+		c.UserRequired = r.IsUserRequired(path, c.Method)
+		if c.UserRequired && c.User == nil {
+			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
 			return
 		}
-		if c.method == "POST" {
+		if c.Method == "POST" {
 			c.ReadFormPost()
 		}
 		handleContext(&c)
-		if c.notFound {
+		if c.NotFound {
 			r.SendContentInLayout("Feedback 404", "", user, writer, "404.html", nil, 404)
 		}
 	}
