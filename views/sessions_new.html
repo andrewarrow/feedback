@@ -2,13 +2,22 @@
 <article class="grid">
         <div>
           <hgroup>
-            <h1>Sign in</h1>
+            <h1>Login</h1>
             <h2>Welcome back!</h2>
           </hgroup>
-          <form>
+          <form action="/sessions/" method="POST">
             <input type="text" name="username" placeholder="Username" aria-label="Username" autocomplete="username" required>
             <input type="password" name="password" placeholder="Password" aria-label="Password" autocomplete="password" required>
-            <button type="submit" class="contrast" onclick="event.preventDefault()">Login</button>
+            <button type="submit" class="contrast">Login</button>
+          </form>
+          <hgroup>
+            <h1>Create Account</h1>
+            <h2>Hello New User!</h2>
+          </hgroup>
+          <form action="/users/" method="POST">
+            <input type="text" name="username" placeholder="Username" aria-label="Username" autocomplete="username" required>
+            <input type="password" name="password" placeholder="Password" aria-label="Password" autocomplete="password" required>
+            <button type="submit" class="contrast">Create Account</button>
           </form>
         </div>
         <div></div>
