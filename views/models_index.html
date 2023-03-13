@@ -1,21 +1,19 @@
-                  <tr class="athing">
-                    <td colspan="2" class="title" valign="top" align="left">
-                      <table id="models" border="0">
-               {{template "_models" .}}
-                      </table>
-                    </td>
-                  </tr>
-                  <tr class="athing">
-                    <td class="title">&nbsp; </td>
-                  </tr>
-                  <tr class="athing">
-                    <td class="title">
-                            New Model:
-                    </td>
-                    <td class="title">
-                       <form id="form1" method="POST" action="/models/" onsubmit="sendFormAsJson(event);">
-                         <input type="text" name="name" id="name" autofocus="true"/>
-                         <input type="submit" value="create"/>
-                       </form>
-                    </td>
-                 </tr>
+<article class="grid">
+        <div>
+          <hgroup>
+            <h1>Models</h1>
+            <h2>These are tables in your database.</h2>
+          </hgroup>
+
+      <table id="models" role="grid">
+        {{template "_models" .}}
+      </table>
+     New Model:
+     <form id="form1" method="POST" action="/models/" onsubmit="sendFormAsJson(event);">
+         <input type="text" name="name" id="name" />
+         <input type="submit" value="create"/>
+     </form>
+        </div>
+        <div>
+        </div>
+</article>
