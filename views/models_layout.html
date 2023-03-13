@@ -11,22 +11,25 @@
 
   <body>
 
-    <nav class="container-fluid">
-      <ul>
-        <li><a href="/" class="contrast"><strong>{{.SiteName}}</strong></a></li>
-        <li> <a href="/about/">about</a> </li>
-      </ul>
-      <ul>
+    <div class="row mb-3 text-center">
+      <div class="col-md-4 themed-grid-col">
+<a href="/" class="contrast">{{ .SiteName}}</a>
+      </div>
+      <div class="col-md-4 themed-grid-col">
+<a href="/models/" class="contrast">Models</a>
+      </div>
+      <div class="col-md-4 themed-grid-col">
+
                       {{ if .User }}
                       <form id="logout" method="POST" action="/sessions/">
                         <input type="hidden" name="_method" value="DELETE"/>
                       </form>
-                      <li><a href="/users/{{ .User.Username }}/">{{ .User.Username }}</a> | <a onclick="doLogout(event);" href="#">logout</a></li>
+                      <a href="/users/{{ .User.Username }}/">{{ .User.Username }}</a> | <a onclick="doLogout(event);" href="#">logout</a>
                       {{ else }}
-        <li> <a href="/sessions/new/">login</a> </li>
+        <a href="/sessions/new/">login</a> 
                       {{ end }}
-      </ul>
-    </nav>
+      </div>
+    </div>
 
     <main class="container">
       <div id="flash" style="background-color: red; color: white; text-align: center;">{{.Flash}}</div>
