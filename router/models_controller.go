@@ -27,6 +27,11 @@ type FieldVars struct {
 }
 
 func handleModels(c *Context, second, third string) {
+	c.Layout = "models_layout.html"
+	if c.User == nil {
+		c.UserRequired = true
+		return
+	}
 	if c.User.IsAdmin() == false {
 		c.NotFound = true
 		return
