@@ -1,27 +1,24 @@
-       <tr class="spacer" style="height:15px"></tr>
+<article class="grid">
+        <div>
+          <hgroup>
+            <h1>User Show</h1>
+            <h2>This is /users/x where x is username.</h2>
+          </hgroup>
 
-      <tr>    
-        <td valign="top">
-                User:
-        </td>
-        <td>
-                {{ .Username }}
-        </td>
-      </tr>
-      <tr>    
-        <td valign="top">
-                Created:
-        </td>
-        <td>
-                {{ .Timestamp }}
-        </td>
-      </tr>
-      <tr>    
-        <td valign="top">
-                Created Ago:
-        </td>
-        <td>
-                {{ .Ago }}
-        </td>
-      </tr>
-       <tr class="spacer" style="height:15px"></tr>
+      <table role="grid">
+              <tr>
+                <th scope="row">Username:</th>
+                <td>{{ .Username }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Created:</th>
+                <td>{{ .Timestamp }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Created Ago:</th>
+                <td>{{ .Ago }}</td>
+              </tr>
+      </table>
+        </div>
+        <div></div>
+</article>
