@@ -33,11 +33,11 @@ func (r *Router) PlaceContentInLayoutVars(title, flash string, user *User, filen
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(title, flash string, user *User, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(layout, title, flash string, user *User, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 	vars := r.PlaceContentInLayoutVars(title, flash, user, filename, contentVars)
 	writer.WriteHeader(status)
-	r.Template.ExecuteTemplate(writer, "application_layout.html", vars)
+	r.Template.ExecuteTemplate(writer, layout, vars)
 }
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
@@ -56,11 +56,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 
 	if path == "/" {
 		funcToCall := r.Paths["/"]
+		c := PrepareContext(r, user, "/", flash, writer, request)
 		if funcToCall == nil {
-			r.SendContentInLayout(r.Site.Title, flash, user, writer, "welcome.html",
+			r.SendContentInLayout(c.Layout, r.Site.Title, flash, user, writer, "welcome.html",
 				nil, 200)
 		} else {
-			c := PrepareContext(r, user, "/", flash, writer, request)
 			funcToCall(c, "", "")
 		}
 	} else if strings.HasPrefix(path, "/assets") {
@@ -79,7 +79,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			return
 		}
 		if c.NotFound {
-			r.SendContentInLayout("Feedback 404", "", user, writer, "404.html", nil, 404)
+			r.SendContentInLayout(c.Layout, "Feedback 404", "", user, writer, "404.html", nil, 404)
 		}
 	}
 }
@@ -94,5 +94,6 @@ func PrepareContext(r *Router, user *User, path, flash string, writer http.Respo
 	c.User = user
 	c.path = path
 	c.Db = r.Db
+	c.Layout = "application_layout.html"
 	return &c
 }

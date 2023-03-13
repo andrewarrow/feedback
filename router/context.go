@@ -22,13 +22,14 @@ type Context struct {
 	Method       string
 	flash        string
 	Title        string
+	Layout       string
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	if c.Title == "" {
 		c.Title = c.router.Site.Title
 	}
-	c.router.SendContentInLayout(c.Title, c.flash, c.User, c.Writer, filename, vars, status)
+	c.router.SendContentInLayout(c.Layout, c.Title, c.flash, c.User, c.Writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {
