@@ -9,11 +9,10 @@ import (
 )
 
 type Router struct {
-	Template          *template.Template
-	Site              *FeedbackSite
-	Db                *sqlx.DB
-	Paths             map[string]func(*Context, string, string)
-	UserRequiredPaths []*UserRequired
+	Template *template.Template
+	Site     *FeedbackSite
+	Db       *sqlx.DB
+	Paths    map[string]func(*Context, string, string)
 }
 
 func NewRouter() *Router {
@@ -25,8 +24,6 @@ func NewRouter() *Router {
 	r.Paths["sessions"] = handleSessions
 	r.Paths["users"] = handleUsers
 	r.Paths["about"] = handleAbout
-
-	r.UserRequiredPaths = []*UserRequired{}
 
 	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)

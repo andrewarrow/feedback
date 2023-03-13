@@ -70,20 +70,14 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else {
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
-		for _, ur := range r.UserRequiredPaths {
-			if ur.ShouldRequire(path, c.Method) {
-				c.UserRequired = true
-				break
-			}
-		}
-		if c.UserRequired && c.User == nil {
-			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
-			return
-		}
 		if c.Method == "POST" {
 			c.ReadFormPost()
 		}
 		handleContext(c)
+		if c.UserRequired && c.User == nil {
+			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
+			return
+		}
 		if c.NotFound {
 			r.SendContentInLayout("Feedback 404", "", user, writer, "404.html", nil, 404)
 		}
