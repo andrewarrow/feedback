@@ -6,7 +6,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/andrewarrow/feedback/gogen"
 	"github.com/andrewarrow/feedback/router"
+	"github.com/andrewarrow/feedback/util"
 )
 
 func PrintHelp() {
@@ -30,6 +32,10 @@ func main() {
 	if arg == "reset" {
 		r := router.NewRouter()
 		r.ResetDatabase()
+	} else if arg == "gen" {
+		name := util.GetArg(2)
+		path := util.GetArg(3)
+		gogen.MakeControllerAndView(name, path)
 	} else if arg == "run" {
 		r := router.NewRouter()
 		r.ListenAndServe(":3000")
