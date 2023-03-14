@@ -44,7 +44,8 @@ func handle{{index . "camel" }}Create(c *router.Context) {
 
 func handle{{index . "camel" }}Show(c *router.Context, id string) {
 	if c.Method == "GET" {
-		c.SendContentInLayout("{{index . "name" }}_show.html", nil, 200)
+	  m := map[string]string{"id": id}
+		c.SendContentInLayout("{{index . "name" }}_show.html", m, 200)
 		return
 	}
 	handle{{index . "camel" }}Updates(c, id)
@@ -64,18 +65,32 @@ func handle{{index . "camel" }}Updates(c *router.Context, id string) {
 	t.Execute(content, m)
 	controller := content.String()
 	files.SaveFile(dir+"/app/"+name+"_controller.go", controller)
-	MakeView(name, dir+"/views/"+name+"_index.html")
-	MakeView(name, dir+"/views/"+name+"_show.html")
+	MakeIndexView(name, dir+"/views/"+name+"_index.html")
+	MakeShowView(name, dir+"/views/"+name+"_show.html")
 
 	fmt.Printf("\nr.Paths[\"%s\"] = app.Handle%s\n", name, m["camel"])
 }
 
-func MakeView(name, path string) {
+func MakeIndexView(name, path string) {
 	v := `<article class="grid">
         <div>
           <hgroup>
             <h1>%s</h1>
             <h2>hi</h2>
+          </hgroup>
+        </div>
+        <div></div>
+</article>`
+	view := fmt.Sprintf(v, name)
+	files.SaveFile(path, view)
+}
+
+func MakeShowView(name, path string) {
+	v := `<article class="grid">
+        <div>
+          <hgroup>
+            <h1>%s</h1>
+            <h2>{{ index . "id"}}</h2>
           </hgroup>
         </div>
         <div></div>
