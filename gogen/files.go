@@ -22,9 +22,12 @@ func Handle%s(c *router.Context, second, third string) {
   c.SendContentInLayout("%s_index.html", nil, 200)
 }`
 
-	controller := fmt.Sprintf(c, util.ToCamelCase(name), name)
+	camel := util.ToCamelCase(name)
+	controller := fmt.Sprintf(c, camel, name)
 	files.SaveFile(dir+"/app/"+name+"_controller.go", controller)
 	MakeView(name, dir+"/views/"+name+"_index.html")
+
+	fmt.Printf("\nr.Paths[\"%s\"] = app.Handle%s\n", name, camel)
 }
 
 func MakeView(name, path string) {
