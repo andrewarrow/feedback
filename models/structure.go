@@ -51,7 +51,7 @@ func (f *Field) RandomValue() any {
 	} else if f.Flavor == "int" {
 		val = rand.Intn(999)
 	} else if f.Flavor == "timestamp" {
-		val = time.Now().Add(time.Hour * time.Duration(rand.Intn(99999999))).Format("2006-01-02T15:04:05-07:00")
+		val = time.Now().Add(time.Hour * time.Duration(rand.Intn(24*7))).Format("2006-01-02T15:04:05-07:00")
 	} else if f.Flavor == "oneWord" {
 		val = gofakeit.Word()
 	} else if f.Flavor == "fewWords" {
