@@ -65,6 +65,7 @@ func handle{{index . "camel" }}Updates(c *router.Context, id string) {
 	controller := content.String()
 	files.SaveFile(dir+"/app/"+name+"_controller.go", controller)
 	MakeView(name, dir+"/views/"+name+"_index.html")
+	MakeView(name, dir+"/views/"+name+"_show.html")
 
 	fmt.Printf("\nr.Paths[\"%s\"] = app.Handle%s\n", name, m["camel"])
 }
