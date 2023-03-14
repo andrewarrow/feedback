@@ -1,8 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"math/rand"
 	"os"
+	"time"
 
 	"github.com/andrewarrow/feedback/util"
 	"github.com/brianvoe/gofakeit/v6"
@@ -32,6 +34,9 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		defaultString = "0"
 	} else if f.Flavor == "text" {
 		flavor = "text"
+	} else if f.Flavor == "timestamp" {
+		flavor = "timestamp"
+		defaultString = "NOW()"
 	}
 	return flavor, defaultString
 }
@@ -46,6 +51,8 @@ func (f *Field) RandomValue() any {
 		val = gofakeit.FirstName() + " " + gofakeit.LastName()
 	} else if f.Flavor == "int" {
 		val = rand.Intn(999)
+	} else if f.Flavor == "timestamp" {
+		val = fmt.Sprintf("to_timestamp(%d)", time.Now().Unix()+int64(rand.Intn(99999999)))
 	} else if f.Flavor == "oneWord" {
 		val = gofakeit.Word()
 	} else if f.Flavor == "fewWords" {
