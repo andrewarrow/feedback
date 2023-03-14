@@ -5,11 +5,10 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/util"
 )
 
 func UpdateRow(model *models.Model) string {
-	tableName := util.Plural(model.Name)
+	tableName := model.TableName()
 	buffer := []string{"UPDATE "}
 	buffer = append(buffer, tableName+" set ")
 
