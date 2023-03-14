@@ -16,7 +16,8 @@ func (r *Router) LookupUser(guid string) *User {
 	if guid == "" {
 		return nil
 	}
-	rows, err := r.Db.Queryx("SELECT * FROM users where guid=$1", guid)
+	sql := fmt.Sprintf("SELECT * FROM %s where guid=$1", TableName("users"))
+	rows, err := r.Db.Queryx(sql, guid)
 	if err != nil {
 		return nil
 	}
@@ -37,7 +38,8 @@ func (r *Router) LookupUsername(username string) *User {
 	if username == "" {
 		return nil
 	}
-	rows, err := r.Db.Queryx("SELECT * FROM users where username=$1", username)
+	sql := fmt.Sprintf("SELECT * FROM %s where username=$1", TableName("users"))
+	rows, err := r.Db.Queryx(sql, username)
 	if err != nil {
 		return nil
 	}
