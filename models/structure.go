@@ -42,6 +42,8 @@ func (f *Field) RandomValue() any {
 		val = util.PseudoUuid()
 	} else if f.Flavor == "username" {
 		val = gofakeit.Username()
+	} else if f.Flavor == "name" {
+		val = gofakeit.FirstName() + " " + gofakeit.LastName()
 	} else if f.Flavor == "int" {
 		val = rand.Intn(999)
 	} else if f.Flavor == "oneWord" {

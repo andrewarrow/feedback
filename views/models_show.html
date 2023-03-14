@@ -31,7 +31,8 @@
                  <tr>
                     <td class="title" colspan="16">
                        <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
-                         <select name="flavor">
+                         <select name="flavor" id="flavor" onchange="fillInFieldName();">
+                                 <option>name</option>
                                  <option>fewWords</option>
                                  <option>oneWord</option>
                                  <option>uuid</option>

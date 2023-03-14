@@ -1,3 +1,8 @@
+function fillInFieldName() {
+  const flavor = document.getElementById('flavor');
+  const name = document.getElementById('name');
+  name.value = flavor.value;
+}
 
 function doLogout(e) {
   e.preventDefault();

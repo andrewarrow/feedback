@@ -113,6 +113,11 @@ func handleModelsCreateWithJson(c *Context) {
 		c.Writer.WriteHeader(422)
 		fmt.Fprintf(c.Writer, "length of name must be > 2")
 	} else {
+		f := models.Field{}
+		f.Name = "guid"
+		f.Flavor = "uuid"
+		f.Index = "yes"
+		newModel.Fields = append(newModel.Fields, &f)
 		c.router.Site.Models = append(c.router.Site.Models, &newModel)
 		c.saveSchema()
 		MakeTable(c.Db, &newModel)
