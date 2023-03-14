@@ -9,7 +9,6 @@ import (
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
-	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -57,8 +56,8 @@ func handleThird(c *Context, second, third string) {
 	}
 
 	if c.Method == "DELETE" {
-		safeName := models.RemoveNonAlphanumeric(second)
-		c.Db.Exec(fmt.Sprintf("delete from %s where guid=$1", util.Plural(safeName)), third)
+		tableName := model.TableName()
+		c.Db.Exec(fmt.Sprintf("delete from %s where guid=$1", tableName), third)
 		http.Redirect(c.Writer, c.Request, "/models/"+second, 302)
 		return
 	} else if c.Method == "GET" {
@@ -131,7 +130,7 @@ func ModelsShow(c *Context, rawId string) {
 		return
 	}
 
-	tableName := util.Plural(model.Name)
+	tableName := model.TableName()
 	vars := ModelVars{}
 	vars.Rows = []map[string]any{}
 	rows, err := c.Db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
@@ -163,7 +162,7 @@ func ModelsCreateWithId(c *Context, id string) {
 		c.NotFound = true
 		return
 	}
-	tableName := util.Plural(model.Name)
+	tableName := model.TableName()
 	fieldName := c.Request.FormValue("name")
 	index := c.Request.FormValue("index")
 	flavor := c.Request.FormValue("flavor")
@@ -183,7 +182,7 @@ func ModelsCreateWithId(c *Context, id string) {
 }
 
 func FetchOneRow(db *sqlx.DB, model *models.Model, guid string) map[string]any {
-	tableName := util.Plural(model.Name)
+	tableName := model.TableName()
 	rows, err := db.Queryx(fmt.Sprintf("SELECT * FROM %s where guid=$1", tableName), guid)
 	if err != nil {
 		return map[string]any{}

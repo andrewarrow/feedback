@@ -2,15 +2,14 @@ package router
 
 import (
 	"fmt"
-
-	"github.com/andrewarrow/feedback/util"
+	"os"
 )
 
 func (r *Router) ResetDatabase() {
 	for _, model := range r.Site.Models {
-		tableName := util.Plural(model.Name)
-		r.Db.Exec("drop table " + tableName)
+		r.Db.Exec("drop table " + model.TableName())
 	}
-	r.Db.Exec("drop table feedback_schema")
+	prefix := os.Getenv("FEEDBACK_NAME")
+	r.Db.Exec(fmt.Sprintf("drop table %s_feedback_schema", prefix))
 	fmt.Println("done.")
 }
