@@ -9,6 +9,8 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 )
 
+const ISO8601 = "2006-01-02T15:04:05-07:00"
+
 type Model struct {
 	Name   string   `json:"name"`
 	Fields []*Field `json:"fields"`
@@ -51,7 +53,7 @@ func (f *Field) RandomValue() any {
 	} else if f.Flavor == "int" {
 		val = rand.Intn(999)
 	} else if f.Flavor == "timestamp" {
-		val = time.Now().Add(time.Hour * time.Duration(rand.Intn(24*7))).Format("2006-01-02T15:04:05-07:00")
+		val = time.Now().Add(time.Hour * time.Duration(rand.Intn(24*7))).Format(ISO8601)
 	} else if f.Flavor == "oneWord" {
 		val = gofakeit.Word()
 	} else if f.Flavor == "fewWords" {

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
@@ -200,6 +201,9 @@ func FetchOneRow(db *sqlx.DB, model *models.Model, guid string) map[string]any {
 	for _, f := range model.Fields {
 		if f.Flavor == "int" {
 			m[f.Name] = m[f.Name].(int64)
+		} else if f.Flavor == "timestamp" {
+			t := m[f.Name].(time.Time)
+			m[f.Name] = t.Format(models.ISO8601)
 		} else {
 			m[f.Name] = fmt.Sprintf("%s", m[f.Name])
 		}
