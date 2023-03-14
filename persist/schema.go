@@ -43,40 +43,26 @@ func PostgresConnection() *sqlx.DB {
 
 func SchemaJson(db *sqlx.DB) string {
 	db.Exec(sqlgen.PgCreateSchemaTable())
+	prefix := os.Getenv("FEEDBACK_NAME")
 	m := make(map[string]any)
-	rows, _ := db.Queryx("select json_string from feedback_schema limit 1")
+	sql := fmt.Sprintf("select json_string from %s_feedback_schema limit 1", prefix)
+	rows, _ := db.Queryx(sql)
 	defer rows.Close()
 	rows.Next()
 	rows.MapScan(m)
 	if len(m) == 0 {
 		jsonString := `{"footer": "github.com/andrewarrow/feedback",
-"title": "Feedback",
+"title": "%s",
 "models": [
   {"name": "user", "fields": [
     {"name": "username", "flavor": "username", "index": "unique"},
     {"name": "password", "flavor": "fewWords"},
     {"name": "guid", "flavor": "uuid", "index": "yes"}
-  ]},
-  {"name": "story", "fields": [
-    {"name": "title", "flavor": "fewWords"},
-    {"name": "url", "flavor": "fewWords"},
-		{"name": "username", "flavor": "fewWords", "index": "yes"},
-    {"name": "body", "flavor": "text"},
-    {"name": "comments", "flavor": "int"},
-    {"name": "points", "flavor": "int"},
-    {"name": "domain", "flavor": "oneWord", "index": "yes"},
-    {"name": "guid", "flavor": "uuid", "index": "yes"}
-  ]},
-  {"name": "comment", "fields": [
-		{"name": "username", "flavor": "fewWords", "index": "yes"},
-    {"name": "body", "flavor": "text"},
-		{"name": "story_id", "flavor": "int", "index": "yes"},
-		{"name": "story_guid", "flavor": "uuid"},
-    {"name": "guid", "flavor": "uuid", "index": "yes"}
   ]}
 ]}`
-		db.Exec(fmt.Sprintf("insert into feedback_schema (json_string) values ('%s')", jsonString))
-		return jsonString
+		jsonStringWithTitle := fmt.Sprintf(jsonString, prefix)
+		db.Exec(fmt.Sprintf("insert into %s_feedback_schema (json_string) values ('%s')", prefix, jsonStringWithTitle))
+		return jsonStringWithTitle
 	}
 	return fmt.Sprintf("%s", m["json_string"])
 }
