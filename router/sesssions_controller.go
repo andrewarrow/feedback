@@ -32,7 +32,8 @@ func handleSessionsIndex(c *Context) {
 func CreateSession(c *Context) {
 	username := c.Request.FormValue("username")
 	password := c.Request.FormValue("password")
-	rows, err := c.Db.Queryx("SELECT * FROM users where username=$1 and password=$2", username, password)
+	sql := fmt.Sprintf("SELECT * FROM %s where username=$1 and password=$2", TableName("users"))
+	rows, err := c.Db.Queryx(sql, username, password)
 	if err != nil {
 		return
 	}

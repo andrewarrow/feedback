@@ -2,11 +2,17 @@ package router
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/jmoiron/sqlx"
 )
+
+func TableName(name string) string {
+	prefix := os.Getenv("FEEDBACK_NAME")
+	return prefix + "_" + name
+}
 
 func MakeTables(db *sqlx.DB, models []*models.Model) {
 	for _, model := range models {

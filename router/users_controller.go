@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -61,7 +62,8 @@ func handleUsersIndex(c *Context) {
 		}
 
 		guid := util.PseudoUuid()
-		_, err := c.Db.Exec("insert into users (username, password, guid) values ($1, $2, $3)", username, password, guid)
+		sql := fmt.Sprintf("insert into %s (username, password, guid) values ($1, $2, $3)", TableName("users"))
+		_, err := c.Db.Exec(sql, username, password, guid)
 		if err != nil {
 			SetFlash(c, "username is taken.")
 		} else {
