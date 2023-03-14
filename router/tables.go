@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
@@ -16,7 +17,8 @@ func MakeTables(db *sqlx.DB, models []*models.Model) {
 }
 
 func MakeTable(db *sqlx.DB, model *models.Model) {
-	tableName := util.Plural(model.Name)
+	prefix := os.Getenv("FEEDBACK_NAME")
+	tableName := prefix + "_" + util.Plural(model.Name)
 	//c.Db.Exec(sqlgen.MysqlCreateTable(tableName))
 	db.Exec(sqlgen.PgCreateTable(tableName))
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
