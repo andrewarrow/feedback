@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -34,7 +35,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 
 func (c *Context) saveSchema() {
 	asBytes, _ := json.Marshal(c.router.Site)
-	c.Db.Exec(fmt.Sprintf("update feedback_schema set json_string = '%s'", string(asBytes)))
+	c.Db.Exec(fmt.Sprintf("update %s set json_string = '%s'", sqlgen.FeedbackSchemaTable(), string(asBytes)))
 }
 
 func (c *Context) BodyAsString() string {

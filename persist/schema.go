@@ -43,9 +43,8 @@ func PostgresConnection() *sqlx.DB {
 
 func SchemaJson(db *sqlx.DB) string {
 	db.Exec(sqlgen.PgCreateSchemaTable())
-	prefix := os.Getenv("FEEDBACK_NAME")
 	m := make(map[string]any)
-	sql := fmt.Sprintf("select json_string from %s_feedback_schema limit 1", prefix)
+	sql := fmt.Sprintf("select json_string from %s limit 1", sqlgen.FeedbackSchemaTable())
 	rows, _ := db.Queryx(sql)
 	defer rows.Close()
 	rows.Next()
@@ -60,8 +59,9 @@ func SchemaJson(db *sqlx.DB) string {
     {"name": "guid", "flavor": "uuid", "index": "yes"}
   ]}
 ]}`
+		prefix := os.Getenv("FEEDBACK_NAME")
 		jsonStringWithTitle := fmt.Sprintf(jsonString, prefix)
-		db.Exec(fmt.Sprintf("insert into %s_feedback_schema (json_string) values ('%s')", prefix, jsonStringWithTitle))
+		db.Exec(fmt.Sprintf("insert into %s (json_string) values ('%s')", sqlgen.FeedbackSchemaTable(), jsonStringWithTitle))
 		return jsonStringWithTitle
 	}
 	return fmt.Sprintf("%s", m["json_string"])

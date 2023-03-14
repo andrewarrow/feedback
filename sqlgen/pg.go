@@ -13,11 +13,15 @@ func PgCreateTable(tableName string) string {
 	return fmt.Sprintf(sql, tableName)
 }
 
-func PgCreateSchemaTable() string {
+func FeedbackSchemaTable() string {
 	prefix := os.Getenv("FEEDBACK_NAME")
-	sql := `CREATE TABLE %s_feedback_schema (
+	return prefix + "_feedback_schema"
+}
+
+func PgCreateSchemaTable() string {
+	sql := `CREATE TABLE %s (
   id SERIAL PRIMARY KEY,
 	json_string text
 );`
-	return fmt.Sprintf(sql, prefix)
+	return fmt.Sprintf(sql, FeedbackSchemaTable())
 }
