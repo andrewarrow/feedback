@@ -10,6 +10,7 @@ type User struct {
 	Timestamp string
 	Ago       string
 	Guid      string
+	Id        int64
 }
 
 func (r *Router) LookupUser(guid string) *User {
@@ -31,6 +32,7 @@ func (r *Router) LookupUser(guid string) *User {
 	user := User{}
 	user.Username = fmt.Sprintf("%s", m["username"])
 	user.Guid = guid
+	user.Id = m["id"].(int64)
 	return &user
 }
 

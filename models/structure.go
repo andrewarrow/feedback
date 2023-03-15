@@ -67,6 +67,8 @@ func (f *Field) RandomValue() any {
 		val = gofakeit.Word()
 	} else if f.Flavor == "address" {
 		val = gofakeit.Street()
+	} else if f.Flavor == "address_1_line" {
+		val = gofakeit.Street() + " " + gofakeit.City() + ", " + gofakeit.StateAbr() + " " + gofakeit.Zip()
 	} else if f.Flavor == "city" {
 		val = gofakeit.City()
 	} else if f.Flavor == "state" {

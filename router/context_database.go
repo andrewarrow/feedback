@@ -11,9 +11,13 @@ func (c *Context) FindModel(name string) *models.Model {
 	return c.router.Site.FindModel(name)
 }
 
-func (c *Context) Count(name string) int64 {
+func (c *Context) Count(name string, where string) int64 {
 	tableName := TablenameFromName(name)
-	sql := fmt.Sprintf("SELECT count(1) as c FROM %s", tableName)
+	whereString := ""
+	if where != "" {
+		whereString = " where " + where
+	}
+	sql := fmt.Sprintf("SELECT count(1) as c FROM %s%s", tableName, whereString)
 	m := map[string]any{}
 	rows, err := c.Db.Queryx(sql)
 	if err != nil {
