@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/andrewarrow/feedback/models"
@@ -14,9 +13,8 @@ func FixTime(model *models.Model, m *map[string]any) {
 			continue
 		}
 		tm := (*m)[field.Name].(time.Time)
-		timestamp := fmt.Sprintf("%s", tm)
 		ago := timeago.English.Format(tm)
-		(*m)[field.Name] = timestamp
+		(*m)[field.Name] = tm.Format(time.RFC1123)
 		(*m)[field.Name+"_ago"] = ago
 	}
 }
