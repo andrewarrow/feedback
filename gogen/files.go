@@ -32,7 +32,8 @@ func Handle{{index . "camel" }}(c *router.Context, second, third string) {
 
 func handle{{index . "camel" }}Index(c *router.Context) {
 	if c.Method == "GET" {
-		c.SendContentInLayout("{{index . "name" }}_index.html", nil, 200)
+	  rows := c.SelectAllFrom("{{index . "name" }}")
+		c.SendContentInLayout("{{index . "name" }}_index.html", rows, 200)
 		return
 	}
 	handle{{index . "camel" }}Create(c)
@@ -44,8 +45,8 @@ func handle{{index . "camel" }}Create(c *router.Context) {
 
 func handle{{index . "camel" }}Show(c *router.Context, id string) {
 	if c.Method == "GET" {
-	  m := map[string]string{"id": id}
-		c.SendContentInLayout("{{index . "name" }}_show.html", m, 200)
+		row := c.SelectOneFrom(id, "{{index . "name" }}")
+		c.SendContentInLayout("{{index . "name" }}_show.html", row, 200)
 		return
 	}
 	handle{{index . "camel" }}Updates(c, id)
@@ -79,9 +80,16 @@ func MakeIndexView(name, path string) {
             <h2>hi</h2>
           </hgroup>
         </div>
-        <div></div>
+        <table>
+{{range $i, $item := .}}
+<tr>
+        <td>{{add $i 1}}</td>
+        <td><a href="/%s/{{index $item "guid"}}/">{{index $item "guid"}}</a></td>
+</tr>
+        {{end}}
+        </table>
 </article>`
-	view := fmt.Sprintf(v, name)
+	view := fmt.Sprintf(v, name, name)
 	files.SaveFile(path, view)
 }
 
@@ -90,7 +98,7 @@ func MakeShowView(name, path string) {
         <div>
           <hgroup>
             <h1>%s</h1>
-            <h2>{{ index . "id"}}</h2>
+            <h2>{{ index . "guid"}}</h2>
           </hgroup>
         </div>
         <div></div>
