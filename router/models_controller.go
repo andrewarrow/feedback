@@ -121,7 +121,7 @@ func handleModelsCreateWithJson(c *Context) {
 		MakeTable(c.Db, &newModel)
 		vars := ModelsVars{}
 		vars.Models = c.router.Site.Models
-		c.router.Template.ExecuteTemplate(c.Writer, "models_list.html", vars)
+		c.ExecuteTemplate("models_list.html", vars)
 	}
 }
 
