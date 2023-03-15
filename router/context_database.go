@@ -11,6 +11,20 @@ func (c *Context) FindModel(name string) *models.Model {
 	return c.router.Site.FindModel(name)
 }
 
+func (c *Context) Count(name string) int64 {
+	tableName := TablenameFromName(name)
+	sql := fmt.Sprintf("SELECT count(1) as c FROM %s", tableName)
+	m := map[string]any{}
+	rows, err := c.Db.Queryx(sql)
+	if err != nil {
+		return 0
+	}
+	defer rows.Close()
+	rows.Next()
+	rows.MapScan(m)
+	return m["c"].(int64)
+}
+
 func TablenameFromName(name string) string {
 	prefix := os.Getenv("FEEDBACK_NAME")
 	return prefix + "_" + name
