@@ -30,9 +30,17 @@ func TablenameFromName(name string) string {
 	return prefix + "_" + name
 }
 
-func (c *Context) SelectAllFrom(name string) []*map[string]any {
+func (c *Context) SelectAllFrom(name, order, where string) []*map[string]any {
 	tableName := TablenameFromName(name)
-	sql := fmt.Sprintf("SELECT * FROM %s ORDER BY created_at desc limit 30", tableName)
+	whereString := ""
+	if where != "" {
+		whereString = "where " + where
+	}
+	orderString := "created_at desc"
+	if order != "" {
+		orderString = order
+	}
+	sql := fmt.Sprintf("SELECT * FROM %s %s ORDER BY %s limit 30", tableName, whereString, orderString)
 	ms := []*map[string]any{}
 	rows, err := c.Db.Queryx(sql)
 	if err != nil {
