@@ -22,7 +22,10 @@ func UpdateRow(model *models.Model) string {
 	return strings.Join(buffer, "")
 }
 
-func InsertRow(tableName string, fields []*models.Field) (string, []any) {
+func InsertRow(tableName string,
+	fields []*models.Field,
+	override map[string]any) (string, []any) {
+
 	buffer := []string{"INSERT INTO "}
 	buffer = append(buffer, tableName+" (")
 
@@ -36,7 +39,11 @@ func InsertRow(tableName string, fields []*models.Field) (string, []any) {
 	params := []any{}
 	for i, field := range fields {
 		cols = append(cols, fmt.Sprintf("$%d", i+1))
-		params = append(params, field.RandomValue())
+		val := override[field.Name]
+		if val == nil {
+			val = field.RandomValue()
+		}
+		params = append(params, val)
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
 	buffer = append(buffer, ")")
