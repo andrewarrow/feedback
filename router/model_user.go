@@ -52,7 +52,10 @@ func (r *Router) LookupUsername(username string) *User {
 	}
 	user := User{}
 	user.Username = fmt.Sprintf("%s", m["username"])
-	user.Timestamp, user.Ago = FixTime(m)
+	model := r.Site.FindModel("user")
+	FixTime(model, &m)
+	user.Timestamp = m["created_at"].(string)
+	user.Ago = m["created_at_ago"].(string)
 	return &user
 }
 
