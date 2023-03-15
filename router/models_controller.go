@@ -1,7 +1,6 @@
 package router
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -101,9 +100,7 @@ func handleModelsIndex(c *Context) {
 }
 
 func handleModelsCreateWithJson(c *Context) {
-	body := c.BodyAsString()
-	var params map[string]any
-	json.Unmarshal([]byte(body), &params)
+	params := c.ReadBodyIntoJson()
 	newModel := models.Model{}
 	name := params["name"]
 	if name != nil {

@@ -32,7 +32,7 @@ func Handle{{index . "camel" }}(c *router.Context, second, third string) {
 
 func handle{{index . "camel" }}Index(c *router.Context) {
 	if c.Method == "GET" {
-	  rows := c.SelectAllFrom("{{index . "name" }}")
+	  rows := c.SelectAllFrom("{{index . "name" }}", "", "")
 		c.SendContentInLayout("{{index . "name" }}_index.html", rows, 200)
 		return
 	}
