@@ -55,14 +55,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	}
 
 	if path == "/" {
-		funcToCall := r.Paths["/"]
 		c := PrepareContext(r, user, "/", flash, writer, request)
-		if funcToCall == nil {
-			r.SendContentInLayout(c.Layout, r.Site.Title, flash, user, writer, "welcome.html",
-				nil, 200)
-		} else {
-			funcToCall(c, "", "")
-		}
+		r.Paths["/"](c, "", "")
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {

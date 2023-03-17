@@ -20,6 +20,7 @@ func NewRouter() *Router {
 	//r.Db = persist.MysqlConnection()
 	r.Db = persist.PostgresConnection()
 	r.Paths = map[string]func(*Context, string, string){}
+	r.Paths["/"] = handleWelcome
 	r.Paths["models"] = handleModels
 	r.Paths["sessions"] = handleSessions
 	r.Paths["users"] = handleUsers
