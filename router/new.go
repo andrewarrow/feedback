@@ -28,6 +28,9 @@ func NewRouter() *Router {
 	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)
 	json.Unmarshal([]byte(jsonString), &site)
+	for _, m := range site.Models {
+		m.EnsureIdAndCreatedAt()
+	}
 	r.Site = &site
 	MakeTables(r.Db, r.Site.Models)
 

@@ -17,3 +17,13 @@ func (s *FeedbackSite) FindModel(id string) *models.Model {
 
 	return nil
 }
+
+func (s *FeedbackSite) FindField(model *models.Model, id string) *models.Field {
+	for _, f := range model.Fields {
+		if f.Name == id {
+			return f
+		}
+	}
+
+	return nil
+}

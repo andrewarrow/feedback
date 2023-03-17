@@ -56,6 +56,8 @@ func SchemaJson(db *sqlx.DB) string {
   {"name": "user", "fields": [
     {"name": "username", "flavor": "username", "index": "unique"},
     {"name": "password", "flavor": "fewWords"},
+    {"name": "id", "flavor": "int"},
+		{"name": "created_at", "flavor": "timestamp", "index": "yes"},
     {"name": "guid", "flavor": "uuid", "index": "yes"}
   ]}
 ]}`

@@ -17,6 +17,24 @@ type Model struct {
 	Fields []*Field `json:"fields"`
 }
 
+func (m *Model) EnsureIdAndCreatedAt() {
+	ca := FindField(m, "created_at")
+	if ca == nil {
+		f := Field{}
+		f.Name = "created_at"
+		f.Flavor = "timestamp"
+		f.Index = "yes"
+		m.Fields = append(m.Fields, &f)
+	}
+	id := FindField(m, "id")
+	if id == nil {
+		f := Field{}
+		f.Name = "id"
+		f.Flavor = "int"
+		m.Fields = append(m.Fields, &f)
+	}
+}
+
 func (m *Model) TableName() string {
 	return prefix.Tablename(util.Plural(m.Name))
 }
