@@ -8,6 +8,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.2.0
 	github.com/xeonx/timeago v1.0.0-rc5
+	golang.org/x/net v0.8.0
 )
 
 require github.com/go-sql-driver/mysql v1.7.0 // indirect

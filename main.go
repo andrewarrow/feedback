@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/gogen"
+	"github.com/andrewarrow/feedback/htmlgen"
 	"github.com/andrewarrow/feedback/router"
 	"github.com/andrewarrow/feedback/util"
 )
@@ -36,6 +37,8 @@ func main() {
 		name := util.GetArg(2)
 		path := util.GetArg(3)
 		gogen.MakeControllerAndView(name, path)
+	} else if arg == "pp" {
+		htmlgen.PrettyPrint()
 	} else if arg == "run" {
 		r := router.NewRouter()
 		r.ListenAndServe(":3000")
