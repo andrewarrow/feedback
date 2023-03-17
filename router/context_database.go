@@ -63,20 +63,20 @@ func CastFields(model *models.Model, m *map[string]any) {
 	}
 }
 
-func (r *Router) SelectOneFrom(model *models.Model, where string, params []any) *map[string]any {
+func (r *Router) SelectOneFrom(model *models.Model, where string, params []any) map[string]any {
 	sql := fmt.Sprintf("SELECT * FROM %s %s", model.TableName(), where)
 	m := map[string]any{}
 	rows, err := r.Db.Queryx(sql, params...)
 	if err != nil {
-		return &m
+		return m
 	}
 	defer rows.Close()
 	rows.Next()
 	rows.MapScan(m)
 	CastFields(model, &m)
-	return &m
+	return m
 }
 
-func (c *Context) SelectOneFrom(model *models.Model, where string, params []any) *map[string]any {
+func (c *Context) SelectOneFrom(model *models.Model, where string, params []any) map[string]any {
 	return c.router.SelectOneFrom(model, where, params)
 }
