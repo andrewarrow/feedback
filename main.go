@@ -38,7 +38,8 @@ func main() {
 		path := util.GetArg(3)
 		gogen.MakeControllerAndView(name, path)
 	} else if arg == "pp" {
-		htmlgen.PrettyPrint()
+		path := util.GetArg(2)
+		htmlgen.PrettyPrint(path)
 	} else if arg == "run" {
 		r := router.NewRouter()
 		r.ListenAndServe(":3000")

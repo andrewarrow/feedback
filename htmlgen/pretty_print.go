@@ -12,7 +12,13 @@ import (
 	"golang.org/x/net/html"
 )
 
-func PrettyPrint() {
+func PrettyPrint(path string) {
+	input := files.ReadFile(path)
+	s := parseIt(input)
+	fmt.Println(s)
+}
+
+func PrettyPrintAll() {
 	list, _ := ioutil.ReadDir("views")
 	for _, file := range list {
 		input := files.ReadFile("views/" + file.Name())
