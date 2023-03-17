@@ -1,28 +1,42 @@
 package htmlgen
 
 import (
+	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"strings"
 
+	"github.com/andrewarrow/feedback/files"
 	"golang.org/x/net/html"
 )
 
 func PrettyPrint() {
-	input := "<html><head><title class=\"dfwfwefe\">Example Page</title></head><body><h1>Hello, world!</h1><p>This is an example page.</p></body></html>"
+	list, _ := ioutil.ReadDir("views")
+	for _, file := range list {
+		input := files.ReadFile("views/" + file.Name())
+		s := parseIt(input)
+		fmt.Println(s)
+	}
+}
+
+func parseIt(input string) string {
 	doc, err := html.ParseFragment(strings.NewReader(input), nil)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing HTML: %v\n", err)
 		os.Exit(1)
 	}
+	content := new(bytes.Buffer)
 	for _, n := range doc {
-		indent(os.Stdout, n, 0)
+		indent(content, n, 0)
 	}
+
+	return content.String()
 }
 
 func indent(w io.Writer, n *html.Node, depth int) {
-	prefix := strings.Repeat(" ", depth*4)
+	prefix := strings.Repeat(" ", depth*2)
 	switch n.Type {
 	case html.ElementNode:
 		fmt.Fprintf(w, "%s<%s", prefix, n.Data)
