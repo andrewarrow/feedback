@@ -13,6 +13,23 @@ func SetFlash(c *Context, flash string) {
 	http.SetCookie(c.Writer, &cookie)
 }
 
+func SetCookie(c *Context, name, value string) {
+	cookie := http.Cookie{}
+	cookie.Path = "/"
+	cookie.MaxAge = 86400 * 30
+	cookie.Name = name
+	cookie.Value = value
+	http.SetCookie(c.Writer, &cookie)
+}
+
+func GetCookie(c *Context, name string) string {
+	cookie, err := c.Request.Cookie(name)
+	if err != nil {
+		return ""
+	}
+	return cookie.Value
+}
+
 func setUser(c *Context, guid string) {
 	cookie := http.Cookie{}
 	cookie.Path = "/"
