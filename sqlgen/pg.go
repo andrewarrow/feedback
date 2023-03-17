@@ -2,7 +2,8 @@ package sqlgen
 
 import (
 	"fmt"
-	"os"
+
+	"github.com/andrewarrow/feedback/prefix"
 )
 
 func PgCreateTable(tableName string) string {
@@ -14,8 +15,7 @@ func PgCreateTable(tableName string) string {
 }
 
 func FeedbackSchemaTable() string {
-	prefix := os.Getenv("FEEDBACK_NAME")
-	return prefix + "_feedback_schema"
+	return prefix.Tablename("feedback_schema")
 }
 
 func PgCreateSchemaTable() string {

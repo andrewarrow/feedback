@@ -3,6 +3,8 @@ package router
 import (
 	"fmt"
 	"os"
+
+	"github.com/andrewarrow/feedback/prefix"
 )
 
 type User struct {
@@ -17,7 +19,7 @@ func (r *Router) LookupUser(guid string) *User {
 	if guid == "" {
 		return nil
 	}
-	sql := fmt.Sprintf("SELECT * FROM %s where guid=$1", TableName("users"))
+	sql := fmt.Sprintf("SELECT * FROM %s where guid=$1", prefix.Tablename("users"))
 	rows, err := r.Db.Queryx(sql, guid)
 	if err != nil {
 		return nil
@@ -40,7 +42,7 @@ func (r *Router) LookupUsername(username string) *User {
 	if username == "" {
 		return nil
 	}
-	sql := fmt.Sprintf("SELECT * FROM %s where username=$1", TableName("users"))
+	sql := fmt.Sprintf("SELECT * FROM %s where username=$1", prefix.Tablename("users"))
 	rows, err := r.Db.Queryx(sql, username)
 	if err != nil {
 		return nil

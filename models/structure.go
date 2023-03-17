@@ -2,9 +2,9 @@ package models
 
 import (
 	"math/rand"
-	"os"
 	"time"
 
+	"github.com/andrewarrow/feedback/prefix"
 	"github.com/andrewarrow/feedback/util"
 	"github.com/brianvoe/gofakeit/v6"
 )
@@ -18,8 +18,7 @@ type Model struct {
 }
 
 func (m *Model) TableName() string {
-	prefix := os.Getenv("FEEDBACK_NAME")
-	return prefix + "_" + util.Plural(m.Name)
+	return prefix.Tablename(util.Plural(m.Name))
 }
 
 type Field struct {

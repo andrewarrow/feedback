@@ -3,6 +3,8 @@ package router
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/andrewarrow/feedback/prefix"
 )
 
 func handleSessions(c *Context, second, third string) {
@@ -32,7 +34,7 @@ func handleSessionsIndex(c *Context) {
 func CreateSession(c *Context) {
 	username := c.Request.FormValue("username")
 	password := c.Request.FormValue("password")
-	sql := fmt.Sprintf("SELECT * FROM %s where username=$1 and password=$2", TableName("users"))
+	sql := fmt.Sprintf("SELECT * FROM %s where username=$1 and password=$2", prefix.Tablename("users"))
 	rows, err := c.Db.Queryx(sql, username, password)
 	if err != nil {
 		return

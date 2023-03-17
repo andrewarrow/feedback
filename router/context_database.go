@@ -2,9 +2,9 @@ package router
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/prefix"
 )
 
 func (c *Context) FindModel(name string) *models.Model {
@@ -12,7 +12,7 @@ func (c *Context) FindModel(name string) *models.Model {
 }
 
 func (c *Context) Count(name string, where string) int64 {
-	tableName := TablenameFromName(name)
+	tableName := prefix.Tablename(name)
 	whereString := ""
 	if where != "" {
 		whereString = " where " + where
@@ -29,13 +29,8 @@ func (c *Context) Count(name string, where string) int64 {
 	return m["c"].(int64)
 }
 
-func TablenameFromName(name string) string {
-	prefix := os.Getenv("FEEDBACK_NAME")
-	return prefix + "_" + name
-}
-
 func (c *Context) SelectAllFrom(name, order, where string) []*map[string]any {
-	tableName := TablenameFromName(name)
+	tableName := prefix.Tablename(name)
 	whereString := ""
 	if where != "" {
 		whereString = "where " + where
@@ -60,7 +55,7 @@ func (c *Context) SelectAllFrom(name, order, where string) []*map[string]any {
 }
 
 func (c *Context) SelectOneFrom(id, name string) *map[string]any {
-	tableName := TablenameFromName(name)
+	tableName := prefix.Tablename(name)
 	sql := fmt.Sprintf("SELECT * FROM %s where guid = $1", tableName)
 	m := map[string]any{}
 	rows, err := c.Db.Queryx(sql, id)

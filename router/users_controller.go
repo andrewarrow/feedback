@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/prefix"
 	"github.com/andrewarrow/feedback/util"
 )
 
@@ -62,7 +63,8 @@ func handleUsersIndex(c *Context) {
 		}
 
 		guid := util.PseudoUuid()
-		sql := fmt.Sprintf("insert into %s (username, password, guid) values ($1, $2, $3)", TableName("users"))
+		sql := fmt.Sprintf("insert into %s (username, password, guid) values ($1, $2, $3)",
+			prefix.Tablename("users"))
 		_, err := c.Db.Exec(sql, username, password, guid)
 		if err != nil {
 			SetFlash(c, "username is taken.")
