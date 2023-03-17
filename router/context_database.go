@@ -9,6 +9,9 @@ import (
 	"github.com/xeonx/timeago"
 )
 
+func (c *Context) EmptyParams() []any {
+	return []any{}
+}
 func (c *Context) FindModel(name string) *models.Model {
 	return c.router.Site.FindModel(name)
 }
@@ -31,10 +34,10 @@ func (c *Context) Count(name string, where string) int64 {
 	return m["c"].(int64)
 }
 
-func (c *Context) SelectAllFrom(model *models.Model, where string) []*map[string]any {
+func (c *Context) SelectAllFrom(model *models.Model, where string, params []any) []*map[string]any {
 	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30", model.TableName(), where)
 	ms := []*map[string]any{}
-	rows, err := c.Db.Queryx(sql)
+	rows, err := c.Db.Queryx(sql, params...)
 	if err != nil {
 		return ms
 	}
