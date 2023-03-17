@@ -52,6 +52,9 @@ func (c *Context) SelectAllFrom(model *models.Model, where string, params []any)
 }
 
 func CastFields(model *models.Model, m *map[string]any) {
+	if len((*m)) == 0 {
+		return
+	}
 	for _, field := range model.Fields {
 		if field.Flavor == "timestamp" {
 			tm := (*m)[field.Name].(time.Time)
