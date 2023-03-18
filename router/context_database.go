@@ -34,9 +34,9 @@ func (c *Context) Count(name string, where string) int64 {
 	return m["c"].(int64)
 }
 
-func (c *Context) SelectAllFrom(model *models.Model, where string, params []any) []*map[string]any {
+func (c *Context) SelectAllFrom(model *models.Model, where string, params []any) []map[string]any {
 	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30", model.TableName(), where)
-	ms := []*map[string]any{}
+	ms := []map[string]any{}
 	rows, err := c.Db.Queryx(sql, params...)
 	if err != nil {
 		return ms
@@ -45,26 +45,26 @@ func (c *Context) SelectAllFrom(model *models.Model, where string, params []any)
 	for rows.Next() {
 		m := make(map[string]any)
 		rows.MapScan(m)
-		CastFields(model, &m)
-		ms = append(ms, &m)
+		CastFields(model, m)
+		ms = append(ms, m)
 	}
 	return ms
 }
 
-func CastFields(model *models.Model, m *map[string]any) {
-	if len((*m)) == 0 {
+func CastFields(model *models.Model, m map[string]any) {
+	if len(m) == 0 {
 		return
 	}
 	for _, field := range model.Fields {
 		if field.Flavor == "timestamp" {
-			tm := (*m)[field.Name].(time.Time)
+			tm := m[field.Name].(time.Time)
 			ago := timeago.English.Format(tm)
-			(*m)[field.Name] = tm.Format(models.HUMAN)
-			(*m)[field.Name+"_ago"] = ago
+			m[field.Name] = tm.Format(models.HUMAN)
+			m[field.Name+"_ago"] = ago
 		} else if field.Flavor == "int" {
-			(*m)[field.Name] = (*m)[field.Name].(int64)
+			m[field.Name] = m[field.Name].(int64)
 		} else {
-			(*m)[field.Name] = fmt.Sprintf("%s", (*m)[field.Name])
+			m[field.Name] = fmt.Sprintf("%s", m[field.Name])
 		}
 	}
 }
@@ -79,7 +79,7 @@ func (r *Router) SelectOneFrom(model *models.Model, where string, params []any) 
 	defer rows.Close()
 	rows.Next()
 	rows.MapScan(m)
-	CastFields(model, &m)
+	CastFields(model, m)
 	return m
 }
 
