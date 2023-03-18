@@ -30,6 +30,10 @@ func (r *Router) LookupUser(guid string) *User {
 	return &user
 }
 
+func (c *Context) LookupUsername(username string) *User {
+	return c.router.LookupUsername(username)
+}
+
 func (r *Router) LookupUsername(username string) *User {
 	if username == "" {
 		return nil
@@ -45,6 +49,7 @@ func (r *Router) LookupUsername(username string) *User {
 	user.Username = m["username"].(string)
 	user.Timestamp = m["created_at"].(string)
 	user.Ago = m["created_at_ago"].(string)
+	user.Id = m["id"].(int64)
 	return &user
 }
 
