@@ -15,7 +15,7 @@ type Context struct {
 	Request      *http.Request
 	tokens       []string
 	router       *Router
-	User         *User
+	User         map[string]any
 	UserRequired bool
 	path         string
 	Db           *sqlx.DB

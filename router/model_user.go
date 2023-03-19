@@ -4,65 +4,38 @@ import (
 	"os"
 )
 
-type User struct {
-	Username  string
-	Timestamp string
-	Ago       string
-	Guid      string
-	Id        int64
-}
-
-func (c *Context) LookupUser(guid string) *User {
+func (c *Context) LookupUser(guid string) map[string]any {
 	return c.router.LookupUser(guid)
 }
 
-func (r *Router) LookupUser(guid string) *User {
+func (r *Router) LookupUser(guid string) map[string]any {
 	if guid == "" {
 		return nil
 	}
 	model := r.Site.FindModel("user")
 	params := []any{guid}
-	m := r.SelectOneFrom(model, "where guid=$1", params)
-
-	if len(m) == 0 {
-		return nil
-	}
-	user := User{}
-	user.Username = m["username"].(string)
-	user.Guid = guid
-	user.Id = m["id"].(int64)
-	return &user
+	return r.SelectOneFrom(model, "where guid=$1", params)
 }
 
-func (c *Context) LookupUsername(username string) *User {
+func (c *Context) LookupUsername(username string) map[string]any {
 	return c.router.LookupUsername(username)
 }
 
-func (r *Router) LookupUsername(username string) *User {
+func (r *Router) LookupUsername(username string) map[string]any {
 	if username == "" {
-		return nil
+		return map[string]any{}
 	}
 	model := r.Site.FindModel("user")
 	params := []any{username}
-	m := r.SelectOneFrom(model, "where username=$1", params)
-
-	if len(m) == 0 {
-		return nil
-	}
-	user := User{}
-	user.Username = m["username"].(string)
-	user.Timestamp = m["created_at"].(string)
-	user.Ago = m["created_at_ago"].(string)
-	user.Id = m["id"].(int64)
-	return &user
+	return r.SelectOneFrom(model, "where username=$1", params)
 }
 
-func (u *User) IsAdmin() bool {
+func IsAdmin(user map[string]any) bool {
 	adminUser := os.Getenv("ADMIN_USER")
 	if adminUser == "*" {
 		return true
 	}
-	return u.Guid == adminUser
+	return user["guid"] == adminUser
 }
 
 func afterCreateUser(c *Context, guid string) {

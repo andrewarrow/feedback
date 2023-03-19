@@ -13,13 +13,13 @@ import (
 type LayoutVars struct {
 	Title    string
 	SiteName string
-	User     *User
+	User     map[string]any
 	Footer   string
 	Content  template.HTML
 	Flash    string
 }
 
-func (r *Router) PlaceContentInLayoutVars(title, flash string, user *User, filename string, vars any) *LayoutVars {
+func (r *Router) PlaceContentInLayoutVars(title, flash string, user map[string]any, filename string, vars any) *LayoutVars {
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
@@ -33,7 +33,7 @@ func (r *Router) PlaceContentInLayoutVars(title, flash string, user *User, filen
 	return &lvars
 }
 
-func (r *Router) SendContentInLayout(layout, title, flash string, user *User, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(layout, title, flash string, user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 	vars := r.PlaceContentInLayoutVars(title, flash, user, filename, contentVars)
 	writer.WriteHeader(status)
@@ -43,7 +43,7 @@ func (r *Router) SendContentInLayout(layout, title, flash string, user *User, wr
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 	cookie, err := request.Cookie("user")
-	var user *User
+	var user map[string]any
 	if err == nil && cookie.Value != "" {
 		user = r.LookupUser(cookie.Value)
 	}
@@ -68,7 +68,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c.ReadFormPost()
 		}
 		handleContext(c)
-		if c.UserRequired && c.User == nil {
+		if c.UserRequired && len(c.User) == 0 {
 			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
 			return
 		}
@@ -78,7 +78,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	}
 }
 
-func PrepareContext(r *Router, user *User, path, flash string, writer http.ResponseWriter, request *http.Request) *Context {
+func PrepareContext(r *Router, user map[string]any, path, flash string, writer http.ResponseWriter, request *http.Request) *Context {
 	c := Context{}
 	c.Writer = writer
 	c.Request = request

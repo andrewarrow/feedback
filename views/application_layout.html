@@ -18,11 +18,11 @@
         <li> <a href="/about/">about</a> </li>
       </ul>
       <ul>
-                      {{ if .User }}
+                      {{ if index .User "id" }}
                       <form id="logout" method="POST" action="/sessions/">
                         <input type="hidden" name="_method" value="DELETE"/>
                       </form>
-                      <li><a href="/users/{{ .User.Username }}/">{{ .User.Username }}</a> | <a onclick="doLogout(event);" href="#">logout</a></li>
+                      <li><a href="/users/{{ index .User "username" }}/">{{ index .User "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a></li>
                       {{ else }}
         <li> <a href="/sessions/new/">login</a> </li>
                       {{ end }}
