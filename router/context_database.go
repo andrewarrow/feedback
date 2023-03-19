@@ -34,23 +34,6 @@ func (c *Context) Count(name string, where string) int64 {
 	return m["c"].(int64)
 }
 
-func (c *Context) SelectAllFrom(model *models.Model, where string, params []any) []map[string]any {
-	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30", model.TableName(), where)
-	ms := []map[string]any{}
-	rows, err := c.Db.Queryx(sql, params...)
-	if err != nil {
-		return ms
-	}
-	defer rows.Close()
-	for rows.Next() {
-		m := make(map[string]any)
-		rows.MapScan(m)
-		CastFields(model, m)
-		ms = append(ms, m)
-	}
-	return ms
-}
-
 func CastFields(model *models.Model, m map[string]any) {
 	if len(m) == 0 {
 		return
