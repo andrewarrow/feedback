@@ -60,3 +60,6 @@ func (u *User) IsAdmin() bool {
 	}
 	return u.Guid == adminUser
 }
+
+func afterCreateUser(c *Context, guid string) {
+}
