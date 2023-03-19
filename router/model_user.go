@@ -12,6 +12,10 @@ type User struct {
 	Id        int64
 }
 
+func (c *Context) LookupUser(guid string) *User {
+	return c.router.LookupUser(guid)
+}
+
 func (r *Router) LookupUser(guid string) *User {
 	if guid == "" {
 		return nil

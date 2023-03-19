@@ -60,6 +60,15 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	return flavor, defaultString
 }
 
+func (f *Field) Default() any {
+	if f.Flavor == "int" {
+		return 0
+	} else if f.Flavor == "timestamp" {
+		// TODO fix for ''
+	}
+	return ""
+}
+
 func (f *Field) RandomValue() any {
 	var val any
 	if f.Flavor == "uuid" {
