@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/andrewarrow/feedback/aigen"
 	"github.com/andrewarrow/feedback/gogen"
 	"github.com/andrewarrow/feedback/htmlgen"
 	"github.com/andrewarrow/feedback/router"
@@ -37,6 +38,12 @@ func main() {
 		name := util.GetArg(2)
 		path := util.GetArg(3)
 		gogen.MakeControllerAndView(name, path)
+	} else if arg == "ai" {
+		// davinci  2049 tokens
+		// gpt-3.5-turbo 4096 tokens lowest cost
+		// code-davinci-002 8001 tokens
+		prompt := util.GetArg(2)
+		aigen.RunPrompt(prompt)
 	} else if arg == "pp" {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
