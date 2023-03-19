@@ -55,7 +55,7 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 		}
 
 		fieldPositions = append(fieldPositions, field.Name)
-		valuePositions = append(valuePositions, fmt.Sprintf("%d", i+1))
+		valuePositions = append(valuePositions, fmt.Sprintf("$%d", i+1))
 
 		if field.Name == "guid" {
 			valueList = append(valueList, guid)
@@ -71,7 +71,7 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 
 	fields := strings.Join(fieldPositions, ",")
 	values := strings.Join(valuePositions, ",")
-	sql := fmt.Sprintf("insert into %s (%s) values (%s)", fields, values)
+	sql := fmt.Sprintf("insert into %s (%s) values (%s)", model.TableName(), fields, values)
 	fmt.Println(sql)
 
 	c.Db.Exec(sql, valueList)
