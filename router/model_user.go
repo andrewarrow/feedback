@@ -12,9 +12,12 @@ func (r *Router) LookupUser(guid string) map[string]any {
 	if guid == "" {
 		return nil
 	}
-	model := r.Site.FindModel("user")
 	params := []any{guid}
-	return r.SelectOneFrom(model, "where guid=$1", params)
+	m := r.SelectOne("user", "where guid=$1", params)
+	if len(m) == 0 {
+		return nil
+	}
+	return m
 }
 
 func (c *Context) LookupUsername(username string) map[string]any {
@@ -25,9 +28,12 @@ func (r *Router) LookupUsername(username string) map[string]any {
 	if username == "" {
 		return map[string]any{}
 	}
-	model := r.Site.FindModel("user")
 	params := []any{username}
-	return r.SelectOneFrom(model, "where username=$1", params)
+	m := r.SelectOne("user", "where username=$1", params)
+	if len(m) == 0 {
+		return nil
+	}
+	return m
 }
 
 func IsAdmin(user map[string]any) bool {

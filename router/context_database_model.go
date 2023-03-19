@@ -26,10 +26,14 @@ func (c *Context) SelectAll(modelName string, where string, params []any) []map[
 }
 
 func (c *Context) SelectOne(modelName string, where string, params []any) map[string]any {
-	model := c.FindModel(modelName)
+	return c.router.SelectOne(modelName, where, params)
+}
+
+func (r *Router) SelectOne(modelName string, where string, params []any) map[string]any {
+	model := r.FindModel(modelName)
 	sql := fmt.Sprintf("SELECT * FROM %s %s", model.TableName(), where)
 	m := map[string]any{}
-	rows, err := c.Db.Queryx(sql, params...)
+	rows, err := r.Db.Queryx(sql, params...)
 	if err != nil {
 		return m
 	}
