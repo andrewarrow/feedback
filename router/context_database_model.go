@@ -75,7 +75,6 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 	values := strings.Join(valuePositions, ",")
 	sql := fmt.Sprintf("insert into %s (%s) values (%s)", model.TableName(), fields, values)
 
-	fmt.Println(sql)
 	c.Db.Exec(sql, valueList...)
 	return guid
 }
@@ -84,6 +83,5 @@ func (c *Context) UpdateOne(modelName, setString, whereString string, params []a
 	model := c.FindModel(modelName)
 	sql := fmt.Sprintf("update %s set %s where %s", model.TableName(), setString, whereString)
 
-	fmt.Println(sql)
 	c.Db.Exec(sql, params...)
 }
