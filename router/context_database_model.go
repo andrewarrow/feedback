@@ -47,7 +47,8 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 	valueList := []any{}
 	valuePositions := []string{}
 	guid := util.PseudoUuid()
-	for i, field := range model.Fields {
+	count := 1
+	for _, field := range model.Fields {
 		if field.Name == "id" {
 			continue
 		} else if field.Name == "created_at" {
@@ -55,7 +56,8 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 		}
 
 		fieldPositions = append(fieldPositions, field.Name)
-		valuePositions = append(valuePositions, fmt.Sprintf("$%d", i+1))
+		valuePositions = append(valuePositions, fmt.Sprintf("$%d", count))
+		count++
 
 		if field.Name == "guid" {
 			valueList = append(valueList, guid)
@@ -73,6 +75,7 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 	values := strings.Join(valuePositions, ",")
 	sql := fmt.Sprintf("insert into %s (%s) values (%s)", model.TableName(), fields, values)
 
+	fmt.Println(sql)
 	c.Db.Exec(sql, valueList...)
 	return guid
 }
@@ -81,5 +84,6 @@ func (c *Context) UpdateOne(modelName, setString, whereString string, params []a
 	model := c.FindModel(modelName)
 	sql := fmt.Sprintf("update %s set %s where %s", model.TableName(), setString, whereString)
 
+	fmt.Println(sql)
 	c.Db.Exec(sql, params...)
 }
