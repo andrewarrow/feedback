@@ -76,3 +76,10 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 	c.Db.Exec(sql, valueList...)
 	return guid
 }
+
+func (c *Context) UpdateOne(modelName, setString, whereString string, params []any) {
+	model := c.FindModel(modelName)
+	sql := fmt.Sprintf("update %s set %s where %s", model.TableName(), setString, whereString)
+
+	c.Db.Exec(sql, params...)
+}
