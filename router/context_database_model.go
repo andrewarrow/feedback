@@ -72,8 +72,7 @@ func (c *Context) Insert(modelName string, params map[string]any) string {
 	fields := strings.Join(fieldPositions, ",")
 	values := strings.Join(valuePositions, ",")
 	sql := fmt.Sprintf("insert into %s (%s) values (%s)", model.TableName(), fields, values)
-	fmt.Println(sql)
 
-	c.Db.Exec(sql, valueList)
+	c.Db.Exec(sql, valueList...)
 	return guid
 }
