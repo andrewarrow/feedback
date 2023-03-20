@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/stats"
 )
 
 type LayoutVars struct {
@@ -42,6 +43,7 @@ func (r *Router) SendContentInLayout(layout, title, flash string, user map[strin
 
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
+	go stats.AddHit(path, request)
 	cookie, err := request.Cookie("user")
 	var user map[string]any
 	if err == nil && cookie.Value != "" {
