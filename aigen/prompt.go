@@ -23,7 +23,7 @@ func RunPrompt(prompt string) {
 
 func MakeMessages(content string) []map[string]string {
 	messages := []map[string]string{}
-	messages = append(messages, map[string]string{"role": "user"})
-	messages = append(messages, map[string]string{"content": content})
+	message := map[string]string{"role": "user", "content": content}
+	messages = append(messages, message)
 	return messages
 }
