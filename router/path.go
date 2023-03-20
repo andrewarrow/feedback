@@ -59,6 +59,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	if path == "/" {
 		c := PrepareContext(r, user, "/", flash, writer, request)
 		r.Paths["/"](c, "", "")
+	} else if strings.HasPrefix(path, "/robots.txt") {
+		r.HandleAsset("/assets/robots.txt", writer)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer)
 	} else if !strings.HasSuffix(path, "/") {

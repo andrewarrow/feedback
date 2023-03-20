@@ -24,7 +24,7 @@
                       <form id="logout" method="POST" action="/sessions/">
                         <input type="hidden" name="_method" value="DELETE"/>
                       </form>
-                      <a href="/users/{{ .User.Username }}/">{{ .User.Username }}</a> | <a onclick="doLogout(event);" href="#">logout</a>
+                      <a href="/users/{{ index .User "username" }}/">{{ index .User "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a>
                       {{ else }}
         <a href="/sessions/new/">login</a> 
                       {{ end }}
