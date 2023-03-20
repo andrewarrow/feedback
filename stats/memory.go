@@ -1,7 +1,6 @@
 package stats
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 	"sync"
@@ -16,7 +15,7 @@ type Hit struct {
 }
 
 var hitMutex sync.Mutex
-var hits = []*Hit{}
+var Hits = []*Hit{}
 
 func AddHit(path string, request *http.Request) {
 	h := Hit{}
@@ -25,9 +24,9 @@ func AddHit(path string, request *http.Request) {
 	h.Remote = request.RemoteAddr // TODO X-Forwarded-For, etc.
 	h.Timestamp = time.Now()
 	hitMutex.Lock()
-	hits = append([]*Hit{&h}, hits...)
-	if len(hits) > 100 {
-		hits = hits[0:99]
+	Hits = append([]*Hit{&h}, Hits...)
+	if len(Hits) > 100 {
+		Hits = Hits[0:99]
 	}
 	hitMutex.Unlock()
 }
@@ -38,8 +37,4 @@ func getHeader(field string, request *http.Request) string {
 		return ""
 	}
 	return strings.Join(val, ",")
-}
-
-func main() {
-	fmt.Println("vim-go")
 }

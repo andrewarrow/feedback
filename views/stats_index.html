@@ -3,6 +3,17 @@
             <h2>Stats</h2>
 
       <table role="grid">
+             {{range $i, $item := .}}
+                  <tr>
+                    <td>
+                        <span>{{add $i 1}}.</span>
+                    </td>      
+                    <td style="font-size: 0.8em"> {{$item.Path}} </td>
+                    <td style="font-size: 0.7em"> {{$item.Remote}}<br/>
+                    {{$item.Agent}}</td>
+                    <td style="font-size: 0.7em"> {{ago $item.Timestamp}} </td>
+                 </tr>
+             {{end}}
       </table>
 
       </div>

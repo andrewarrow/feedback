@@ -1,5 +1,7 @@
 package router
 
+import "github.com/andrewarrow/feedback/stats"
+
 func handleStats(c *Context, second, third string) {
 	c.Layout = "models_layout.html"
 	if c.User == nil {
@@ -18,5 +20,5 @@ func handleStats(c *Context, second, third string) {
 }
 
 func handleStatsIndex(c *Context) {
-	c.SendContentInLayout("stats_index.html", nil, 200)
+	c.SendContentInLayout("stats_index.html", stats.Hits, 200)
 }
