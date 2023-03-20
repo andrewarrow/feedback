@@ -11,6 +11,7 @@ type Hit struct {
 	Remote    string
 	Agent     string
 	Path      string
+	Referer   string // keep the mis-spelling going Referrer
 	Timestamp time.Time
 }
 
@@ -21,8 +22,12 @@ func AddHit(path string, request *http.Request) {
 	h := Hit{}
 	h.Agent = getHeader("User-Agent", request)
 	h.Path = path
-	h.Remote = request.RemoteAddr // TODO X-Forwarded-For, etc.
+	h.Remote = getRealIp(request)
 	h.Timestamp = time.Now()
+	h.Referer = getHeader("Referer", request)
+	if h.Referer == "" {
+		h.Referer = getHeader("HTTP_REFERER", request)
+	}
 	hitMutex.Lock()
 	Hits = append([]*Hit{&h}, Hits...)
 	if len(Hits) > 100 {
@@ -37,4 +42,24 @@ func getHeader(field string, request *http.Request) string {
 		return ""
 	}
 	return strings.Join(val, ",")
+}
+
+func getRealIp(request *http.Request) string {
+	ip := getHeader("X-Forwarded-For", request)
+	if ip != "" {
+		return ip
+	}
+	ip = getHeader("X-Real-IP", request)
+	if ip != "" {
+		return ip
+	}
+	ip = getHeader("Forwarded", request)
+	if ip != "" {
+		return ip
+	}
+	ip = getHeader("Via", request)
+	if ip != "" {
+		return ip
+	}
+	return request.RemoteAddr
 }

@@ -10,7 +10,9 @@
                     </td>      
                     <td style="font-size: 0.8em"> {{$item.Path}} </td>
                     <td style="font-size: 0.7em"> {{$item.Remote}}<br/>
-                    {{$item.Agent}}</td>
+                            {{$item.Agent}}<br/>
+                            <strong><a href="{{$item.Referer}}">{{$item.Referer}}</a></strong>
+                    </td>
                     <td style="font-size: 0.7em"> {{ago $item.Timestamp}} </td>
                  </tr>
              {{end}}
