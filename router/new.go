@@ -27,6 +27,7 @@ func NewRouter() *Router {
 	r.Paths["sessions"] = handleSessions
 	r.Paths["users"] = handleUsers
 	r.Paths["about"] = handleAbout
+	r.Paths["stats"] = handleStats
 	r.AfterCreate["user"] = afterCreateUser
 
 	var site FeedbackSite
