@@ -43,7 +43,7 @@ func main() {
 		// gpt-3.5-turbo 4096 tokens lowest cost
 		// code-davinci-002 8001 tokens
 		prompt := util.GetArg(2)
-		aigen.RunPrompt(prompt)
+		aigen.RunImage(prompt)
 	} else if arg == "pp" {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
