@@ -60,11 +60,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		c := PrepareContext(r, user, "/", flash, writer, request)
 		r.Paths["/"](c, "", "")
 	} else if strings.HasPrefix(path, "/robots.txt") {
-		r.HandleAsset("/assets/robots.txt", writer)
+		r.HandleAsset("/assets/robots.txt", writer, request)
 	} else if strings.HasPrefix(path, "/favicon.ico") {
-		r.HandleAsset("/assets/favicon.ico", writer)
+		r.HandleAsset("/assets/favicon.ico", writer, request)
 	} else if strings.HasPrefix(path, "/assets") {
-		r.HandleAsset(path, writer)
+		r.HandleAsset(path, writer, request)
 	} else if !strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, fmt.Sprintf("%s/", path), 301)
 	} else {

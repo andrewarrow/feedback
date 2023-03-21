@@ -2,9 +2,10 @@ package stats
 
 import (
 	"net/http"
-	"strings"
 	"sync"
 	"time"
+
+	"github.com/andrewarrow/feedback/util"
 )
 
 type Hit struct {
@@ -20,13 +21,13 @@ var Hits = []*Hit{}
 
 func AddHit(path string, request *http.Request) {
 	h := Hit{}
-	h.Agent = getHeader("User-Agent", request)
+	h.Agent = util.GetHeader("User-Agent", request)
 	h.Path = path
 	h.Remote = getRealIp(request)
 	h.Timestamp = time.Now()
-	h.Referer = getHeader("Referer", request)
+	h.Referer = util.GetHeader("Referer", request)
 	if h.Referer == "" {
-		h.Referer = getHeader("HTTP_REFERER", request)
+		h.Referer = util.GetHeader("HTTP_REFERER", request)
 	}
 	hitMutex.Lock()
 	Hits = append([]*Hit{&h}, Hits...)
@@ -36,28 +37,20 @@ func AddHit(path string, request *http.Request) {
 	hitMutex.Unlock()
 }
 
-func getHeader(field string, request *http.Request) string {
-	val := request.Header[field]
-	if len(val) == 0 {
-		return ""
-	}
-	return strings.Join(val, ",")
-}
-
 func getRealIp(request *http.Request) string {
-	ip := getHeader("X-Forwarded-For", request)
+	ip := util.GetHeader("X-Forwarded-For", request)
 	if ip != "" {
 		return ip
 	}
-	ip = getHeader("X-Real-IP", request)
+	ip = util.GetHeader("X-Real-IP", request)
 	if ip != "" {
 		return ip
 	}
-	ip = getHeader("Forwarded", request)
+	ip = util.GetHeader("Forwarded", request)
 	if ip != "" {
 		return ip
 	}
-	ip = getHeader("Via", request)
+	ip = util.GetHeader("Via", request)
 	if ip != "" {
 		return ip
 	}
