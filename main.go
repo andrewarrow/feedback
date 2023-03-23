@@ -9,6 +9,7 @@ import (
 	"github.com/andrewarrow/feedback/aigen"
 	"github.com/andrewarrow/feedback/gogen"
 	"github.com/andrewarrow/feedback/htmlgen"
+	"github.com/andrewarrow/feedback/persist"
 	"github.com/andrewarrow/feedback/router"
 	"github.com/andrewarrow/feedback/util"
 )
@@ -47,6 +48,8 @@ func main() {
 	} else if arg == "pp" {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
+	} else if arg == "import" {
+		persist.ScanSchema()
 	} else if arg == "run" {
 		r := router.NewRouter()
 		r.ListenAndServe(":3000")

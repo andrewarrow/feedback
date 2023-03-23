@@ -8,3 +8,10 @@ func Plural(s string) string {
 	}
 	return s + "s"
 }
+
+func Unplural(s string) string {
+	if strings.HasSuffix(s, "ren") {
+		return strings.TrimSuffix(s, "ren")
+	}
+	return strings.TrimSuffix(s, "s")
+}
