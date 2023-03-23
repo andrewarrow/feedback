@@ -3,7 +3,6 @@ package persist
 import (
 	"fmt"
 
-	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -14,11 +13,21 @@ func ScanSchema() {
 	rows := SelectAll(db, sql)
 	for _, row := range rows {
 		table := fmt.Sprintf("%s", row["tablename"])
-		table = util.Unplural(table)
-		fmt.Println(table)
+		//single := util.Unplural(table)
+		scanTable(db, table)
 	}
 
-	sql = "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'your_table_name'"
+}
+
+func scanTable(db *sqlx.DB, table string) {
+	fmt.Println(table)
+	sql := fmt.Sprintf("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '%s'", table)
+	rows := SelectAll(db, sql)
+	for _, row := range rows {
+		col := fmt.Sprintf("%s", row["column_name"])
+		flavor := fmt.Sprintf("%s", row["data_type"])
+		fmt.Printf("     %s %s\n", col, flavor)
+	}
 }
 
 func SelectAll(db *sqlx.DB, sql string) []map[string]any {
