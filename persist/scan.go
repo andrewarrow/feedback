@@ -3,6 +3,7 @@ package persist
 import (
 	"fmt"
 
+	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -13,6 +14,7 @@ func ScanSchema() {
 	rows := SelectAll(db, sql)
 	for _, row := range rows {
 		table := fmt.Sprintf("%s", row["tablename"])
+		table = util.Unplural(table)
 		fmt.Println(table)
 	}
 

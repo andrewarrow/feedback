@@ -48,7 +48,7 @@ func main() {
 	} else if arg == "pp" {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
-	} else if arg == "import" {
+	} else if arg == "scan" {
 		persist.ScanSchema()
 	} else if arg == "run" {
 		r := router.NewRouter()
