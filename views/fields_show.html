@@ -1,19 +1,10 @@
 {{ $model := index . "model"}}
 {{ $field := index . "field"}}
 
-<div>
-        {{ $field.Name }}
-</div>
-
-<div>
-        {{ $field.Flavor }}
-</div>
-<div>
-        {{ $field.Index }}
-</div>
-
 <form id="form1" method="POST" action="/fields/{{$model.Name}}/{{$field.Name}}">
- <input type="text" name="name" id="name" autofocus="true"/>
+        <input type="text" name="name" value="{{$field.Name}}" />
+        <input type="text" name="flavor" value="{{$field.Flavor}}" />
+        <input type="text" name="index" value="{{$field.Index}}" />
  <input type="submit" value="update field"/>
  <input type="hidden" name="_method" value="PATCH"/>
 </form>
