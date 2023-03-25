@@ -3,7 +3,6 @@ package router
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/andrewarrow/feedback/sqlgen"
@@ -35,7 +34,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 
 func (c *Context) saveSchema() {
 	asBytes, _ := json.Marshal(c.router.Site)
-	c.Db.Exec(fmt.Sprintf("update %s set json_string = '%s'", sqlgen.FeedbackSchemaTable(), string(asBytes)))
+	c.Db.Exec(sqlgen.UpdateSchema(asBytes))
 }
 
 func (c *Context) BodyAsString() string {

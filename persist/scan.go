@@ -4,11 +4,12 @@ import (
 	"fmt"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
 
-func ScanSchema() {
+func ScanSchema() []*models.Model {
 	db := PostgresConnection()
 	sql := "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';"
 
@@ -23,6 +24,7 @@ func ScanSchema() {
 		list = append(list, &m)
 	}
 
+	return list
 }
 
 func scanTable(db *sqlx.DB, table string) []*models.Field {
@@ -53,4 +55,9 @@ func SelectAll(db *sqlx.DB, sql string) []map[string]any {
 		ms = append(ms, m)
 	}
 	return ms
+}
+
+func SaveSchema(asBytes []byte) {
+	db := PostgresConnection()
+	db.Exec(sqlgen.UpdateSchema(asBytes))
 }

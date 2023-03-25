@@ -49,7 +49,9 @@ func main() {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
 	} else if arg == "scan" {
-		persist.ScanSchema()
+		list := persist.ScanSchema()
+		asBytes := router.ModelsToBytes(list)
+		persist.SaveSchema(asBytes)
 	} else if arg == "run" {
 		r := router.NewRouter()
 		r.ListenAndServe(":3000")

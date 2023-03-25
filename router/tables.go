@@ -1,6 +1,7 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/andrewarrow/feedback/models"
@@ -30,4 +31,11 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
 		}
 	}
+}
+
+func ModelsToBytes(list []*models.Model) []byte {
+	site := FeedbackSite{}
+	site.Models = list
+	asBytes, _ := json.Marshal(site)
+	return asBytes
 }
