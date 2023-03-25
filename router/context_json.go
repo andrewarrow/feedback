@@ -15,9 +15,9 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 	c.Writer.Write(asBytes)
 }
 
-func (c *Context) JsonInfo(message string) map[string]any {
+func (c *Context) SendContentAsJsonMessage(message string, status int) {
 	m := map[string]any{"info": message}
-	return m
+	c.SendContentAsJson(m, status)
 }
 
 func (c *Context) ValidateJsonForModel(modelString string) string {
