@@ -1,6 +1,8 @@
 package router
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 func (c *Context) ReadBodyIntoJson() map[string]any {
 	body := c.BodyAsString()

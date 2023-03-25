@@ -13,3 +13,8 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 	c.Writer.WriteHeader(status)
 	c.Writer.Write(asBytes)
 }
+
+func (c *Context) JsonInfo(message string) map[string]any {
+	m := map[string]any{"info": message}
+	return m
+}

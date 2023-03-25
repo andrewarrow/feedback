@@ -8,6 +8,7 @@ import (
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/stats"
+	"github.com/andrewarrow/feedback/util"
 )
 
 type LayoutVars struct {
@@ -70,7 +71,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		path = path + "/"
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
-		if c.Method == "POST" {
+		contentType := util.GetHeader("Content-Type", request)
+		if c.Method == "POST" && contentType == "application/x-www-form-urlencoded" {
 			c.ReadFormPost()
 		}
 		handleContext(c)

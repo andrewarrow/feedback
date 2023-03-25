@@ -40,6 +40,7 @@ func (c *Context) saveSchema() {
 func (c *Context) BodyAsString() string {
 	buffer := new(bytes.Buffer)
 	buffer.ReadFrom(c.Request.Body)
+	c.Request.Body.Close()
 	return buffer.String()
 }
 
