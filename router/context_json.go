@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 )
 
 func (c *Context) SendContentAsJson(thing any, status int) {
@@ -17,4 +18,33 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 func (c *Context) JsonInfo(message string) map[string]any {
 	m := map[string]any{"info": message}
 	return m
+}
+
+func (c *Context) ValidateJsonForModel(modelString string) string {
+	params := c.ReadBodyIntoJson()
+	model := c.FindModel(modelString)
+
+	for _, field := range model.RequiredFields() {
+		if params[field.Name] == nil {
+			return "missing " + field.Name
+		}
+	}
+
+	for _, field := range model.Fields {
+		if field.Regex == "" {
+			continue
+		}
+		if params[field.Name] == nil {
+			continue
+		}
+
+		val := params[field.Name].(string)
+
+		re := regexp.MustCompile(field.Regex)
+		if !re.MatchString(val) {
+			return "wrong format " + field.Name
+		}
+	}
+
+	return ""
 }

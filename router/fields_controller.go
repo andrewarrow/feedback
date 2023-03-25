@@ -41,6 +41,7 @@ func handleFieldsPatch(c *Context, modelName, fieldName string) {
 	field.Required = c.Request.FormValue("required")
 	field.Name = c.Request.FormValue("name")
 	field.Index = c.Request.FormValue("index")
+	field.Regex = c.Request.FormValue("regex")
 	c.saveSchema()
 	http.Redirect(c.Writer, c.Request, "/models/"+modelName, 302)
 }

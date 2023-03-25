@@ -54,6 +54,7 @@ type Field struct {
 	Flavor   string `json:"flavor"`
 	Index    string `json:"index"`
 	Required string `json:"required"`
+	Regex    string `json:"regex"`
 }
 
 func (f *Field) SqlTypeAndDefault() (string, string) {
