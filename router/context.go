@@ -23,6 +23,7 @@ type Context struct {
 	flash        string
 	Title        string
 	Layout       string
+	Params       map[string]any
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {

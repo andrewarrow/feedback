@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+
+	"github.com/andrewarrow/feedback/sqlgen"
+	"github.com/andrewarrow/feedback/util"
 )
 
 func (c *Context) SendContentAsJson(thing any, status int) {
@@ -20,12 +23,23 @@ func (c *Context) SendContentAsJsonMessage(message string, status int) {
 	c.SendContentAsJson(m, status)
 }
 
+func (c *Context) CreateRowFromJson(modelString string) string {
+	model := c.FindModel(modelString)
+	tableName := model.TableName()
+	sql, params := sqlgen.InsertRow(tableName, model.Fields, c.Params)
+	_, err := c.Db.Exec(sql, params...)
+	if err != nil {
+		return err.Error()
+	}
+	return ""
+}
+
 func (c *Context) ValidateJsonForModel(modelString string) string {
-	params := c.ReadBodyIntoJson()
+	c.Params = c.ReadBodyIntoJson()
 	model := c.FindModel(modelString)
 
 	for _, field := range model.RequiredFields() {
-		if params[field.Name] == nil {
+		if c.Params[field.Name] == nil {
 			return "missing " + field.Name
 		}
 	}
@@ -34,17 +48,20 @@ func (c *Context) ValidateJsonForModel(modelString string) string {
 		if field.Regex == "" {
 			continue
 		}
-		if params[field.Name] == nil {
+		if c.Params[field.Name] == nil {
 			continue
 		}
 
-		val := params[field.Name].(string)
+		val := c.Params[field.Name].(string)
 
 		re := regexp.MustCompile(field.Regex)
 		if !re.MatchString(val) {
 			return "wrong format " + field.Name
 		}
 	}
+
+	guid := util.PseudoUuid()
+	c.Params["guid"] = guid
 
 	return ""
 }

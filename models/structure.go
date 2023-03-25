@@ -33,6 +33,14 @@ func (m *Model) EnsureIdAndCreatedAt() {
 		f.Flavor = "int"
 		m.Fields = append(m.Fields, &f)
 	}
+	guid := FindField(m, "guid")
+	if guid == nil {
+		f := Field{}
+		f.Name = "guid"
+		f.Flavor = "uuid"
+		f.Index = "yes"
+		m.Fields = append(m.Fields, &f)
+	}
 }
 
 func (m *Model) TableName() string {
