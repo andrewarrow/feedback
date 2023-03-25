@@ -2,7 +2,6 @@ package router
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
 	"net/http"
 	"strings"
@@ -65,9 +64,12 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		r.HandleAsset("/assets/favicon.ico", writer, request)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer, request)
-	} else if !strings.HasSuffix(path, "/") {
-		http.Redirect(writer, request, fmt.Sprintf("%s/", path), 301)
+	} else if strings.HasSuffix(path, "/") {
+		http.Redirect(writer, request, path[0:len(path)-1], 301)
 	} else {
+		if !strings.HasSuffix(path, "/") {
+			path = path + "/"
+		}
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
 		if c.Method == "POST" {

@@ -29,6 +29,7 @@ func NewRouter() *Router {
 	r.Paths["about"] = handleAbout
 	r.Paths["stats"] = handleStats
 	r.Paths["tailwind"] = handleTailwind
+	r.Paths["api"] = handleApi
 	r.AfterCreate["user"] = afterCreateUser
 
 	var site FeedbackSite
