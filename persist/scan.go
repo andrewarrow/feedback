@@ -17,7 +17,6 @@ func ScanSchema() {
 	for _, row := range rows {
 		table := fmt.Sprintf("%s", row["tablename"])
 		single := util.Unplural(table)
-		fmt.Println(single)
 		m := models.Model{}
 		m.Name = single
 		m.Fields = scanTable(db, table)

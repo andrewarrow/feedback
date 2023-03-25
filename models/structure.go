@@ -120,5 +120,10 @@ func (f *Field) RandomValue() any {
 }
 
 func TypeToFlavor(dt string) string {
-	return ""
+	if dt == "bigint" || dt == "boolean" || dt == "integer" {
+		return "int"
+	} else if dt == "text" {
+		return "text"
+	}
+	return "oneWord"
 }
