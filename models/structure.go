@@ -40,9 +40,10 @@ func (m *Model) TableName() string {
 }
 
 type Field struct {
-	Name   string `json:"name"`
-	Flavor string `json:"flavor"`
-	Index  string `json:"index"`
+	Name     string `json:"name"`
+	Flavor   string `json:"flavor"`
+	Index    string `json:"index"`
+	Required string `json:"required"`
 }
 
 func (f *Field) SqlTypeAndDefault() (string, string) {

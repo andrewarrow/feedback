@@ -2,9 +2,20 @@
 {{ $field := index . "field"}}
 
 <form id="form1" method="POST" action="/fields/{{$model.Name}}/{{$field.Name}}">
-        <input type="text" name="name" value="{{$field.Name}}" />
+        <div>name     <input type="text" name="name" value="{{$field.Name}}" />
+        </div>
+        <div>
+                flavor
         <input type="text" name="flavor" value="{{$field.Flavor}}" />
+        </div>
+        <div>
+                index
         <input type="text" name="index" value="{{$field.Index}}" />
+        </div>
+        <div>
+                required
+        <input type="text" name="required" value="{{$field.Required}}" />
+        </div>
  <input type="submit" value="update field"/>
  <input type="hidden" name="_method" value="PATCH"/>
 </form>

@@ -38,6 +38,9 @@ func handleFieldsPatch(c *Context, modelName, fieldName string) {
 	model := c.FindModel(modelName)
 	field := models.FindField(model, fieldName)
 	field.Flavor = c.Request.FormValue("flavor")
+	field.Required = c.Request.FormValue("required")
+	field.Name = c.Request.FormValue("name")
+	field.Index = c.Request.FormValue("index")
 	c.saveSchema()
 	http.Redirect(c.Writer, c.Request, "/models/"+modelName, 302)
 }
