@@ -1,5 +1,7 @@
 package router
 
+import "github.com/andrewarrow/feedback/models"
+
 func handleFields(c *Context, second, third string) {
 	c.Layout = "models_layout.html"
 	if c.User == nil {
@@ -11,12 +13,14 @@ func handleFields(c *Context, second, third string) {
 		return
 	}
 	if second != "" && third != "" {
-		handleFieldsShow(c)
+		handleFieldsShow(c, second, third)
 		return
 	}
 	c.NotFound = true
 }
 
-func handleFieldsShow(c *Context) {
-	c.SendContentInLayout("fields_show.html", nil, 200)
+func handleFieldsShow(c *Context, modelName, fieldName string) {
+	model := c.FindModel(modelName)
+	field := models.FindField(model, fieldName)
+	c.SendContentInLayout("fields_show.html", field, 200)
 }
