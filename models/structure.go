@@ -118,3 +118,7 @@ func (f *Field) RandomValue() any {
 	}
 	return val
 }
+
+func TypeToFlavor(dt string) string {
+	return ""
+}
