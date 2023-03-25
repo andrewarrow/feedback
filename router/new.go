@@ -24,6 +24,7 @@ func NewRouter() *Router {
 	r.AfterCreate = map[string]func(*Context, string){}
 	r.Paths["/"] = handleWelcome
 	r.Paths["models"] = handleModels
+	r.Paths["fields"] = handleFields
 	r.Paths["sessions"] = handleSessions
 	r.Paths["users"] = handleUsers
 	r.Paths["about"] = handleAbout

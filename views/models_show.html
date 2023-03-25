@@ -9,6 +9,7 @@
                   <tr class="athing">
                     <td class="title">
                       <table id="models" border="0">
+             {{ $model := .Model}}
              {{range $i, $item := .Model.Fields}}
                   <tr class="athing" colspan="2">
                           <td>x</td>
@@ -17,7 +18,7 @@
                     </td>      
                     <td class="title">
                      <span class="titleline">
-                             <a href="/models/{{$item.Name}}/">{{$item.Name}}</a>
+                             <a href="/fields/{{$model.Name}}/{{$item.Name}}">{{$item.Name}}</a>
                      </span>
                     </td>
                     <td class="title">
@@ -74,7 +75,6 @@
              {{end}}
                  </tr>
              {{$rows := .Rows}}
-             {{$model := .Model}}
              {{range $i, $item := $rows }}
                   <tr class="athing" colspan="2">
                     <td class="title" valign="top">
