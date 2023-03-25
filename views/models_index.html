@@ -8,7 +8,7 @@
         {{template "_models" .}}
       </table>
      New Model:
-     <form id="form1" method="POST" action="/models/" onsubmit="sendFormAsJson('models', event);">
+     <form id="form1" method="POST" action="/models" onsubmit="sendFormAsJson('models', event);">
          <input type="text" name="name" id="name" />
          <input type="submit" value="create"/>
      </form>

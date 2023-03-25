@@ -21,7 +21,7 @@
       <div class="col-md-4 themed-grid-col">
 
                       {{ if .User }}
-                      <form id="logout" method="POST" action="/sessions/">
+                      <form id="logout" method="POST" action="/sessions">
                         <input type="hidden" name="_method" value="DELETE"/>
                       </form>
                       <a href="/users/{{ index .User "username" }}/">{{ index .User "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a>

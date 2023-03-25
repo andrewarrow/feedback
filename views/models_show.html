@@ -31,7 +31,7 @@
              {{end}}
                  <tr>
                     <td class="title" colspan="16">
-                       <form id="form1" method="POST" action="/models/{{.Model.Name}}/">
+                       <form id="form1" method="POST" action="/models/{{.Model.Name}}">
                          <select name="flavor" id="flavor" onchange="fillInFieldName();">
                                  <option>name</option>
                                  <option>fewWords</option>
@@ -78,7 +78,7 @@
              {{range $i, $item := $rows }}
                   <tr class="athing" colspan="2">
                     <td class="title" valign="top">
-      <form id="f{{index $item "guid" }}" method="POST" action="/models/{{$model.Name}}/{{index $item "guid" }}/">
+      <form id="f{{index $item "guid" }}" method="POST" action="/models/{{$model.Name}}/{{index $item "guid" }}">
               <input type="hidden" name="_method" value="DELETE"/>
       </form>
               <a href="#" onclick="doDeletePost('{{index $item "guid" }}', event);">x</a> 
@@ -98,7 +98,7 @@
                  </tr>
              {{end}}
              <tr><td colspan="20">
-                       <form id="form2" method="POST" action="/models/{{.Model.Name}}/">
+                       <form id="form2" method="POST" action="/models/{{.Model.Name}}">
                          <input type="submit" value="insert row"/>
                        </form>
                      </td></tr>
