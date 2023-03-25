@@ -106,3 +106,13 @@
                        </form>
                      </td></tr>
                       </table></td></tr>
+
+                      <div>
+                              Rename
+               <form  method="POST" action="/models/{{.Model.Name}}">
+        <div>name     <input type="text" name="name" value="{{.Model.Name}}" />
+        </div>
+                 <input type="hidden" name="_method" value="PATCH"/>
+                 <input type="submit" value="rename"/>
+               </form>
+                      </div>

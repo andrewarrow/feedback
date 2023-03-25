@@ -42,6 +42,8 @@ func handleModels(c *Context, second, third string) {
 	} else {
 		if c.Method == "GET" {
 			ModelsShow(c, second)
+		} else if c.Method == "PATCH" {
+			handleModelPatch(c, second)
 		} else {
 			ModelsCreateWithId(c, second)
 		}
@@ -206,4 +208,11 @@ func FetchOneRow(db *sqlx.DB, model *models.Model, guid string) map[string]any {
 		}
 	}
 	return m
+}
+
+func handleModelPatch(c *Context, modelName string) {
+	model := c.FindModel(modelName)
+	model.Name = c.Request.FormValue("name")
+	c.saveSchema()
+	http.Redirect(c.Writer, c.Request, "/models", 302)
 }
