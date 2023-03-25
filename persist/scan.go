@@ -59,5 +59,6 @@ func SelectAll(db *sqlx.DB, sql string) []map[string]any {
 
 func SaveSchema(asBytes []byte) {
 	db := PostgresConnection()
+	fmt.Println(string(asBytes))
 	db.Exec(sqlgen.UpdateSchema(asBytes))
 }

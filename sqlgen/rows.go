@@ -31,14 +31,22 @@ func InsertRow(tableName string,
 
 	cols := []string{}
 	for _, field := range fields {
+		if field.Name == "id" || field.Name == "created_at" {
+			continue
+		}
 		cols = append(cols, field.Name)
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
 	buffer = append(buffer, ") values (")
 	cols = []string{}
 	params := []any{}
-	for i, field := range fields {
-		cols = append(cols, fmt.Sprintf("$%d", i+1))
+	count := 1
+	for _, field := range fields {
+		if field.Name == "id" || field.Name == "created_at" {
+			continue
+		}
+		cols = append(cols, fmt.Sprintf("$%d", count))
+		count++
 		val := override[field.Name]
 		if val == nil {
 			val = field.RandomValue()
