@@ -47,16 +47,6 @@ func (m *Model) TableName() string {
 	return prefix.Tablename(util.Plural(m.Name))
 }
 
-func (m *Model) RequiredFields() []*Field {
-	list := []*Field{}
-	for _, field := range m.Fields {
-		if field.Required == "yes" {
-			list = append(list, field)
-		}
-	}
-	return list
-}
-
 type Field struct {
 	Name     string `json:"name"`
 	Flavor   string `json:"flavor"`
