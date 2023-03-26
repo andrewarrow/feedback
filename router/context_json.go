@@ -35,8 +35,10 @@ func (c *Context) CreateRowFromJson(modelString string) string {
 	return ""
 }
 
-func (c *Context) ValidateJsonForModel(modelString string) string {
-	c.Params = c.ReadBodyIntoJson()
+func (c *Context) ValidateJsonForModel(readBody bool, modelString string) string {
+	if readBody {
+		c.Params = c.ReadBodyIntoJson()
+	}
 	model := c.FindModel(modelString)
 
 	for _, field := range model.Fields {
