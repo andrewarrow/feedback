@@ -61,9 +61,10 @@ func insertRow(random bool, tableName string,
 		count++
 		val := override[field.Name]
 		if val == nil {
-			val = ""
 			if random {
 				val = field.RandomValue()
+			} else {
+				val = field.Default()
 			}
 		}
 		params = append(params, val)
