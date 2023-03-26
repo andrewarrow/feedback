@@ -48,6 +48,10 @@ func main() {
 	} else if arg == "pp" {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
+	} else if arg == "export" {
+		db := persist.PostgresConnection()
+		jsonString := persist.SchemaJson(db)
+		fmt.Println(jsonString)
 	} else if arg == "scan" {
 		list := persist.ScanSchema()
 		asBytes := router.ModelsToBytes(list)

@@ -22,7 +22,19 @@ func UpdateRow(model *models.Model) string {
 	return strings.Join(buffer, "")
 }
 
-func InsertRow(tableName string,
+func InsertRowNoRandomDefaults(tableName string,
+	fields []*models.Field,
+	override map[string]any) (string, []any) {
+	return insertRow(false, tableName, fields, override)
+}
+
+func InsertRowWithRandomDefaults(tableName string,
+	fields []*models.Field,
+	override map[string]any) (string, []any) {
+	return insertRow(true, tableName, fields, override)
+}
+
+func insertRow(random bool, tableName string,
 	fields []*models.Field,
 	override map[string]any) (string, []any) {
 
@@ -49,7 +61,10 @@ func InsertRow(tableName string,
 		count++
 		val := override[field.Name]
 		if val == nil {
-			val = field.RandomValue()
+			val = ""
+			if random {
+				val = field.RandomValue()
+			}
 		}
 		params = append(params, val)
 	}
