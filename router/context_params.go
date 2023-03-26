@@ -7,7 +7,10 @@ import (
 func (c *Context) ReadBodyIntoJson() map[string]any {
 	body := c.BodyAsString()
 	var params map[string]any
-	json.Unmarshal([]byte(body), &params)
+	err := json.Unmarshal([]byte(body), &params)
+	if err != nil {
+		return map[string]any{}
+	}
 	return params
 }
 
