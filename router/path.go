@@ -49,6 +49,14 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	if err == nil && cookie.Value != "" {
 		user = r.LookupUser(cookie.Value)
 	}
+	auth := util.GetHeader("Authorization", request)
+	if auth != "" {
+		tokens := strings.Split(auth, " ")
+		if len(tokens) == 2 {
+			guid := tokens[1]
+			user = r.LookupUser(guid)
+		}
+	}
 	cookie, err = request.Cookie("flash")
 	flash := ""
 	if err == nil && cookie.Value != "" {
@@ -80,8 +88,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
 			return
 		}
-		if c.NotFound {
+		if c.NotFound && c.Layout != "json" {
 			r.SendContentInLayout(c.Layout, "Feedback 404", "", user, writer, "404.html", nil, 404)
+		} else if c.NotFound && c.Layout == "json" {
+			c.SendContentAsJsonMessage("not found", 404)
 		}
 	}
 }
