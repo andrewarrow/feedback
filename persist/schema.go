@@ -44,6 +44,9 @@ func PostgresConnection() *sqlx.DB {
 }
 
 func SchemaJson(db *sqlx.DB) string {
+	if db == nil {
+		return ""
+	}
 	db.Exec(sqlgen.PgCreateSchemaTable())
 	m := make(map[string]any)
 	sql := fmt.Sprintf("select json_string from %s limit 1", sqlgen.FeedbackSchemaTable())
