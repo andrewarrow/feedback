@@ -47,6 +47,8 @@ func CastFields(model *models.Model, m map[string]any) {
 			m[field.Name+"_ago"] = ago
 		} else if field.Flavor == "int" {
 			m[field.Name] = m[field.Name].(int64)
+		} else if m[field.Name] == nil {
+			m[field.Name] = field.DefaultWhenNull()
 		} else {
 			m[field.Name] = fmt.Sprintf("%s", m[field.Name])
 		}
