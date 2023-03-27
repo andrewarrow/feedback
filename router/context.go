@@ -55,7 +55,10 @@ func (c *Context) ReadFormPost() {
 func handleContext(c *Context) {
 	tokens := c.tokens
 	first := tokens[1]
-	funcToRun := c.router.Paths[first] // NOT THREAD SAFE
+
+	c.router.PathChan <- c.router.Paths
+	funcMapCopy := <-c.router.PathChan
+	funcToRun := funcMapCopy[first]
 
 	if funcToRun == nil {
 		c.NotFound = true

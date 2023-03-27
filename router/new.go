@@ -14,6 +14,8 @@ type Router struct {
 	Db          *sqlx.DB
 	Paths       map[string]func(*Context, string, string)
 	AfterCreate map[string]func(*Context, string)
+	PathChan    chan map[string]func(*Context, string, string)
+	AfterChan   chan map[string]func(*Context, string)
 }
 
 func NewRouter() *Router {
@@ -32,6 +34,10 @@ func NewRouter() *Router {
 	r.Paths["tailwind"] = handleTailwind
 	r.Paths["api"] = handleApi
 	r.AfterCreate["user"] = afterCreateUser
+
+	r.PathChan = make(chan map[string]func(*Context, string, string))
+	r.AfterChan = make(chan map[string]func(*Context, string))
+	r.StartChannels()
 
 	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)
