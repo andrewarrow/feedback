@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"html/template"
+	"sync"
 
 	"github.com/andrewarrow/feedback/persist"
 	"github.com/jmoiron/sqlx"
@@ -14,22 +15,20 @@ type Router struct {
 	Db          *sqlx.DB
 	Paths       map[string]func(*Context, string, string)
 	AfterCreate map[string]func(*Context, string)
-	PathChan    chan any
-	AfterChan   chan any
+	PathLock    sync.Mutex
+	AfterLock   sync.Mutex
 }
 
-func castPathToCall(f any) func(*Context, string, string) {
-	if f == nil {
-		return nil
-	}
-	return f.(func(*Context, string, string))
+func (r *Router) pathFuncToRun(key string) func(*Context, string, string) {
+	r.PathLock.Lock()
+	defer r.PathLock.Unlock()
+	return r.Paths[key]
 }
 
-func castAfterToCall(f any) func(*Context, string) {
-	if f == nil {
-		return nil
-	}
-	return f.(func(*Context, string))
+func (r *Router) afterFuncToRun(key string) func(*Context, string) {
+	r.AfterLock.Lock()
+	defer r.AfterLock.Unlock()
+	return r.AfterCreate[key]
 }
 
 func NewRouter() *Router {
@@ -48,10 +47,6 @@ func NewRouter() *Router {
 	r.Paths["tailwind"] = handleTailwind
 	r.Paths["api"] = handleApi
 	r.AfterCreate["user"] = afterCreateUser
-
-	r.PathChan = make(chan any)
-	r.AfterChan = make(chan any)
-	r.StartChannels()
 
 	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)

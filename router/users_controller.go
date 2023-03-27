@@ -72,10 +72,12 @@ func handleUsersIndex(c *Context) {
 			setUser(c, guid)
 			returnPath = "/"
 		}
-		c.router.AfterChan <- "user"
-		funcToCall := <-c.router.AfterChan
-		funcToRun := castAfterToCall(funcToCall)
-		funcToRun(c, guid)
+		funcToRun := c.router.afterFuncToRun("user")
+
+		if funcToRun != nil {
+			funcToRun(c, guid)
+		}
+
 		http.Redirect(c.Writer, c.Request, returnPath, 302)
 		return
 	}
