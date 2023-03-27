@@ -14,8 +14,22 @@ type Router struct {
 	Db          *sqlx.DB
 	Paths       map[string]func(*Context, string, string)
 	AfterCreate map[string]func(*Context, string)
-	PathChan    chan map[string]func(*Context, string, string)
-	AfterChan   chan map[string]func(*Context, string)
+	PathChan    chan any
+	AfterChan   chan any
+}
+
+func castPathToCall(f any) func(*Context, string, string) {
+	if f == nil {
+		return nil
+	}
+	return f.(func(*Context, string, string))
+}
+
+func castAfterToCall(f any) func(*Context, string) {
+	if f == nil {
+		return nil
+	}
+	return f.(func(*Context, string))
 }
 
 func NewRouter() *Router {
@@ -35,8 +49,8 @@ func NewRouter() *Router {
 	r.Paths["api"] = handleApi
 	r.AfterCreate["user"] = afterCreateUser
 
-	r.PathChan = make(chan map[string]func(*Context, string, string))
-	r.AfterChan = make(chan map[string]func(*Context, string))
+	r.PathChan = make(chan any)
+	r.AfterChan = make(chan any)
 	r.StartChannels()
 
 	var site FeedbackSite

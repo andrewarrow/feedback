@@ -66,9 +66,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 
 	if path == "/" {
 		c := PrepareContext(r, user, "/", flash, writer, request)
-		r.PathChan <- r.Paths
-		funcMapCopy := <-r.PathChan
-		funcMapCopy["/"](c, "", "")
+		r.PathChan <- "/"
+		funcToCall := <-r.PathChan
+		funcToRun := castPathToCall(funcToCall)
+		funcToRun(c, "", "")
 	} else if strings.HasPrefix(path, "/robots.txt") {
 		r.HandleAsset("/assets/robots.txt", writer, request)
 	} else if strings.HasPrefix(path, "/favicon.ico") {

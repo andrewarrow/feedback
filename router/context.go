@@ -56,9 +56,9 @@ func handleContext(c *Context) {
 	tokens := c.tokens
 	first := tokens[1]
 
-	c.router.PathChan <- c.router.Paths
-	funcMapCopy := <-c.router.PathChan
-	funcToRun := funcMapCopy[first]
+	c.router.PathChan <- first
+	funcToCall := <-c.router.PathChan
+	funcToRun := castPathToCall(funcToCall)
 
 	if funcToRun == nil {
 		c.NotFound = true
