@@ -72,7 +72,7 @@ func handleUsersIndex(c *Context) {
 			setUser(c, guid)
 			returnPath = "/"
 		}
-		c.router.AfterCreate["user"](c, guid)
+		c.router.AfterCreate["user"](c, guid) // NOT THREAD SAFE
 		http.Redirect(c.Writer, c.Request, returnPath, 302)
 		return
 	}

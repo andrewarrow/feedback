@@ -55,7 +55,7 @@ func (c *Context) ReadFormPost() {
 func handleContext(c *Context) {
 	tokens := c.tokens
 	first := tokens[1]
-	funcToRun := c.router.Paths[first]
+	funcToRun := c.router.Paths[first] // NOT THREAD SAFE
 
 	if funcToRun == nil {
 		c.NotFound = true

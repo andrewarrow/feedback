@@ -66,7 +66,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 
 	if path == "/" {
 		c := PrepareContext(r, user, "/", flash, writer, request)
-		r.Paths["/"](c, "", "")
+		r.Paths["/"](c, "", "") // NOT THREAD SAFE
 	} else if strings.HasPrefix(path, "/robots.txt") {
 		r.HandleAsset("/assets/robots.txt", writer, request)
 	} else if strings.HasPrefix(path, "/favicon.ico") {
