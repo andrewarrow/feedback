@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"html/template"
+	"net/http"
 	"sync"
 
 	"github.com/andrewarrow/feedback/persist"
@@ -10,16 +11,18 @@ import (
 )
 
 type Router struct {
-	Template      *template.Template
-	Site          *FeedbackSite
-	Db            *sqlx.DB
-	Paths         map[string]func(*Context, string, string)
-	BeforeCreate  map[string]func(*Context)
-	AfterCreate   map[string]func(*Context, string)
-	PathLock      sync.Mutex
-	AfterLock     sync.Mutex
-	BeforeLock    sync.Mutex
-	DefaultLayout string
+	Template       *template.Template
+	Site           *FeedbackSite
+	Db             *sqlx.DB
+	Paths          map[string]func(*Context, string, string)
+	BeforeCreate   map[string]func(*Context)
+	AfterCreate    map[string]func(*Context, string)
+	PathLock       sync.Mutex
+	AfterLock      sync.Mutex
+	BeforeLock     sync.Mutex
+	DefaultLayout  string
+	BearerAuthFunc func(*http.Request) map[string]any
+	CookieAuthFunc func(*http.Request) map[string]any
 }
 
 func NewRouter(dbEnvVarName string) *Router {
@@ -40,6 +43,8 @@ func NewRouter(dbEnvVarName string) *Router {
 	r.Paths["api"] = handleApi
 	r.AfterCreate["user"] = afterCreateUser
 	r.DefaultLayout = "application_layout.html"
+	r.BearerAuthFunc = r.bearerAuth
+	r.CookieAuthFunc = r.cookieAuth
 
 	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)

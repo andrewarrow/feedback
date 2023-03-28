@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/stats"
 	"github.com/andrewarrow/feedback/util"
 )
 
@@ -41,14 +40,17 @@ func (r *Router) SendContentInLayout(layout, title, flash string, user map[strin
 	r.Template.ExecuteTemplate(writer, layout, vars)
 }
 
-func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
-	path := request.URL.Path
-	go stats.AddHit(path, request)
+func (r *Router) cookieAuth(request *http.Request) map[string]any {
 	cookie, err := request.Cookie("user")
 	var user map[string]any
 	if err == nil && cookie.Value != "" {
 		user = r.LookupUser(cookie.Value)
 	}
+	return user
+}
+
+func (r *Router) bearerAuth(request *http.Request) map[string]any {
+	var user map[string]any
 	auth := util.GetHeader("Authorization", request)
 	if auth != "" {
 		tokens := strings.Split(auth, " ")
@@ -57,7 +59,19 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			user = r.LookupUser(guid)
 		}
 	}
-	cookie, err = request.Cookie("flash")
+	return user
+}
+
+func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
+	path := request.URL.Path
+
+	var user map[string]any
+	if r.CookieAuthFunc != nil {
+		user = r.CookieAuthFunc(request)
+	}
+	user = r.BearerAuthFunc(request)
+
+	cookie, err := request.Cookie("flash")
 	flash := ""
 	if err == nil && cookie.Value != "" {
 		flash = cookie.Value
