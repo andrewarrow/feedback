@@ -35,14 +35,6 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	return flavor, defaultString
 }
 
-func (f *Field) DefaultWhenNull() any {
-	if f.Flavor == "int" {
-		return 0
-	} else if f.Flavor == "timestamp" {
-		return time.Now()
-	}
-	return ""
-}
 func (f *Field) Default() any {
 	if f.Flavor == "int" {
 		return 0

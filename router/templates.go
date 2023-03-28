@@ -13,7 +13,13 @@ func TemplateFunctions() template.FuncMap {
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
-		"ago":    func(t time.Time) string { return timeago.English.Format(t) },
+		"null": func(s any) any {
+			if s == nil {
+				return ""
+			}
+			return s
+		},
+		"ago": func(t time.Time) string { return timeago.English.Format(t) },
 		"adds": func(i int64) string {
 			if i != 1 {
 				return "s"
