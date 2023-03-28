@@ -10,15 +10,16 @@ import (
 )
 
 type Router struct {
-	Template     *template.Template
-	Site         *FeedbackSite
-	Db           *sqlx.DB
-	Paths        map[string]func(*Context, string, string)
-	BeforeCreate map[string]func(*Context)
-	AfterCreate  map[string]func(*Context, string)
-	PathLock     sync.Mutex
-	AfterLock    sync.Mutex
-	BeforeLock   sync.Mutex
+	Template      *template.Template
+	Site          *FeedbackSite
+	Db            *sqlx.DB
+	Paths         map[string]func(*Context, string, string)
+	BeforeCreate  map[string]func(*Context)
+	AfterCreate   map[string]func(*Context, string)
+	PathLock      sync.Mutex
+	AfterLock     sync.Mutex
+	BeforeLock    sync.Mutex
+	DefaultLayout string
 }
 
 func NewRouter() *Router {
@@ -38,6 +39,7 @@ func NewRouter() *Router {
 	r.Paths["tailwind"] = handleTailwind
 	r.Paths["api"] = handleApi
 	r.AfterCreate["user"] = afterCreateUser
+	r.DefaultLayout = "application_layout.html"
 
 	var site FeedbackSite
 	jsonString := persist.SchemaJson(r.Db)

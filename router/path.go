@@ -106,6 +106,6 @@ func PrepareContext(r *Router, user map[string]any, path, flash string, writer h
 	c.User = user
 	c.path = path
 	c.Db = r.Db
-	c.Layout = "application_layout.html"
+	c.Layout = r.DefaultLayout
 	return &c
 }
