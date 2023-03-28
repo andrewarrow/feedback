@@ -44,7 +44,6 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 	model := c.FindModel(modelString)
 	tableName := model.TableName()
 	sql, params := sqlgen.UpdateRowFromParams(tableName, model.Fields, c.Params, where)
-	fmt.Println(sql)
 	params = append(params, lastParam)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
