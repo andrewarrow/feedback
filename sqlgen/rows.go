@@ -99,6 +99,13 @@ func UpdateRowFromParams(tableName string,
 		cols = append(cols, fmt.Sprintf("%s=$%d", field.Name, count))
 		count++
 		val := override[field.Name]
+		if field.Flavor == "list" {
+			list := []string{}
+			for _, s := range val.([]any) {
+				list = append(list, strings.ToLower(s.(string)))
+			}
+			val = strings.Join(list, ",")
+		}
 		params = append(params, val)
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
