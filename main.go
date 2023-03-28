@@ -33,8 +33,8 @@ func main() {
 	arg := os.Args[1]
 
 	if arg == "reset" {
-		r := router.NewRouter()
-		r.ResetDatabase()
+		//r := router.NewRouter("DATABASE_URL")
+		//r.ResetDatabase()
 	} else if arg == "gen" {
 		name := util.GetArg(2)
 		path := util.GetArg(3)
@@ -49,7 +49,7 @@ func main() {
 		path := util.GetArg(2)
 		htmlgen.PrettyPrint(path)
 	} else if arg == "export" {
-		db := persist.PostgresConnection()
+		db := persist.PostgresConnection("DATABASE_URL")
 		jsonString := persist.SchemaJson(db)
 		fmt.Println(jsonString)
 	} else if arg == "scan" {
@@ -57,7 +57,7 @@ func main() {
 		asBytes := router.ModelsToBytes(list)
 		persist.SaveSchema(asBytes)
 	} else if arg == "run" {
-		r := router.NewRouter()
+		r := router.NewRouter("DATABASE_URL")
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 		PrintHelp()

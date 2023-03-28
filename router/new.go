@@ -22,10 +22,10 @@ type Router struct {
 	DefaultLayout string
 }
 
-func NewRouter() *Router {
+func NewRouter(dbEnvVarName string) *Router {
 	r := Router{}
 	//r.Db = persist.MysqlConnection()
-	r.Db = persist.PostgresConnection()
+	r.Db = persist.PostgresConnection(dbEnvVarName)
 	r.Paths = map[string]func(*Context, string, string){}
 	r.BeforeCreate = map[string]func(*Context){}
 	r.AfterCreate = map[string]func(*Context, string){}

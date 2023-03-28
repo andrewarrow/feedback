@@ -10,7 +10,7 @@ import (
 )
 
 func ScanSchema() []*models.Model {
-	db := PostgresConnection()
+	db := PostgresConnection("DATABASE_URL")
 	sql := "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';"
 
 	list := []*models.Model{}
@@ -58,7 +58,7 @@ func SelectAll(db *sqlx.DB, sql string) []map[string]any {
 }
 
 func SaveSchema(asBytes []byte) {
-	db := PostgresConnection()
+	db := PostgresConnection("DATABASE_URL")
 	fmt.Println(string(asBytes))
 	db.Exec(sqlgen.UpdateSchema(asBytes))
 }

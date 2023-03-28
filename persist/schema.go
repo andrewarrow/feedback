@@ -29,9 +29,9 @@ func MysqlConnection() *sqlx.DB {
 	return db
 }
 
-func PostgresConnection() *sqlx.DB {
+func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 
-	url := os.Getenv("DATABASE_URL")
+	url := os.Getenv(dbEnvVarName)
 
 	db, err := sqlx.Connect("postgres", url)
 	if err == nil {
