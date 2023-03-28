@@ -67,6 +67,13 @@ func insertRow(random bool, tableName string,
 				val = field.Default()
 			}
 		}
+		if field.Flavor == "list" {
+			list := []string{}
+			for _, s := range val.([]any) {
+				list = append(list, strings.ToLower(s.(string)))
+			}
+			val = strings.Join(list, ",")
+		}
 		params = append(params, val)
 	}
 	buffer = append(buffer, strings.Join(cols, ","))

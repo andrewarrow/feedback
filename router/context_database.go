@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/andrewarrow/feedback/models"
@@ -47,6 +48,10 @@ func CastFields(model *models.Model, m map[string]any) {
 			m[field.Name+"_ago"] = ago
 		} else if field.Flavor == "int" {
 			m[field.Name] = m[field.Name].(int64)
+		} else if field.Flavor == "list" {
+			s := fmt.Sprintf("%s", m[field.Name])
+			tokens := strings.Split(s, ",")
+			m[field.Name] = tokens
 		} else if m[field.Name] == nil {
 			// to nothing, leave it nil
 		} else {
