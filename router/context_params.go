@@ -4,14 +4,10 @@ import (
 	"encoding/json"
 )
 
-func (c *Context) ReadBodyIntoJson() map[string]any {
+func (c *Context) ReadJsonBodyIntoParams() {
+	c.Params = map[string]any{}
 	body := c.BodyAsString()
-	var params map[string]any
-	err := json.Unmarshal([]byte(body), &params)
-	if err != nil {
-		return map[string]any{}
-	}
-	return params
+	json.Unmarshal([]byte(body), &c.Params)
 }
 
 func (c *Context) ExecuteTemplate(filename string, vars any) {

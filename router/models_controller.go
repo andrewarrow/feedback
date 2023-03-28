@@ -109,9 +109,9 @@ func handleModelsIndex(c *Context) {
 }
 
 func handleModelsCreateWithJson(c *Context) {
-	params := c.ReadBodyIntoJson()
+	c.ReadJsonBodyIntoParams()
 	newModel := models.Model{}
-	name := params["name"]
+	name := c.Params["name"]
 	if name != nil {
 		newModel.Name = models.RemoveNonAlphanumeric(strings.ToLower(name.(string)))
 	}
