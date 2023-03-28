@@ -27,6 +27,11 @@ func (c *Context) SendContentAsJsonMessage(message string, status int) {
 func (c *Context) CreateRowFromJson(modelString string) string {
 	model := c.FindModel(modelString)
 	tableName := model.TableName()
+	funcToRun := c.router.beforeFuncToRun(modelString)
+
+	if funcToRun != nil {
+		funcToRun(c)
+	}
 	sql, params := sqlgen.InsertRowNoRandomDefaults(tableName, model.Fields, c.Params)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {

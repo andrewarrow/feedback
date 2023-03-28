@@ -10,25 +10,15 @@ import (
 )
 
 type Router struct {
-	Template    *template.Template
-	Site        *FeedbackSite
-	Db          *sqlx.DB
-	Paths       map[string]func(*Context, string, string)
-	AfterCreate map[string]func(*Context, string)
-	PathLock    sync.Mutex
-	AfterLock   sync.Mutex
-}
-
-func (r *Router) pathFuncToRun(key string) func(*Context, string, string) {
-	r.PathLock.Lock()
-	defer r.PathLock.Unlock()
-	return r.Paths[key]
-}
-
-func (r *Router) afterFuncToRun(key string) func(*Context, string) {
-	r.AfterLock.Lock()
-	defer r.AfterLock.Unlock()
-	return r.AfterCreate[key]
+	Template     *template.Template
+	Site         *FeedbackSite
+	Db           *sqlx.DB
+	Paths        map[string]func(*Context, string, string)
+	BeforeCreate map[string]func(*Context)
+	AfterCreate  map[string]func(*Context, string)
+	PathLock     sync.Mutex
+	AfterLock    sync.Mutex
+	BeforeLock   sync.Mutex
 }
 
 func NewRouter() *Router {
@@ -36,6 +26,7 @@ func NewRouter() *Router {
 	//r.Db = persist.MysqlConnection()
 	r.Db = persist.PostgresConnection()
 	r.Paths = map[string]func(*Context, string, string){}
+	r.BeforeCreate = map[string]func(*Context){}
 	r.AfterCreate = map[string]func(*Context, string){}
 	r.Paths["/"] = handleWelcome
 	r.Paths["models"] = handleModels
@@ -60,4 +51,22 @@ func NewRouter() *Router {
 	r.Template = LoadTemplates()
 
 	return &r
+}
+
+func (r *Router) pathFuncToRun(key string) func(*Context, string, string) {
+	r.PathLock.Lock()
+	defer r.PathLock.Unlock()
+	return r.Paths[key]
+}
+
+func (r *Router) afterFuncToRun(key string) func(*Context, string) {
+	r.AfterLock.Lock()
+	defer r.AfterLock.Unlock()
+	return r.AfterCreate[key]
+}
+
+func (r *Router) beforeFuncToRun(key string) func(*Context) {
+	r.BeforeLock.Lock()
+	defer r.BeforeLock.Unlock()
+	return r.BeforeCreate[key]
 }
