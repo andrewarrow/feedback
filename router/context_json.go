@@ -64,8 +64,12 @@ func (c *Context) Validate(modelString string) string {
 		if field.Regex == "" {
 			continue
 		}
-		if c.Params[field.Name] == nil {
+		if field.Null == "yes" && c.Params[field.Name] == nil {
 			continue
+		}
+
+		if c.Params[field.Name] == nil {
+			return "missing " + field.Name
 		}
 
 		val := c.Params[field.Name].(string)
