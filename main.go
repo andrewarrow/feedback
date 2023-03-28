@@ -10,6 +10,7 @@ import (
 	"github.com/andrewarrow/feedback/gogen"
 	"github.com/andrewarrow/feedback/htmlgen"
 	"github.com/andrewarrow/feedback/persist"
+	"github.com/andrewarrow/feedback/prefix"
 	"github.com/andrewarrow/feedback/router"
 	"github.com/andrewarrow/feedback/util"
 )
@@ -31,6 +32,8 @@ func main() {
 		return
 	}
 	arg := os.Args[1]
+
+	prefix.FeedbackName = os.Getenv("FEEDBACK_NAME")
 
 	if arg == "reset" {
 		//r := router.NewRouter("DATABASE_URL")

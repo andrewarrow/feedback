@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/andrewarrow/feedback/prefix"
 	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/jmoiron/sqlx"
 
@@ -66,7 +67,7 @@ func SchemaJson(db *sqlx.DB) string {
     {"name": "guid", "flavor": "uuid", "index": "yes"}
   ]}
 ]}`
-		prefix := os.Getenv("FEEDBACK_NAME")
+		prefix := prefix.FeedbackName
 		jsonStringWithTitle := fmt.Sprintf(jsonString, prefix)
 		db.Exec(fmt.Sprintf("insert into %s (json_string) values ('%s')", sqlgen.FeedbackSchemaTable(), jsonStringWithTitle))
 		return jsonStringWithTitle

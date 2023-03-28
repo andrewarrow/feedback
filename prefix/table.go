@@ -1,9 +1,9 @@
 package prefix
 
-import "os"
+var FeedbackName string
 
 func Tablename(table string) string {
-	prefix := os.Getenv("FEEDBACK_NAME")
+	prefix := FeedbackName
 	if prefix != "" {
 		return prefix + "_" + table
 	}
