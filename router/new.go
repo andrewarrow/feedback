@@ -3,7 +3,6 @@ package router
 import (
 	"encoding/json"
 	"html/template"
-	"net/http"
 	"sync"
 
 	"github.com/andrewarrow/feedback/persist"
@@ -21,8 +20,8 @@ type Router struct {
 	AfterLock      sync.Mutex
 	BeforeLock     sync.Mutex
 	DefaultLayout  string
-	BearerAuthFunc func(*http.Request) map[string]any
-	CookieAuthFunc func(*http.Request) map[string]any
+	BearerAuthFunc func(*Context) map[string]any
+	CookieAuthFunc func(*Context) map[string]any
 }
 
 func NewRouter(dbEnvVarName string) *Router {

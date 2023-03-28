@@ -40,8 +40,8 @@ func (r *Router) SendContentInLayout(layout, title, flash string, user map[strin
 	r.Template.ExecuteTemplate(writer, layout, vars)
 }
 
-func (r *Router) cookieAuth(request *http.Request) map[string]any {
-	cookie, err := request.Cookie("user")
+func (r *Router) cookieAuth(c *Context) map[string]any {
+	cookie, err := c.Request.Cookie("user")
 	var user map[string]any
 	if err == nil && cookie.Value != "" {
 		user = r.LookupUser(cookie.Value)
@@ -49,9 +49,9 @@ func (r *Router) cookieAuth(request *http.Request) map[string]any {
 	return user
 }
 
-func (r *Router) bearerAuth(request *http.Request) map[string]any {
+func (r *Router) bearerAuth(c *Context) map[string]any {
 	var user map[string]any
-	auth := util.GetHeader("Authorization", request)
+	auth := util.GetHeader("Authorization", c.Request)
 	if auth != "" {
 		tokens := strings.Split(auth, " ")
 		if len(tokens) == 2 {
@@ -65,12 +65,14 @@ func (r *Router) bearerAuth(request *http.Request) map[string]any {
 func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Request) {
 	path := request.URL.Path
 
+	c := PrepareContext(r, nil, "/", "", writer, request)
+
 	var user map[string]any
 	if r.CookieAuthFunc != nil {
-		user = r.CookieAuthFunc(request)
+		user = r.CookieAuthFunc(c)
 	}
 	if user == nil {
-		user = r.BearerAuthFunc(request)
+		user = r.BearerAuthFunc(c)
 	}
 
 	cookie, err := request.Cookie("flash")
