@@ -74,3 +74,27 @@ func insertRow(random bool, tableName string,
 
 	return strings.Join(buffer, ""), params
 }
+
+func UpdateRowFromParams(tableName string,
+	fields []*models.Field,
+	override map[string]any, where string) (string, []any) {
+
+	params := []any{}
+	buffer := []string{"UPDATE "}
+	buffer = append(buffer, tableName+" set ")
+
+	cols := []string{}
+	count := 1
+	for _, field := range fields {
+		if field.Name == "id" || field.Name == "created_at" {
+			continue
+		}
+		cols = append(cols, fmt.Sprintf("%s=$%d", field.Name, count))
+		count++
+		val := override[field.Name]
+		params = append(params, val)
+	}
+	buffer = append(buffer, strings.Join(cols, ","))
+	buffer = append(buffer, fmt.Sprintf(" %s$%d", where, count))
+	return strings.Join(buffer, ""), params
+}
