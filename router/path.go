@@ -69,7 +69,9 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	if r.CookieAuthFunc != nil {
 		user = r.CookieAuthFunc(request)
 	}
-	user = r.BearerAuthFunc(request)
+	if user == nil {
+		user = r.BearerAuthFunc(request)
+	}
 
 	cookie, err := request.Cookie("flash")
 	flash := ""
