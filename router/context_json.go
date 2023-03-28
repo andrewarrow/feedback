@@ -24,7 +24,7 @@ func (c *Context) SendContentAsJsonMessage(message string, status int) {
 	c.SendContentAsJson(m, status)
 }
 
-func (c *Context) CreateRowFromJson(modelString string) string {
+func (c *Context) Insert(modelString string) string {
 	model := c.FindModel(modelString)
 	tableName := model.TableName()
 	funcToRun := c.router.beforeFuncToRun(modelString)
@@ -40,10 +40,7 @@ func (c *Context) CreateRowFromJson(modelString string) string {
 	return ""
 }
 
-func (c *Context) ValidateJsonForModel(readBody bool, modelString string) string {
-	if readBody {
-		c.Params = c.ReadBodyIntoJson()
-	}
+func (c *Context) Validate(modelString string) string {
 	model := c.FindModel(modelString)
 
 	for _, field := range model.Fields {
