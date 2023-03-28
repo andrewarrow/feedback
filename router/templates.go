@@ -1,7 +1,6 @@
 package router
 
 import (
-	"go/build"
 	"html/template"
 	"strings"
 	"time"
@@ -34,10 +33,6 @@ func TemplateFunctions() template.FuncMap {
 func LoadTemplates() *template.Template {
 	t := template.New("")
 	t = t.Funcs(TemplateFunctions())
-
-	importPath := "github.com/andrewarrow/feedback"
-	pkg, _ := build.Import(importPath, "", build.FindOnly)
-
-	t, _ = t.ParseGlob(pkg.Dir + "/" + "views/*.html")
+	t, _ = t.ParseGlob("views/*.html")
 	return t
 }
