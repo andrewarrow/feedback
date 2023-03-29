@@ -43,8 +43,10 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 func (f *Field) Default() any {
 	if f.Flavor == "int" {
 		return 0
-	} else if f.Flavor == "timestamp" {
-		// TODO fix for ''
+	} else if f.Flavor == "timestamp" && f.Null == "" {
+		return time.Now()
+	} else if f.Flavor == "bool" && f.Null == "" {
+		return true
 	} else if f.Null == "yes" {
 		return nil
 	}
