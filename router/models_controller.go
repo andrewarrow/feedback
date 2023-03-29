@@ -180,8 +180,7 @@ func ModelsCreateWithId(c *Context, id string) {
 	flavor := c.Request.FormValue("flavor")
 	if fieldName == "" {
 		sql, params := sqlgen.InsertRowWithRandomDefaults(tableName, model.Fields, map[string]any{})
-		_, err := c.Db.Exec(sql, params...)
-		fmt.Println(err)
+		c.Db.Exec(sql, params...)
 	} else {
 		f := models.Field{}
 		f.Name = fieldName

@@ -57,6 +57,8 @@ func (f *Field) RandomValue() any {
 		val = util.PseudoUuid()
 	} else if f.Flavor == "username" {
 		val = gofakeit.Username()
+	} else if f.Flavor == "bool" {
+		val = true
 	} else if f.Flavor == "name" {
 		val = gofakeit.FirstName() + " " + gofakeit.LastName()
 	} else if f.Flavor == "int" {
