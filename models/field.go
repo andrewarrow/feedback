@@ -29,6 +29,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "text"
 	} else if f.Flavor == "bool" {
 		flavor = "boolean"
+		defaultString = "true"
 	} else if f.Flavor == "timestamp" {
 		flavor = "timestamp"
 		defaultString = "NOW()"

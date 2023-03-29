@@ -41,7 +41,7 @@ func CastFields(model *models.Model, m map[string]any) {
 		return
 	}
 	for _, field := range model.Fields {
-		if field.Flavor == "timestamp" {
+		if field.Flavor == "timestamp" && m[field.Name] != nil {
 			tm := m[field.Name].(time.Time)
 			ago := timeago.English.Format(tm)
 			m[field.Name] = tm.Format(models.HUMAN)
