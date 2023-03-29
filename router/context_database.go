@@ -46,9 +46,9 @@ func CastFields(model *models.Model, m map[string]any) {
 			ago := timeago.English.Format(tm)
 			m[field.Name] = tm.Format(models.HUMAN)
 			m[field.Name+"_ago"] = ago
-		} else if field.Flavor == "int" {
+		} else if field.Flavor == "int" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(int64)
-		} else if field.Flavor == "bool" {
+		} else if field.Flavor == "bool" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(bool)
 		} else if field.Flavor == "list" {
 			s := fmt.Sprintf("%s", m[field.Name])
