@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
@@ -19,6 +20,17 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 	tableName := model.TableName()
 	//c.Db.Exec(sqlgen.MysqlCreateTable(tableName))
 	db.Exec(sqlgen.PgCreateTable(tableName))
+
+	if os.Getenv("DELETE_INDEXES_ON_START") == "true" {
+		for _, field := range model.Fields {
+			if field.Name == "id" {
+				continue
+			}
+			sql := `drop index %s_%s_index;`
+			db.Exec(fmt.Sprintf(sql, tableName, field.Name))
+		}
+	}
+
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 	for _, field := range model.Fields {
 		flavor, defaultString := field.SqlTypeAndDefault()

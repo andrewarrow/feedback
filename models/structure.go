@@ -22,6 +22,14 @@ func (m *Model) EnsureIdAndCreatedAt() {
 		f.Index = "yes"
 		m.Fields = append(m.Fields, &f)
 	}
+	ua := FindField(m, "updated_at")
+	if ua == nil {
+		f := Field{}
+		f.Name = "updated_at"
+		f.Flavor = "timestamp"
+		f.Index = "yes"
+		m.Fields = append(m.Fields, &f)
+	}
 	id := FindField(m, "id")
 	if id == nil {
 		f := Field{}

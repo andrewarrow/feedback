@@ -3,6 +3,7 @@ package sqlgen
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/andrewarrow/feedback/models"
 )
@@ -43,7 +44,7 @@ func insertRow(random bool, tableName string,
 
 	cols := []string{}
 	for _, field := range fields {
-		if field.Name == "id" || field.Name == "created_at" {
+		if field.Name == "id" || field.Name == "created_at" || field.Name == "updated_at" {
 			continue
 		}
 		cols = append(cols, field.Name)
@@ -54,7 +55,7 @@ func insertRow(random bool, tableName string,
 	params := []any{}
 	count := 1
 	for _, field := range fields {
-		if field.Name == "id" || field.Name == "created_at" {
+		if field.Name == "id" || field.Name == "created_at" || field.Name == "updated_at" {
 			continue
 		}
 		cols = append(cols, fmt.Sprintf("$%d", count))
@@ -86,6 +87,7 @@ func UpdateRowFromParams(tableName string,
 	fields []*models.Field,
 	override map[string]any, where string) (string, []any) {
 
+	override["updated_at"] = time.Now()
 	params := []any{}
 	buffer := []string{"UPDATE "}
 	buffer = append(buffer, tableName+" set ")
@@ -100,10 +102,7 @@ func UpdateRowFromParams(tableName string,
 		count++
 		val := override[field.Name]
 		if field.Flavor == "list" {
-			list := []string{}
-			for _, s := range val.([]any) {
-				list = append(list, strings.ToLower(s.(string)))
-			}
+			list := fixListItems(val)
 			val = strings.Join(list, ",")
 		}
 		params = append(params, val)
@@ -111,4 +110,16 @@ func UpdateRowFromParams(tableName string,
 	buffer = append(buffer, strings.Join(cols, ","))
 	buffer = append(buffer, fmt.Sprintf(" %s$%d", where, count))
 	return strings.Join(buffer, ""), params
+}
+
+func fixListItems(val any) []string {
+	list := []string{}
+	items, ok := val.([]any)
+	if ok {
+		for _, s := range items {
+			list = append(list, strings.ToLower(s.(string)))
+		}
+		return list
+	}
+	return val.([]string)
 }
