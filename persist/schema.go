@@ -56,7 +56,15 @@ func SchemaJson(db *sqlx.DB) string {
 	rows.Next()
 	rows.MapScan(m)
 	if len(m) == 0 {
-		jsonString := `{"footer": "github.com/andrewarrow/feedback",
+		jsonStringWithTitle := DefaultJsonModels()
+		db.Exec(fmt.Sprintf("insert into %s (json_string) values ('%s')", sqlgen.FeedbackSchemaTable(), jsonStringWithTitle))
+		return jsonStringWithTitle
+	}
+	return fmt.Sprintf("%s", m["json_string"])
+}
+
+func DefaultJsonModels() string {
+	jsonString := `{"footer": "github.com/andrewarrow/feedback",
 "title": "%s",
 "models": [
   {"name": "user", "fields": [
@@ -67,10 +75,6 @@ func SchemaJson(db *sqlx.DB) string {
     {"name": "guid", "flavor": "uuid", "index": "yes"}
   ]}
 ]}`
-		prefix := prefix.FeedbackName
-		jsonStringWithTitle := fmt.Sprintf(jsonString, prefix)
-		db.Exec(fmt.Sprintf("insert into %s (json_string) values ('%s')", sqlgen.FeedbackSchemaTable(), jsonStringWithTitle))
-		return jsonStringWithTitle
-	}
-	return fmt.Sprintf("%s", m["json_string"])
+	prefix := prefix.FeedbackName
+	return fmt.Sprintf(jsonString, prefix)
 }

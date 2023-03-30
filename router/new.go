@@ -24,7 +24,7 @@ type Router struct {
 	CookieAuthFunc func(*Context) map[string]any
 }
 
-func NewRouter(dbEnvVarName string) *Router {
+func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r := Router{}
 	//r.Db = persist.MysqlConnection()
 	r.Db = persist.PostgresConnection(dbEnvVarName)
@@ -46,8 +46,10 @@ func NewRouter(dbEnvVarName string) *Router {
 	r.CookieAuthFunc = r.cookieAuth
 
 	var site FeedbackSite
-	jsonString := persist.SchemaJson(r.Db)
-	json.Unmarshal([]byte(jsonString), &site)
+	if jsonBytes == nil {
+		jsonBytes = []byte(persist.DefaultJsonModels())
+	}
+	json.Unmarshal(jsonBytes, &site)
 	for _, m := range site.Models {
 		m.EnsureIdAndCreatedAt()
 	}

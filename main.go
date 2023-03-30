@@ -60,7 +60,7 @@ func main() {
 		asBytes := router.ModelsToBytes(list)
 		persist.SaveSchema(asBytes)
 	} else if arg == "run" {
-		r := router.NewRouter("DATABASE_URL")
+		r := router.NewRouter("DATABASE_URL", nil)
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 		PrintHelp()
