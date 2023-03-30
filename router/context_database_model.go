@@ -4,9 +4,13 @@ import (
 	"fmt"
 )
 
-func (c *Context) SelectAll(modelName string, where string, params []any) []map[string]any {
+func (c *Context) SelectAll(modelName string, where string, params []any, offset string) []map[string]any {
 	model := c.FindModel(modelName)
-	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30", model.TableName(), where)
+	offsetString := ""
+	if offset != "" {
+		offsetString = "OFFSET " + offset
+	}
+	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30 %s", model.TableName(), where, offsetString)
 	ms := []map[string]any{}
 	rows, err := c.Db.Queryx(sql, params...)
 	if err != nil {
