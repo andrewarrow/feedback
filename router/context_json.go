@@ -81,7 +81,7 @@ func (c *Context) Validate(modelString string) string {
 		}
 
 		if c.Params[field.Name] == nil {
-			return "missing " + field.Name
+			continue
 		}
 
 		val := c.Params[field.Name].(string)
