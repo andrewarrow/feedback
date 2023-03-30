@@ -41,9 +41,10 @@ func (r *Router) SelectOne(modelName string, where string, params []any) map[str
 	return m
 }
 
-func (c *Context) UpdateOne(modelName, setString, whereString string, params []any) {
+func (c *Context) UpdateOne(modelName, setString, whereString string, params []any) error {
 	model := c.FindModel(modelName)
 	sql := fmt.Sprintf("update %s set %s where %s", model.TableName(), setString, whereString)
 
-	c.Db.Exec(sql, params...)
+	_, err := c.Db.Exec(sql, params...)
+	return err
 }
