@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/andrewarrow/feedback/sqlgen"
+	"github.com/andrewarrow/feedback/files"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -35,7 +35,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 
 func (c *Context) saveSchema() {
 	asBytes, _ := json.Marshal(c.router.Site)
-	c.Db.Exec(sqlgen.UpdateSchema(asBytes))
+	files.SaveFile("feedback.json", string(asBytes))
 }
 
 func (c *Context) BodyAsString() string {

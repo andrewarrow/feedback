@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/persist"
 	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/jmoiron/sqlx"
 )
@@ -47,8 +46,6 @@ func handleModels(c *Context, second, third string) {
 		} else if c.Method == "PATCH" {
 			handleModelPatch(c, second)
 		} else if c.Method == "POST" && second == "json" {
-			ta := c.Request.FormValue("ta")
-			c.Db.Exec(sqlgen.UpdateSchema([]byte(ta)))
 			http.Redirect(c.Writer, c.Request, "/models", 302)
 		} else {
 			ModelsCreateWithId(c, second)
@@ -100,7 +97,6 @@ func handleThird(c *Context, second, third string) {
 func handleModelsIndex(c *Context) {
 	if c.Request.Method == "GET" {
 		vars := ModelsVars{}
-		vars.SchemaJson = persist.SchemaJson(c.Db)
 		vars.Models = c.router.Site.Models
 		c.SendContentInLayout("models_index.html", vars, 200)
 		return

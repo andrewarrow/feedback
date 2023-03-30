@@ -3,8 +3,8 @@ package persist
 import (
 	"fmt"
 
+	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
@@ -58,7 +58,6 @@ func SelectAll(db *sqlx.DB, sql string) []map[string]any {
 }
 
 func SaveSchema(asBytes []byte) {
-	db := PostgresConnection("DATABASE_URL")
 	fmt.Println(string(asBytes))
-	db.Exec(sqlgen.UpdateSchema(asBytes))
+	files.SaveFile("feedback.json", string(asBytes))
 }

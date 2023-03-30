@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/prefix"
-	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/jmoiron/sqlx"
 
 	//_ "github.com/go-sql-driver/mysql"
@@ -42,25 +41,6 @@ func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 	}
 
 	return db
-}
-
-func SchemaJson(db *sqlx.DB) string {
-	if db == nil {
-		return ""
-	}
-	db.Exec(sqlgen.PgCreateSchemaTable())
-	m := make(map[string]any)
-	sql := fmt.Sprintf("select json_string from %s limit 1", sqlgen.FeedbackSchemaTable())
-	rows, _ := db.Queryx(sql)
-	defer rows.Close()
-	rows.Next()
-	rows.MapScan(m)
-	if len(m) == 0 {
-		jsonStringWithTitle := DefaultJsonModels()
-		db.Exec(fmt.Sprintf("insert into %s (json_string) values ('%s')", sqlgen.FeedbackSchemaTable(), jsonStringWithTitle))
-		return jsonStringWithTitle
-	}
-	return fmt.Sprintf("%s", m["json_string"])
 }
 
 func DefaultJsonModels() string {
