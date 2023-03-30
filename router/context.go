@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/andrewarrow/feedback/files"
+	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -35,7 +36,8 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 
 func (c *Context) saveSchema() {
 	asBytes, _ := json.Marshal(c.router.Site)
-	files.SaveFile("feedback.json", string(asBytes))
+	jqed := util.PipeToJq(string(asBytes))
+	files.SaveFile("feedback.json", jqed)
 }
 
 func (c *Context) BodyAsString() string {
