@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/aigen"
+	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/gogen"
 	"github.com/andrewarrow/feedback/htmlgen"
 	"github.com/andrewarrow/feedback/persist"
@@ -56,7 +57,13 @@ func main() {
 		asBytes := router.ModelsToBytes(list)
 		persist.SaveSchema(asBytes)
 	} else if arg == "run" {
-		r := router.NewRouter("DATABASE_URL", nil)
+		path := util.GetArg(2)
+		var jsonBytes []byte
+		if path != "" {
+			asString := files.ReadFile(path)
+			jsonBytes = []byte(asString)
+		}
+		r := router.NewRouter("DATABASE_URL", jsonBytes)
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 		PrintHelp()

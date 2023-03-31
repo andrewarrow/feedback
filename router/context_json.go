@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/andrewarrow/feedback/util"
@@ -54,6 +55,16 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 
 func (c *Context) Validate(modelString string) string {
 	model := c.FindModel(modelString)
+
+	for _, field := range model.Fields {
+		if field.Flavor != "timestamp" {
+			continue
+		}
+		if c.Params[field.Name] != nil {
+			t := time.Unix(c.Params[field.Name].(int64), 0)
+			c.Params[field.Name] = t
+		}
+	}
 
 	for _, field := range model.Fields {
 		if field.Required == "yes" {
