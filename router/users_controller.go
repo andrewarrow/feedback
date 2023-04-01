@@ -28,7 +28,7 @@ func handleUsersShow(c *Context, username string) {
 
 func handleCreateUser(c *Context) {
 	c.ReadFormValuesIntoParams("username", "password")
-	message := c.Validate("user")
+	message := c.ValidateCreate("user")
 	returnPath := "/sessions/new"
 	if message != "" {
 		SetFlash(c, message)
