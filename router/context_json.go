@@ -6,7 +6,13 @@ import (
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
+	"github.com/andrewarrow/feedback/util"
 )
+
+func (c *Context) SendRowAsJson(wrapper string, row map[string]any) {
+	m := map[string]any{wrapper: util.StripFields(row)}
+	c.SendContentAsJson(m, 200)
+}
 
 func (c *Context) SendContentAsJson(thing any, status int) {
 	asBytes, _ := json.Marshal(thing)
