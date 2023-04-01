@@ -23,7 +23,7 @@ func (c *Context) ValidateUpdate(modelString string) string {
 		}
 		list = append(list, field)
 	}
-	return c.Validate(model.Fields)
+	return c.Validate(list)
 }
 
 func (c *Context) Validate(fields []*models.Field) string {
