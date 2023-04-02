@@ -14,3 +14,27 @@ func PipeToJq(inputString string) string {
 	return string(b)
 
 }
+
+func GetJsonString(m map[string]any, key string) string {
+	s := m[key]
+	if s == nil {
+		return ""
+	}
+	return s.(string)
+}
+
+func GetJsonMap(m map[string]any, key string) map[string]any {
+	item := m[key]
+	if item == nil {
+		return map[string]any{}
+	}
+	return item.(map[string]any)
+}
+
+func GetJsonInt(m map[string]any, key string) int {
+	val := m[key]
+	if val == nil {
+		return 0
+	}
+	return int(m[key].(float64))
+}
