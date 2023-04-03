@@ -71,7 +71,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	if r.CookieAuthFunc != nil {
 		user = r.CookieAuthFunc(c)
 	}
-	if user == nil {
+	if user == nil && r.BearerAuthFunc != nil {
 		user = r.BearerAuthFunc(c)
 	}
 

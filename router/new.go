@@ -54,7 +54,9 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 		m.EnsureIdAndCreatedAt()
 	}
 	r.Site = &site
-	MakeTables(r.Db, r.Site.Models)
+	if r.Db != nil {
+		MakeTables(r.Db, r.Site.Models)
+	}
 
 	r.Template = LoadTemplates()
 
