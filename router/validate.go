@@ -9,6 +9,19 @@ import (
 	"github.com/andrewarrow/feedback/util"
 )
 
+func (c *Context) ValidateOneField(modelString, fieldString, value string) bool {
+	model := c.FindModel(modelString)
+	field := models.FindField(model, fieldString)
+	if field.Regex == "" {
+		return true
+	}
+	re := regexp.MustCompile(field.Regex)
+	if !re.MatchString(value) {
+		return false
+	}
+	return true
+}
+
 func (c *Context) ValidateCreate(modelString string) string {
 	model := c.FindModel(modelString)
 	return c.Validate(model.Fields)
