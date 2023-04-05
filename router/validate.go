@@ -46,7 +46,7 @@ func (c *Context) Validate(fields []*models.Field) string {
 			continue
 		}
 		if c.Params[field.Name] != nil {
-			t := time.Unix(c.Params[field.Name].(int64), 0)
+			t := time.Unix(int64(c.Params[field.Name].(float64)), 0)
 			c.Params[field.Name] = t
 		}
 	}
