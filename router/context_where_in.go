@@ -32,3 +32,21 @@ func (c *Context) WhereInMap(modelString string, rows any, field, otherField str
 
 	return resultMap, list
 }
+
+func (c *Context) WhereInWithId(modelString string, rows any, field, id string) map[int64]map[string]any {
+	resultMap := map[int64]map[string]any{}
+	ids := []string{}
+
+	for _, row := range rows.([]map[string]any) {
+		ids = append(ids, fmt.Sprintf("%d", row[field]))
+	}
+
+	sql := fmt.Sprintf("where %s in (%s)", id, strings.Join(ids, ","))
+	items := c.SelectAll(modelString, sql, []any{}, "")
+	for _, row := range items {
+		id := row["id"].(int64)
+		resultMap[id] = row
+	}
+
+	return resultMap
+}
