@@ -23,8 +23,12 @@ func RemoveSensitiveKeys(m map[string]any) {
 		switch vv := v.(type) {
 		case map[string]any:
 			RemoveSensitiveKeys(vv)
+		case []map[string]any:
+			for _, item := range vv {
+				RemoveSensitiveKeys(item)
+			}
 		default:
-			if k == "password" || strings.HasSuffix(k, "_id") {
+			if k == "password" || strings.HasSuffix(k, "_id") || k == "id" {
 				delete(m, k)
 			}
 		}

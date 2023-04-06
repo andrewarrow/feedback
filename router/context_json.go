@@ -16,10 +16,10 @@ func (c *Context) SendRowAsJson(wrapper string, row map[string]any) {
 }
 
 func (c *Context) SendContentAsJson(thing any, status int) {
-	list, ok := thing.([]any)
+	list, ok := thing.([]map[string]any)
 	if ok {
 		for _, item := range list {
-			util.RemoveSensitiveKeys(item.(map[string]any))
+			util.RemoveSensitiveKeys(item)
 		}
 	}
 
