@@ -10,12 +10,21 @@ import (
 )
 
 func (c *Context) SendRowAsJson(wrapper string, row map[string]any) {
-	m := map[string]any{wrapper: util.StripFields(row)}
+	util.RemoveSensitiveKeys(row)
+	m := map[string]any{wrapper: row}
 	c.SendContentAsJson(m, 200)
 }
 
 func (c *Context) SendContentAsJson(thing any, status int) {
+	list, ok := thing.([]any)
+	if ok {
+		for _, item := range list {
+			util.RemoveSensitiveKeys(item.(map[string]any))
+		}
+	}
+
 	asBytes, _ := json.Marshal(thing)
+
 	c.Writer.Header().Set("Content-Type", "application/json")
 	c.Writer.Header().Set("Cache-Control", "none")
 	c.Writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(asBytes)))

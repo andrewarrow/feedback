@@ -1,6 +1,8 @@
 package util
 
-import "strings"
+import (
+	"strings"
+)
 
 func StripFields(row map[string]any) map[string]any {
 
@@ -14,4 +16,17 @@ func StripFields(row map[string]any) map[string]any {
 
 	return row
 
+}
+
+func RemoveSensitiveKeys(m map[string]any) {
+	for k, v := range m {
+		switch vv := v.(type) {
+		case map[string]any:
+			RemoveSensitiveKeys(vv)
+		default:
+			if k == "password" || strings.HasSuffix(k, "_id") {
+				delete(m, k)
+			}
+		}
+	}
 }
