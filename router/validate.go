@@ -24,7 +24,7 @@ func (c *Context) ValidateOneField(modelString, fieldString, value string) bool 
 
 func (c *Context) ValidateCreate(modelString string) string {
 	model := c.FindModel(modelString)
-	return c.Validate(model.Fields)
+	return c.Validate(true, model.Fields)
 }
 
 func (c *Context) ValidateUpdate(modelString string) string {
@@ -36,10 +36,10 @@ func (c *Context) ValidateUpdate(modelString string) string {
 		}
 		list = append(list, field)
 	}
-	return c.Validate(list)
+	return c.Validate(false, list)
 }
 
-func (c *Context) Validate(fields []*models.Field) string {
+func (c *Context) Validate(create bool, fields []*models.Field) string {
 
 	for _, field := range fields {
 		if field.Flavor != "timestamp" {
@@ -88,8 +88,10 @@ func (c *Context) Validate(fields []*models.Field) string {
 		}
 	}
 
-	guid := util.PseudoUuid()
-	c.Params["guid"] = guid
+	if create {
+		guid := util.PseudoUuid()
+		c.Params["guid"] = guid
+	}
 
 	return ""
 }
