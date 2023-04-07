@@ -68,10 +68,15 @@ func insertRow(random bool, tableName string,
 				val = field.Default()
 			}
 		}
-		if field.Flavor == "list" {
+		if field.Flavor == "list" && val != nil {
 			list := []string{}
-			for _, s := range val.([]any) {
-				list = append(list, strings.ToLower(s.(string)))
+			thing, ok := val.([]any)
+			if ok == false {
+				list = append(list, strings.ToLower(val.(string)))
+			} else {
+				for _, s := range thing {
+					list = append(list, strings.ToLower(s.(string)))
+				}
 			}
 			val = strings.Join(list, ",")
 		}
