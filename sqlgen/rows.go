@@ -118,6 +118,10 @@ func UpdateRowFromParams(tableName string,
 }
 
 func fixListItems(val any) []string {
+	s, ok := val.(string)
+	if ok {
+		return []string{s}
+	}
 	list := []string{}
 	items, ok := val.([]any)
 	if ok {
