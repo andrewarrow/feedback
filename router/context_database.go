@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/models"
-	"github.com/andrewarrow/feedback/prefix"
 	"github.com/xeonx/timeago"
 )
 
@@ -16,24 +15,6 @@ func (c *Context) FindModel(name string) *models.Model {
 
 func (r *Router) FindModel(name string) *models.Model {
 	return r.Site.FindModel(name)
-}
-
-func (c *Context) Count(name string, where string) int64 {
-	tableName := prefix.Tablename(name)
-	whereString := ""
-	if where != "" {
-		whereString = " where " + where
-	}
-	sql := fmt.Sprintf("SELECT count(1) as c FROM %s%s", tableName, whereString)
-	m := map[string]any{}
-	rows, err := c.Db.Queryx(sql)
-	if err != nil {
-		return 0
-	}
-	defer rows.Close()
-	rows.Next()
-	rows.MapScan(m)
-	return m["c"].(int64)
 }
 
 func CastFields(model *models.Model, m map[string]any) {
