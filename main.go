@@ -20,6 +20,9 @@ import (
 //go:embed views/*.html
 var embeddedTemplates embed.FS
 
+//go:embed assets/**/*.*
+var embeddedAssets embed.FS
+
 func PrintHelp() {
 	fmt.Println("")
 	fmt.Println("feedback v1.0")
@@ -68,6 +71,7 @@ func main() {
 			jsonBytes = []byte(asString)
 		}
 		router.EmbeddedTemplates = embeddedTemplates
+		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", jsonBytes)
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
