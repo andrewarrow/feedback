@@ -1,46 +1,100 @@
-<!doctype html>
-<html lang="en">
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{ if index . "dev_mode" }}
+  <script src="https://cdn.tailwindcss.com"></script>
+  {{ else }}
+  <link rel="stylesheet" type="text/css" href="/assets/css/tail.min.css">
+  {{ end }}
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ index . "title" }}</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style1.css">
-    <script type='text/javascript' src="/assets/javascript/main.js"></script>
-  </head>
 
-  <body>
+</head>
 
-    <nav class="container-fluid">
-      <ul>
-        <li><a href="/" class="contrast"><strong>{{ index . "site_name"}}</strong></a></li>
-        <li> <a href="/about/">about</a> </li>
-      </ul>
-      <ul>
-              {{$user := index . "user"}}
-                      {{ if index $user "id" }}
-                      <form id="logout" method="POST" action="/sessions">
-                        <input type="hidden" name="_method" value="DELETE"/>
-                      </form>
-                      <li><a href="/users/{{ index $user "username" }}/">{{ index $user "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a></li>
-                      {{ else }}
-        <li> <a href="/sessions/new/">login</a> </li>
-                      {{ end }}
-      </ul>
+<body class="leading-normal tracking-normal text-black" style="font-family: 'Source Sans Pro', sans-serif;">
+    <nav id="header" class="w-full z-30 top-0 text-black">
+      <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+        <div class="pl-4 flex items-center">
+          <a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">hi</a>
+        </div>
+         <div class="block pr-4">
+                 hello
+         </div>
+      </div>
+    <hr class="border-b border-gray-100 opacity-50 my-0 py-0" />
     </nav>
 
-    <main class="container">
-      <div id="flash" style="background-color: red; color: white; text-align: center;">{{.Flash}}</div>
-    {{ index . "content" }}
-    </main>
+    <div class="pt-12">
+      <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+      {{ index . "content" }}
 
-    <footer class="container-fluid">
-            <center>
-                    <small><a href="https://github.com/andrewarrow/feedback">feedback</a></small>
-            </center>
+      </div>
+    </div>
+
+    <footer class="bg-white">
+      <div class="container mx-auto px-8">
+        <div class="w-full flex flex-col md:flex-row py-6">
+          <div class="flex-1 mb-6 text-black">
+            <a class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+              LANDING
+            </a>
+          </div>
+          <div class="flex-1">
+            <p class="uppercase text-gray-500 md:mb-6">Links</p>
+            <ul class="list-reset mb-6">
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">FAQ</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Help</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Support</a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex-1">
+            <p class="uppercase text-gray-500 md:mb-6">Legal</p>
+            <ul class="list-reset mb-6">
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Terms</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Privacy</a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex-1">
+            <p class="uppercase text-gray-500 md:mb-6">Social</p>
+            <ul class="list-reset mb-6">
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Facebook</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Linkedin</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Twitter</a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex-1">
+            <p class="uppercase text-gray-500 md:mb-6">Company</p>
+            <ul class="list-reset mb-6">
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Official Blog</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">About Us</a>
+              </li>
+              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </footer>
 
-  </body>
-
+</body>
 </html>

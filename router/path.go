@@ -5,19 +5,11 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/andrewarrow/feedback/util"
 )
-
-type LayoutVars struct {
-	Title    string
-	SiteName string
-	User     map[string]any
-	Footer   string
-	Content  template.HTML
-	Flash    string
-}
 
 func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string, user map[string]any, filename string, vars any) {
 	content := new(bytes.Buffer)
@@ -27,6 +19,7 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 	layoutMap["site_name"] = r.Site.Title
 	layoutMap["flash"] = flash
 	layoutMap["user"] = user
+	layoutMap["dev_mode"] = os.Getenv("DEV_MODE") != ""
 	layoutMap["content"] = template.HTML(content.String())
 }
 
