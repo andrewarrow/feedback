@@ -60,3 +60,17 @@ function sendFormAsJson(name, e) {
 
 }
 
+function getViaAjax(route, e) {
+  e.preventDefault();
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', route);
+  xhr.setRequestHeader('Feedback-Ajax', 'true');
+  xhr.addEventListener('load', function(event) {
+     if (xhr.status != 200) {
+        console.log(event.target.response);
+     } else {
+        document.getElementById('feedback-ajax').innerHTML = event.target.response;
+     }
+  });
+  xhr.send();
+}
