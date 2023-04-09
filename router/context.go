@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/andrewarrow/feedback/files"
+	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
@@ -22,16 +23,19 @@ type Context struct {
 	NotFound     bool
 	Method       string
 	flash        string
-	Title        string
 	Layout       string
 	Params       map[string]any
+	Title        string
+	LayoutMap    map[string]any
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	if c.Title == "" {
-		c.Title = c.router.Site.Title
+		c.LayoutMap["title"] = c.router.Site.Title
+	} else {
+		c.LayoutMap["title"] = models.RemoveMostNonAlphanumeric(c.Title)
 	}
-	c.router.SendContentInLayout(c.Layout, c.Title, c.flash, c.User, c.Writer, filename, vars, status)
+	c.router.SendContentInLayout(c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {

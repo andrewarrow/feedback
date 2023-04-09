@@ -2,11 +2,11 @@ package router
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strings"
 
-	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/util"
 )
 
@@ -19,25 +19,25 @@ type LayoutVars struct {
 	Flash    string
 }
 
-func (r *Router) PlaceContentInLayoutVars(title, flash string, user map[string]any, filename string, vars any) *LayoutVars {
+func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string, user map[string]any, filename string, vars any) {
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
-	lvars := LayoutVars{}
-	lvars.Title = models.RemoveMostNonAlphanumeric(title)
-	lvars.Footer = r.Site.Footer
-	lvars.SiteName = r.Site.Title
-	lvars.User = user
-	lvars.Flash = flash
-	lvars.Content = template.HTML(content.String())
-	return &lvars
+	layoutMap["footer"] = r.Site.Footer
+	layoutMap["site_name"] = r.Site.Title
+	layoutMap["flash"] = flash
+	layoutMap["user"] = user
+	layoutMap["content"] = template.HTML(content.String())
 }
 
-func (r *Router) SendContentInLayout(layout, title, flash string, user map[string]any, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(layout string, layoutMap map[string]any, flash string, user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
-	vars := r.PlaceContentInLayoutVars(title, flash, user, filename, contentVars)
+	r.PlaceContentInLayoutMap(layoutMap, flash, user, filename, contentVars)
 	writer.WriteHeader(status)
-	r.Template.ExecuteTemplate(writer, layout, vars)
+	err := r.Template.ExecuteTemplate(writer, layout, layoutMap)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
@@ -107,7 +107,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			return
 		}
 		if c.NotFound && c.Layout != "json" {
-			r.SendContentInLayout(c.Layout, "Feedback 404", "", user, writer, "404.html", nil, 404)
+			c.LayoutMap["title"] = "404 not found"
+			r.SendContentInLayout(c.Layout, c.LayoutMap, "", user, writer, "404.html", nil, 404)
 		} else if c.NotFound && c.Layout == "json" {
 			c.SendContentAsJsonMessage("not found", 404)
 		}
@@ -125,5 +126,6 @@ func PrepareContext(r *Router, user map[string]any, path, flash string, writer h
 	c.path = path
 	c.Db = r.Db
 	c.Layout = r.DefaultLayout
+	c.LayoutMap = map[string]any{}
 	return &c
 }

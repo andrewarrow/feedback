@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ .Title }}</title>
+    <title>{{ index . "title" }}</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/style1.css">
     <script type='text/javascript' src="/assets/javascript/main.js"></script>
@@ -14,15 +14,16 @@
 
     <nav class="container-fluid">
       <ul>
-        <li><a href="/" class="contrast"><strong>{{.SiteName}}</strong></a></li>
+        <li><a href="/" class="contrast"><strong>{{ index . "site_name"}}</strong></a></li>
         <li> <a href="/about/">about</a> </li>
       </ul>
       <ul>
-                      {{ if index .User "id" }}
+              {{$user := index . "user"}}
+                      {{ if index $user "id" }}
                       <form id="logout" method="POST" action="/sessions">
                         <input type="hidden" name="_method" value="DELETE"/>
                       </form>
-                      <li><a href="/users/{{ index .User "username" }}/">{{ index .User "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a></li>
+                      <li><a href="/users/{{ index $user "username" }}/">{{ index $user "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a></li>
                       {{ else }}
         <li> <a href="/sessions/new/">login</a> </li>
                       {{ end }}
@@ -31,7 +32,7 @@
 
     <main class="container">
       <div id="flash" style="background-color: red; color: white; text-align: center;">{{.Flash}}</div>
-    {{ .Content }}
+    {{ index . "content" }}
     </main>
 
     <footer class="container-fluid">

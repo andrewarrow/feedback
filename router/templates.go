@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"html/template"
 	"strings"
 	"time"
@@ -33,6 +34,9 @@ func TemplateFunctions() template.FuncMap {
 func LoadTemplates() *template.Template {
 	t := template.New("")
 	t = t.Funcs(TemplateFunctions())
-	t, _ = t.ParseGlob("views/*.html")
+	t, err := t.ParseGlob("views/*.html")
+	if err != nil {
+		fmt.Println(err)
+	}
 	return t
 }
