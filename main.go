@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"math/rand"
 	"os"
@@ -15,6 +16,9 @@ import (
 	"github.com/andrewarrow/feedback/router"
 	"github.com/andrewarrow/feedback/util"
 )
+
+//go:embed views/*.html
+var embeddedTemplates embed.FS
 
 func PrintHelp() {
 	fmt.Println("")
@@ -63,6 +67,7 @@ func main() {
 			asString := files.ReadFile(path)
 			jsonBytes = []byte(asString)
 		}
+		router.EmbeddedTemplates = embeddedTemplates
 		r := router.NewRouter("DATABASE_URL", jsonBytes)
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {

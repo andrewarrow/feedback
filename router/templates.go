@@ -1,6 +1,7 @@
 package router
 
 import (
+	"embed"
 	"fmt"
 	"html/template"
 	"strings"
@@ -8,6 +9,8 @@ import (
 
 	"github.com/xeonx/timeago"
 )
+
+var EmbeddedTemplates embed.FS
 
 func TemplateFunctions() template.FuncMap {
 	fm := template.FuncMap{
@@ -34,9 +37,14 @@ func TemplateFunctions() template.FuncMap {
 func LoadTemplates() *template.Template {
 	t := template.New("")
 	t = t.Funcs(TemplateFunctions())
-	t, err := t.ParseGlob("views/*.html")
-	if err != nil {
-		fmt.Println(err)
+
+	templateFiles, _ := EmbeddedTemplates.ReadDir("views")
+	for _, file := range templateFiles {
+		fileContents, _ := EmbeddedTemplates.ReadFile("views/" + file.Name())
+		_, err := t.New(file.Name()).Parse(string(fileContents))
+		if err != nil {
+			fmt.Println(file.Name(), err)
+		}
 	}
 	return t
 }
