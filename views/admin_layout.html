@@ -1,0 +1,211 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{ if index . "dev_mode" }}
+  <script src="https://cdn.tailwindcss.com"></script>
+  {{ else }}
+  <link rel="stylesheet" type="text/css" href="/assets/css/tail.min.css">
+  {{ end }}
+  <link href="https://uploads-ssl.webflow.com/63f0216e33d8784725f3d141/63fd50b3df1823206453d8b6_Favicon.svg" rel="shortcut icon" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body class="text-blueGray-700 antialiased">
+<div id="root"><nav class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+<div class="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto"><button class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent" type="button"><i class="fas fa-bars"></i></button><a class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0" href="#/">Feedback Admin</a><ul class="md:hidden items-center flex flex-wrap list-none"><li class="inline-block relative"><a class="text-blueGray-500 block py-1 px-3" href="#pablo"><i class="fas fa-bell"></i></a>
+<div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1 min-w-48"><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Action</a><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Another action</a><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Something else here</a>
+<div class="h-0 my-2 border border-solid border-blueGray-100"></div><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Seprated link</a></div></li><li class="inline-block relative"><a class="text-blueGray-500 block" href="#pablo">
+<div class="items-center flex"><span class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+
+        </span></div></a>
+<div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Action</a><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Another action</a><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Something else here</a>
+<div class="h-0 my-2 border border-solid border-blueGray-100"></div><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Seprated link</a></div></li></ul>
+<div class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded hidden">
+<div class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+<div class="flex flex-wrap">
+<div class="w-6/12">
+        <a class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0" href="/">Help</a></div>
+<div class="w-6/12 flex justify-end">
+        <button type="button" class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"><i class="fas fa-times"></i></button></div></div></div>
+
+<form class="mt-6 mb-4 md:hidden">
+<div class="mb-3 pt-0"><input type="text" placeholder="Search" class="border-0 px-3 py-2 h-12 border border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"></div></form>
+
+<hr class="my-4 md:min-w-full"><h6 class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">Admin Layout Pages</h6><ul class="md:flex-col md:min-w-full flex flex-col list-none"><li class="items-center"><a class="text-xs uppercase py-3 font-bold block text-lightBlue-500 hover:text-lightBlue-600" href="#/admin/dashboard"><i class="fas fa-tv mr-2 text-sm opacity-75"></i> Dashboard</a></li><li class="items-center"><a class="text-xs uppercase py-3 font-bold block text-blueGray-700 hover:text-blueGray-500" href="#/admin/settings"><i class="fas fa-tools mr-2 text-sm text-blueGray-300"></i> Settings</a></li><li class="items-center"><a class="text-xs uppercase py-3 font-bold block text-blueGray-700 hover:text-blueGray-500" href="#/admin/tables"><i class="fas fa-table mr-2 text-sm text-blueGray-300"></i> Tables</a></li><li class="items-center"><a class="text-xs uppercase py-3 font-bold block text-blueGray-700 hover:text-blueGray-500" href="#/admin/maps"><i class="fas fa-map-marked mr-2 text-sm text-blueGray-300"></i> Maps</a></li></ul><hr class="my-4 md:min-w-full"><h6 class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">Auth Layout Pages</h6><ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4"><li class="items-center"><a class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block" href="#/auth/login"><i class="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i> Login</a></li><li class="items-center"><a class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block" href="#/auth/register"><i class="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i> Register</a></li></ul><hr class="my-4 md:min-w-full"><h6 class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">No Layout Pages</h6><ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4"><li class="items-center"><a class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block" href="#/landing"><i class="fas fa-newspaper text-blueGray-400 mr-2 text-sm">
+  </i> Landing Page</a></li><li class="items-center"><a class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block" href="#/profile"><i class="fas fa-user-circle text-blueGray-400 mr-2 text-sm"></i> Profile Page</a></li></ul><hr class="my-4 md:min-w-full"><h6 class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">More Menu</h6><ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4"><li class="inline-flex"><a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fas fa-paint-brush mr-2 text-blueGray-300 text-base"></i>Styles</a></li><li class="inline-flex">
+                  <a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fab fa-css3-alt mr-2 text-blueGray-300 text-base"></i>CSS Components</a></li><li class="inline-flex">
+                  <a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fab fa-angular mr-2 text-blueGray-300 text-base"></i>Option 3</a></li><li class="inline-flex">
+                  <a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fab fa-js-square mr-2 text-blueGray-300 text-base">
+                          </i>Option 4</a></li><li class="inline-flex">
+     <a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fab fa-react mr-2 text-blueGray-300 text-base"></i>Option 5</a></li><li class="inline-flex">
+     <a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fab fa-react mr-2 text-blueGray-300 text-base"></i>Option 6</a></li><li class="inline-flex"><a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fas fa-link mr-2 text-blueGray-300 text-base"></i>Option 7</a></li><li class="inline-flex"><a href="/" target="_blank" class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"><i class="fab fa-vuejs mr-2 text-blueGray-300 text-base"></i>Option 8</a></li></ul></div></div></nav>
+<div class="relative md:ml-64 bg-blueGray-100"><nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
+<div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4"><a class="text-white text-sm uppercase hidden lg:inline-block font-semibold" href="#pablo">Dashboard</a>
+
+        <form class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
+<div class="relative flex w-full flex-wrap items-stretch"><span class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"><i class="fas fa-search"></i></span><input type="text" placeholder="Search here..." class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"></div></form><ul class="flex-col md:flex-row list-none items-center hidden md:flex"><a class="text-blueGray-500 block" href="#pablo">
+<div class="items-center flex"><span class="w-12 h-12 text-sm text-black bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+            username
+        </span></div></a>
+<div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Action</a><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Another action</a><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Something else here</a>
+<div class="h-0 my-2 border border-solid border-blueGray-100"></div><a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Seprated link</a></div></ul></div></nav>
+<div class="relative bg-lightBlue-600 md:pt-32 pb-32 pt-12">
+<div class="px-4 md:px-10 mx-auto w-full">
+<div>
+<div class="flex flex-wrap">
+  {{ index . "content" }}
+</div>
+<footer class="block py-4">
+<div class="container mx-auto px-4"><hr class="mb-4 border-b-1 border-blueGray-200">
+<div class="flex flex-wrap items-center md:justify-between justify-center">
+<div class="w-full md:w-4/12 px-4">
+<div class="text-sm text-blueGray-500 font-semibold py-1 text-center md:text-left">Copyright © 2023</div></div>
+<div class="w-full md:w-8/12 px-4"><ul class="flex flex-wrap list-none md:justify-end  justify-center">
+                <li><a href="/" class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3">Link 1</a></li>
+                <li><a href="/" class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3">About Us</a></li>
+                <li><a href="/" class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3">Blog</a></li>
+                <li><a href="/" class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3">Link 4</a>
+</li></ul></div></div></div>
+</footer>
+</div>
+</div>
+</div>
+
+
+
+<style>
+  #ofBar {
+    background: #fff;
+    z-index: 999999999;
+    font-size: 16px;
+    color: #333;
+    padding: 16px 40px;
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 40px;
+    width: 80%;
+    border-radius: 8px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3), 0 -6px 16px -6px rgba(0,0,0,0.025);
+  }
+
+  #ofBar-logo img {
+    height: 50px;
+  }
+
+  #ofBar-content {
+    display: inline;
+    padding: 0 15px;
+  }
+
+  #ofBar-right {
+    display: flex;
+    align-items: center;
+  }
+
+  #ofBar b {
+    font-size: 15px !important;
+  }
+  #count-down {
+    display: initial;
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  #close-bar {
+    font-size: 17px;
+    opacity: 0.5;
+    cursor: pointer;
+    color: #808080;
+    font-weight: bold;
+  }
+  #close-bar:hover{
+    opacity: 1;
+  }
+  #btn-bar {
+    background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 12px;
+    opacity: .95;
+    margin-right: 20px;
+    box-shadow: 0 5px 10px -3px rgba(0,0,0,.23), 0 6px 10px -5px rgba(0,0,0,.25);
+  }
+   #btn-bar, #btn-bar:hover, #btn-bar:focus, #btn-bar:active {
+     text-decoration: none !important;
+     color: #fff !important;
+ }
+  #btn-bar:hover{
+    opacity: 1;
+  }
+
+  #btn-bar span, #ofBar-content span {
+    color: red;
+    font-weight: 700;
+  }
+
+  #oldPriceBar {
+    text-decoration: line-through;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 400;
+    top: 2px;
+    position: relative;
+  }
+  #newPrice{
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    top: 2px;
+    position: relative;
+    margin-left: 7px;
+  }
+
+  #fromText {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 400;
+    margin-right: 3px;
+    top: 0px;
+    position: relative;
+  }
+
+  @media(max-width: 991px){
+
+  }
+  @media (max-width: 768px) {
+    #count-down {
+      display: block;
+      margin-top: 15px;
+    }
+
+    #ofBar {
+      flex-direction: column;
+      align-items: normal;
+    }
+
+    #ofBar-content {
+      margin: 15px 0;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    #ofBar-right {
+      justify-content: flex-end;
+    }
+  }
+</style>
+
+</body>
+</html>
