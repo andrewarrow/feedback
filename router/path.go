@@ -45,7 +45,7 @@ func (r *Router) cookieAuth(c *Context) map[string]any {
 	cookie, err := c.Request.Cookie("user")
 	var user map[string]any
 	if err == nil && cookie.Value != "" {
-		user = r.LookupUser(cookie.Value)
+		user = r.LookupUserByToken(cookie.Value)
 	}
 	return user
 }
@@ -57,7 +57,7 @@ func (r *Router) bearerAuth(c *Context) map[string]any {
 		tokens := strings.Split(auth, " ")
 		if len(tokens) == 2 {
 			guid := tokens[1]
-			user = r.LookupUser(guid)
+			user = r.LookupUserByToken(guid)
 		}
 	}
 	return user
