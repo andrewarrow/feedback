@@ -7,6 +7,7 @@
   {{ else }}
   <link rel="stylesheet" type="text/css" href="/assets/css/tail.min.css">
   {{ end }}
+  <script src="/assets/javascript/main.js"></script>
 
 
 </head>
@@ -18,7 +19,15 @@
                 <a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">{{ index . "site_name"}}</a>
         </div>
          <div class="block pr-4">
-                 hello
+                      {{$user := index . "user"}}
+                      {{ if index $user "id" }}
+                      <form id="logout" method="POST" action="/sessions">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                      </form>
+                      <a href="/users/{{ index $user "username" }}/">{{ index $user "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a>
+                      {{ else }}
+                      <a id="login" href="/sessions/new/">login</a>
+                      {{ end }}
          </div>
       </div>
     <hr class="border-b border-gray-100 opacity-50 my-0 py-0" />
