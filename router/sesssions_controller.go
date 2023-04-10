@@ -1,10 +1,9 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/andrewarrow/feedback/prefix"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func handleSessions(c *Context, second, third string) {
@@ -31,27 +30,23 @@ func handleSessionsIndex(c *Context) {
 	}
 }
 
+func checkPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
 func CreateSession(c *Context) {
 	username := c.Request.FormValue("username")
 	password := c.Request.FormValue("password")
-	sql := fmt.Sprintf("SELECT * FROM %s where username=$1 and password=$2", prefix.Tablename("users"))
-	rows, err := c.Db.Queryx(sql, username, password)
-	if err != nil {
-		return
-	}
-	defer rows.Close()
-
-	m := make(map[string]any)
-	rows.Next()
-	rows.MapScan(m)
+	row := c.SelectOne("user", "where username=$1", []any{username})
 
 	returnPath := "/"
 	cookie := http.Cookie{}
 	cookie.Path = "/"
-	if len(m) > 0 {
+	if checkPasswordHash(password, row["password"].(string)) {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "user"
-		cookie.Value = fmt.Sprintf("%s", m["guid"])
+		cookie.Value = row["guid"].(string)
 	} else {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "flash"

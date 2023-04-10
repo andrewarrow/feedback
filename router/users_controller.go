@@ -2,6 +2,8 @@ package router
 
 import (
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func handleUsers(c *Context, second, third string) {
@@ -26,6 +28,11 @@ func handleUsersShow(c *Context, username string) {
 	c.SendContentInLayout("users_show.html", u, 200)
 }
 
+func hashPassword(password string) string {
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 10)
+	return string(hashedPassword)
+}
+
 func handleCreateUser(c *Context) {
 	c.ReadFormValuesIntoParams("username", "password")
 	message := c.ValidateCreate("user")
@@ -36,6 +43,7 @@ func handleCreateUser(c *Context) {
 		return
 	}
 
+	c.Params["password"] = hashPassword(c.Params["password"].(string))
 	message = c.Insert("user")
 	if message != "" {
 		SetFlash(c, message)
