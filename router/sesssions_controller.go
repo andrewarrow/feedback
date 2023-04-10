@@ -44,7 +44,7 @@ func CreateSession(c *Context) {
 	returnPath := "/"
 	cookie := http.Cookie{}
 	cookie.Path = "/"
-	if checkPasswordHash(password, row["password"].(string)) {
+	if len(row) > 0 && checkPasswordHash(password, row["password"].(string)) {
 
 		guid := util.PseudoUuid()
 		c.Params = map[string]any{"guid": guid, "user_id": row["id"].(int64)}

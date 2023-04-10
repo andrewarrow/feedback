@@ -10,7 +10,6 @@ import (
 	"github.com/andrewarrow/feedback/aigen"
 	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/gogen"
-	"github.com/andrewarrow/feedback/htmlgen"
 	"github.com/andrewarrow/feedback/persist"
 	"github.com/andrewarrow/feedback/prefix"
 	"github.com/andrewarrow/feedback/router"
@@ -59,9 +58,11 @@ func main() {
 		// code-davinci-002 8001 tokens
 		prompt := util.GetArg(2)
 		aigen.RunImage(prompt)
-	} else if arg == "pp" {
-		path := util.GetArg(2)
-		htmlgen.PrettyPrint(path)
+	} else if arg == "hash" {
+		text := util.PseudoUuid()
+		hash := router.HashPassword(text)
+		fmt.Println(text)
+		fmt.Println(hash)
 	} else if arg == "scan" {
 		list := persist.ScanSchema()
 		asBytes := router.ModelsToBytes(list)

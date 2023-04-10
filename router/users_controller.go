@@ -29,7 +29,9 @@ func handleUsersShow(c *Context, username string) {
 	c.SendContentInLayout("users_show.html", u, 200)
 }
 
-func hashPassword(password string) string {
+func HashPassword(password string) string {
+	// between 4 and 31, Each increment of the cost parameter doubles the amount of time needed to compute the hash, making it more computationally expensive to brute-force the hash.
+	// With a cost of 4, the bcrypt hash would take roughly 2 milliseconds to generate on a modern CPU. Assuming an attacker can generate hashes at a similar rate, they would be able to try around 500 passwords per second on an average laptop. At a rate of 500 passwords per second, it would take approximately 12 days to try all possible passwords.
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 10)
 	return string(hashedPassword)
 }
@@ -44,7 +46,7 @@ func handleCreateUser(c *Context) {
 		return
 	}
 
-	c.Params["password"] = hashPassword(c.Params["password"].(string))
+	c.Params["password"] = HashPassword(c.Params["password"].(string))
 	message = c.Insert("user")
 	if message != "" {
 		SetFlash(c, message)
