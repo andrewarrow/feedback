@@ -2,8 +2,8 @@ package router
 
 import "fmt"
 
-func (c *Context) Delete(modelName string, id int64) {
+func (c *Context) Delete(modelName, fieldName string, id int64) {
 	model := c.FindModel(modelName)
-	sql := fmt.Sprintf("delete from %s where id=$1", model.TableName())
+	sql := fmt.Sprintf("delete from %s where %s=$1", model.TableName(), fieldName)
 	c.Db.Exec(sql, id)
 }

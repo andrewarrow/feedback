@@ -65,7 +65,7 @@ func CreateSession(c *Context) {
 
 func DestroySession(c *Context) {
 	id := c.User["id"].(int64)
-	c.Delete("cookie_token", id)
+	c.Delete("cookie_token", "user_id", id)
 
 	cookie := http.Cookie{}
 	cookie.MaxAge = 0
