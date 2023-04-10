@@ -16,7 +16,7 @@
     <nav id="header" class="w-full z-30 top-0 text-black">
       <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div class="pl-4 flex items-center">
-                <a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">{{ index . "site_name"}}</a>
+                <a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/">{{ index . "site_name"}}</a>
         </div>
          <div class="block pr-4">
                       {{$user := index . "user"}}
@@ -33,6 +33,7 @@
     <hr class="border-b border-gray-100 opacity-50 my-0 py-0" />
     </nav>
 
+    <div id="flash" style="background-color: red; color: white; text-align: center;">{{index . "flash"}}</div>
     <div class="pt-12">
       <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
       {{ index . "content" }}
