@@ -17,6 +17,9 @@ import (
 	"github.com/andrewarrow/feedback/util"
 )
 
+//go:embed feedback.json
+var embeddedFile []byte
+
 //go:embed views/*.html
 var embeddedTemplates embed.FS
 
@@ -69,6 +72,8 @@ func main() {
 		if path != "" {
 			asString := files.ReadFile(path)
 			jsonBytes = []byte(asString)
+		} else {
+			jsonBytes = embeddedFile
 		}
 		router.EmbeddedTemplates = embeddedTemplates
 		router.EmbeddedAssets = embeddedAssets

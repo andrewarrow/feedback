@@ -1,0 +1,88 @@
+{
+  "footer": "github.com/andrewarrow/feedback",
+  "title": "feedback",
+  "models": [
+    {
+      "name": "user",
+      "fields": [
+        {
+          "name": "username",
+          "flavor": "username",
+          "index": "unique",
+          "required": "",
+          "regex": "^[a-zA-Z0-9_]{2,20}$",
+          "null": ""
+        },
+        {
+          "name": "password",
+          "flavor": "fewWords",
+          "index": "",
+          "required": "",
+          "regex": "^.{8,100}$",
+          "null": ""
+        },
+        {
+          "name": "id",
+          "flavor": "int",
+          "index": "",
+          "required": "",
+          "regex": "",
+          "null": ""
+        },
+        {
+          "name": "created_at",
+          "flavor": "timestamp",
+          "index": "yes",
+          "required": "",
+          "regex": "",
+          "null": ""
+        },
+        {
+          "name": "guid",
+          "flavor": "uuid",
+          "index": "yes",
+          "required": "",
+          "regex": "",
+          "null": ""
+        },
+        {
+          "name": "updated_at",
+          "flavor": "timestamp",
+          "index": "yes",
+          "required": "",
+          "regex": "",
+          "null": ""
+        },
+        {
+          "name": "security_level",
+          "flavor": "name",
+          "index": "",
+          "required": "",
+          "regex": "",
+          "null": ""
+        }
+      ]
+    },
+    {
+      "name": "cookie_token",
+      "fields": [
+        {
+          "name": "guid",
+          "flavor": "uuid",
+          "index": "yes",
+          "required": "",
+          "regex": "",
+          "null": ""
+        },
+        {
+          "name": "user_id",
+          "flavor": "int",
+          "index": "yes",
+          "required": "",
+          "regex": "",
+          "null": ""
+        }
+      ]
+    }
+  ]
+}
