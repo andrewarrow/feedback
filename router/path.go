@@ -32,6 +32,14 @@ func (r *Router) SendContentInLayout(layout string, layoutMap map[string]any, fl
 		fmt.Println(err)
 	}
 }
+func (r *Router) SendContentForAjax(user map[string]any, writer http.ResponseWriter,
+	filename string, contentVars any, status int) {
+	writer.WriteHeader(status)
+	err := r.Template.ExecuteTemplate(writer, filename, contentVars)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
 	cookie, err := c.Request.Cookie("user")

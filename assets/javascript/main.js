@@ -69,6 +69,7 @@ function getViaAjax(route, e) {
      if (xhr.status != 200) {
         console.log(event.target.response);
      } else {
+        history.pushState(null, null, route);
         document.getElementById('feedback-ajax').innerHTML = event.target.response;
      }
   });

@@ -35,6 +35,10 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	} else {
 		c.LayoutMap["title"] = models.RemoveMostNonAlphanumeric(c.Title)
 	}
+	if c.Request.Header.Get("Feedback-Ajax") == "true" {
+		c.router.SendContentForAjax(c.User, c.Writer, filename, vars, status)
+		return
+	}
 	c.router.SendContentInLayout(c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)
 }
 
