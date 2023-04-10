@@ -3,6 +3,7 @@ package router
 import (
 	"net/http"
 
+	"github.com/andrewarrow/feedback/util"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -44,9 +45,14 @@ func CreateSession(c *Context) {
 	cookie := http.Cookie{}
 	cookie.Path = "/"
 	if checkPasswordHash(password, row["password"].(string)) {
+
+		guid := util.PseudoUuid()
+		c.Params = map[string]any{"guid": guid, "user_id": row["id"].(int64)}
+		c.Insert("cookie_token")
+
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "user"
-		cookie.Value = row["guid"].(string)
+		cookie.Value = guid
 	} else {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "flash"
@@ -58,6 +64,9 @@ func CreateSession(c *Context) {
 }
 
 func DestroySession(c *Context) {
+	id := c.User["id"].(int64)
+	c.Delete("cookie_token", id)
+
 	cookie := http.Cookie{}
 	cookie.MaxAge = 0
 	cookie.Name = "user"
