@@ -11,6 +11,8 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+var BuildTag string
+
 type Context struct {
 	Writer       http.ResponseWriter
 	Request      *http.Request
@@ -35,6 +37,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	} else {
 		c.LayoutMap["title"] = models.RemoveMostNonAlphanumeric(c.Title)
 	}
+	c.LayoutMap["build"] = BuildTag
 	if c.Request.Header.Get("Feedback-Ajax") == "true" {
 		c.router.SendContentForAjax(c.User, c.Writer, filename, vars, status)
 		return
