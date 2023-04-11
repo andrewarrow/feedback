@@ -60,8 +60,9 @@ function sendFormAsJson(name, e) {
 
 }
 
-function getViaAjax(route, e) {
+function getViaAjax(e) {
   e.preventDefault();
+  const route = e.target.href;
   const xhr = new XMLHttpRequest();
   xhr.open('GET', route);
   xhr.setRequestHeader('Feedback-Ajax', 'true');
