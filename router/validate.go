@@ -2,6 +2,7 @@ package router
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -47,10 +48,10 @@ func (c *Context) Validate(create bool, fields []*models.Field) string {
 		}
 		if c.Params[field.Name] != nil {
 			var t time.Time
-			_, ok := c.Params[field.Name].(string)
+			stringTime, ok := c.Params[field.Name].(string)
 			if ok {
-				// todo parse string time
-				t = time.Now()
+				intTime, _ := strconv.ParseInt(stringTime, 10, 64)
+				t = time.Unix(intTime, 0)
 			} else {
 				t = time.Unix(int64(c.Params[field.Name].(float64)), 0)
 			}
