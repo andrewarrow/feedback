@@ -3,7 +3,6 @@ package router
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -69,25 +68,18 @@ func handleThird(c *Context, second, third string) {
 		vars := FieldVars{}
 		vars.Rows = model.Fields
 		vars.Model = model
-		vars.Row = FetchOneRow(c.Db, model, third)
+		vars.Row = c.SelectOne(second, "where guid=$1", []any{third})
 		c.SendContentInLayout("models_edit.html", &vars, 200)
 		return
 	} else if c.Method == "POST" {
 
-		params := []any{}
+		list := []string{}
 		for _, field := range model.Fields {
-			var value any
-			if field.Flavor == "int" {
-				stringValue := c.Request.FormValue(field.Name)
-				value, _ = strconv.Atoi(stringValue)
-			} else {
-				value = c.Request.FormValue(field.Name)
-			}
-			params = append(params, value)
+			list = append(list, field.Name)
 		}
-		params = append(params, third)
-		sql := sqlgen.UpdateRow(model)
-		c.Db.Exec(sql, params...)
+		c.ReadFormValuesIntoParams(list...)
+		c.ValidateUpdate(second)
+		c.Update(second, "where guid=", third)
 		http.Redirect(c.Writer, c.Request, "/models/"+second, 302)
 		return
 	}
@@ -138,28 +130,9 @@ func ModelsShow(c *Context, rawId string) {
 		return
 	}
 
-	tableName := model.TableName()
+	rows := c.SelectAll(id, "order by id", []any{}, "")
 	vars := ModelVars{}
-	vars.Rows = []map[string]any{}
-	rows, err := c.Db.Queryx(fmt.Sprintf("SELECT * FROM %s ORDER BY id limit 30", tableName))
-	if err != nil {
-		return
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		m := make(map[string]any)
-		rows.MapScan(m)
-		for _, f := range model.Fields {
-			if f.Flavor == "int" {
-				m[f.Name] = m[f.Name].(int64)
-			} else {
-				m[f.Name] = fmt.Sprintf("%s", m[f.Name])
-			}
-		}
-		vars.Rows = append(vars.Rows, m)
-	}
-
+	vars.Rows = rows
 	vars.Model = model
 	c.SendContentInLayout("models_show.html", vars, 200)
 }
@@ -203,7 +176,7 @@ func FetchOneRow(db *sqlx.DB, model *models.Model, guid string) map[string]any {
 	for _, f := range model.Fields {
 		if f.Flavor == "int" {
 			m[f.Name] = m[f.Name].(int64)
-		} else if f.Flavor == "timestamp" {
+		} else if f.Flavor == "timestamp" && m[f.Name] != nil {
 			t := m[f.Name].(time.Time)
 			m[f.Name] = t.Format(models.ISO8601)
 		} else {

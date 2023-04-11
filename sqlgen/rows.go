@@ -109,6 +109,8 @@ func UpdateRowFromParams(tableName string,
 		if field.Flavor == "list" {
 			list := fixListItems(val)
 			val = strings.Join(list, ",")
+		} else if field.Flavor == "bool" {
+			val = true
 		}
 		params = append(params, val)
 	}

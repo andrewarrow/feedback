@@ -46,7 +46,14 @@ func (c *Context) Validate(create bool, fields []*models.Field) string {
 			continue
 		}
 		if c.Params[field.Name] != nil {
-			t := time.Unix(int64(c.Params[field.Name].(float64)), 0)
+			var t time.Time
+			_, ok := c.Params[field.Name].(string)
+			if ok {
+				// todo parse string time
+				t = time.Now()
+			} else {
+				t = time.Unix(int64(c.Params[field.Name].(float64)), 0)
+			}
 			c.Params[field.Name] = t
 		}
 	}
