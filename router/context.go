@@ -3,7 +3,6 @@ package router
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"sync"
 
@@ -58,7 +57,6 @@ func (c *Context) BodyAsString() string {
 	buffer := new(bytes.Buffer)
 	buffer.ReadFrom(c.Request.Body)
 	c.Request.Body.Close()
-	fmt.Println("BodyAsString", buffer.String())
 	return buffer.String()
 }
 
