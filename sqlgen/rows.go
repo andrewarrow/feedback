@@ -84,8 +84,6 @@ func insertRow(random bool, tableName string,
 	}
 	buffer = append(buffer, strings.Join(cols, ","))
 	buffer = append(buffer, ")")
-	fmt.Println(strings.Join(buffer, ""))
-	fmt.Println("params", params)
 
 	return strings.Join(buffer, ""), params
 }
