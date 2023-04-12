@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"sync"
 
 	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/models"
@@ -29,6 +30,7 @@ type Context struct {
 	Params       map[string]any
 	Title        string
 	LayoutMap    map[string]any
+	ParamMutex   sync.Mutex
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
