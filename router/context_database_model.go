@@ -4,6 +4,10 @@ import (
 	"fmt"
 )
 
+func (c *Context) All(modelName string, where, offset string, params ...any) []map[string]any {
+	return c.SelectAll(modelName, where, params, offset)
+}
+
 func (c *Context) SelectAll(modelName string, where string, params []any, offset string) []map[string]any {
 	model := c.FindModel(modelName)
 	offsetString := ""

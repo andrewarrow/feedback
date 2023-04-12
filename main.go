@@ -62,7 +62,7 @@ func main() {
 		text := util.PseudoUuid()
 		hash := router.HashPassword(text)
 		fmt.Println(text)
-		fmt.Println(hash)
+		fmt.Printf("update lyfe_users set username='',password='%s' where firebase_uid='';\n\n", hash)
 	} else if arg == "scan" {
 		list := persist.ScanSchema()
 		asBytes := router.ModelsToBytes(list)
