@@ -53,7 +53,12 @@ func (c *Context) Validate(create bool, fields []*models.Field) string {
 				intTime, _ := strconv.ParseInt(stringTime, 10, 64)
 				t = time.Unix(intTime, 0)
 			} else {
-				t = time.Unix(int64(c.Params[field.Name].(float64)), 0)
+				floatVal, ok := c.Params[field.Name].(float64)
+				if ok {
+					t = time.Unix(int64(floatVal), 0)
+				} else {
+					t = time.Unix(c.Params[field.Name].(int64), 0)
+				}
 			}
 			c.Params[field.Name] = t
 		}
