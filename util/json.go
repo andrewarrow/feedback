@@ -31,10 +31,10 @@ func GetJsonMap(m map[string]any, key string) map[string]any {
 	return item.(map[string]any)
 }
 
-func GetJsonInt(m map[string]any, key string) int {
+func GetJsonInt64(m map[string]any, key string) int64 {
 	val := m[key]
 	if val == nil {
 		return 0
 	}
-	return int(m[key].(float64))
+	return int64(m[key].(float64))
 }
