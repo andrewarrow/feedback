@@ -12,6 +12,8 @@ import (
 
 var EmbeddedTemplates embed.FS
 
+const DATE_LAYOUT = "Monday, January 2, 2006 15:04"
+
 func TemplateFunctions() template.FuncMap {
 	fm := template.FuncMap{
 		"mod":    func(i, j int) bool { return i%j == 0 },
@@ -29,6 +31,13 @@ func TemplateFunctions() template.FuncMap {
 				return "s"
 			}
 			return ""
+		},
+		"epoch": func(date string, hour float64, tzString string) int64 {
+			dateString := fmt.Sprintf("%s %02d:00", date, int(hour))
+			tz, _ := time.LoadLocation(tzString)
+			t, _ := time.ParseInLocation(DATE_LAYOUT, dateString, tz)
+			utc, _ := time.LoadLocation("UTC")
+			return t.In(utc).Unix()
 		},
 		"ampm": func(f float64) string {
 			i := int(f)
