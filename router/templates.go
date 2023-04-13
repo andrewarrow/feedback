@@ -30,6 +30,16 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return ""
 		},
+		"ampm": func(f float64) string {
+			i := int(f)
+			if i > 12 {
+				return fmt.Sprintf("%02d:00 PM", i-12)
+			}
+			if i == 0 {
+				return "12:00 AM"
+			}
+			return fmt.Sprintf("%02d:00 AM", i)
+		},
 	}
 	return fm
 }
