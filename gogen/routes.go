@@ -16,15 +16,19 @@ func MakeRoutes(routes []*models.Route) {
 	fmt.Println("")
 	fmt.Println("")
 	for _, route := range routes {
+		fmt.Println("# " + route.Root)
+		fmt.Println("")
+		fmt.Println("```")
 		for _, path := range route.Paths {
 			more := ""
 			if path.Second == "*" {
-				more = "/:something"
+				more = "/:guid"
 			} else if path.Third == "*" {
 				more = "/" + path.Second + "/:something"
 			}
 			fmt.Printf("% 6s /%s%s\n", path.Verb, route.Root, more)
 		}
+		fmt.Println("```")
 		fmt.Println("")
 	}
 }
