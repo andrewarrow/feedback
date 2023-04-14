@@ -53,6 +53,16 @@ func (f *Field) Default() any {
 	return ""
 }
 
+func (f *Field) CommonExclude() bool {
+	if f.Name == "id" || f.Name == "created_at" {
+		return true
+	}
+	if f.Name == "updated_at" || f.Name == "guid" {
+		return true
+	}
+	return false
+}
+
 func (f *Field) RandomValue() any {
 	var val any
 	if f.Flavor == "uuid" {
