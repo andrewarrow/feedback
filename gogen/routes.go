@@ -35,7 +35,7 @@ func MakeMarkDown(s *router.FeedbackSite) {
 		}
 		modelString := util.Unplural(route.Root)
 		m := s.FindModel(modelString)
-		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
+		headers := "-H \"Authorization: Bearer token\" \\ \n  -H \"Content-Type: json\" \\ \n"
 		fmt.Println("```")
 		fmt.Println("")
 		fmt.Println("### Example curls")

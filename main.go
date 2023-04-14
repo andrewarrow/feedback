@@ -48,11 +48,16 @@ func main() {
 	if arg == "reset" {
 		//r := router.NewRouter("DATABASE_URL")
 		//r.ResetDatabase()
-	} else if arg == "gen" {
+	} else if arg == "genmd" {
 		path := util.GetArg(2)
 		jsonBytes := getFeedbackJsonFile(path)
 		r := router.NewRouter("NO_DB", jsonBytes)
 		gogen.MakeMarkDown(r.Site)
+	} else if arg == "gencode" {
+		path := util.GetArg(2)
+		jsonBytes := getFeedbackJsonFile(path)
+		r := router.NewRouter("NO_DB", jsonBytes)
+		gogen.MakeRoutes(r.Site.Routes)
 	} else if arg == "ai" {
 		// davinci  2049 tokens
 		// gpt-3.5-turbo 4096 tokens lowest cost

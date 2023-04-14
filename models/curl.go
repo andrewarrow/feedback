@@ -55,7 +55,7 @@ func (m *Model) CurlPostPayload() string {
 
 		buffer = append(buffer, fmt.Sprintf("%s%s%s: %s", q, name, q, val))
 	}
-	list := strings.Join(buffer, ",")
+	list := strings.Join(buffer, ",\n")
 	return "'{" + list + "}'"
 }
 
