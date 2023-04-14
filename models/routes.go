@@ -32,14 +32,43 @@ func (r *Route) Generate(root string) string {
 }
 
 func handlePath(root, verb, second, third string) string {
-	c := `if second {{ index . "second_eq" }} "" && third {{ index . "third_eq" }} "" && c.Method == "{{ index . "method" }}" {
+	c := `if second {{ index . "second_eq" }} && third {{ index . "third_eq" }} && c.Method == "{{ index . "method" }}" {
     handle{{ index . "name" }}(c, {{ index . "params" }})
     return
   }
 `
+
+	flavor := ""
+	if third == "" && second == "" {
+		flavor = "root"
+	} else if third == "" && second == "*" {
+		flavor = "second"
+	} else if third == "*" {
+		flavor = "third"
+	}
+
+	second_eq := ""
+	third_eq := ""
+	empty := `""`
+	q := `"`
+	if flavor == "root" {
+		second_eq = "== " + empty
+		third_eq = "== " + empty
+	} else if flavor == "second" {
+		second_eq = "!= " + empty
+		third_eq = "== " + empty
+	} else if flavor == "third" {
+		if second == "*" {
+			second_eq = "!= " + empty
+		} else {
+			second_eq = "== " + fmt.Sprintf("%s%s%s", q, second, q)
+		}
+		third_eq = "!= " + empty
+	}
+
 	name := fmt.Sprintf("%s", util.ToCamelCase(root))
 	m := map[string]string{"name": name, "params": "second",
-		"second_eq": "!=", "third_eq": "==", "method": verb}
+		"second_eq": second_eq, "third_eq": third_eq, "method": verb}
 	t, _ := template.New("c").Parse(c)
 	content := new(bytes.Buffer)
 	t.Execute(content, m)
