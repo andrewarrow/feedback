@@ -23,19 +23,26 @@ type Path struct {
 func (r *Route) Generate(root string) string {
 
 	buffer := []string{}
+	names := []string{}
+	params := []string{}
+	logic := ""
+	name := ""
+	param := ""
 	for _, path := range r.Paths {
-		logic := handlePath(root, path.Verb, path.Second, path.Third)
+		logic, name, param = handlePath(root, path.Verb, path.Second, path.Third)
 		buffer = append(buffer, logic)
+		names = append(names, name)
+		params = append(params, param)
 	}
-	for _, path := range r.Paths {
-		logic := handleFuncs(path.Verb)
+	for i, name := range names {
+		logic := handleFuncs(name, params[i])
 		buffer = append(buffer, logic)
 	}
 
 	return strings.Join(buffer, "\n")
 }
 
-func handlePath(root, verb, second, third string) string {
+func handlePath(root, verb, second, third string) (string, string, string) {
 	c := `if second {{ index . "second_eq" }} && third {{ index . "third_eq" }} && c.Method == "{{ index . "method" }}" {
     handle{{ index . "name" }}(c{{ index . "params" }})
     return
@@ -84,19 +91,22 @@ func handlePath(root, verb, second, third string) string {
 	t.Execute(content, m)
 	logic := content.String()
 
-	return logic
+	return logic, name, params
 
 }
 
-func handleFuncs(verb string) string {
-	c := `func {{ index . "name" }}(c *router.Context{{ index . "params" }}) {
+func handleFuncs(name, params string) string {
+	c := `func handle{{ index . "name" }}(c *router.Context{{ index . "params" }}) {
   c.ReadJsonBodyIntoParams()
   //c.SendContentAsJsonMessage("no guid", 422)
   c.SendRowAsJson("", nil)
 }`
 
-	params := ""
-	m := map[string]string{"name": "foo", "params": params}
+	paramList := ""
+	if params != "" {
+		paramList = params + " string"
+	}
+	m := map[string]string{"name": name, "params": paramList}
 	t, _ := template.New("c").Parse(c)
 	content := new(bytes.Buffer)
 	t.Execute(content, m)
