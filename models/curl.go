@@ -64,10 +64,24 @@ func (m *Model) CurlResponse() string {
 	payload := map[string]any{}
 
 	for _, field := range m.Fields {
-		payload[util.ToSnakeCase(field.Name)] = "hi"
+		name := util.ToSnakeCase(field.Name)
+		if strings.HasSuffix(name, "_id") {
+			tokens := strings.Split(name, "_")
+			name = tokens[0] + "_guid"
+		}
+		var val any
+		if strings.HasSuffix(name, "_guid") || name == "guid" {
+			val = util.PseudoUuid()
+		} else if field.Flavor == "timestamp" {
+			val = time.Now().Unix()
+		} else {
+			val = "some_string"
+		}
+		payload[name] = val
 	}
 
 	modelName := util.ToSnakeCase(m.Name)
+	util.RemoveSensitiveKeys(payload)
 	wrapper[modelName] = payload
 
 	asBytes, _ := json.Marshal(wrapper)
