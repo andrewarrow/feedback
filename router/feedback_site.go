@@ -6,6 +6,7 @@ type FeedbackSite struct {
 	Footer string          `json:"footer"`
 	Title  string          `json:"title"`
 	Models []*models.Model `json:"models"`
+	Routes []*models.Route `json:"routes"`
 }
 
 func (s *FeedbackSite) FindModel(id string) *models.Model {

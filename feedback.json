@@ -1,6 +1,17 @@
 {
   "footer": "github.com/andrewarrow/feedback",
   "title": "feedback",
+  "routes": [{"root": "sessions", "paths": [
+                     {"verb": "GET", "second": "", "third": ""},
+                     {"verb": "GET", "second": "*", "third": ""},
+                     {"verb": "POST", "second": "", "third": ""}
+             ]},
+             {"root": "users", "paths": [
+                     {"verb": "GET", "second": "", "third": ""},
+                     {"verb": "GET", "second": "*", "third": ""},
+                     {"verb": "POST", "second": "", "third": ""}
+             ]}
+  ],
   "models": [
     {
       "name": "user",

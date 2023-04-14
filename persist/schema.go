@@ -46,6 +46,17 @@ func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 func DefaultJsonModels() string {
 	jsonString := `{"footer": "github.com/andrewarrow/feedback",
 "title": "%s",
+  "routes": [{"root": "sessions", "paths": [
+                     {"verb": "GET", "second": "", "third": ""},
+                     {"verb": "GET", "second": "*", "third": ""},
+                     {"verb": "POST", "second": "", "third": ""}
+             ]},
+             {"root": "users", "paths": [
+                     {"verb": "GET", "second": "", "third": ""},
+                     {"verb": "GET", "second": "*", "third": ""},
+                     {"verb": "POST", "second": "", "third": ""}
+             ]}
+  ],
 "models": [
   {"name": "user", "fields": [
 		{"name": "username", "flavor": "username", "index": "unique", "regex": "^[a-zA-Z0-9_]{2,20}$"},
