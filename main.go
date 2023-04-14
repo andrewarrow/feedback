@@ -49,7 +49,8 @@ func main() {
 		//r := router.NewRouter("DATABASE_URL")
 		//r.ResetDatabase()
 	} else if arg == "gen" {
-		jsonBytes := getFeedbackJsonFile("")
+		path := util.GetArg(2)
+		jsonBytes := getFeedbackJsonFile(path)
 		r := router.NewRouter("NO_DB", jsonBytes)
 		gogen.MakeRoutes(r.Site.Routes)
 	} else if arg == "ai" {

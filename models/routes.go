@@ -22,7 +22,8 @@ type Path struct {
 
 func (r *Route) Generate(root string) string {
 
-	buffer := []string{}
+	buffer1 := []string{}
+	buffer2 := []string{}
 	names := []string{}
 	params := []string{}
 	logic := ""
@@ -30,20 +31,42 @@ func (r *Route) Generate(root string) string {
 	param := ""
 	for _, path := range r.Paths {
 		logic, name, param = handlePath(root, path.Verb, path.Second, path.Third)
-		buffer = append(buffer, logic)
+		buffer1 = append(buffer1, logic)
 		names = append(names, name)
 		params = append(params, param)
 	}
 	for i, name := range names {
 		logic := handleFuncs(name, params[i])
-		buffer = append(buffer, logic)
+		buffer2 = append(buffer2, logic)
 	}
+	content := strings.Join(buffer1, "\n")
+	top := handleWrapper(root, content)
 
-	return strings.Join(buffer, "\n")
+	funcs := strings.Join(buffer2, "\n")
+
+	return top + "\n\n" + funcs
+}
+
+func handleWrapper(root, templateContent string) string {
+	c := `func Handle{{ index . "name" }}(c *router.Context, second, third string) {
+  if len(c.User) == 0 {
+    c.SendContentAsJsonMessage("auth not set", 401)
+    return
+  }
+{{ index . "content" }}
+  c.NotFound = true
+}
+`
+	m := map[string]string{"name": util.ToCamelCase(root), "content": templateContent}
+	t, _ := template.New("c").Parse(c)
+	content := new(bytes.Buffer)
+	t.Execute(content, m)
+	logic := content.String()
+	return logic
 }
 
 func handlePath(root, verb, second, third string) (string, string, string) {
-	c := `if second {{ index . "second_eq" }} && third {{ index . "third_eq" }} && c.Method == "{{ index . "method" }}" {
+	c := `  if second {{ index . "second_eq" }} && third {{ index . "third_eq" }} && c.Method == "{{ index . "method" }}" {
     handle{{ index . "name" }}(c{{ index . "params" }})
     return
   }
