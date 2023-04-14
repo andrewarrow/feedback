@@ -33,21 +33,25 @@ func MakeMarkDown(s *router.FeedbackSite) {
 			}
 			fmt.Printf("% 6s /%s%s\n", path.Verb, route.Root, more)
 		}
+		modelString := util.Unplural(route.Root)
+		m := s.FindModel(modelString)
+		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
 		fmt.Println("```")
 		fmt.Println("")
 		fmt.Println("### Example curls")
 		fmt.Println("```")
-		modelString := util.Unplural(route.Root)
-		m := s.FindModel(modelString)
-		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
-		payload := m.CurlCreatePayload()
+		payload := m.CurlPostPayload()
 		fmt.Printf("curl -XPOST %s http://localhost:8080/%s -d %s\n", headers, route.Root, payload)
+		fmt.Println("```")
+		fmt.Println("")
+		fmt.Println("```")
+		payload = m.CurlPutPayload()
+		fmt.Printf("curl -XPUT %s http://localhost:8080/%s -d %s\n", headers, route.Root, payload)
 		fmt.Println("```")
 		fmt.Println("")
 		fmt.Println("### Example response")
 		fmt.Println("```json")
-		response := `{"thing": [{"more": "this"}]}`
-		fmt.Println(response)
+		fmt.Println(m.CurlResponse())
 		fmt.Println("```")
 
 		fmt.Println("")
