@@ -9,6 +9,7 @@
              {"root": "users", "paths": [
                      {"verb": "GET", "second": "", "third": ""},
                      {"verb": "GET", "second": "*", "third": ""},
+                     {"verb": "GET", "second": "thing", "third": "*"},
                      {"verb": "POST", "second": "", "third": ""}
              ]}
   ],

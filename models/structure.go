@@ -12,15 +12,6 @@ type Model struct {
 	Name   string   `json:"name"`
 	Fields []*Field `json:"fields"`
 }
-type Route struct {
-	Root  string  `json:"root"`
-	Paths []*Path `json:"paths"`
-}
-type Path struct {
-	Verb   string `json:"verb"`
-	Second string `json:"second"`
-	Third  string `json:"third"`
-}
 
 func (m *Model) EnsureIdAndCreatedAt() {
 	ca := FindField(m, "created_at")

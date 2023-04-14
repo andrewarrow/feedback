@@ -49,9 +49,9 @@ func main() {
 		//r := router.NewRouter("DATABASE_URL")
 		//r.ResetDatabase()
 	} else if arg == "gen" {
-		name := util.GetArg(2)
-		path := util.GetArg(3)
-		gogen.MakeControllerAndView(name, path)
+		jsonBytes := getFeedbackJsonFile("")
+		r := router.NewRouter("NO_DB", jsonBytes)
+		gogen.MakeRoutes(r.Site.Routes)
 	} else if arg == "ai" {
 		// davinci  2049 tokens
 		// gpt-3.5-turbo 4096 tokens lowest cost
@@ -69,13 +69,7 @@ func main() {
 		persist.SaveSchema(asBytes)
 	} else if arg == "run" {
 		path := util.GetArg(2)
-		var jsonBytes []byte
-		if path != "" {
-			asString := files.ReadFile(path)
-			jsonBytes = []byte(asString)
-		} else {
-			jsonBytes = embeddedFile
-		}
+		jsonBytes := getFeedbackJsonFile(path)
 		router.EmbeddedTemplates = embeddedTemplates
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", jsonBytes)
@@ -84,4 +78,15 @@ func main() {
 		PrintHelp()
 	}
 
+}
+
+func getFeedbackJsonFile(path string) []byte {
+	var jsonBytes []byte
+	if path != "" {
+		asString := files.ReadFile(path)
+		jsonBytes = []byte(asString)
+	} else {
+		jsonBytes = embeddedFile
+	}
+	return jsonBytes
 }
