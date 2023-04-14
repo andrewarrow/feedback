@@ -39,8 +39,15 @@ func MakeMarkDown(s *router.FeedbackSite) {
 		fmt.Println("```")
 		modelString := util.Unplural(route.Root)
 		m := s.FindModel(modelString)
-		fmt.Println(m)
-		fmt.Println("curl http://localhost:8080/thing")
+		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
+		payload := m.CurlCreatePayload()
+		fmt.Printf("curl -XPOST %s http://localhost:8080/%s -d %s\n", headers, route.Root, payload)
+		fmt.Println("```")
+		fmt.Println("")
+		fmt.Println("### Example response")
+		fmt.Println("```json")
+		response := `{"thing": [{"more": "this"}]}`
+		fmt.Println(response)
 		fmt.Println("```")
 
 		fmt.Println("")
