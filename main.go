@@ -52,7 +52,7 @@ func main() {
 		path := util.GetArg(2)
 		jsonBytes := getFeedbackJsonFile(path)
 		r := router.NewRouter("NO_DB", jsonBytes)
-		gogen.MakeRoutes(r.Site.Routes)
+		gogen.MakeMarkDown(r.Site)
 	} else if arg == "ai" {
 		// davinci  2049 tokens
 		// gpt-3.5-turbo 4096 tokens lowest cost
