@@ -79,6 +79,10 @@ func exampleVal(name string, field *Field) any {
 		val = time.Now().Unix()
 	} else if field.Flavor == "int" {
 		val = 0
+	} else if field.Flavor == "bool" {
+		val = true
+	} else if field.Flavor == "list" {
+		val = []string{"item1", "item2"}
 	} else if len(field.JsonNames) > 0 {
 		val = makeJsonFromNames(field)
 	} else {
@@ -89,6 +93,12 @@ func exampleVal(name string, field *Field) any {
 
 func makeJsonFromNames(field *Field) map[string]any {
 	payload := map[string]any{}
-	payload["foo"] = 123
+	var holder *Field
+	for i, name := range field.JsonNames {
+		f := Field{}
+		f.Flavor = field.JsonTypes[i]
+		holder = &f
+		payload[name] = exampleVal(name, holder)
+	}
 	return payload
 }
