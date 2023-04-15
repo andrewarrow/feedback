@@ -24,6 +24,7 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 	}
 
 	asBytes, _ := json.Marshal(thing)
+	//fmt.Println(string(asBytes))
 
 	c.Writer.Header().Set("Content-Type", "application/json")
 	c.Writer.Header().Set("Cache-Control", "none")

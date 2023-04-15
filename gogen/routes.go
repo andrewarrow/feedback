@@ -22,8 +22,10 @@ func printRoutes(route *models.Route) {
 	fmt.Println("```")
 	for _, path := range route.Paths {
 		more := ""
-		if path.Second == "*" {
+		if path.Second == "*" && path.Third == "" {
 			more = "/:guid"
+		} else if path.Second == "*" && path.Third != "" {
+			more = fmt.Sprintf("/%s/:guid", path.Third)
 		} else if path.Third == "*" {
 			more = "/" + path.Second + "/:something"
 		}
@@ -72,13 +74,13 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		fmt.Println("")
 		fmt.Println("### Example curls")
 		fmt.Println("")
-		post(route.Root, headers, m)
-		fmt.Println("")
-		put(route.Root, headers, m)
-		fmt.Println("")
 		index(route.Root, headers, m)
 		fmt.Println("")
 		show(route.Root, headers, m)
+		fmt.Println("")
+		post(route.Root, headers, m)
+		fmt.Println("")
+		put(route.Root, headers, m)
 		fmt.Println("")
 		fmt.Println("### Example response")
 		fmt.Println("```json")

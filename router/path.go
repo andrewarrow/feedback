@@ -95,6 +95,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else if strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, path[0:len(path)-1], 301)
 	} else {
+		fmt.Println(request.Method, path)
 		path = path + "/"
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
