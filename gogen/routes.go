@@ -38,7 +38,7 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 			fmt.Printf("% 6s /%s%s\n", path.Verb, route.Root, more)
 		}
 		m := s.FindModel(modelString)
-		headers := "-H \"Authorization: Bearer token\" \\ \n  -H \"Content-Type: json\" \\ \n"
+		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
 		fmt.Println("```")
 		fmt.Println("")
 		fmt.Println("### Example curls")
@@ -49,7 +49,7 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		fmt.Println("")
 		fmt.Println("```")
 		payload = m.CurlPutPayload()
-		fmt.Printf("curl -XPUT %s http://localhost:8080/%s -d %s\n", headers, route.Root, payload)
+		fmt.Printf("curl -XPUT %s http://localhost:8080/%s/%s -d %s\n", headers, route.Root, util.PseudoUuid(), payload)
 		fmt.Println("```")
 		fmt.Println("")
 		fmt.Println("### Example response")

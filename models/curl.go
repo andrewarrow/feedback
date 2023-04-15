@@ -26,7 +26,8 @@ func (m *Model) CurlPutPayload() string {
 	}
 	asBytes, _ := json.Marshal(payload)
 	jsonString := string(asBytes)
-	return "'" + util.PipeToJq(jsonString) + "'"
+	tokens := strings.Split(jsonString, ",")
+	return "'" + strings.Join(tokens, ", ") + "'"
 }
 
 func (m *Model) CurlPostPayload() string {
@@ -44,7 +45,8 @@ func (m *Model) CurlPostPayload() string {
 	}
 	asBytes, _ := json.Marshal(payload)
 	jsonString := string(asBytes)
-	return "'" + util.PipeToJq(jsonString) + "'"
+	tokens := strings.Split(jsonString, ",")
+	return "'" + strings.Join(tokens, ", ") + "'"
 }
 
 func (m *Model) CurlResponse() string {
