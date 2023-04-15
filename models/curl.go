@@ -21,12 +21,11 @@ func (m *Model) CurlPutPayload() string {
 		if strings.HasSuffix(name, "_id") {
 			continue
 		}
-		payload[name] = exampleVal(name, field.Flavor)
+		payload[name] = exampleVal(name, field)
 	}
 	asBytes, _ := json.Marshal(payload)
 	jsonString := string(asBytes)
-	tokens := strings.Split(jsonString, ",")
-	return "'" + strings.Join(tokens, ",\n") + "'"
+	return "'" + util.PipeToJq(jsonString) + "'"
 }
 
 func (m *Model) CurlPostPayload() string {
@@ -40,12 +39,11 @@ func (m *Model) CurlPostPayload() string {
 			tokens := strings.Split(name, "_")
 			name = tokens[0] + "_guid"
 		}
-		payload[name] = exampleVal(name, field.Flavor)
+		payload[name] = exampleVal(name, field)
 	}
 	asBytes, _ := json.Marshal(payload)
 	jsonString := string(asBytes)
-	tokens := strings.Split(jsonString, ",")
-	return "'" + strings.Join(tokens, ",\n") + "'"
+	return "'" + util.PipeToJq(jsonString) + "'"
 }
 
 func (m *Model) CurlResponse() string {
@@ -68,21 +66,29 @@ func (m *Model) ExampleAlFields() map[string]any {
 			tokens := strings.Split(name, "_")
 			name = tokens[0] + "_guid"
 		}
-		payload[name] = exampleVal(name, field.Flavor)
+		payload[name] = exampleVal(name, field)
 	}
 	return payload
 }
 
-func exampleVal(name, flavor string) any {
+func exampleVal(name string, field *Field) any {
 	var val any
 	if strings.HasSuffix(name, "_guid") || name == "guid" {
 		val = util.PseudoUuid()
-	} else if flavor == "timestamp" {
+	} else if field.Flavor == "timestamp" {
 		val = time.Now().Unix()
-	} else if flavor == "int" {
+	} else if field.Flavor == "int" {
 		val = 0
+	} else if len(field.JsonNames) > 0 {
+		val = makeJsonFromNames(field)
 	} else {
 		val = "some_string"
 	}
 	return val
+}
+
+func makeJsonFromNames(field *Field) map[string]any {
+	payload := map[string]any{}
+	payload["foo"] = 123
+	return payload
 }
