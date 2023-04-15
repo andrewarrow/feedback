@@ -11,7 +11,7 @@ func PipeToJq(inputString string) string {
 	jq.Stdin = strings.NewReader(inputString)
 
 	b, _ := jq.CombinedOutput()
-	return string(b)
+	return strings.TrimSpace(string(b))
 
 }
 

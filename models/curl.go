@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/util"
+	"github.com/brianvoe/gofakeit/v6"
 )
 
 func (m *Model) CurlPutPayload() string {
@@ -79,6 +80,8 @@ func exampleVal(name string, field *Field) any {
 		val = time.Now().Unix()
 	} else if field.Flavor == "int" {
 		val = 0
+	} else if field.Flavor == "url" {
+		val = gofakeit.URL()
 	} else if field.Flavor == "bool" {
 		val = true
 	} else if field.Flavor == "list" {
