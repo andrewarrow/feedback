@@ -86,7 +86,7 @@ func exampleVal(name string, field *Field) any {
 		val = true
 	} else if field.Flavor == "list" {
 		val = []string{"item1", "item2"}
-	} else if len(field.JsonNames) > 0 {
+	} else if field.Flavor == "json" {
 		val = makeJsonFromNames(field)
 	} else {
 		val = "some_string"

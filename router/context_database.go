@@ -1,6 +1,7 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -32,6 +33,10 @@ func CastFields(model *models.Model, m map[string]any) {
 			m[field.Name] = m[field.Name].(int64)
 		} else if field.Flavor == "bool" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(bool)
+		} else if field.Flavor == "json" {
+			var temp map[string]any
+			json.Unmarshal([]byte(m[field.Name].(string)), &temp)
+			m[field.Name] = temp
 		} else if field.Flavor == "list" {
 			s := fmt.Sprintf("%s", m[field.Name])
 			tokens := strings.Split(s, ",")

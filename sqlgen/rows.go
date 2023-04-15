@@ -1,6 +1,7 @@
 package sqlgen
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -109,8 +110,9 @@ func UpdateRowFromParams(tableName string,
 		if field.Flavor == "list" {
 			list := fixListItems(val)
 			val = strings.Join(list, ",")
-		} else if field.Flavor == "bool" {
-			val = true
+		} else if field.Flavor == "json" {
+			asBytes, _ := json.Marshal(val)
+			val = string(asBytes)
 		}
 		params = append(params, val)
 	}
