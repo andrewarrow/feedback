@@ -9,12 +9,14 @@ import (
 )
 
 type Field struct {
-	Name     string `json:"name"`
-	Flavor   string `json:"flavor"`
-	Index    string `json:"index"`
-	Required string `json:"required"`
-	Regex    string `json:"regex"`
-	Null     string `json:"null"`
+	Name      string   `json:"name"`
+	Flavor    string   `json:"flavor"`
+	Index     string   `json:"index"`
+	Required  string   `json:"required"`
+	Regex     string   `json:"regex"`
+	Null      string   `json:"null"`
+	JsonNames []string `json:"json_names"`
+	JsonTypes []string `json:"json_types"`
 }
 
 func (f *Field) SqlTypeAndDefault() (string, string) {

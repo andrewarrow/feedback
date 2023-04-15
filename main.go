@@ -49,10 +49,11 @@ func main() {
 		//r := router.NewRouter("DATABASE_URL")
 		//r.ResetDatabase()
 	} else if arg == "genmd" {
-		path := util.GetArg(2)
+		model := util.GetArg(2)
+		path := util.GetArg(3)
 		jsonBytes := getFeedbackJsonFile(path)
 		r := router.NewRouter("NO_DB", jsonBytes)
-		gogen.MakeMarkDown(r.Site)
+		gogen.MakeMarkDown(r.Site, model)
 	} else if arg == "gencode" {
 		path := util.GetArg(2)
 		jsonBytes := getFeedbackJsonFile(path)

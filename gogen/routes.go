@@ -16,11 +16,15 @@ func MakeRoutes(routes []*models.Route) {
 	}
 }
 
-func MakeMarkDown(s *router.FeedbackSite) {
+func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 
 	fmt.Println("")
 	fmt.Println("")
 	for _, route := range s.Routes {
+		if util.Unplural(route.Root) != modelString {
+			continue
+		}
+
 		fmt.Println("# " + route.Root)
 		fmt.Println("")
 		fmt.Println("```")
@@ -33,7 +37,6 @@ func MakeMarkDown(s *router.FeedbackSite) {
 			}
 			fmt.Printf("% 6s /%s%s\n", path.Verb, route.Root, more)
 		}
-		modelString := util.Unplural(route.Root)
 		m := s.FindModel(modelString)
 		headers := "-H \"Authorization: Bearer token\" \\ \n  -H \"Content-Type: json\" \\ \n"
 		fmt.Println("```")

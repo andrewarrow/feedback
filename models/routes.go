@@ -75,9 +75,6 @@ func handlePath(root, verb, second, third string) (string, string, string) {
 	flavor := ""
 	if third == "" && second == "" {
 		flavor = "root"
-		if verb == "PUT" {
-			flavor = "second"
-		}
 	} else if third == "" && second == "*" {
 		flavor = "second"
 	} else if third == "*" {

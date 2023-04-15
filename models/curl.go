@@ -26,6 +26,8 @@ func (m *Model) CurlPutPayload() string {
 		val := q + "some_string" + q
 		if field.Flavor == "timestamp" {
 			val = fmt.Sprintf("%d", time.Now().Unix())
+		} else if field.Flavor == "int" {
+			val = "0"
 		}
 
 		buffer = append(buffer, fmt.Sprintf("%s%s%s: %s", q, name, q, val))
@@ -51,6 +53,8 @@ func (m *Model) CurlPostPayload() string {
 			val = q + util.PseudoUuid() + q
 		} else if field.Flavor == "timestamp" {
 			val = fmt.Sprintf("%d", time.Now().Unix())
+		} else if field.Flavor == "int" {
+			val = "0"
 		}
 
 		buffer = append(buffer, fmt.Sprintf("%s%s%s: %s", q, name, q, val))
@@ -74,6 +78,8 @@ func (m *Model) CurlResponse() string {
 			val = util.PseudoUuid()
 		} else if field.Flavor == "timestamp" {
 			val = time.Now().Unix()
+		} else if field.Flavor == "int" {
+			val = 0
 		} else {
 			val = "some_string"
 		}
