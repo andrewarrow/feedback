@@ -37,11 +37,22 @@ func post(root, headers string, m *models.Model) {
 	fmt.Printf("curl -XPOST %s http://localhost:8080/%s -d %s\n", headers, root, payload)
 	fmt.Println("```")
 }
+func index(root, headers string, m *models.Model) {
+	fmt.Println("```")
+	fmt.Printf("curl -XGET %s http://localhost:8080/%s\n", headers, root)
+	fmt.Println("```")
+}
 
 func put(root, headers string, m *models.Model) {
 	fmt.Println("```")
 	payload := m.CurlPutPayload()
 	fmt.Printf("curl -XPUT %s http://localhost:8080/%s/%s -d %s\n", headers, root, util.PseudoUuid(), payload)
+	fmt.Println("```")
+}
+
+func show(root, headers string, m *models.Model) {
+	fmt.Println("```")
+	fmt.Printf("curl -XGET %s http://localhost:8080/%s/%s\n", headers, root, util.PseudoUuid())
 	fmt.Println("```")
 }
 
@@ -64,6 +75,10 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		post(route.Root, headers, m)
 		fmt.Println("")
 		put(route.Root, headers, m)
+		fmt.Println("")
+		index(route.Root, headers, m)
+		fmt.Println("")
+		show(route.Root, headers, m)
 		fmt.Println("")
 		fmt.Println("### Example response")
 		fmt.Println("```json")
