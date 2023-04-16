@@ -39,6 +39,15 @@ func TemplateFunctions() template.FuncMap {
 			utc, _ := time.LoadLocation("UTC")
 			return t.In(utc).Unix()
 		},
+		"price": func(pennies int64) string {
+			amount := fmt.Sprintf("%d", pennies)
+			if len(amount) < 3 {
+				return fmt.Sprintf("$00.%s USD", amount)
+			}
+			dollars := amount[0 : len(amount)-2]
+			cents := amount[len(amount)-2:]
+			return fmt.Sprintf("$%s.%s USD", dollars, cents)
+		},
 		"ampm": func(f float64) string {
 			i := int(f)
 			if i > 12 {
