@@ -88,6 +88,8 @@ func exampleVal(name string, field *Field) any {
 		val = []string{"item1", "item2"}
 	} else if field.Flavor == "json" {
 		val = makeJsonFromNames(field)
+	} else if field.Flavor == "json_list" {
+		val = makeJsonListFromNames(field)
 	} else {
 		val = "some_string"
 	}
@@ -104,4 +106,9 @@ func makeJsonFromNames(field *Field) map[string]any {
 		payload[name] = exampleVal(name, holder)
 	}
 	return payload
+}
+
+func makeJsonListFromNames(field *Field) []map[string]any {
+	payload := makeJsonFromNames(field)
+	return []map[string]any{payload}
 }
