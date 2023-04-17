@@ -1,11 +1,13 @@
 package router
 
 import (
+	"fmt"
 	"strings"
 )
 
 type MSA map[string]any
 type MSAS map[string][]string
+type MSMAB map[string]map[any]bool
 
 func (c *Context) DecorateSingle(item map[string]any) {
 	list := []map[string]any{item}
@@ -16,9 +18,35 @@ func (c *Context) DecorateList(list []map[string]any) {
 	c.Decorate(list, 0)
 }
 
-func gatherDecorateIds(list []MSA, level int) MSAS {
-	m := map[string][]string{}
-	return m
+func gatherDecorateIds(list []MSA, fill MSAS, level int) {
+	if level > 10 {
+		return
+	}
+	ids := MSMAB{}
+	for _, item := range list {
+		for k, v := range item {
+			if strings.HasSuffix(k, "_id") == false {
+				continue
+			}
+			tokens := strings.Split(k, "_")
+			modelString := tokens[0]
+			if ids[modelString] == nil {
+				ids[modelString] = map[any]bool{}
+			}
+			ids[modelString][v] = true
+		}
+	}
+	itemMaps := MSAS{}
+	for k, v := range ids {
+		whereInList := []string{}
+		for kk, _ := range v {
+			intId := kk.(int64)
+			whereInList = append(whereInList, fmt.Sprintf("%d", intId))
+		}
+		itemMaps[k] = whereInList
+	}
+	fmt.Println(itemMaps)
+	return
 }
 
 func (c *Context) Decorate(list []map[string]any, level int) {
