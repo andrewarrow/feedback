@@ -11,7 +11,7 @@ type MI64MSA map[int64]map[string]any
 
 func (c *Context) DecorateSingle(item map[string]any) {
 	list := []map[string]any{item}
-	c.Decorate(list)
+	c.DecorateList(list)
 }
 
 func (c *Context) DecorateList(list []map[string]any) {
