@@ -66,6 +66,7 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 		list = append(list, field)
 	}
 	sql, params := sqlgen.UpdateRowFromParams(tableName, list, c.Params, where)
+	//fmt.Println(sql, params)
 	params = append(params, lastParam)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {

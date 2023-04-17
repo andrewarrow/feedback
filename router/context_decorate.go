@@ -4,9 +4,21 @@ import (
 	"strings"
 )
 
+type MSA map[string]any
+type MSAS map[string][]string
+
 func (c *Context) DecorateSingle(item map[string]any) {
 	list := []map[string]any{item}
 	c.Decorate(list, 0)
+}
+
+func (c *Context) DecorateList(list []map[string]any) {
+	c.Decorate(list, 0)
+}
+
+func gatherDecorateIds(list []MSA, level int) MSAS {
+	m := map[string][]string{}
+	return m
 }
 
 func (c *Context) Decorate(list []map[string]any, level int) {

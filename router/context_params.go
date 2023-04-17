@@ -7,6 +7,7 @@ import (
 func (c *Context) ReadJsonBodyIntoParams() {
 	c.Params = map[string]any{}
 	body := c.BodyAsString()
+	//fmt.Println(body)
 	json.Unmarshal([]byte(body), &c.Params)
 }
 
