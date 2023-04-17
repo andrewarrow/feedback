@@ -25,7 +25,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	if f.Flavor == "int" {
 		flavor = "int"
 		defaultString = "0"
-	} else if f.Flavor == "text" || f.Flavor == "json" {
+	} else if f.Flavor == "text" || f.Flavor == "json" || f.Flavor == "json_list" {
 		flavor = "text"
 	} else if f.Flavor == "list" {
 		flavor = "text"

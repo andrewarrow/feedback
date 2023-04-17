@@ -80,6 +80,12 @@ func insertRow(random bool, tableName string,
 				}
 			}
 			val = strings.Join(list, ",")
+		} else if field.Flavor == "json" {
+			asBytes, _ := json.Marshal(val)
+			val = string(asBytes)
+		} else if field.Flavor == "json_list" {
+			asBytes, _ := json.Marshal(val)
+			val = string(asBytes)
 		}
 		params = append(params, val)
 	}
