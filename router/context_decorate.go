@@ -4,7 +4,10 @@ import (
 	"strings"
 )
 
-func (c *Context) Decorate(list []map[string]any) {
+func (c *Context) Decorate(list []map[string]any, level int) {
+	if level > 10 {
+		return
+	}
 	ids := map[string]map[any]bool{}
 	for _, item := range list {
 		for k, v := range item {
@@ -43,7 +46,7 @@ func (c *Context) Decorate(list []map[string]any) {
 				}
 				lookup := itemMaps[modelString].(map[int64]map[string]any)
 				newList := []map[string]any{lookup[intId]}
-				c.Decorate(newList)
+				c.Decorate(newList, level+1)
 				item[modelString] = newList[0]
 			}
 		}
