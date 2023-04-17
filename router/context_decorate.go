@@ -4,6 +4,11 @@ import (
 	"strings"
 )
 
+func (c *Context) DecorateSingle(item map[string]any) {
+	list := []map[string]any{item}
+	c.Decorate(list, 0)
+}
+
 func (c *Context) Decorate(list []map[string]any, level int) {
 	if level > 10 {
 		return
