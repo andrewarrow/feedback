@@ -42,7 +42,9 @@ func (c *Context) Decorate(list []map[string]any) {
 					continue
 				}
 				lookup := itemMaps[modelString].(map[int64]map[string]any)
-				item[modelString] = lookup[intId]
+				newList := []map[string]any{lookup[intId]}
+				c.Decorate(newList)
+				item[modelString] = newList[0]
 			}
 		}
 	}
