@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -22,5 +21,29 @@ func (c *Context) Decorate(list []map[string]any) {
 			}
 		}
 	}
-	fmt.Println(ids)
+	itemMaps := map[string]any{}
+	for k, v := range ids {
+		whereInList := []any{}
+		for kk, _ := range v {
+			whereInList = append(whereInList, kk)
+		}
+		itemMaps[k] = c.WhereIn(k, whereInList)
+	}
+	for _, item := range list {
+		for k, v := range item {
+			if strings.HasSuffix(k, "_id") {
+				tokens := strings.Split(k, "_")
+				modelString := tokens[0]
+				if itemMaps[modelString] == nil {
+					continue
+				}
+				intId := v.(int64)
+				if intId == 0 {
+					continue
+				}
+				lookup := itemMaps[modelString].(map[int64]map[string]any)
+				item[modelString] = lookup[intId]
+			}
+		}
+	}
 }

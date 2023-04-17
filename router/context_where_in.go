@@ -5,6 +5,22 @@ import (
 	"strings"
 )
 
+func (c *Context) WhereIn(modelString string, ids []any) map[int64]map[string]any {
+	stringIds := []string{}
+	for _, id := range ids {
+		stringIds = append(stringIds, fmt.Sprintf("%d", id))
+	}
+	sql := fmt.Sprintf("where id in (%s)", strings.Join(stringIds, ","))
+	items := c.All(modelString, sql, "")
+	resultMap := map[int64]map[string]any{}
+	for _, row := range items {
+		id := row["id"].(int64)
+		resultMap[id] = row
+	}
+
+	return resultMap
+}
+
 func (c *Context) WhereInMap(modelString string, rows any, field, otherField string) (map[int64]map[string]any, []string) {
 	resultMap := map[int64]map[string]any{}
 	list := []string{}
