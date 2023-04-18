@@ -45,9 +45,9 @@ func index(root, headers string, m *models.Model) {
 	fmt.Println("```")
 }
 
-func put(root, headers string, m *models.Model, modelMap map[string]bool) {
+func put(root, headers string, m *models.Model) {
 	fmt.Println("```")
-	payload := m.CurlPutPayload(modelMap)
+	payload := m.CurlPutPayload()
 	fmt.Printf("curl -XPUT %s http://localhost:8080/%s/%s -d %s\n", headers, root, util.PseudoUuid(), payload)
 	fmt.Println("```")
 }
@@ -62,7 +62,6 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 
 	fmt.Println("")
 	fmt.Println("")
-	modelMap := s.ModelMap()
 	for _, route := range s.Routes {
 		if util.Unplural(route.Root) != modelString {
 			continue
@@ -81,7 +80,7 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		fmt.Println("")
 		post(route.Root, headers, m)
 		fmt.Println("")
-		put(route.Root, headers, m, modelMap)
+		put(route.Root, headers, m)
 		fmt.Println("")
 		fmt.Println("### Example response")
 		fmt.Println("```json")

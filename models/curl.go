@@ -9,19 +9,7 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 )
 
-func ifEndsInIdAndIsModel(name string, modelMap map[string]bool) string {
-	if strings.HasSuffix(name, "_id") {
-		tokens := strings.Split(name, "_")
-		modelString := tokens[0]
-		if modelMap[modelString] == false {
-			return ""
-		}
-		return modelString + "_guid"
-	}
-	return ""
-}
-
-func (m *Model) CurlPutPayload(modelMap map[string]bool) string {
+func (m *Model) CurlPutPayload() string {
 	payload := map[string]any{}
 	for _, field := range m.Fields {
 		if field.CommonExclude() {
@@ -31,7 +19,7 @@ func (m *Model) CurlPutPayload(modelMap map[string]bool) string {
 			continue
 		}
 		name := field.Name
-		if ifEndsInIdAndIsModel(name, modelMap) != "" {
+		if strings.HasSuffix(name, "_id") {
 			continue
 		}
 		payload[name] = exampleVal(name, field)
