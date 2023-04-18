@@ -28,3 +28,12 @@ func (s *FeedbackSite) FindField(model *models.Model, id string) *models.Field {
 
 	return nil
 }
+
+func (s *FeedbackSite) ModelMap() map[string]bool {
+	result := map[string]bool{}
+	for _, m := range s.Models {
+		result[m.Name] = true
+	}
+
+	return result
+}
