@@ -39,8 +39,14 @@ func TemplateFunctions() template.FuncMap {
 			utc, _ := time.LoadLocation("UTC")
 			return t.In(utc).Unix()
 		},
-		"price": func(pennies int64) string {
-			amount := fmt.Sprintf("%d", pennies)
+		"price": func(thing any) string {
+			thingInt64, ok := thing.(int64)
+			if !ok {
+				thingFloat64 := thing.(float64)
+				thingInt64 = int64(thingFloat64)
+			}
+
+			amount := fmt.Sprintf("%d", thingInt64)
 			if len(amount) < 3 {
 				return fmt.Sprintf("$00.%s USD", amount)
 			}
