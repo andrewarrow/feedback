@@ -8,6 +8,10 @@ func (c *Context) LookupUser(guid string) map[string]any {
 	return c.router.LookupUser(guid)
 }
 
+func (c *Context) LookupUserByToken(token string) map[string]any {
+	return c.router.LookupUserByToken(token)
+}
+
 func (r *Router) LookupUserByToken(token string) map[string]any {
 	var user map[string]any
 	ct := r.SelectOne("cookie_token", "where guid=$1", []any{token})
