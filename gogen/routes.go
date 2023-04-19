@@ -24,7 +24,7 @@ func printRoutes(route *models.Route) {
 	fmt.Println("```")
 	for _, path := range route.Paths {
 		more := ""
-		if path.Second == "*" && path.Third == "" {
+		if path.Second != "" && path.Third == "" {
 			more = "/:guid"
 		} else if path.Second == "*" && path.Third != "" {
 			more = fmt.Sprintf("/%s/:guid", path.Third)
@@ -54,9 +54,9 @@ func put(root, headers string, m *models.Model) {
 	fmt.Println("```")
 }
 
-func show(root, headers string, m *models.Model) {
+func show(root, headers string, m *models.Model, guid string) {
 	fmt.Println("```")
-	fmt.Printf("curl -XGET %s http://localhost:8080/%s/%s\n", headers, root, util.PseudoUuid())
+	fmt.Printf("curl -XGET %s http://localhost:8080/%s/%s\n", headers, root, guid)
 	fmt.Println("```")
 }
 
@@ -77,9 +77,10 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		fmt.Println("### Example curls")
 		fmt.Println("")
 		for _, path := range route.Paths {
-			if path.Verb == "GET" {
+			if path.Verb == "GET" && path.Second == "" {
 				index(route.Root, headers, m)
-				//show(route.Root, headers, m)
+			} else if path.Verb == "GET" && path.Second != "" {
+				show(route.Root, headers, m, path.Second)
 			} else if path.Verb == "PUT" {
 				put(route.Root, headers, m)
 			} else if path.Verb == "POST" {

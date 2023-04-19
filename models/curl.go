@@ -100,7 +100,7 @@ func exampleVal(name string, field *Field) any {
 	} else if field.Flavor == "json_list" {
 		val = makeJsonListFromNames(field)
 	} else {
-		val = "some_string"
+		val = field.Flavor
 	}
 	return val
 }
