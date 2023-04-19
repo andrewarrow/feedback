@@ -8,9 +8,11 @@ import (
 	"github.com/andrewarrow/feedback/util"
 )
 
-func MakeRoutes(routes []*models.Route) {
+func MakeRoutes(routes []*models.Route, modelString string) {
 	for _, route := range routes {
-		fmt.Println(route.Root)
+		if route.Root != modelString {
+			continue
+		}
 		output := route.Generate(route.Root)
 		fmt.Println(output)
 	}
@@ -74,17 +76,26 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		fmt.Println("")
 		fmt.Println("### Example curls")
 		fmt.Println("")
-		index(route.Root, headers, m)
+		for _, path := range route.Paths {
+			if path.Verb == "GET" {
+				index(route.Root, headers, m)
+				//show(route.Root, headers, m)
+			} else if path.Verb == "PUT" {
+				put(route.Root, headers, m)
+			} else if path.Verb == "POST" {
+				post(route.Root, headers, m)
+			}
+			fmt.Println("")
+		}
 		fmt.Println("")
-		show(route.Root, headers, m)
-		fmt.Println("")
-		post(route.Root, headers, m)
-		fmt.Println("")
-		put(route.Root, headers, m)
-		fmt.Println("")
-		fmt.Println("### Example response")
+		fmt.Println("### Example single response")
 		fmt.Println("```json")
-		fmt.Println(m.CurlResponse())
+		fmt.Println(m.CurlSingleResponse())
+		fmt.Println("```")
+		fmt.Println("")
+		fmt.Println("### Example list response")
+		fmt.Println("```json")
+		fmt.Println(m.CurlListResponse())
 		fmt.Println("```")
 
 		fmt.Println("")

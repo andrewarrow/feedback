@@ -47,16 +47,25 @@ func (m *Model) CurlPostPayload() string {
 	return "'" + jsonString + "'"
 }
 
-func (m *Model) CurlResponse() string {
+func (m *Model) CurlSingleResponse() string {
 	wrapper := map[string]any{}
-	payload := m.ExampleAlFields()
-
 	modelName := util.ToSnakeCase(m.Name)
-	util.RemoveSensitiveKeys(payload)
-	wrapper[modelName] = payload
-
+	wrapper[modelName] = m.CurlResponse()
 	asBytes, _ := json.Marshal(wrapper)
 	return util.PipeToJq(string(asBytes))
+}
+
+func (m *Model) CurlListResponse() string {
+	wrapper := []any{}
+	wrapper = append(wrapper, m.CurlResponse())
+	asBytes, _ := json.Marshal(wrapper)
+	return util.PipeToJq(string(asBytes))
+}
+
+func (m *Model) CurlResponse() any {
+	payload := m.ExampleAlFields()
+	util.RemoveSensitiveKeys(payload)
+	return payload
 }
 
 func (m *Model) ExampleAlFields() map[string]any {

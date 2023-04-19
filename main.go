@@ -55,10 +55,11 @@ func main() {
 		r := router.NewRouter("NO_DB", jsonBytes)
 		gogen.MakeMarkDown(r.Site, model)
 	} else if arg == "gencode" {
-		path := util.GetArg(2)
+		model := util.GetArg(2)
+		path := util.GetArg(3)
 		jsonBytes := getFeedbackJsonFile(path)
 		r := router.NewRouter("NO_DB", jsonBytes)
-		gogen.MakeRoutes(r.Site.Routes)
+		gogen.MakeRoutes(r.Site.Routes, model)
 	} else if arg == "ai" {
 		// davinci  2049 tokens
 		// gpt-3.5-turbo 4096 tokens lowest cost
