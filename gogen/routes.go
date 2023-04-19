@@ -70,7 +70,7 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		}
 
 		printRoutes(route)
-		m := s.FindModel(modelString)
+		m := s.FindModelOrDynamic(modelString)
 		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
 		fmt.Println("```")
 		fmt.Println("")
