@@ -18,6 +18,7 @@ type Path struct {
 	Verb   string `json:"verb"`
 	Second string `json:"second"`
 	Third  string `json:"third"`
+	Params string `json:"params"`
 }
 
 func (r *Route) Generate(root string) string {

@@ -31,6 +31,9 @@ func printRoutes(route *models.Route) {
 		} else if path.Third == "*" {
 			more = "/" + path.Second + "/:something"
 		}
+		if path.Params != "" {
+			more = more + "?" + path.Params
+		}
 		fmt.Printf("% 6s /%s%s\n", path.Verb, route.Root, more)
 	}
 }
@@ -70,7 +73,7 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		}
 
 		printRoutes(route)
-		m := s.FindModelOrDynamic(modelString)
+		m := s.FindModelOrDynamic(util.FixForDash(modelString))
 		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
 		fmt.Println("```")
 		fmt.Println("")

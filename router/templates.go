@@ -19,6 +19,7 @@ func TemplateFunctions() template.FuncMap {
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
+		"bigadd": func(i float64, j int) int64 { return int64(i) + int64(j) },
 		"null": func(s any) any {
 			if s == nil {
 				return ""

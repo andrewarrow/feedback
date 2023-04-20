@@ -87,6 +87,8 @@ func exampleVal(name string, field *Field) any {
 		val = util.PseudoUuid()
 	} else if field.Flavor == "timestamp" {
 		val = time.Now().Unix()
+	} else if field.Flavor == "timestamp_human" {
+		val = time.Now().Format(HUMAN)
 	} else if field.Flavor == "int" {
 		val = 0
 	} else if field.Flavor == "url" {
