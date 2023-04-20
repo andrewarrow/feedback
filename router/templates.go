@@ -13,13 +13,26 @@ import (
 var EmbeddedTemplates embed.FS
 
 const DATE_LAYOUT = "Monday, January 2, 2006 15:04"
+const HUMAN = "Monday, January 2, 2006 3:04 PM"
 
 func TemplateFunctions() template.FuncMap {
 	fm := template.FuncMap{
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
-		"bigadd": func(i float64, j int) int64 { return int64(i) + int64(j) },
+		"timeOptions": func(ts int64) template.HTML {
+			buffer := []string{}
+
+			q := `"`
+			t := time.Unix(ts, 0)
+			for i := 0; i < 24; i++ {
+				val := fmt.Sprintf("%s%d%s", q, t.Unix(), q)
+				buffer = append(buffer, fmt.Sprintf("<option value=%s>%s</option>", val, t.Format(HUMAN)))
+				t = t.Add(time.Minute * 30)
+			}
+
+			return template.HTML(strings.Join(buffer, "\n"))
+		},
 		"null": func(s any) any {
 			if s == nil {
 				return ""
