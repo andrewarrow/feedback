@@ -47,6 +47,11 @@ func (m *Model) CurlPostPayload() string {
 	return "'" + jsonString + "'"
 }
 
+func (m *Model) CurlSingleResponseNoWrapper() string {
+	asBytes, _ := json.Marshal(m.CurlResponse())
+	return util.PipeToJq(string(asBytes))
+}
+
 func (m *Model) CurlSingleResponse() string {
 	wrapper := map[string]any{}
 	modelName := util.ToSnakeCase(m.Name)
@@ -93,6 +98,18 @@ func exampleVal(name string, field *Field) any {
 		val = 0
 	} else if field.Flavor == "url" {
 		val = gofakeit.URL()
+	} else if field.Flavor == "last4" {
+		val = "1111"
+	} else if field.Flavor == "brand" {
+		val = "visa"
+	} else if field.Flavor == "credit_card" {
+		val = "4111111111111111"
+	} else if field.Flavor == "year" {
+		val = "2024"
+	} else if field.Flavor == "month" {
+		val = "10"
+	} else if field.Flavor == "cvc" {
+		val = "123"
 	} else if field.Flavor == "bool" {
 		val = true
 	} else if field.Flavor == "list" {

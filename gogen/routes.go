@@ -79,6 +79,7 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		fmt.Println("")
 		fmt.Println("### Example curls")
 		fmt.Println("")
+		foundResponse := false
 		for _, path := range route.Paths {
 			if path.Verb == "GET" && path.Second == "" {
 				index(route.Root, headers, m)
@@ -90,17 +91,42 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 				post(route.Root, headers, m)
 			}
 			fmt.Println("")
+			if path.Response == "bool" {
+				fmt.Println("### Payload to send")
+				fmt.Println("```json")
+				fmt.Println(m.CurlSingleResponseNoWrapper())
+				fmt.Println("```")
+				fmt.Println("")
+				fmt.Println("### Example response")
+				fmt.Println("```json")
+				fmt.Println(`{"info": "ok"}`)
+				fmt.Println("```")
+				fmt.Println("")
+				fmt.Println("```json")
+				fmt.Println(`{"info": "stripe api down"}`)
+				fmt.Println("```")
+				foundResponse = true
+			} else if path.Response != "" {
+				foundResponse = true
+				m := s.FindModelOrDynamic(util.FixForDash(path.Response))
+				fmt.Println("### Example single response")
+				fmt.Println("```json")
+				fmt.Println(m.CurlSingleResponse())
+				fmt.Println("```")
+			}
 		}
 		fmt.Println("")
-		fmt.Println("### Example single response")
-		fmt.Println("```json")
-		fmt.Println(m.CurlSingleResponse())
-		fmt.Println("```")
-		fmt.Println("")
-		fmt.Println("### Example list response")
-		fmt.Println("```json")
-		fmt.Println(m.CurlListResponse())
-		fmt.Println("```")
+		if foundResponse == false {
+			fmt.Println("### Example single response")
+			fmt.Println("```json")
+			fmt.Println(m.CurlSingleResponse())
+			fmt.Println("```")
+			fmt.Println("")
+			fmt.Println("### Example list response")
+			fmt.Println("```json")
+			fmt.Println(m.CurlListResponse())
+			fmt.Println("```")
+		}
 
 		fmt.Println("")
 	}
