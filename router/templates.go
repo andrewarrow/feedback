@@ -59,6 +59,10 @@ func TemplateFunctions() template.FuncMap {
 				thingFloat64 := thing.(float64)
 				thingInt64 = int64(thingFloat64)
 			}
+			if thingInt64 == 0 {
+				s := "$0.00 USD"
+				return template.HTML(s)
+			}
 
 			amount := fmt.Sprintf("%d", thingInt64)
 			if len(amount) < 3 {
