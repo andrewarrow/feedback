@@ -14,3 +14,11 @@ func (c *Context) FreeFormSelect(sql string, params ...any) []map[string]any {
 	}
 	return ms
 }
+
+func (c *Context) FreeFormUpdate(sql string, params ...any) error {
+	_, err := c.Db.Exec(sql, params...)
+	if err != nil {
+		return err
+	}
+	return nil
+}

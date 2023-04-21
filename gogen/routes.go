@@ -38,6 +38,11 @@ func printRoutes(route *models.Route) {
 	}
 }
 
+func deleteRoute(root, headers string, m *models.Model) {
+	fmt.Println("```")
+	fmt.Printf("curl -XDELETE %s http://localhost:8080/%s\n", headers, root)
+	fmt.Println("```")
+}
 func post(root, headers string, m *models.Model) {
 	fmt.Println("```")
 	payload := m.CurlPostPayload()
@@ -77,10 +82,8 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 		headers := "-H \"Authorization: Bearer token\" -H \"Content-Type: json\""
 		fmt.Println("```")
 		fmt.Println("")
-		fmt.Println("### Example curls")
-		fmt.Println("")
-		foundResponse := false
 		for _, path := range route.Paths {
+			fmt.Printf("## %s curl\n", path.Verb)
 			if path.Verb == "GET" && path.Second == "" {
 				index(route.Root, headers, m)
 			} else if path.Verb == "GET" && path.Second != "" {
@@ -89,15 +92,19 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 				put(route.Root, headers, m)
 			} else if path.Verb == "POST" {
 				post(route.Root, headers, m)
+			} else if path.Verb == "DELETE" {
+				deleteRoute(route.Root, headers, m)
 			}
 			fmt.Println("")
 			if path.Response == "bool" {
-				fmt.Println("### Payload to send")
-				fmt.Println("```json")
-				fmt.Println(m.CurlSingleResponseNoWrapper())
-				fmt.Println("```")
-				fmt.Println("")
-				fmt.Println("### Example response")
+				if path.Verb == "POST" {
+					fmt.Println("### Payload")
+					fmt.Println("```json")
+					fmt.Println(m.CurlSingleResponseNoWrapper())
+					fmt.Println("```")
+					fmt.Println("")
+				}
+				fmt.Println("### Response")
 				fmt.Println("```json")
 				fmt.Println(`{"info": "ok"}`)
 				fmt.Println("```")
@@ -105,29 +112,26 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 				fmt.Println("```json")
 				fmt.Println(`{"info": "stripe api down"}`)
 				fmt.Println("```")
-				foundResponse = true
+				fmt.Println("")
 			} else if path.Response != "" {
-				foundResponse = true
 				m := s.FindModelOrDynamic(util.FixForDash(path.Response))
-				fmt.Println("### Example single response")
+				fmt.Println("### Single response")
 				fmt.Println("```json")
 				fmt.Println(m.CurlSingleResponse())
 				fmt.Println("```")
+				fmt.Println("")
+			} else if path.Response == "" {
+				fmt.Println("### Single response")
+				fmt.Println("```json")
+				fmt.Println(m.CurlSingleResponse())
+				fmt.Println("```")
+				fmt.Println("")
+				fmt.Println("### List response")
+				fmt.Println("```json")
+				fmt.Println(m.CurlListResponse())
+				fmt.Println("```")
+				fmt.Println("")
 			}
 		}
-		fmt.Println("")
-		if foundResponse == false {
-			fmt.Println("### Example single response")
-			fmt.Println("```json")
-			fmt.Println(m.CurlSingleResponse())
-			fmt.Println("```")
-			fmt.Println("")
-			fmt.Println("### Example list response")
-			fmt.Println("```json")
-			fmt.Println(m.CurlListResponse())
-			fmt.Println("```")
-		}
-
-		fmt.Println("")
 	}
 }
