@@ -53,7 +53,7 @@ func TemplateFunctions() template.FuncMap {
 			utc, _ := time.LoadLocation("UTC")
 			return t.In(utc).Unix()
 		},
-		"price": func(thing any) string {
+		"price": func(thing any) template.HTML {
 			thingInt64, ok := thing.(int64)
 			if !ok {
 				thingFloat64 := thing.(float64)
@@ -62,11 +62,16 @@ func TemplateFunctions() template.FuncMap {
 
 			amount := fmt.Sprintf("%d", thingInt64)
 			if len(amount) < 3 {
-				return fmt.Sprintf("$00.%s USD", amount)
+				s := fmt.Sprintf("$00.%s USD", amount)
+				return template.HTML(s)
 			}
 			dollars := amount[0 : len(amount)-2]
 			cents := amount[len(amount)-2:]
-			return fmt.Sprintf("$%s.%s USD", dollars, cents)
+			s := fmt.Sprintf("$%s.%s USD", dollars, cents)
+			if thingInt64 < 0 {
+				s = "<span class='text-red-500'>" + s + "</span>"
+			}
+			return template.HTML(s)
 		},
 		"ampm": func(f float64) string {
 			i := int(f)
