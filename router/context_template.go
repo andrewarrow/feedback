@@ -2,17 +2,16 @@ package router
 
 import (
 	"bytes"
-	"fmt"
+	"html/template"
 )
 
-func (c *Context) Template(name string, vars any) {
+func (c *Context) Template(name string, vars any) template.HTML {
 	t := c.router.Template.Lookup(name)
 	if t == nil {
-		return
+		return template.HTML("")
 	}
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)
 	cs := content.String()
-	fmt.Println(cs)
-	//template.HTML(cs)
+	return template.HTML(cs)
 }
