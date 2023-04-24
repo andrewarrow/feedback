@@ -114,24 +114,23 @@ func MakeMarkDown(s *router.FeedbackSite, modelString string) {
 				fmt.Println("```")
 				fmt.Println("")
 			} else if path.Response != "" {
-				m := s.FindModelOrDynamic(util.FixForDash(path.Response))
+				m := s.FindDynamic(util.FixForDash(path.Response))
 				fmt.Println("### Single response")
 				fmt.Println("```json")
 				fmt.Println(m.CurlSingleResponse())
-				fmt.Println("```")
-				fmt.Println("")
-			} else if path.Response == "" {
-				fmt.Println("### Single response")
-				fmt.Println("```json")
-				fmt.Println(m.CurlSingleResponse())
-				fmt.Println("```")
-				fmt.Println("")
-				fmt.Println("### List response")
-				fmt.Println("```json")
-				fmt.Println(m.CurlListResponse())
 				fmt.Println("```")
 				fmt.Println("")
 			}
 		}
+		fmt.Println("### Single response")
+		fmt.Println("```json")
+		fmt.Println(m.CurlSingleResponse())
+		fmt.Println("```")
+		fmt.Println("")
+		fmt.Println("### List response")
+		fmt.Println("```json")
+		fmt.Println(m.CurlListResponse())
+		fmt.Println("```")
+		fmt.Println("")
 	}
 }
