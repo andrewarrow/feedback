@@ -63,6 +63,15 @@ func DoPut(bearer, route string, payload []byte) string {
 	return DoHttpRead(route, client, request)
 }
 
+func DoDelete(bearer, route string) string {
+	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
+	request, _ := http.NewRequest("DELETE", urlString, nil)
+	SetHeaders(bearer, request)
+	client := &http.Client{Timeout: time.Second * 50}
+
+	return DoHttpRead(route, client, request)
+}
+
 func DoMultiPartPost(bearer, route, name string, payload []byte) string {
 
 	body := &bytes.Buffer{}
