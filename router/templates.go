@@ -84,7 +84,10 @@ func TemplateFunctions() template.FuncMap {
 			return template.HTML(s)
 		},
 		"timezone": func(tz any) template.HTML {
-			return TimezoneList(tz)
+			if tz == nil {
+				return TimezoneList("UTC")
+			}
+			return TimezoneList(tz.(string))
 		},
 		"ampm": func(f float64) string {
 			i := int(f)
@@ -115,7 +118,7 @@ func LoadTemplates() *template.Template {
 	return t
 }
 
-func TimezoneList(tz any) template.HTML {
+func TimezoneList(tz string) template.HTML {
 	list := `UTC
 Pacific/Honolulu
 America/Anchorage
