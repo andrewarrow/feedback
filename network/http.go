@@ -6,22 +6,15 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
-	"os"
 	"time"
-
-	"github.com/andrewarrow/feedback/router"
 )
 
 var BaseUrl = "https://api.openai.com"
 
-func DoGet(route string) string {
-	agent := "agent"
-
+func DoGet(bearer, route string) string {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("GET", urlString, nil)
-	request.Header.Set("User-Agent", agent)
-	request.Header.Set("Authorization", "Bearer "+os.Getenv("OPEN_AI"))
-	request.Header.Set("Content-Type", "application/json")
+	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 5}
 	return DoHttpRead(route, client, request)
 }
@@ -50,19 +43,27 @@ func DoHttpRead(route string, client *http.Client, request *http.Request) string
 	return ""
 }
 
-func DoPost(route string, payload []byte) string {
+func DoPost(bearer, route string, payload []byte) string {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("POST", urlString, body)
-	request.Header.Set("Content-Type", "application/json")
-	request.Header.Set("Authorization", "Bearer "+os.Getenv("OPEN_AI"))
-	request.Header.Set("Content-Type", "application/json")
+	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
 	return DoHttpRead(route, client, request)
 }
 
-func DoMultiPartPost(c *router.Context, route, name string, payload []byte) string {
+func DoPut(bearer, route string, payload []byte) string {
+	body := bytes.NewBuffer(payload)
+	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
+	request, _ := http.NewRequest("PUT", urlString, body)
+	SetHeaders(bearer, request)
+	client := &http.Client{Timeout: time.Second * 50}
+
+	return DoHttpRead(route, client, request)
+}
+
+func DoMultiPartPost(bearer, route, name string, payload []byte) string {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -79,8 +80,7 @@ func DoMultiPartPost(c *router.Context, route, name string, payload []byte) stri
 	request, _ := http.NewRequest("POST", urlString, body)
 	request.Header.Set("Content-Type", writer.FormDataContentType())
 
-	userCookie := router.GetCookie(c, "user")
-	SetHeaders(userCookie, request)
+	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
 	return DoHttpRead(route, client, request)

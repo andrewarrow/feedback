@@ -17,7 +17,7 @@ func RunImage(prompt string) {
 		"size": "1024x1024"}
 	asBytes, _ := json.Marshal(m)
 
-	jsonString := network.DoPost("/v1/image/generations", asBytes)
+	jsonString := network.DoPost("", "/v1/image/generations", asBytes)
 	fmt.Println(jsonString)
 
 }
