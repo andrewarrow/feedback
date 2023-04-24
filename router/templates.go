@@ -83,6 +83,9 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return template.HTML(s)
 		},
+		"timezone": func(tz any) template.HTML {
+			return TimezoneList(tz)
+		},
 		"ampm": func(f float64) string {
 			i := int(f)
 			if i > 12 {
@@ -110,4 +113,50 @@ func LoadTemplates() *template.Template {
 		}
 	}
 	return t
+}
+
+func TimezoneList(tz any) template.HTML {
+	list := `UTC
+Pacific/Honolulu
+America/Anchorage
+America/Los_Angeles
+America/Denver
+America/Chicago
+America/New_York
+America/Puerto_Rico
+America/Santiago
+America/Mexico_City
+America/Bogota
+America/Regina
+America/Costa_Rica
+America/Phoenix
+America/Edmonton
+America/Tijuana
+America/Halifax
+America/St_Johns
+America/Manaus
+America/Sao_Paulo
+Atlantic/Cape_Verde
+Europe/London
+Europe/Berlin
+Europe/Moscow
+Asia/Kolkata
+Asia/Shanghai
+Asia/Tokyo
+Australia/Sydney
+Pacific/Auckland
+Pacific/Fiji`
+	tokens := strings.Split(list, "\n")
+	buffer := []string{}
+	for _, item := range tokens {
+		selected := ""
+		if item == tz {
+			selected = `selected="true"`
+		}
+		buffer = append(buffer, fmt.Sprintf("<option %s>%s</option>", selected, item))
+	}
+
+	s := strings.Join(buffer, "\n")
+	return template.HTML(s)
+
 }
