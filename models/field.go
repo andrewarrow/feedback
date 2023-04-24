@@ -29,6 +29,8 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "text"
 	} else if f.Flavor == "list" {
 		flavor = "text"
+	} else if f.Flavor == "uuid" {
+		flavor = "citext"
 	} else if f.Flavor == "bool" {
 		flavor = "boolean"
 		defaultString = "true"
