@@ -87,9 +87,9 @@ func DoMultiPartPost(bearer, route, name string, payload []byte) string {
 
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("POST", urlString, body)
-	request.Header.Set("Content-Type", writer.FormDataContentType())
 
 	SetHeaders(bearer, request)
+	request.Header.Set("Content-Type", writer.FormDataContentType())
 	client := &http.Client{Timeout: time.Second * 50}
 
 	return DoHttpRead(route, client, request)
