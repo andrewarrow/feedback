@@ -71,12 +71,19 @@ func insertRow(random bool, tableName string,
 		}
 		if field.Flavor == "list" && val != nil {
 			list := []string{}
-			thing, ok := val.([]any)
-			if ok == false {
-				list = append(list, strings.ToLower(val.(string)))
-			} else {
-				for _, s := range thing {
+			thing1, isArrayAny := val.([]any)
+			thing2, isArrayString := val.([]string)
+			thing3, isString := val.(string)
+
+			if isString {
+				list = append(list, strings.ToLower(thing3))
+			} else if isArrayAny {
+				for _, s := range thing1 {
 					list = append(list, strings.ToLower(s.(string)))
+				}
+			} else if isArrayString {
+				for _, s := range thing2 {
+					list = append(list, strings.ToLower(s))
 				}
 			}
 			val = strings.Join(list, ",")
