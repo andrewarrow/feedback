@@ -30,9 +30,13 @@ func TemplateFunctions() template.FuncMap {
 
 			q := `"`
 			t := time.Unix(saInt, 0).In(tz)
+			now := time.Now().Unix()
 			for {
+				delta := now - t.Unix()
 				val := fmt.Sprintf("%s%d%s", q, t.Unix(), q)
-				buffer = append(buffer, fmt.Sprintf("<option value=%s>%s</option>", val, t.Format(HUMAN)))
+				if delta < -3600 {
+					buffer = append(buffer, fmt.Sprintf("<option value=%s>%s %s</option>", val, t.Format(HUMAN), cfg.Format(t)))
+				}
 				t = t.Add(time.Minute * 30)
 				if t.Unix() >= eaInt {
 					break
