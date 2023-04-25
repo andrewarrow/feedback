@@ -20,14 +20,14 @@ func TemplateFunctions() template.FuncMap {
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
-		"timeOptions": func(sa, ea float64) template.HTML {
+		"timeOptions": func(sa, ea float64, tz *time.Location) template.HTML {
 
 			saInt := int64(sa)
 			eaInt := int64(ea)
 			buffer := []string{}
 
 			q := `"`
-			t := time.Unix(saInt, 0)
+			t := time.Unix(saInt, 0).In(tz)
 			for {
 				val := fmt.Sprintf("%s%d%s", q, t.Unix(), q)
 				buffer = append(buffer, fmt.Sprintf("<option value=%s>%s</option>", val, t.Format(HUMAN)))
