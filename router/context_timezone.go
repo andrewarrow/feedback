@@ -1,9 +1,16 @@
 package router
 
-import "time"
+import (
+	"time"
+
+	"github.com/xeonx/timeago"
+)
 
 func (c *Context) TimezoneList(list []map[string]any,
 	field1, field2 string, tz *time.Location) {
+	cfg := timeago.English
+	cfg.Max = 9223372036854775807
+
 	for _, thing := range list {
 		t1 := thing[field1].(int64)
 		t2 := thing[field2].(int64)

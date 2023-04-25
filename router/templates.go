@@ -16,6 +16,8 @@ const DATE_LAYOUT = "Monday, January 2, 2006 15:04"
 const HUMAN = "Monday, January 2, 2006 3:04 PM"
 
 func TemplateFunctions() template.FuncMap {
+	cfg := timeago.English
+	cfg.Max = 9223372036854775807
 	fm := template.FuncMap{
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
@@ -51,7 +53,7 @@ func TemplateFunctions() template.FuncMap {
 			m["color"] = color
 			return m
 		},
-		"ago": func(t time.Time) string { return timeago.English.Format(t) },
+		"ago": func(t time.Time) string { return cfg.Format(t) },
 		"adds": func(i int64) string {
 			if i != 1 {
 				return "s"

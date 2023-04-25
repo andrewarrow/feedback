@@ -19,13 +19,16 @@ func (r *Router) FindModel(name string) *models.Model {
 }
 
 func CastFields(model *models.Model, m map[string]any) {
+	cfg := timeago.English
+	cfg.Max = 9223372036854775807
+
 	if len(m) == 0 {
 		return
 	}
 	for _, field := range model.Fields {
 		if field.Flavor == "timestamp" && m[field.Name] != nil {
 			tm := m[field.Name].(time.Time)
-			ago := timeago.English.Format(tm)
+			ago := cfg.Format(tm)
 			m[field.Name] = tm.Unix()
 			m[field.Name+"_human"] = tm.Format(models.HUMAN)
 			m[field.Name+"_ago"] = ago
