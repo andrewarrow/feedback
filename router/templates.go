@@ -22,11 +22,11 @@ func TemplateFunctions() template.FuncMap {
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
-		"timeOptions": func(sa, ea float64, tz *time.Location) template.HTML {
+		"timeOptions": func(sa, ea float64, tz *time.Location) []template.HTML {
 
 			saInt := int64(sa)
 			eaInt := int64(ea)
-			buffer := []string{}
+			buffer := []template.HTML{}
 
 			q := `"`
 			t := time.Unix(saInt, 0).In(tz)
@@ -35,7 +35,8 @@ func TemplateFunctions() template.FuncMap {
 				delta := now - t.Unix()
 				val := fmt.Sprintf("%s%d%s", q, t.Unix(), q)
 				if delta < -3600 {
-					buffer = append(buffer, fmt.Sprintf("<option value=%s>%s %s</option>", val, t.Format(HUMAN), cfg.Format(t)))
+					thing := fmt.Sprintf("<option value=%s>%s %s</option>", val, t.Format(HUMAN), cfg.Format(t))
+					buffer = append(buffer, template.HTML(thing))
 				}
 				t = t.Add(time.Minute * 30)
 				if t.Unix() >= eaInt {
@@ -43,7 +44,7 @@ func TemplateFunctions() template.FuncMap {
 				}
 			}
 
-			return template.HTML(strings.Join(buffer, "\n"))
+			return buffer
 		},
 		"null": func(s any) any {
 			if s == nil {
