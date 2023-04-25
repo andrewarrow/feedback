@@ -45,6 +45,12 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return s
 		},
+		"colorStatus": func(status, color string) map[string]any {
+			m := map[string]any{}
+			m["status"] = status
+			m["color"] = color
+			return m
+		},
 		"ago": func(t time.Time) string { return timeago.English.Format(t) },
 		"adds": func(i int64) string {
 			if i != 1 {
