@@ -16,8 +16,7 @@ func DoGet(bearer, route string) (string, int) {
 	request, _ := http.NewRequest("GET", urlString, nil)
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 5}
-	jsonString, code := DoHttpRead(client, request)
-	return jsonString, code
+	return DoHttpRead(client, request)
 }
 
 func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
@@ -45,8 +44,7 @@ func DoPost(bearer, route string, payload []byte) (string, int) {
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
-	jsonString, code := DoHttpRead(client, request)
-	return jsonString, code
+	return DoHttpRead(client, request)
 }
 
 func DoPut(bearer, route string, payload []byte) (string, int) {
@@ -56,8 +54,7 @@ func DoPut(bearer, route string, payload []byte) (string, int) {
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
-	jsonString, code := DoHttpRead(client, request)
-	return jsonString, code
+	return DoHttpRead(client, request)
 }
 
 func DoDelete(bearer, route string) (string, int) {
@@ -66,8 +63,7 @@ func DoDelete(bearer, route string) (string, int) {
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
-	jsonString, code := DoHttpRead(client, request)
-	return jsonString, code
+	return DoHttpRead(client, request)
 }
 
 func DoMultiPartPost(bearer, route, name string, payload []byte) (string, int) {
@@ -90,8 +86,7 @@ func DoMultiPartPost(bearer, route, name string, payload []byte) (string, int) {
 	request.Header.Set("Content-Type", writer.FormDataContentType())
 	client := &http.Client{Timeout: time.Second * 50}
 
-	jsonString, code := DoHttpRead(client, request)
-	return jsonString, code
+	return DoHttpRead(client, request)
 }
 
 func SetHeaders(bearer string, request *http.Request) {
