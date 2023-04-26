@@ -11,68 +11,66 @@ import (
 
 var BaseUrl = "https://api.openai.com"
 
-func DoGet(bearer, route string) string {
+func DoGet(bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("GET", urlString, nil)
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 5}
-	return DoHttpRead(route, client, request)
+	jsonString, code := DoHttpRead(client, request)
+	return jsonString, code
 }
 
-func DoHttpRead(route string, client *http.Client, request *http.Request) string {
+func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
 	resp, err := client.Do(request)
 	if err == nil {
 		defer resp.Body.Close()
-		//body, err := ioutil.ReadAll(resp.Body)
-		var buff bytes.Buffer
-		io.Copy(&buff, resp.Body)
-		body := buff.Bytes()
+		body, err := io.ReadAll(resp.Body)
+		//var buff bytes.Buffer
+		//io.Copy(&buff, resp.Body)
+		//body := buff.Bytes()
 		if err != nil {
 			fmt.Printf("\n\nERROR: %d %s\n\n", resp.StatusCode, err.Error())
-			return ""
+			return err.Error(), 500
 		}
-		if resp.StatusCode == 200 || resp.StatusCode == 201 || resp.StatusCode == 204 {
-			return string(body)
-		} else {
-			text := string(body)
-			fmt.Println(text)
-			return ""
-		}
+		return string(body), resp.StatusCode
 	}
 	fmt.Printf("\n\nERROR: %s\n\n", err.Error())
-	return ""
+	return err.Error(), 500
 }
 
-func DoPost(bearer, route string, payload []byte) string {
+func DoPost(bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("POST", urlString, body)
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
-	return DoHttpRead(route, client, request)
+	jsonString, code := DoHttpRead(client, request)
+	return jsonString, code
 }
 
-func DoPut(bearer, route string, payload []byte) string {
+func DoPut(bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("PUT", urlString, body)
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
-	return DoHttpRead(route, client, request)
+	jsonString, code := DoHttpRead(client, request)
+	return jsonString, code
 }
 
-func DoDelete(bearer, route string) string {
+func DoDelete(bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, _ := http.NewRequest("DELETE", urlString, nil)
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
-	return DoHttpRead(route, client, request)
+	jsonString, code := DoHttpRead(client, request)
+	return jsonString, code
 }
 
-func DoMultiPartPost(bearer, route, name string, payload []byte) string {
+func DoMultiPartPost(bearer, route, name string, payload []byte) (string, int) {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -92,7 +90,8 @@ func DoMultiPartPost(bearer, route, name string, payload []byte) string {
 	request.Header.Set("Content-Type", writer.FormDataContentType())
 	client := &http.Client{Timeout: time.Second * 50}
 
-	return DoHttpRead(route, client, request)
+	jsonString, code := DoHttpRead(client, request)
+	return jsonString, code
 }
 
 func SetHeaders(bearer string, request *http.Request) {
