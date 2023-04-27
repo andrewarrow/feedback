@@ -13,7 +13,10 @@ var BaseUrl = "https://api.openai.com"
 
 func DoGet(bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
-	request, _ := http.NewRequest("GET", urlString, nil)
+	request, err := http.NewRequest("GET", urlString, nil)
+	if err != nil {
+		return "bad url", 500
+	}
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 5}
 	return DoHttpRead(client, request)
@@ -40,7 +43,10 @@ func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
 func DoPost(bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
-	request, _ := http.NewRequest("POST", urlString, body)
+	request, err := http.NewRequest("POST", urlString, body)
+	if err != nil {
+		return "bad url", 500
+	}
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
@@ -50,7 +56,10 @@ func DoPost(bearer, route string, payload []byte) (string, int) {
 func DoPut(bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
-	request, _ := http.NewRequest("PUT", urlString, body)
+	request, err := http.NewRequest("PUT", urlString, body)
+	if err != nil {
+		return "bad url", 500
+	}
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
@@ -59,7 +68,10 @@ func DoPut(bearer, route string, payload []byte) (string, int) {
 
 func DoDelete(bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
-	request, _ := http.NewRequest("DELETE", urlString, nil)
+	request, err := http.NewRequest("DELETE", urlString, nil)
+	if err != nil {
+		return "bad url", 500
+	}
 	SetHeaders(bearer, request)
 	client := &http.Client{Timeout: time.Second * 50}
 
@@ -80,7 +92,10 @@ func DoMultiPartPost(bearer, route, name string, payload []byte) (string, int) {
 	writer.Close()
 
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
-	request, _ := http.NewRequest("POST", urlString, body)
+	request, err := http.NewRequest("POST", urlString, body)
+	if err != nil {
+		return "bad url", 500
+	}
 
 	SetHeaders(bearer, request)
 	request.Header.Set("Content-Type", writer.FormDataContentType())
