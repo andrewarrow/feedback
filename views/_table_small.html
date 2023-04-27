@@ -1,0 +1,20 @@
+{{ define "_table_small" }}
+          <table class="min-w-full divide-y divide-gray-200 default:divide-gray-700">
+
+                {{ $cells := index . "cells" }}
+                {{ $headers := index . "headers" }}
+                {{ range $j, $c := $cells }}
+                {{ range $i, $h := $headers }}
+              <tr>
+                <th class="px-2 h-px w-px bg-gray-50 default:bg-slate-800 text-right">
+                        <span class="px-2 text-xs font-semibold uppercase tracking-wide text-gray-800 text-gray-200"> {{ $h }} </span>
+                </th>
+                <td class="px-2 py-2 h-px w-72">
+                       {{ index $c $i}}
+                </td>
+              </tr>
+              {{ end }}
+              {{ end }}
+
+          </table>
+          {{end}}

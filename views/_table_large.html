@@ -1,0 +1,59 @@
+{{ define "_table_large" }}
+<div class="">          
+          {{ $colAttributes := index . "col_attributes" }}
+          {{ $colAttributesPresent := false }}
+          {{ if $colAttributes }}
+          {{ $colAttributesPresent = true }}
+          {{ end }}
+          <!-- Table -->
+          <table class="w-full divide-y divide-gray-200 default:divide-gray-700">
+            <thead class="bg-gray-50 default:bg-slate-800">
+              <tr>
+
+
+                {{ $headers := index . "headers" }}
+                {{ range $i, $h := $headers }}
+                {{ $wrap := "whitespace-nowrap" }}
+                {{ if $colAttributesPresent }}
+                  {{ $attr := index $colAttributes $i }}
+                  {{ if $attr }}
+                  {{ $wrap = $attr }}
+                  {{ end }}
+                {{ end }}
+                <th scope="col" class="px-6 py-3 {{ $wrap }}">
+                  <div class="flex items-center gap-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 text-gray-200">
+                            {{ $h }}
+                    </span>
+                  </div>
+                </th>
+                {{ end }}
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 default:divide-gray-700">
+                {{ $cells := index . "cells" }}
+                {{ range $i, $c := $cells }}
+              <tr>
+                {{ range $j, $cell := $c }}
+                {{ $wrap := "whitespace-nowrap" }}
+                {{ if $colAttributesPresent }}
+                  {{ $attr := index $colAttributes $j }}
+                  {{ if $attr }}
+                  {{ $wrap = $attr }}
+                  {{ end }}
+                {{ end }}
+                <td class="h-px w-px align-top {{ $wrap }}">
+                        <div class="px-6 py-3">
+                                {{ $cell }}
+                        </div>
+                </td>
+                {{ end }}
+              </tr>
+              {{ end }}
+
+            </tbody>
+          </table>
+          <!-- End Table -->
+</div>
+{{end}}
