@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -8,6 +9,34 @@ type MSA map[string]any
 type MSAS map[string][]string
 type MSMAB map[string]map[any]bool
 type MI64MSA map[int64]map[string]any
+
+func (c *Context) DecorateListWithFields(list []map[string]any,
+	fields map[string]bool) {
+	c.DecorateList(list)
+	for _, item := range list {
+		for k, v := range item {
+			m, isMap := v.(map[string]any)
+			if isMap == false {
+				continue
+			}
+			handleMap(k, m, fields)
+		}
+	}
+}
+
+func handleMap(k string, m map[string]any, fields map[string]bool) {
+	fmt.Println("handleMap", k, fields)
+	for k, v := range m {
+		if fields[k] == false {
+			delete(m, k)
+		}
+		otherMap, isMap := v.(map[string]any)
+		if isMap {
+			handleMap(k, otherMap, fields)
+		}
+	}
+
+}
 
 func (c *Context) DecorateSingle(item map[string]any) {
 	list := []map[string]any{item}
