@@ -33,6 +33,8 @@ type Context struct {
 	LayoutMap    map[string]any
 	ParamMutex   sync.Mutex
 	Client       *http.Client
+	Batch        bool
+	BatchThing   any
 }
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {

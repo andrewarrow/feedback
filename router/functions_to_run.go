@@ -16,6 +16,7 @@ type Batch struct {
 func (c *Context) FunctionToRun(route string, user map[string]any) *Batch {
 	b := Batch{}
 	b.Context = &Context{}
+	b.Context.Batch = true
 	b.Context.Db = c.Db
 	b.Context.Writer = NewBatchWriter(route)
 
@@ -51,7 +52,6 @@ type BatchWriter struct {
 	http.ResponseWriter
 	TheHeader http.Header
 	Route     string
-	Results   map[string][]byte
 	Code      int
 }
 
@@ -59,7 +59,6 @@ func NewBatchWriter(route string) *BatchWriter {
 	b := BatchWriter{}
 	b.TheHeader = http.Header{}
 	b.Route = route
-	b.Results = map[string][]byte{}
 	return &b
 }
 
@@ -72,6 +71,5 @@ func (w *BatchWriter) Header() http.Header {
 }
 
 func (w *BatchWriter) Write(data []byte) (int, error) {
-	w.Results[w.Route] = data
 	return 200, nil
 }

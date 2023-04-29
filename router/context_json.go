@@ -26,6 +26,11 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 		}
 	}
 
+	if c.Batch {
+		c.BatchThing = thing
+		return
+	}
+
 	asBytes, _ := json.Marshal(thing)
 	//fmt.Println(string(asBytes))
 	ae := c.Request.Header.Get("Accept-Encoding")
