@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -19,20 +18,22 @@ func (c *Context) DecorateListWithFields(list []map[string]any,
 			if isMap == false {
 				continue
 			}
-			handleMap(k, m, fields)
+			handleMap(k, m, fields, 0)
 		}
 	}
 }
 
-func handleMap(k string, m map[string]any, fields map[string]bool) {
-	fmt.Println("handleMap", k, fields)
+func handleMap(k string, m map[string]any, fields map[string]bool, level int) {
+	if level > 10 {
+		return
+	}
 	for k, v := range m {
 		if fields[k] == false {
 			delete(m, k)
 		}
 		otherMap, isMap := v.(map[string]any)
 		if isMap {
-			handleMap(k, otherMap, fields)
+			handleMap(k, otherMap, fields, level+1)
 		}
 	}
 
