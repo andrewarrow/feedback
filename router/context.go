@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"strings"
 	"sync"
 
 	"github.com/andrewarrow/feedback/files"
@@ -41,7 +42,12 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	}
 	c.LayoutMap["build"] = BuildTag
 	if c.Request.Header.Get("Feedback-Ajax") == "true" {
-		c.router.SendContentForAjax(c.User, c.Writer, filename, vars, status)
+		ae := c.Request.Header.Get("Accept-Encoding")
+		gzip := false
+		if strings.Contains(ae, "gzip") {
+			gzip = true
+		}
+		c.router.SendContentForAjax(gzip, c.User, c.Writer, filename, vars, status)
 		return
 	}
 	c.router.SendContentInLayout(c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)

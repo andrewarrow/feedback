@@ -2,6 +2,7 @@ package router
 
 import (
 	"bytes"
+	"compress/gzip"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -32,13 +33,25 @@ func (r *Router) SendContentInLayout(layout string, layoutMap map[string]any, fl
 		fmt.Println(err)
 	}
 }
-func (r *Router) SendContentForAjax(user map[string]any, writer http.ResponseWriter,
+func (r *Router) SendContentForAjax(doZip bool, user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 	t := r.Template.Lookup(filename)
 	content := new(bytes.Buffer)
 	t.Execute(content, contentVars)
 	cb := content.Bytes()
-	writer.Header().Set("Content-Type", "text/html")
+	if doZip {
+		writer.Header().Set("Content-Encoding", "gzip")
+		writer.Header().Set("Content-Type", "application/gzip")
+
+		var compressedData bytes.Buffer
+		gzipWriter := gzip.NewWriter(&compressedData)
+		gzipWriter.Write(cb)
+		gzipWriter.Close()
+
+		cb = compressedData.Bytes()
+	} else {
+		writer.Header().Set("Content-Type", "text/html")
+	}
 	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
 	writer.WriteHeader(status)
 	writer.Write(cb)

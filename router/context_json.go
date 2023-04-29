@@ -1,8 +1,11 @@
 package router
 
 import (
+	"bytes"
+	"compress/gzip"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
@@ -25,8 +28,25 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 
 	asBytes, _ := json.Marshal(thing)
 	//fmt.Println(string(asBytes))
+	ae := c.Request.Header.Get("Accept-Encoding")
+	doZip := false
+	if strings.Contains(ae, "gzip") {
+		doZip = true
+	}
+	if doZip {
+		c.Writer.Header().Set("Content-Encoding", "gzip")
+		c.Writer.Header().Set("Content-Type", "application/gzip")
 
-	c.Writer.Header().Set("Content-Type", "application/json")
+		var compressedData bytes.Buffer
+		gzipWriter := gzip.NewWriter(&compressedData)
+		gzipWriter.Write(asBytes)
+		gzipWriter.Close()
+
+		asBytes = compressedData.Bytes()
+	} else {
+		c.Writer.Header().Set("Content-Type", "application/json")
+	}
+
 	c.Writer.Header().Set("Cache-Control", "none")
 	c.Writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(asBytes)))
 	c.Writer.WriteHeader(status)
