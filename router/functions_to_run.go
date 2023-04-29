@@ -14,14 +14,20 @@ type Batch struct {
 	Params  string
 }
 
-func (c *Context) FunctionToRun(route string) *Batch {
+func (c *Context) FunctionToRun(route string, user map[string]any) *Batch {
+	//auth := util.GetHeader("Authorization", c.Request)
+
 	b := Batch{}
 	b.Context = &Context{}
 	b.Context.Db = c.Db
 	b.Context.Writer = NewBatchWriter()
 
 	request, _ := http.NewRequest("GET", "/", nil)
+	//request.Header.Set("Authorization", auth)
 	b.Context.Request = request
+	b.Context.User = user
+	b.Context.Method = "GET"
+	b.Context.router = c.router
 
 	tokens := strings.Split(route, "?")
 	noParams := tokens[0]
@@ -58,6 +64,7 @@ func NewBatchWriter() *BatchWriter {
 }
 
 func (w *BatchWriter) WriteHeader(statusCode int) {
+	fmt.Println("statusCode", statusCode)
 	//w.ResponseWriter.WriteHeader(statusCode)
 }
 
@@ -67,5 +74,6 @@ func (w *BatchWriter) Header() http.Header {
 
 func (w *BatchWriter) Write(data []byte) (int, error) {
 	//return w.ResponseWriter.Write(data)
+	fmt.Println("Write", len(data))
 	return 200, nil
 }
