@@ -15,26 +15,22 @@ type Batch struct {
 }
 
 func (c *Context) FunctionToRun(route string, user map[string]any) *Batch {
-	//auth := util.GetHeader("Authorization", c.Request)
-
 	b := Batch{}
 	b.Context = &Context{}
 	b.Context.Db = c.Db
-	b.Context.Writer = NewBatchWriter()
+	b.Context.Writer = NewBatchWriter(route)
 
-	request, _ := http.NewRequest("GET", "/", nil)
-	//request.Header.Set("Authorization", auth)
+	tokens := strings.Split(route, "?")
+	noParams := tokens[0]
+	if len(tokens) == 2 {
+		b.Params = "?" + tokens[1]
+	}
+	request, _ := http.NewRequest("GET", "/"+b.Params, nil)
 	b.Context.Request = request
 	b.Context.User = user
 	b.Context.Method = "GET"
 	b.Context.router = c.router
 
-	tokens := strings.Split(route, "?")
-	noParams := tokens[0]
-	if len(tokens) == 2 {
-		b.Params = tokens[1]
-	}
-	fmt.Println("noParams", noParams)
 	b.Context.tokens = strings.Split(noParams+"/", "/")
 	first := b.Context.tokens[1]
 
@@ -55,11 +51,15 @@ func (c *Context) FunctionToRun(route string, user map[string]any) *Batch {
 type BatchWriter struct {
 	http.ResponseWriter
 	TheHeader http.Header
+	Route     string
+	Results   map[string][]byte
 }
 
-func NewBatchWriter() *BatchWriter {
+func NewBatchWriter(route string) *BatchWriter {
 	b := BatchWriter{}
 	b.TheHeader = http.Header{}
+	b.Route = route
+	b.Results = map[string][]byte{}
 	return &b
 }
 
@@ -75,5 +75,6 @@ func (w *BatchWriter) Header() http.Header {
 func (w *BatchWriter) Write(data []byte) (int, error) {
 	//return w.ResponseWriter.Write(data)
 	fmt.Println("Write", len(data))
+	w.Results[w.Route] = data
 	return 200, nil
 }
