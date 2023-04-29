@@ -106,7 +106,6 @@ func UpdateRowFromParams(tableName string,
 	fields []*models.Field,
 	override map[string]any, where string) (string, []any) {
 
-	override["updated_at"] = time.Now()
 	params := []any{}
 	buffer := []string{"UPDATE "}
 	buffer = append(buffer, tableName+" set ")
@@ -132,8 +131,11 @@ func UpdateRowFromParams(tableName string,
 		}
 		params = append(params, val)
 	}
+	cols = append(cols, fmt.Sprintf("updated_at=$%d", count))
+	params = append(params, time.Now())
+
 	buffer = append(buffer, strings.Join(cols, ","))
-	buffer = append(buffer, fmt.Sprintf(" %s$%d", where, count))
+	buffer = append(buffer, fmt.Sprintf(" %s$%d", where, count+1))
 	return strings.Join(buffer, ""), params
 }
 
