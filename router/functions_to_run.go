@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 )
@@ -53,6 +52,7 @@ type BatchWriter struct {
 	TheHeader http.Header
 	Route     string
 	Results   map[string][]byte
+	Code      int
 }
 
 func NewBatchWriter(route string) *BatchWriter {
@@ -64,8 +64,7 @@ func NewBatchWriter(route string) *BatchWriter {
 }
 
 func (w *BatchWriter) WriteHeader(statusCode int) {
-	fmt.Println("statusCode", statusCode)
-	//w.ResponseWriter.WriteHeader(statusCode)
+	w.Code = statusCode
 }
 
 func (w *BatchWriter) Header() http.Header {
@@ -73,8 +72,6 @@ func (w *BatchWriter) Header() http.Header {
 }
 
 func (w *BatchWriter) Write(data []byte) (int, error) {
-	//return w.ResponseWriter.Write(data)
-	fmt.Println("Write", len(data))
 	w.Results[w.Route] = data
 	return 200, nil
 }
