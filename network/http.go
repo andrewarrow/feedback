@@ -2,8 +2,10 @@ package network
 
 import (
 	"bytes"
+	"compress/gzip"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"time"
@@ -25,6 +27,7 @@ func DoGet(bearer, route string) (string, int) {
 func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
 	resp, err := client.Do(request)
 	if err == nil {
+		ce := resp.Header.Get("Content-Encoding")
 		defer resp.Body.Close()
 		body, err := io.ReadAll(resp.Body)
 		//var buff bytes.Buffer
@@ -33,6 +36,12 @@ func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
 		if err != nil {
 			fmt.Printf("\n\nERROR: %d %s\n\n", resp.StatusCode, err.Error())
 			return err.Error(), 500
+		}
+		if ce == "gzip" {
+			buf := bytes.NewBuffer(body)
+			gr, _ := gzip.NewReader(buf)
+			defer gr.Close()
+			body, _ = ioutil.ReadAll(gr)
 		}
 		return string(body), resp.StatusCode
 	}
@@ -108,4 +117,7 @@ func SetHeaders(bearer string, request *http.Request) {
 	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", bearer))
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Accept", "application/json")
+	request.Header.Set("Accept-Encoding", "gzip")
+	request.Header.Set("Connection", "keep-alive")
+	request.Header.Set("Max-Keep-Alive-Requests", "100")
 }
