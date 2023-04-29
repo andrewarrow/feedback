@@ -34,12 +34,13 @@ func (r *Router) SendContentInLayout(layout string, layoutMap map[string]any, fl
 }
 func (r *Router) SendContentForAjax(user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
-	writer.WriteHeader(status)
 	t := r.Template.Lookup(filename)
 	content := new(bytes.Buffer)
 	t.Execute(content, contentVars)
 	cb := content.Bytes()
+	writer.Header().Set("Content-Type", "text/html")
 	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
+	writer.WriteHeader(status)
 	writer.Write(cb)
 }
 
