@@ -18,7 +18,7 @@ func (c *Context) FunctionToRun(route string) *Batch {
 	b := Batch{}
 	b.Context = &Context{}
 	b.Context.Db = c.Db
-	b.Context.Writer = &BatchWriter{}
+	b.Context.Writer = NewBatchWriter()
 
 	request, _ := http.NewRequest("GET", "/", nil)
 	b.Context.Request = request
@@ -48,19 +48,24 @@ func (c *Context) FunctionToRun(route string) *Batch {
 
 type BatchWriter struct {
 	http.ResponseWriter
+	TheHeader http.Header
+}
+
+func NewBatchWriter() *BatchWriter {
+	b := BatchWriter{}
+	b.TheHeader = http.Header{}
+	return &b
 }
 
 func (w *BatchWriter) WriteHeader(statusCode int) {
-	w.ResponseWriter.WriteHeader(statusCode)
+	//w.ResponseWriter.WriteHeader(statusCode)
+}
+
+func (w *BatchWriter) Header() http.Header {
+	return w.TheHeader
 }
 
 func (w *BatchWriter) Write(data []byte) (int, error) {
-	return w.ResponseWriter.Write(data)
-}
-
-func myHandler(w http.ResponseWriter, r *http.Request) {
-	BatchWriter := &BatchWriter{ResponseWriter: w}
-
-	BatchWriter.WriteHeader(http.StatusOK)
-	BatchWriter.Write([]byte("Hello, world!"))
+	//return w.ResponseWriter.Write(data)
+	return 200, nil
 }
