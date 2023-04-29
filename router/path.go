@@ -24,21 +24,18 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 	layoutMap["content"] = template.HTML(content.String())
 }
 
-func (r *Router) SendContentInLayout(layout string, layoutMap map[string]any, flash string, user map[string]any, writer http.ResponseWriter,
+func (r *Router) SendContentInLayout(doZip bool, layout string, layoutMap map[string]any, flash string, user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 	r.PlaceContentInLayoutMap(layoutMap, flash, user, filename, contentVars)
-	writer.WriteHeader(status)
-	err := r.Template.ExecuteTemplate(writer, layout, layoutMap)
-	if err != nil {
-		fmt.Println(err)
-	}
+	r.sendZippy(doZip, layout, layoutMap, writer, status)
 }
-func (r *Router) SendContentForAjax(doZip bool, user map[string]any, writer http.ResponseWriter,
-	filename string, contentVars any, status int) {
-	t := r.Template.Lookup(filename)
+
+func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.ResponseWriter, status int) {
+	t := r.Template.Lookup(name)
 	content := new(bytes.Buffer)
-	t.Execute(content, contentVars)
+	t.Execute(content, vars)
 	cb := content.Bytes()
+
 	if doZip {
 		writer.Header().Set("Content-Encoding", "gzip")
 		writer.Header().Set("Content-Type", "application/gzip")
@@ -55,6 +52,11 @@ func (r *Router) SendContentForAjax(doZip bool, user map[string]any, writer http
 	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
 	writer.WriteHeader(status)
 	writer.Write(cb)
+}
+
+func (r *Router) SendContentForAjax(doZip bool, user map[string]any, writer http.ResponseWriter,
+	filename string, contentVars any, status int) {
+	r.sendZippy(doZip, filename, contentVars, writer, status)
 }
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
@@ -126,7 +128,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		}
 		if c.NotFound && c.Layout != "json" {
 			c.LayoutMap["title"] = "404 not found"
-			r.SendContentInLayout(c.Layout, c.LayoutMap, "", user, writer, "404.html", nil, 404)
+			r.SendContentInLayout(false, c.Layout, c.LayoutMap, "", user, writer, "404.html", nil, 404)
 		} else if c.NotFound && c.Layout == "json" {
 			c.SendContentAsJsonMessage("not found", 404)
 		}

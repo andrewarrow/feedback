@@ -41,16 +41,16 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 		c.LayoutMap["title"] = models.RemoveMostNonAlphanumeric(c.Title)
 	}
 	c.LayoutMap["build"] = BuildTag
+	ae := c.Request.Header.Get("Accept-Encoding")
+	gzip := false
+	if strings.Contains(ae, "gzip") {
+		gzip = true
+	}
 	if c.Request.Header.Get("Feedback-Ajax") == "true" {
-		ae := c.Request.Header.Get("Accept-Encoding")
-		gzip := false
-		if strings.Contains(ae, "gzip") {
-			gzip = true
-		}
 		c.router.SendContentForAjax(gzip, c.User, c.Writer, filename, vars, status)
 		return
 	}
-	c.router.SendContentInLayout(c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)
+	c.router.SendContentInLayout(gzip, c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {
