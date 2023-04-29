@@ -35,10 +35,12 @@ func (r *Router) SendContentInLayout(layout string, layoutMap map[string]any, fl
 func (r *Router) SendContentForAjax(user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 	writer.WriteHeader(status)
-	err := r.Template.ExecuteTemplate(writer, filename, contentVars)
-	if err != nil {
-		fmt.Println(err)
-	}
+	t := r.Template.Lookup(filename)
+	content := new(bytes.Buffer)
+	t.Execute(content, contentVars)
+	cb := content.Bytes()
+	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
+	writer.Write(cb)
 }
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
