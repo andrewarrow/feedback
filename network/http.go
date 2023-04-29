@@ -13,14 +13,16 @@ import (
 
 var BaseUrl = "https://api.openai.com"
 
-func DoGet(bearer, route string) (string, int) {
+func DoGet(client *http.Client, bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
 		return "bad url", 500
 	}
 	SetHeaders(bearer, request)
-	client := &http.Client{Timeout: time.Second * 5}
+	if client == nil {
+		client = &http.Client{Timeout: time.Second * 5}
+	}
 	return DoHttpRead(client, request)
 }
 
@@ -49,7 +51,7 @@ func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
 	return err.Error(), 500
 }
 
-func DoPost(bearer, route string, payload []byte) (string, int) {
+func DoPost(client *http.Client, bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, err := http.NewRequest("POST", urlString, body)
@@ -57,12 +59,14 @@ func DoPost(bearer, route string, payload []byte) (string, int) {
 		return "bad url", 500
 	}
 	SetHeaders(bearer, request)
-	client := &http.Client{Timeout: time.Second * 50}
+	if client == nil {
+		client = &http.Client{Timeout: time.Second * 5}
+	}
 
 	return DoHttpRead(client, request)
 }
 
-func DoPut(bearer, route string, payload []byte) (string, int) {
+func DoPut(client *http.Client, bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, err := http.NewRequest("PUT", urlString, body)
@@ -70,19 +74,23 @@ func DoPut(bearer, route string, payload []byte) (string, int) {
 		return "bad url", 500
 	}
 	SetHeaders(bearer, request)
-	client := &http.Client{Timeout: time.Second * 50}
+	if client == nil {
+		client = &http.Client{Timeout: time.Second * 5}
+	}
 
 	return DoHttpRead(client, request)
 }
 
-func DoDelete(bearer, route string) (string, int) {
+func DoDelete(client *http.Client, bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
 	request, err := http.NewRequest("DELETE", urlString, nil)
 	if err != nil {
 		return "bad url", 500
 	}
 	SetHeaders(bearer, request)
-	client := &http.Client{Timeout: time.Second * 50}
+	if client == nil {
+		client = &http.Client{Timeout: time.Second * 5}
+	}
 
 	return DoHttpRead(client, request)
 }

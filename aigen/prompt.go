@@ -16,7 +16,7 @@ func RunPrompt(prompt string) {
 		"messages": messages}
 	asBytes, _ := json.Marshal(m)
 
-	jsonString, _ := network.DoPost("", "/v1/chat/completions", asBytes)
+	jsonString, _ := network.DoPost(nil, "", "/v1/chat/completions", asBytes)
 	fmt.Println(jsonString)
 
 }
