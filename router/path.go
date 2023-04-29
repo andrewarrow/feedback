@@ -38,7 +38,6 @@ func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.Respon
 
 	if doZip {
 		writer.Header().Set("Content-Encoding", "gzip")
-		writer.Header().Set("Content-Type", "application/gzip")
 
 		var compressedData bytes.Buffer
 		gzipWriter := gzip.NewWriter(&compressedData)
@@ -46,9 +45,8 @@ func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.Respon
 		gzipWriter.Close()
 
 		cb = compressedData.Bytes()
-	} else {
-		writer.Header().Set("Content-Type", "text/html")
 	}
+	writer.Header().Set("Content-Type", "text/html")
 	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
 	writer.WriteHeader(status)
 	writer.Write(cb)

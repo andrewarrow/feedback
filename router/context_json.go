@@ -33,9 +33,9 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 	if strings.Contains(ae, "gzip") {
 		doZip = true
 	}
+
 	if doZip {
 		c.Writer.Header().Set("Content-Encoding", "gzip")
-		c.Writer.Header().Set("Content-Type", "application/gzip")
 
 		var compressedData bytes.Buffer
 		gzipWriter := gzip.NewWriter(&compressedData)
@@ -43,10 +43,9 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 		gzipWriter.Close()
 
 		asBytes = compressedData.Bytes()
-	} else {
-		c.Writer.Header().Set("Content-Type", "application/json")
 	}
 
+	c.Writer.Header().Set("Content-Type", "application/json")
 	c.Writer.Header().Set("Cache-Control", "none")
 	c.Writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(asBytes)))
 	c.Writer.WriteHeader(status)
