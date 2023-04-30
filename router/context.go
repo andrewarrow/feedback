@@ -50,7 +50,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 		gzip = true
 	}
 	if c.Request.Header.Get("Feedback-Ajax") == "true" {
-		c.router.SendContentForAjax(gzip, c.User, c.Writer, filename, vars, status)
+		c.SendContentForAjax(gzip, c.User, c.Writer, filename, vars, status)
 		return
 	}
 	c.router.SendContentInLayout(gzip, c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)

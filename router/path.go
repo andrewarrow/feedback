@@ -2,7 +2,6 @@ package router
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -28,19 +27,6 @@ func (r *Router) SendContentInLayout(doZip bool, layout string, layoutMap map[st
 	filename string, contentVars any, status int) {
 	r.PlaceContentInLayoutMap(layoutMap, flash, user, filename, contentVars)
 	r.sendZippy(doZip, layout, layoutMap, writer, status)
-}
-
-func (r *Router) SendContentForAjax(doZip bool, user map[string]any, writer http.ResponseWriter,
-	filename string, contentVars any, status int) {
-
-	t := r.Template.Lookup(filename)
-	content := new(bytes.Buffer)
-	t.Execute(content, contentVars)
-	cb := content.Bytes()
-	m := map[string]any{}
-	m["html"] = string(cb)
-	asBytes, _ := json.Marshal(m)
-	doZippyJson(doZip, asBytes, status, writer)
 }
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
