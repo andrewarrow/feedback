@@ -1,10 +1,7 @@
 package router
 
 import (
-	"bytes"
-	"compress/gzip"
 	"encoding/json"
-	"fmt"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
@@ -39,22 +36,7 @@ func (c *Context) SendContentAsJson(thing any, status int) {
 		doZip = true
 	}
 
-	if doZip {
-		c.Writer.Header().Set("Content-Encoding", "gzip")
-
-		var compressedData bytes.Buffer
-		gzipWriter := gzip.NewWriter(&compressedData)
-		gzipWriter.Write(asBytes)
-		gzipWriter.Close()
-
-		asBytes = compressedData.Bytes()
-	}
-
-	c.Writer.Header().Set("Content-Type", "application/json")
-	c.Writer.Header().Set("Cache-Control", "none")
-	c.Writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(asBytes)))
-	c.Writer.WriteHeader(status)
-	c.Writer.Write(asBytes)
+	doZippyJson(doZip, asBytes, status, c.Writer)
 }
 
 func (c *Context) SendContentAsJsonMessage(message string, status int) {

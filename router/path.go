@@ -2,7 +2,7 @@ package router
 
 import (
 	"bytes"
-	"compress/gzip"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -30,31 +30,17 @@ func (r *Router) SendContentInLayout(doZip bool, layout string, layoutMap map[st
 	r.sendZippy(doZip, layout, layoutMap, writer, status)
 }
 
-func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.ResponseWriter, status int) {
-	t := r.Template.Lookup(name)
-	content := new(bytes.Buffer)
-	t.Execute(content, vars)
-	cb := content.Bytes()
-
-	if doZip {
-		writer.Header().Set("Content-Encoding", "gzip")
-
-		var compressedData bytes.Buffer
-		gzipWriter := gzip.NewWriter(&compressedData)
-		gzipWriter.Write(cb)
-		gzipWriter.Close()
-
-		cb = compressedData.Bytes()
-	}
-	writer.Header().Set("Content-Type", "text/html")
-	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
-	writer.WriteHeader(status)
-	writer.Write(cb)
-}
-
 func (r *Router) SendContentForAjax(doZip bool, user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
-	r.sendZippy(doZip, filename, contentVars, writer, status)
+
+	t := r.Template.Lookup(filename)
+	content := new(bytes.Buffer)
+	t.Execute(content, contentVars)
+	cb := content.Bytes()
+	m := map[string]any{}
+	m["html"] = string(cb)
+	asBytes, _ := json.Marshal(m)
+	doZippyJson(doZip, asBytes, status, writer)
 }
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
