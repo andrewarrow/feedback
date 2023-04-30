@@ -15,8 +15,12 @@ func (c *Context) SendContentForAjax(doZip bool, user map[string]any, writer htt
 	cb := content.Bytes()
 	m := map[string]any{}
 	m["html"] = string(cb)
-	m["next"] = ""
-	m["div"] = "feedback-ajax"
+	m["next"] = c.LayoutMap["ajax_next"]
+	m["div"] = c.LayoutMap["ajax_div"]
+	if m["div"] == nil {
+		m["div"] = "feedback-ajax"
+	}
+	//fmt.Println(m["div"], m["next"])
 	asBytes, _ := json.Marshal(m)
 	doZippyJson(doZip, asBytes, status, writer)
 }
