@@ -1,9 +1,12 @@
 package router
 
+import "fmt"
+
 func (c *Context) FreeFormSelect(sql string, params ...any) []map[string]any {
 	ms := []map[string]any{}
 	rows, err := c.Db.Queryx(sql, params...)
 	if err != nil {
+		fmt.Println(err)
 		return ms
 	}
 	defer rows.Close()

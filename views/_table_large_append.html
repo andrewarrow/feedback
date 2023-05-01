@@ -1,0 +1,8 @@
+{{ $wrap := "whitespace-nowrap" }}
+{{ range $j, $cell := index . "cells" }}
+{{ range $i, $c := $cell }}
+  <td class="h-px w-px align-top {{ $wrap }}">
+    <div class="px-6 py-3"> {{ $c }} </div>
+  </td>
+{{ end }}
+{{ end }}

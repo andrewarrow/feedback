@@ -1,6 +1,3 @@
-{{ define "_table_small" }}
-          <table id="{{ index . "table_id_small"}}" class="min-w-full divide-y divide-gray-200 default:divide-gray-700">
-
                 {{ $cells := index . "cells" }}
                 {{ $headers := index . "headers" }}
                 {{ range $j, $c := $cells }}
@@ -15,6 +12,3 @@
               </tr>
               {{ end }}
               {{ end }}
-
-          </table>
-          {{end}}

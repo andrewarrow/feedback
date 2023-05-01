@@ -31,7 +31,7 @@
               </tr>
             </thead>
 
-            <tbody class="divide-y divide-gray-200 default:divide-gray-700">
+            <tbody id="{{ index . "table_id_large"}}" class="divide-y divide-gray-200 default:divide-gray-700">
                 {{ $cells := index . "cells" }}
                 {{ range $i, $c := $cells }}
               <tr>
