@@ -3,21 +3,22 @@ package aigen
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/andrewarrow/feedback/network"
 )
 
 func RunImage(prompt string) {
 
-	m := map[string]any{"prompt": "a logo like the better business bureau but called \"remote renters\" that tells consumers this apartment building does specific stuff for people that work from home",
-		"n":    2,
-		"size": "1024x1024"}
-	m = map[string]any{"prompt": "work from home",
-		"n":    2,
-		"size": "1024x1024"}
+	m := map[string]any{"prompt": "work from home",
+		"n":    1,
+		"size": "256x256"}
 	asBytes, _ := json.Marshal(m)
 
-	jsonString, _ := network.DoPost(nil, "", "/v1/image/generations", asBytes)
+	key := os.Getenv("OPEN_AI")
+	fmt.Println(key)
+
+	jsonString, _ := network.DoPost(nil, os.Getenv("OPEN_AI"), "/v1/images/generations", asBytes)
 	fmt.Println(jsonString)
 
 }
