@@ -2,7 +2,9 @@ package router
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
+	"time"
 
 	"github.com/andrewarrow/feedback/files"
 )
@@ -34,6 +36,6 @@ func (c *Context) ReadJsonBodyIntoParamsWithLog(file string) {
 	body := c.BodyAsString()
 
 	defer f.Close()
-	f.WriteString(body)
+	f.WriteString(fmt.Sprintf("%d\n\n%s\n\n", time.Now().Unix(), body))
 	json.Unmarshal([]byte(body), &c.Params)
 }
