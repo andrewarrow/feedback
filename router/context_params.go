@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"regexp"
 	"time"
 
 	"github.com/andrewarrow/feedback/files"
@@ -34,15 +33,9 @@ func (c *Context) ReadJsonBodyIntoParamsWithLog(file string) {
 	f, _ := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 
 	c.Params = map[string]any{}
-	body := RemoveControlChars(c.BodyAsString())
+	body := c.BodyAsString()
 
 	defer f.Close()
 	f.WriteString(fmt.Sprintf("%d\n\n%s\n\n", time.Now().Unix(), body))
 	json.Unmarshal([]byte(body), &c.Params)
-}
-
-func RemoveControlChars(str string) string {
-	controlCharRegex := regexp.MustCompile("[[:cntrl:]]")
-	cleanedStr := controlCharRegex.ReplaceAllString(str, "")
-	return cleanedStr
 }
