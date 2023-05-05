@@ -11,7 +11,7 @@ import (
 
 var openFile *os.File
 
-func (c *Context) Filelog(fields ...any) {
+func Filelog(fields ...any) {
 	home := files.UserHomeDir()
 	filename := home + "/feedback.log"
 	if openFile == nil {
