@@ -95,7 +95,7 @@ func DoDelete(client *http.Client, bearer, route string) (string, int) {
 	return DoHttpRead(client, request)
 }
 
-func DoMultiPartPost(bearer, fullRoute, name, field, value string, payload []byte) (string, int) {
+func DoMultiPartPost(bearer, fullRoute, name, field, value, ext string, payload []byte) (string, int) {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -104,7 +104,7 @@ func DoMultiPartPost(bearer, fullRoute, name, field, value string, payload []byt
 		writer.WriteField(field, value)
 	}
 
-	fileWriter, _ := writer.CreateFormFile(name, "multipart")
+	fileWriter, _ := writer.CreateFormFile(name, "multipart."+ext)
 	theData := bytes.NewBuffer(payload)
 	io.Copy(fileWriter, theData)
 
