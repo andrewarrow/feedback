@@ -95,12 +95,14 @@ func DoDelete(client *http.Client, bearer, route string) (string, int) {
 	return DoHttpRead(client, request)
 }
 
-func DoMultiPartPost(bearer, fullRoute, name string, payload []byte) (string, int) {
+func DoMultiPartPost(bearer, fullRoute, name, field, value string, payload []byte) (string, int) {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 
-	//writer.WriteField("name", "John Doe")
+	if field != "" {
+		writer.WriteField(field, value)
+	}
 
 	fileWriter, _ := writer.CreateFormFile(name, "multipart")
 	theData := bytes.NewBuffer(payload)
