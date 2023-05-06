@@ -46,6 +46,10 @@ func TemplateFunctions() template.FuncMap {
 
 			return buffer
 		},
+		"hasSuffix": func(s any, suffix string) bool {
+			val := s.(string)
+			return strings.HasSuffix(val, suffix)
+		},
 		"null": func(s any) any {
 			if s == nil {
 				return ""
