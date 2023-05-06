@@ -95,7 +95,7 @@ func DoDelete(client *http.Client, bearer, route string) (string, int) {
 	return DoHttpRead(client, request)
 }
 
-func DoMultiPartPost(bearer, route, name string, payload []byte) (string, int) {
+func DoMultiPartPost(bearer, fullRoute, name string, payload []byte) (string, int) {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -108,8 +108,7 @@ func DoMultiPartPost(bearer, route, name string, payload []byte) (string, int) {
 
 	writer.Close()
 
-	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
-	request, err := http.NewRequest("POST", urlString, body)
+	request, err := http.NewRequest("POST", fullRoute, body)
 	if err != nil {
 		return "bad url", 500
 	}
