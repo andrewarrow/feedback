@@ -25,3 +25,11 @@ func (c *Context) FreeFormUpdate(sql string, params ...any) error {
 	}
 	return nil
 }
+
+func (r *Router) FreeFormUpdate(sql string, params ...any) error {
+	_, err := r.Db.Exec(sql, params...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
