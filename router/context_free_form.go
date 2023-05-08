@@ -3,8 +3,12 @@ package router
 import "fmt"
 
 func (c *Context) FreeFormSelect(sql string, params ...any) []map[string]any {
+	return c.router.FreeFormSelect(sql, params)
+}
+
+func (r *Router) FreeFormSelect(sql string, params ...any) []map[string]any {
 	ms := []map[string]any{}
-	rows, err := c.Db.Queryx(sql, params...)
+	rows, err := r.Db.Queryx(sql, params...)
 	if err != nil {
 		fmt.Println(err)
 		return ms
