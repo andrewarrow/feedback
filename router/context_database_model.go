@@ -38,6 +38,10 @@ func (r *Router) SelectAll(modelName string, where string, params []any, offset 
 	return ms
 }
 
+func (r *Router) One(modelName string, where string, params ...any) map[string]any {
+	return r.SelectOne(modelName, where, params)
+}
+
 func (c *Context) One(modelName string, where string, params ...any) map[string]any {
 	return c.router.SelectOne(modelName, where, params)
 }
