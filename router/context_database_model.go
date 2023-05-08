@@ -4,19 +4,27 @@ import (
 	"fmt"
 )
 
+func (r *Router) All(modelName string, where, offset string, params ...any) []map[string]any {
+	return r.SelectAll(modelName, where, params, offset)
+}
+
 func (c *Context) All(modelName string, where, offset string, params ...any) []map[string]any {
 	return c.SelectAll(modelName, where, params, offset)
 }
 
 func (c *Context) SelectAll(modelName string, where string, params []any, offset string) []map[string]any {
-	model := c.FindModel(modelName)
+	return c.router.SelectAll(modelName, where, params, offset)
+}
+
+func (r *Router) SelectAll(modelName string, where string, params []any, offset string) []map[string]any {
+	model := r.FindModel(modelName)
 	offsetString := ""
 	if offset != "" {
 		offsetString = "OFFSET " + offset
 	}
 	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30 %s", model.TableName(), where, offsetString)
 	ms := []map[string]any{}
-	rows, err := c.Db.Queryx(sql, params...)
+	rows, err := r.Db.Queryx(sql, params...)
 	if err != nil {
 		return ms
 	}
