@@ -10,7 +10,7 @@ func (r *Router) FreeFormSelect(sql string, params ...any) []map[string]any {
 	ms := []map[string]any{}
 	rows, err := r.Db.Queryx(sql, params...)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(sql, err)
 		return ms
 	}
 	defer rows.Close()
