@@ -30,12 +30,13 @@ func GetCookie(c *Context, name string) string {
 	return cookie.Value
 }
 
-func setUser(c *Context, guid string) {
+func setUser(c *Context, guid, domain string) {
 	cookie := http.Cookie{}
 	cookie.Path = "/"
 	cookie.MaxAge = 86400 * 30
 	cookie.Name = "user"
 	cookie.Value = guid
+	cookie.Domain = domain
 	http.SetCookie(c.Writer, &cookie)
 }
 

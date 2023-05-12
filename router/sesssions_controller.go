@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/andrewarrow/feedback/util"
 	"golang.org/x/crypto/bcrypt"
@@ -49,10 +50,7 @@ func CreateSession(c *Context) {
 		guid := util.PseudoUuid()
 		c.Params = map[string]any{"guid": guid, "user_id": row["id"].(int64)}
 		c.Insert("cookie_token")
-
-		cookie.MaxAge = 86400 * 30
-		cookie.Name = "user"
-		cookie.Value = guid
+		setUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
 	} else {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "flash"

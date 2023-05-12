@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/andrewarrow/feedback/util"
 	"golang.org/x/crypto/bcrypt"
@@ -58,7 +59,7 @@ func handleCreateUser(c *Context) {
 	guid := util.PseudoUuid()
 	c.Params = map[string]any{"guid": guid, "user_id": row["id"].(int64)}
 	c.Insert("cookie_token")
-	setUser(c, guid)
+	setUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
 	returnPath = "/"
 
 	funcToRun := c.router.afterFuncToRun("user")
