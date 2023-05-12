@@ -34,7 +34,7 @@ func setUser(c *Context, guid, domain string) {
 	cookie := http.Cookie{}
 	cookie.Path = "/"
 	cookie.MaxAge = 86400 * 30
-	cookie.Name = "user"
+	cookie.Name = "user_v2"
 	cookie.Value = guid
 	cookie.Domain = domain
 	http.SetCookie(c.Writer, &cookie)

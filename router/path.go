@@ -30,7 +30,7 @@ func (r *Router) SendContentInLayout(doZip bool, layout string, layoutMap map[st
 }
 
 func (r *Router) cookieAuth(c *Context) map[string]any {
-	cookie, err := c.Request.Cookie("user")
+	cookie, err := c.Request.Cookie("user_v2")
 	var user map[string]any
 	if err == nil && cookie.Value != "" {
 		user = r.LookupUserByToken(cookie.Value)
