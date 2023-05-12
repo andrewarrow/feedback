@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -15,6 +16,9 @@ var BaseUrl = "https://api.openai.com"
 
 func DoGet(client *http.Client, bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
+	if strings.HasPrefix(route, "http") {
+		urlString = route
+	}
 	request, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
 		return "bad url", 500
@@ -54,6 +58,9 @@ func DoHttpRead(client *http.Client, request *http.Request) (string, int) {
 func DoPost(client *http.Client, bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
+	if strings.HasPrefix(route, "http") {
+		urlString = route
+	}
 	request, err := http.NewRequest("POST", urlString, body)
 	if err != nil {
 		return "bad url", 500
@@ -69,6 +76,9 @@ func DoPost(client *http.Client, bearer, route string, payload []byte) (string, 
 func DoPut(client *http.Client, bearer, route string, payload []byte) (string, int) {
 	body := bytes.NewBuffer(payload)
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
+	if strings.HasPrefix(route, "http") {
+		urlString = route
+	}
 	request, err := http.NewRequest("PUT", urlString, body)
 	if err != nil {
 		return "bad url", 500
@@ -83,6 +93,9 @@ func DoPut(client *http.Client, bearer, route string, payload []byte) (string, i
 
 func DoDelete(client *http.Client, bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
+	if strings.HasPrefix(route, "http") {
+		urlString = route
+	}
 	request, err := http.NewRequest("DELETE", urlString, nil)
 	if err != nil {
 		return "bad url", 500
