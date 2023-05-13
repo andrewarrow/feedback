@@ -106,6 +106,16 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return TimezoneList(tz.(string))
 		},
+		"dob": func(thing any) string {
+			tint64, ok := thing.(int64)
+			if !ok {
+				tfloat := thing.(float64)
+				tint64 = int64(tfloat)
+			}
+			t := time.Unix(tint64, 0)
+
+			return fmt.Sprintf("%d years old", calculateAge(t))
+		},
 		"ampm": func(f float64) string {
 			i := int(f)
 			if i > 12 {
@@ -133,6 +143,17 @@ func LoadTemplates() *template.Template {
 		}
 	}
 	return t
+}
+
+func calculateAge(birthdate time.Time) int {
+	now := time.Now()
+	years := now.Year() - birthdate.Year()
+
+	if now.YearDay() < birthdate.YearDay() {
+		years--
+	}
+
+	return years
 }
 
 func TimezoneList(tz string) template.HTML {
