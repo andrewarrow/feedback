@@ -50,7 +50,7 @@ func CreateSession(c *Context) {
 		guid := util.PseudoUuid()
 		c.Params = map[string]any{"guid": guid, "user_id": row["id"].(int64)}
 		c.Insert("cookie_token")
-		setUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
+		SetUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
 	} else {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "flash"
