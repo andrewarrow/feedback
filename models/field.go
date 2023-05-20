@@ -33,7 +33,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "citext"
 	} else if f.Flavor == "bool" {
 		flavor = "boolean"
-		defaultString = "true"
+		defaultString = "false"
 	} else if f.Flavor == "timestamp" {
 		flavor = "timestamp"
 		defaultString = "NOW()"
