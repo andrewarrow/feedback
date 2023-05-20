@@ -22,6 +22,7 @@ func TemplateFunctions() template.FuncMap {
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
+		"k":      func(i int64) string { return fmt.Sprintf("%0.2f", float64(i)/1000.0) },
 		"timeOptions": func(sa, ea float64, tz *time.Location) []template.HTML {
 
 			saInt := int64(sa)
@@ -105,6 +106,13 @@ func TemplateFunctions() template.FuncMap {
 				return TimezoneList("UTC")
 			}
 			return TimezoneList(tz.(string))
+		},
+		"chop": func(thing string) string {
+			tokens := strings.Split(thing, ",")
+			return strings.TrimSpace(tokens[1] + tokens[2])
+		},
+		"trim": func(thing string) string {
+			return strings.TrimSpace(thing)
 		},
 		"dob": func(thing any) string {
 			tint64, ok := thing.(int64)
