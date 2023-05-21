@@ -50,7 +50,7 @@ func (f *Field) Default() any {
 	} else if f.Flavor == "timestamp" && f.Null == "" {
 		return time.Now()
 	} else if f.Flavor == "bool" && f.Null == "" {
-		return true
+		return false
 	} else if f.Null == "yes" {
 		return nil
 	}
