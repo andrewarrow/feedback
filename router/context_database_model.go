@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"strconv"
 )
 
 func (r *Router) All(modelName string, where, offset string, params ...any) []map[string]any {
@@ -20,7 +21,8 @@ func (r *Router) SelectAll(modelName string, where string, params []any, offset 
 	model := r.FindModel(modelName)
 	offsetString := ""
 	if offset != "" {
-		offsetString = "OFFSET " + offset
+		offsetInt, _ := strconv.Atoi(offset)
+		offsetString = fmt.Sprintf("OFFSET %d", offsetInt)
 	}
 	sql := fmt.Sprintf("SELECT * FROM %s %s limit 30 %s", model.TableName(), where, offsetString)
 	ms := []map[string]any{}
