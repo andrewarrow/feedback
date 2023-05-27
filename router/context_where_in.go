@@ -51,13 +51,13 @@ func listSizeOf(size int) string {
 	return strings.Join(buffer, ",")
 }
 
-func (c *Context) AllIn(fields, modelName string, offset, other string, tokens []any) []map[string]any {
+func (c *Context) AllIn(field, modelName string, offset, other string, tokens []any) []map[string]any {
 	model := c.FindModel(modelName)
 	offsetString := ""
 	if offset != "" {
 		offsetString = "OFFSET " + offset
 	}
-	sql := fmt.Sprintf("select %s from %s where %s in (%s) order by created_at desc limit 30 %s", fields, model.TableName(), other, listSizeOf(len(tokens)), offsetString)
+	sql := fmt.Sprintf("select distinct(%s) from %s where %s in (%s) order by %s desc limit 30 %s", field, model.TableName(), other, listSizeOf(len(tokens)), field, offsetString)
 	ms := []map[string]any{}
 	rows, err := c.Db.Queryx(sql, tokens...)
 	if err != nil {
