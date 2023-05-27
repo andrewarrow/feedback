@@ -72,3 +72,12 @@ func (c *Context) AllIn(field, modelName string, offset, other string, tokens []
 	}
 	return ms
 }
+
+func (c *Context) WhereInList(modelString string, ids []any) []map[string]any {
+	stringIds := []string{}
+	for _, id := range ids {
+		stringIds = append(stringIds, fmt.Sprintf("%d", id))
+	}
+	sql := fmt.Sprintf("where id in (%s)", strings.Join(stringIds, ","))
+	return c.All(modelString, sql, "")
+}
