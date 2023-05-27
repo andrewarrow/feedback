@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -55,7 +56,8 @@ func (c *Context) AllIn(field, modelName string, offset, other string, tokens []
 	model := c.FindModel(modelName)
 	offsetString := ""
 	if offset != "" {
-		offsetString = "OFFSET " + offset
+		offsetInt, _ := strconv.Atoi(offset)
+		offsetString = fmt.Sprintf("OFFSET %d", offsetInt)
 	}
 	sql := fmt.Sprintf("select distinct(%s) from %s where %s in (%s) order by %s desc limit 30 %s", field, model.TableName(), other, listSizeOf(len(tokens)), field, offsetString)
 	ms := []map[string]any{}
