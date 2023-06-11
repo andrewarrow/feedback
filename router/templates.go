@@ -107,6 +107,10 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return TimezoneList(tz.(string))
 		},
+		"splitLines": func(thing string) template.HTML {
+			tokens := strings.Split(thing, "\r")
+			return template.HTML(strings.Join(tokens, "<br/>"))
+		},
 		"chop": func(thing string) string {
 			tokens := strings.Split(thing, ",")
 			return strings.TrimSpace(tokens[1] + tokens[2])
