@@ -13,6 +13,8 @@ import (
 )
 
 var BaseUrl = "https://api.openai.com"
+var BaseHeaderKey = ""
+var BaseHeaderValue = ""
 
 func DoGet(client *http.Client, bearer, route string) (string, int) {
 	urlString := fmt.Sprintf("%s%s", BaseUrl, route)
@@ -151,4 +153,7 @@ func SetHeaders(bearer string, request *http.Request) {
 	request.Header.Set("Accept-Encoding", "gzip")
 	request.Header.Set("Connection", "keep-alive")
 	request.Header.Set("Max-Keep-Alive-Requests", "100")
+	if BaseHeaderKey != "" {
+		request.Header.Set(BaseHeaderKey, BaseHeaderValue)
+	}
 }
