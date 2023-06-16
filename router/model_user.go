@@ -5,11 +5,11 @@ import (
 )
 
 func (c *Context) LookupUser(guid string) map[string]any {
-	return c.router.LookupUser(guid)
+	return c.Router.LookupUser(guid)
 }
 
 func (c *Context) LookupUserByToken(token string) map[string]any {
-	return c.router.LookupUserByToken(token)
+	return c.Router.LookupUserByToken(token)
 }
 
 func (r *Router) LookupUserByToken(token string) map[string]any {
@@ -34,7 +34,7 @@ func (r *Router) LookupUser(guid string) map[string]any {
 }
 
 func (c *Context) LookupUsername(username string) map[string]any {
-	return c.router.LookupUsername(username)
+	return c.Router.LookupUsername(username)
 }
 
 func (r *Router) LookupUsername(username string) map[string]any {

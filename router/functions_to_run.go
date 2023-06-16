@@ -29,7 +29,7 @@ func (c *Context) FunctionToRun(route string, user map[string]any) *Batch {
 	b.Context.Request = request
 	b.Context.User = user
 	b.Context.Method = "GET"
-	b.Context.router = c.router
+	b.Context.Router = c.Router
 
 	b.Context.tokens = strings.Split(noParams+"/", "/")
 	first := b.Context.tokens[1]
@@ -44,7 +44,7 @@ func (c *Context) FunctionToRun(route string, user map[string]any) *Batch {
 	}
 	b.Second = second
 	b.Third = third
-	b.TheFunc = c.router.pathFuncToRun(first)
+	b.TheFunc = c.Router.pathFuncToRun(first)
 	return &b
 }
 

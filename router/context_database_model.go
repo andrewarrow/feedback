@@ -14,7 +14,7 @@ func (c *Context) All(modelName string, where, offset string, params ...any) []m
 }
 
 func (c *Context) SelectAll(modelName string, where string, params []any, offset string) []map[string]any {
-	return c.router.SelectAll(modelName, where, params, offset)
+	return c.Router.SelectAll(modelName, where, params, offset)
 }
 
 func (r *Router) SelectAll(modelName string, where string, params []any, offset string) []map[string]any {
@@ -45,11 +45,11 @@ func (r *Router) One(modelName string, where string, params ...any) map[string]a
 }
 
 func (c *Context) One(modelName string, where string, params ...any) map[string]any {
-	return c.router.SelectOne(modelName, where, params)
+	return c.Router.SelectOne(modelName, where, params)
 }
 
 func (c *Context) SelectOne(modelName string, where string, params []any) map[string]any {
-	return c.router.SelectOne(modelName, where, params)
+	return c.Router.SelectOne(modelName, where, params)
 }
 
 func (r *Router) SelectOne(modelName string, where string, params []any) map[string]any {

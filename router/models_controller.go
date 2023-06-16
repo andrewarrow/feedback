@@ -53,7 +53,7 @@ func handleModels(c *Context, second, third string) {
 }
 
 func handleThird(c *Context, second, third string) {
-	model := c.router.Site.FindModel(second)
+	model := c.Router.Site.FindModel(second)
 	if model == nil {
 		c.NotFound = true
 		return
@@ -89,7 +89,7 @@ func handleThird(c *Context, second, third string) {
 func handleModelsIndex(c *Context) {
 	if c.Request.Method == "GET" {
 		vars := ModelsVars{}
-		vars.Models = c.router.Site.Models
+		vars.Models = c.Router.Site.Models
 		c.SendContentInLayout("models_index.html", vars, 200)
 		return
 	}
@@ -113,18 +113,18 @@ func handleModelsCreateWithJson(c *Context) {
 		f.Flavor = "uuid"
 		f.Index = "yes"
 		newModel.Fields = append(newModel.Fields, &f)
-		c.router.Site.Models = append(c.router.Site.Models, &newModel)
+		c.Router.Site.Models = append(c.Router.Site.Models, &newModel)
 		c.saveSchema()
 		MakeTable(c.Db, &newModel)
 		vars := ModelsVars{}
-		vars.Models = c.router.Site.Models
+		vars.Models = c.Router.Site.Models
 		c.ExecuteTemplate("models_list.html", vars)
 	}
 }
 
 func ModelsShow(c *Context, rawId string) {
 	id := models.RemoveNonAlphanumeric(rawId)
-	model := c.router.Site.FindModel(id)
+	model := c.Router.Site.FindModel(id)
 	if model == nil {
 		c.NotFound = true
 		return
@@ -138,7 +138,7 @@ func ModelsShow(c *Context, rawId string) {
 }
 
 func ModelsCreateWithId(c *Context, id string) {
-	model := c.router.Site.FindModel(id)
+	model := c.Router.Site.FindModel(id)
 	if model == nil {
 		c.NotFound = true
 		return

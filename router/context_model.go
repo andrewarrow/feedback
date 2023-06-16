@@ -3,9 +3,9 @@ package router
 import "github.com/andrewarrow/feedback/models"
 
 func (c *Context) Model(modelName string) *models.Model {
-	return c.router.Site.FindModel(modelName)
+	return c.Router.Site.FindModel(modelName)
 }
 
 func (c *Context) Models() []*models.Model {
-	return c.router.Site.Models
+	return c.Router.Site.Models
 }

@@ -22,7 +22,7 @@ func handleUsers(c *Context, second, third string) {
 
 func handleUsersShow(c *Context, username string) {
 	c.Title = username
-	u := c.router.LookupUsername(username)
+	u := c.Router.LookupUsername(username)
 	if u == nil {
 		c.NotFound = true
 		return
@@ -62,7 +62,7 @@ func handleCreateUser(c *Context) {
 	SetUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
 	returnPath = "/"
 
-	funcToRun := c.router.afterFuncToRun("user")
+	funcToRun := c.Router.afterFuncToRun("user")
 
 	if funcToRun != nil {
 		funcToRun(c, guid)

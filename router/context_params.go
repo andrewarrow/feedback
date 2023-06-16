@@ -24,7 +24,7 @@ func (c *Context) ReadJsonBodyAsArray() []any {
 }
 
 func (c *Context) ExecuteTemplate(filename string, vars any) {
-	c.router.Template.ExecuteTemplate(c.Writer, filename, vars)
+	c.Router.Template.ExecuteTemplate(c.Writer, filename, vars)
 }
 
 func (c *Context) ReadJsonBodyIntoParamsWithLog(file string) {

@@ -111,7 +111,7 @@ func PrepareContext(r *Router, user map[string]any, path, flash string, writer h
 	c.Request = request
 	c.flash = flash
 	c.Method = request.Method
-	c.router = r
+	c.Router = r
 	c.User = user
 	c.path = path
 	c.Db = r.Db

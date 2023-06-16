@@ -9,7 +9,7 @@ import (
 func (c *Context) SendContentForAjax(doZip bool, user map[string]any, writer http.ResponseWriter,
 	filename string, contentVars any, status int) {
 
-	t := c.router.Template.Lookup(filename)
+	t := c.Router.Template.Lookup(filename)
 	content := new(bytes.Buffer)
 	t.Execute(content, contentVars)
 	cb := content.Bytes()

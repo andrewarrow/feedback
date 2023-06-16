@@ -19,7 +19,7 @@ type Context struct {
 	Writer       http.ResponseWriter
 	Request      *http.Request
 	tokens       []string
-	router       *Router
+	Router       *Router
 	User         map[string]any
 	UserRequired bool
 	path         string
@@ -39,7 +39,7 @@ type Context struct {
 
 func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 	if c.Title == "" {
-		c.LayoutMap["title"] = c.router.Site.Title
+		c.LayoutMap["title"] = c.Router.Site.Title
 	} else {
 		c.LayoutMap["title"] = models.RemoveMostNonAlphanumeric(c.Title)
 	}
@@ -53,11 +53,11 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 		c.SendContentForAjax(gzip, c.User, c.Writer, filename, vars, status)
 		return
 	}
-	c.router.SendContentInLayout(gzip, c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)
+	c.Router.SendContentInLayout(gzip, c.Layout, c.LayoutMap, c.flash, c.User, c.Writer, filename, vars, status)
 }
 
 func (c *Context) saveSchema() {
-	asBytes, _ := json.Marshal(c.router.Site)
+	asBytes, _ := json.Marshal(c.Router.Site)
 	jqed := util.PipeToJq(string(asBytes))
 	files.SaveFile("feedback.json", jqed)
 }
@@ -80,7 +80,7 @@ func handleContext(c *Context) {
 	tokens := c.tokens
 	first := tokens[1]
 
-	funcToRun := c.router.pathFuncToRun(first)
+	funcToRun := c.Router.pathFuncToRun(first)
 
 	if funcToRun == nil {
 		c.NotFound = true

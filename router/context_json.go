@@ -47,7 +47,7 @@ func (c *Context) SendContentAsJsonMessage(message string, status int) {
 func (c *Context) Insert(modelString string) string {
 	model := c.FindModel(modelString)
 	tableName := model.TableName()
-	funcToRun := c.router.beforeFuncToRun(modelString)
+	funcToRun := c.Router.beforeFuncToRun(modelString)
 
 	if funcToRun != nil {
 		funcToRun(c)

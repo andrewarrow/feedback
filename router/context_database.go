@@ -11,7 +11,7 @@ import (
 )
 
 func (c *Context) FindModel(name string) *models.Model {
-	return c.router.FindModel(name)
+	return c.Router.FindModel(name)
 }
 
 func (r *Router) FindModel(name string) *models.Model {
