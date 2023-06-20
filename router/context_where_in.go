@@ -76,10 +76,33 @@ func (c *Context) AllIn(field, modelName string, offset, other string, tokens []
 }
 
 func (c *Context) WhereInList(modelString string, ids []any) []map[string]any {
+	stringIds := StringIds(ids)
+	sql := fmt.Sprintf("where id in (%s)", strings.Join(stringIds, ","))
+	return c.All(modelString, sql, "")
+}
+
+func StringIds(ids []any) []string {
 	stringIds := []string{}
 	for _, id := range ids {
 		stringIds = append(stringIds, fmt.Sprintf("%d", id))
 	}
-	sql := fmt.Sprintf("where id in (%s)", strings.Join(stringIds, ","))
-	return c.All(modelString, sql, "")
+	return stringIds
+}
+
+func (r *Router) WhereInFull(modelString string, ids []any) []map[string]any {
+	stringIds := StringIds(ids)
+	offsetInt := 0
+	offset := ""
+	vals := []map[string]any{}
+	sql := fmt.Sprintf("where id in (%s) order by id", strings.Join(stringIds, ","))
+	for {
+		list := r.All(modelString, sql, offset)
+		if len(list) == 0 {
+			break
+		}
+		vals = append(vals, list...)
+		offsetInt += 30
+		offset = fmt.Sprintf("%d", offsetInt)
+	}
+	return vals
 }
