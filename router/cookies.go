@@ -41,7 +41,7 @@ func SetUser(c *Context, guid, domain string) {
 	}
 	cookie.SameSite = http.SameSiteNoneMode
 	//cookie.Secure=  true
-	//HttpOnly= true
+	cookie.HttpOnly = true
 	http.SetCookie(c.Writer, &cookie)
 }
 
