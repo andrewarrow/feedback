@@ -58,7 +58,6 @@ func (r *Router) SelectOne(modelName string, where string, params []any) map[str
 	m := map[string]any{}
 	rows, err := r.Db.Queryx(sql, params...)
 	if err != nil {
-		fmt.Println(err)
 		return m
 	}
 	defer rows.Close()

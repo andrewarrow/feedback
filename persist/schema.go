@@ -34,11 +34,12 @@ func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 	url := os.Getenv(dbEnvVarName)
 
 	db, err := sqlx.Connect("postgres", url)
-	fmt.Println(err)
 	if err == nil {
-		db.SetMaxOpenConns(30)
-		db.SetMaxIdleConns(30)
+		db.SetMaxOpenConns(9)
+		db.SetMaxIdleConns(9)
 		db.SetConnMaxLifetime(5 * time.Minute)
+	} else {
+		fmt.Println(err)
 	}
 
 	return db
