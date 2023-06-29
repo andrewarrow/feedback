@@ -36,12 +36,12 @@ func SetUser(c *Context, guid, domain string) {
 	cookie.MaxAge = 86400 * 30
 	cookie.Name = "user_v2"
 	cookie.Value = guid
-	//if domain != "" && domain != "localhost" {
-	cookie.Domain = domain
-	//}
-	//cookie.SameSite = http.SameSiteNoneMode
-	//cookie.Secure=  true
-	//cookie.HttpOnly = true
+	if domain != "" && domain != "localhost" {
+		cookie.Domain = domain
+		cookie.SameSite = http.SameSiteNoneMode
+		cookie.Secure = true
+		cookie.HttpOnly = true
+	}
 	http.SetCookie(c.Writer, &cookie)
 }
 
