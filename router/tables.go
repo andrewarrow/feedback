@@ -29,14 +29,14 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 			sql := `create index CONCURRENTLY %s_%s_index on %s(%s);`
 			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
 		} else if field.Index == "unique" {
-			sql := `create unique index CONCURRENTLY %s_%s_index on %s(%s);`
+			sql := `create unique index %s_%s_index on %s(%s);`
 			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
 		} else if strings.HasPrefix(field.Index, "unique_two") {
 			tokens := strings.Split(field.Index, ":")
 			fields := strings.Split(tokens[1], ",")
 			field1 := fields[0]
 			field2 := fields[1]
-			sql := `create unique index CONCURRENTLY %s_%s_%s_index on %s(%s,%s);`
+			sql := `create unique index %s_%s_%s_index on %s(%s,%s);`
 			db.Exec(fmt.Sprintf(sql, tableName, field1, field2, tableName, field1, field2))
 		}
 	}
