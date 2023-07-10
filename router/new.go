@@ -63,6 +63,15 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	return &r
 }
 
+func (r *Router) ToContext() *Context {
+	c := Context{}
+	//c.Writer = writer
+	//c.Request = request
+	c.Router = r
+	c.Db = r.Db
+	return &c
+}
+
 func (r *Router) pathFuncToRun(key string) func(*Context, string, string) {
 	r.PathLock.Lock()
 	defer r.PathLock.Unlock()
