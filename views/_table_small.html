@@ -4,6 +4,17 @@
                 {{ $cells := index . "cells" }}
                 {{ $headers := index . "headers" }}
                 {{ range $j, $c := $cells }}
+
+                {{ if ne $j 0 }}
+              <tr>
+                <td class="px-2 py-2 h-px w-72">
+                        &nbsp;
+                </td>
+                <td class="px-2 py-2 h-px w-72">
+                        <hr/>
+                </td>
+              </tr>
+              {{ end }}
                 {{ range $i, $h := $headers }}
               <tr>
                 <th class="px-2 h-px w-px bg-gray-50 default:bg-slate-800 text-right">
