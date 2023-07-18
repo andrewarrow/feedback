@@ -1,22 +1,29 @@
-{{define "_welcome_show_col1"}}
-col1
-{{end}}
+{{ define "_welcome_col1" }}
+{{ $row := index . "row" }}
+{{ index $row "name" }}
+{{ end }}
 
-{{define "_welcome_show_col2"}}
-col2
-{{end}}
+{{ define "_welcome_col2" }}
+{{ $row := index . "row" }}
+{{ index $row "age" }}
+{{ end }}
 
-{{define "_welcome_show_col3"}}
-col3
-{{end}}
+{{ define "_welcome_col3" }}
+{{ $row := index . "row" }}
+{{ index $row "species" }}
+{{ end }}
 
-{{define "_welcome_show_col4"}}
-col4
-{{end}}
+{{ define "_welcome_col4" }}
+{{ $row := index . "row" }}
+{{ index $row "home_planet" }}
+{{ end }}
 
-{{define "_welcome_show_col5"}}
-col5
-{{end}}
+{{ define "_welcome_col5" }}
+{{ $row := index . "row" }}
+{{ index $row "language" }}
+{{ end }}
 
-{{define "_welcome_show_col6"}}
-{{end}}
+{{ define "_welcome_col6" }}
+{{ $row := index . "row" }}
+{{ index $row "occupation" }}
+{{ end }}
