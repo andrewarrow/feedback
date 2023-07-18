@@ -75,6 +75,9 @@ func main() {
 		list := persist.ScanSchema()
 		asBytes := router.ModelsToBytes(list)
 		persist.SaveSchema(asBytes)
+	} else if arg == "init" {
+		path := util.GetArg(2)
+		router.InitNewApp(path)
 	} else if arg == "run" {
 		path := util.GetArg(2)
 		jsonBytes := getFeedbackJsonFile(path)
