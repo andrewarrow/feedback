@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .td1 { 
+    @apply border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4; 
+  } 
+  .btn-main {
+    @apply bg-blue-600 hover:bg-blue-700 px-5 py-3 text-white rounded-lg;
+  }
+  .btn-red {
+    @apply bg-red-600 hover:bg-red-700 px-5 py-3 text-white rounded-lg;
+  }
+  .btn-small {
+    @apply bg-red-600 hover:bg-red-700 px-2 py-2 text-white text-xs rounded-lg;
+  }
+  .btn-sm2 {
+    @apply bg-blue-600 hover:bg-blue-700 px-2 py-2 text-white text-xs rounded-lg;
+  }
+  .th1 { 
+    @apply px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left;
+  }
+  .bli {
+    @apply p-4 items-center mx-3 inline-block
+  }
+  .bhb {
+    @apply text-xs mb-1 font-bold
+  }
+  .bh2 {
+    @apply text-xs mb-1 break-all
+  }
+  .bh3 {
+    @apply text-xs mb-1
+  }
+
+  .nice {
+    @apply block text-sm text-gray-500
+  }
+
+  .nice-ta {
+    @apply border border-gray-300 px-4 py-2 rounded-md
+  }
+  .nice-i {
+    @apply border border-gray-300 px-4 py-2 rounded-md
+  }
+  .w-800px {
+    width: 800px;
+  }
+  .allunder a {
+    text-decoration: underline;
+  }
+
+}
