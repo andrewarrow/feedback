@@ -1,52 +1,71 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta property="og:image" content="https://i.imgur.com/zKf4kBT.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {{ if index . "dev_mode" }}
-  <script src="https://cdn.tailwindcss.com"></script>
-  {{ else }}
-  <link rel="stylesheet" type="text/css" href="/assets/css/tail.min.css">
-  {{ end }}
-  <script src="/assets/javascript/main.js"></script>
-
-
+  <link rel="stylesheet" type="text/css" href="/assets/css/tail.min.css?id={{ index . "build"}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script> function $(id) { return document.getElementById(id); } </script>
+  <script src="/assets/javascript/main.js?id={{ index . "build"}}"></script>
+  <title>{{ index . "title"}}</title>
 </head>
 
-<body class="leading-normal tracking-normal text-black" style="font-family: 'Source Sans Pro', sans-serif;">
-    <nav id="header" class="w-full z-30 top-0 text-black">
-      <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
-        <div class="pl-4 flex items-center">
-                <a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/">{{ index . "site_name"}}</a>
-        </div>
-         <div class="block pr-4">
+<body>
+<!-- Table Section -->
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <!-- Card -->
+  <div class="flex flex-col">
+    <div class="-m-1.5 overflow-x-auto">
+      <div class="p-1.5 min-w-full inline-block align-middle">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden default:bg-slate-900 default:border-gray-700">
+          <!-- Header -->
+          <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 default:border-gray-700">
+            <div>
+              <h2 class="text-xl font-semibold text-gray-800 default:text-gray-200">
+                      <a href="/" class="no-ajax">many.pw</a>
+              </h2>
+              <p class="text-sm text-gray-600 default:text-gray-400">
+              <a class="underline" href="/feedback">feedback</a>
+              <a class="underline mx-2" href="/hosting">hosting</a>
+              <a class="underline" href="/synapse">synapse</a>
+              <!--
+              <a class="underline mx-2" href="/">3</a>
                       {{$user := index . "user"}}
-                      {{ if index $user "id" }}
-                      <form id="logout" method="POST" action="/sessions">
-                        <input type="hidden" name="_method" value="DELETE"/>
-                      </form>
-                      <a href="/users/{{ index $user "username" }}/">{{ index $user "username" }}</a> | <a onclick="doLogout(event);" href="#">logout</a>
-                      {{ else }}
-                      <a id="login" href="/sessions/new/">login</a>
+                      {{ if index $user "admin" }}
+              <a class="underline mx-2 no-ajax" href="/admin">admin</a>
                       {{ end }}
-         </div>
-      </div>
-    <hr class="border-b border-gray-100 opacity-50 my-0 py-0" />
-    </nav>
+              </p>
+              -->
+            </div>
 
-    <div id="flash" style="background-color: red; color: white; text-align: center;">{{index . "flash"}}</div>
-    <div class="pt-12">
-      <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-      {{ index . "content" }}
-
+            <div>
+              <div class="gap-x-2">
+                      {{ template "_nav_user" . }}
+              </div>
+            </div>
+          </div>
+          <!-- End Header -->
+        </div>
       </div>
     </div>
+    <div class="-m-1.5 overflow-x-auto">
+      <div class="p-1.5 min-w-full inline-block align-middle">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden default:bg-slate-900 default:border-gray-700">
+    {{ if index . "admin_back"}}
+    <div style="background-color: blue; color: white; text-align: center;"><a class="no-ajax" href="/admin/user-back-to-admin">You are still admin, click here to go back.</a></div>
+    {{ end }}
+    <div id="flash" style="background-color: red; color: white; text-align: center;">{{index . "flash"}}</div>
+     <div id="feedback-ajax">
+            {{ index . "content" }}
+     </div>
 
-    <footer class="bg-white">
-        <div class="text-sm text-center my-20 text-gray-500">
-                <p>{{ index . "footer"}}</p>
+
         </div>
-
-    </footer>
-
+      </div>
+    </div>
+  </div>
+  <!-- End Card -->
+</div>
+<!-- End Table Section -->
 </body>
 </html>
