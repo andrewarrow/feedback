@@ -9,7 +9,9 @@ import (
 
 func InitNewApp(path string) {
 
-	place := path + "/" + "app"
+	place := path + "/tailwind"
+	os.MkdirAll(place, 0755)
+	place = path + "/app"
 	os.MkdirAll(place, 0755)
 	name := "welcome_controller.go"
 	asString := files.ReadFile("router/" + name)
@@ -20,6 +22,16 @@ func InitNewApp(path string) {
 	place = path
 	name = "main.go"
 	asString = files.ReadFile(name)
+	files.SaveFile(place+"/"+name, asString)
+	name = "run"
+	asString = files.ReadFile(name)
+	files.SaveFile(place+"/"+name, asString)
+	name = "tailwind.config.js"
+	asString = files.ReadFile(name)
+	files.SaveFile(place+"/"+name, asString)
+	name = "extra.html"
+	place = path + "/tailwind"
+	asString = files.ReadFile("tailwind/" + name)
 	files.SaveFile(place+"/"+name, asString)
 
 	dirs := []string{"views", "assets/css", "assets/images", "assets/javascript"}
