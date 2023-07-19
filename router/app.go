@@ -9,9 +9,18 @@ import (
 
 func InitNewApp(path string) {
 
+	place := path + "/" + "app"
+	os.MkdirAll(place, 0755)
+	name := "welcome_controller.go"
+	asString := files.ReadFile("router/" + name)
+	files.SaveFile(place+"/"+name, asString)
+	name = "feedback.json"
+	asString = files.ReadFile(name)
+	files.SaveFile(place+"/"+name, asString)
+
 	dirs := []string{"views", "assets/css", "assets/images", "assets/javascript"}
 	for _, dir := range dirs {
-		place := path + "/" + dir
+		place = path + "/" + dir
 		os.MkdirAll(place, 0755)
 		list, _ := ioutil.ReadDir(dir)
 		for _, file := range list {
