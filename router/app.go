@@ -17,6 +17,10 @@ func InitNewApp(path string) {
 	name = "feedback.json"
 	asString = files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
+	place = path
+	name = "main.go"
+	asString = files.ReadFile(name)
+	files.SaveFile(place+"/"+name, asString)
 
 	dirs := []string{"views", "assets/css", "assets/images", "assets/javascript"}
 	for _, dir := range dirs {
