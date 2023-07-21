@@ -2,6 +2,7 @@ package persist
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/andrewarrow/feedback/files"
 	"github.com/andrewarrow/feedback/models"
@@ -27,6 +28,20 @@ func ScanSchema() []*models.Model {
 	return list
 }
 
+func ModelsForTables(db *sqlx.DB, tablesString string) []*models.Model {
+	tokens := strings.Split(tablesString, ",")
+	mlist := []*models.Model{}
+	for _, table := range tokens {
+		single := util.Unplural(table)
+		m := models.Model{}
+		m.Name = single
+		m.Fields = ScanTable(db, table)
+		mlist = append(mlist, &m)
+	}
+
+	return mlist
+}
+
 func ScanTable(db *sqlx.DB, table string) []*models.Field {
 	list := []*models.Field{}
 	sql := fmt.Sprintf("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '%s'", table)
@@ -37,7 +52,7 @@ func ScanTable(db *sqlx.DB, table string) []*models.Field {
 		field := models.Field{}
 		field.Name = col
 		field.Flavor = models.TypeToFlavor(dt)
-		fmt.Println(field)
+		//fmt.Println(field)
 		list = append(list, &field)
 	}
 	return list

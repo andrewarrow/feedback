@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/andrewarrow/feedback/aigen"
@@ -75,13 +74,9 @@ func main() {
 	} else if arg == "scan" {
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		tablesString := util.GetArg(2)
-		tokens := strings.Split(tablesString, ",")
-		for _, table := range tokens {
-			list := persist.ScanTable(r.Db, table)
-			_ = list
-		}
-		//asBytes := router.ModelsToBytes(list)
-		//persist.SaveSchema(asBytes)
+		list := persist.ModelsForTables(r.Db, tablesString)
+		asBytes := router.ModelsToBytes(list)
+		persist.SaveSchema(asBytes)
 	} else if arg == "init" {
 		path := util.GetArg(2)
 		router.InitNewApp(path)
