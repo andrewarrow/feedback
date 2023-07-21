@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/andrewarrow/feedback/aigen"
@@ -73,8 +74,12 @@ func main() {
 		fmt.Printf("update lyfe_users set username='',password='%s' where firebase_uid='';\n\n", hash)
 	} else if arg == "scan" {
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
-		list := persist.ScanTable(r.Db, "users")
-		fmt.Println(list)
+		tablesString := util.GetArg(2)
+		tokens := strings.Split(tablesString, ",")
+		for _, table := range tokens {
+			list := persist.ScanTable(r.Db, table)
+			_ = list
+		}
 		//asBytes := router.ModelsToBytes(list)
 		//persist.SaveSchema(asBytes)
 	} else if arg == "init" {

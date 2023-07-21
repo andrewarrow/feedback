@@ -37,6 +37,7 @@ func ScanTable(db *sqlx.DB, table string) []*models.Field {
 		field := models.Field{}
 		field.Name = col
 		field.Flavor = models.TypeToFlavor(dt)
+		fmt.Println(field)
 		list = append(list, &field)
 	}
 	return list
