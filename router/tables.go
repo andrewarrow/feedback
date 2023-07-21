@@ -7,6 +7,7 @@ import (
 
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
+	"github.com/andrewarrow/feedback/util"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -49,4 +50,21 @@ func ModelsToBytes(list []*models.Model) []byte {
 	site.Models = list
 	asBytes, _ := json.Marshal(site)
 	return asBytes
+}
+
+func MakeGuidsInTables(db *sqlx.DB, models []*models.Model) {
+	for _, model := range models {
+		MakeGuidsInTable(db, model)
+	}
+}
+
+func MakeGuidsInTable(db *sqlx.DB, model *models.Model) {
+	tableName := model.TableName()
+	sql := `update %s set guid=$1 where id=$2;`
+	for i := 1; i < 1000; i++ {
+		guid := util.PseudoUuid()
+		s := fmt.Sprintf(sql, tableName)
+		fmt.Println(s, guid, i)
+		db.Exec(s, guid, i)
+	}
 }

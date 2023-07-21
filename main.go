@@ -77,6 +77,11 @@ func main() {
 		list := persist.ModelsForTables(r.Db, tablesString)
 		asBytes := router.ModelsToBytes(list)
 		persist.SaveSchema(asBytes)
+	} else if arg == "guids" {
+		path := util.GetArg(2)
+		jsonBytes := getFeedbackJsonFile(path)
+		r := router.NewRouter("DATABASE_URL", jsonBytes)
+		router.MakeGuidsInTables(r.Db, r.Site.Models)
 	} else if arg == "init" {
 		path := util.GetArg(2)
 		router.InitNewApp(path)

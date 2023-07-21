@@ -6,11 +6,12 @@ import (
 
 func SpecialToSingle() map[string]string {
 	return map[string]string{"series": "series",
-		"bases":    "base",
-		"coaches":  "coach",
-		"dies":     "die",
-		"children": "child",
-		"species":  "species"}
+		"properties": "property",
+		"bases":      "base",
+		"coaches":    "coach",
+		"dies":       "die",
+		"children":   "child",
+		"species":    "species"}
 }
 func SpecialToPlural() map[string]string {
 	return map[string]string{"series": "series",
