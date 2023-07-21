@@ -72,9 +72,11 @@ func main() {
 		fmt.Println(text)
 		fmt.Printf("update lyfe_users set username='',password='%s' where firebase_uid='';\n\n", hash)
 	} else if arg == "scan" {
-		list := persist.ScanSchema()
-		asBytes := router.ModelsToBytes(list)
-		persist.SaveSchema(asBytes)
+		r := router.NewRouter("DATABASE_URL", embeddedFile)
+		list := persist.ScanTable(r.Db, "users")
+		fmt.Println(list)
+		//asBytes := router.ModelsToBytes(list)
+		//persist.SaveSchema(asBytes)
 	} else if arg == "init" {
 		path := util.GetArg(2)
 		router.InitNewApp(path)

@@ -20,14 +20,14 @@ func ScanSchema() []*models.Model {
 		single := util.Unplural(table)
 		m := models.Model{}
 		m.Name = single
-		m.Fields = scanTable(db, table)
+		m.Fields = ScanTable(db, table)
 		list = append(list, &m)
 	}
 
 	return list
 }
 
-func scanTable(db *sqlx.DB, table string) []*models.Field {
+func ScanTable(db *sqlx.DB, table string) []*models.Field {
 	list := []*models.Field{}
 	sql := fmt.Sprintf("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '%s'", table)
 	rows := SelectAll(db, sql)

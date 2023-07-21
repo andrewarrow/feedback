@@ -1,5 +1,4 @@
-
-<article class="grid">
+<div class="p-5">
         <div>
           <hgroup>
             <h1>Login</h1>
@@ -7,17 +6,16 @@
           <form action="/sessions" method="POST">
             <input type="text" name="username" placeholder="Username" class="border border-gray-300 px-4 py-2 rounded-md" autocomplete="username" required>
             <input type="password" name="password" placeholder="Password" class="border border-gray-300 px-4 py-2 rounded-md" autocomplete="password" required>
-            <button type="submit" class="px-4 py-2 font-semibold bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600">Login</button>
+            <button type="submit" class="btn-main">Login</button>
 
           </form>
           <hgroup>
             <h1>Create Account</h1>
           </hgroup>
           <form action="/users" method="POST">
-            <input type="text" name="username" placeholder="Username" aria-label="Username" autocomplete="username" required>
-            <input type="password" name="password" placeholder="Password" aria-label="Password" autocomplete="password" required>
-            <button type="submit" class="contrast">Create Account</button>
+            <input type="text" name="username" placeholder="Username" autocomplete="username" required class="nice-i">
+            <input class="nice-i" type="password" name="password" placeholder="Password" autocomplete="password" required>
+            <button type="submit" class="btn-red">Create Account</button>
           </form>
         </div>
-        <div></div>
-</article>
+</div>
