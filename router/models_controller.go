@@ -61,7 +61,8 @@ func handleThird(c *Context, second, third string) {
 
 	if c.Method == "DELETE" {
 		tableName := model.TableName()
-		c.Db.Exec(fmt.Sprintf("delete from %s where guid=$1", tableName), third)
+		_, err := c.Db.Exec(fmt.Sprintf("delete from %s where guid=$1", tableName), third)
+		fmt.Println(err, tableName, third)
 		http.Redirect(c.Writer, c.Request, "/models/"+second, 302)
 		return
 	} else if c.Method == "GET" {
@@ -78,8 +79,11 @@ func handleThird(c *Context, second, third string) {
 			list = append(list, field.Name)
 		}
 		c.ReadFormValuesIntoParams(list...)
-		c.ValidateUpdate(second)
-		c.Update(second, "where guid=", third)
+		fmt.Println(c.Params)
+		a := c.ValidateUpdate(second)
+		fmt.Println(a)
+		b := c.Update(second, "where guid=", third)
+		fmt.Println(b, second, third)
 		http.Redirect(c.Writer, c.Request, "/models/"+second, 302)
 		return
 	}

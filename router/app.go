@@ -23,6 +23,9 @@ func InitNewApp(path string) {
 	name = "main.go"
 	asString = files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
+	name = "go.mod"
+	asString = files.ReadFile(name)
+	files.SaveFile(place+"/"+name, asString)
 	name = "run"
 	asString = files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)

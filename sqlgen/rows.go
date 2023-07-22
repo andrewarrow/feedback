@@ -113,7 +113,7 @@ func UpdateRowFromParams(tableName string,
 	cols := []string{}
 	count := 1
 	for _, field := range fields {
-		if field.Name == "id" || field.Name == "created_at" {
+		if field.Name == "id" || field.Name == "created_at" || field.Name == "updated_at" {
 			continue
 		}
 		cols = append(cols, fmt.Sprintf("%s=$%d", field.Name, count))

@@ -2,6 +2,7 @@ package router
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
@@ -65,15 +66,20 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 	model := c.FindModel(modelString)
 	tableName := model.TableName()
 
+	already := map[string]bool{}
 	list := []*models.Field{}
 	for _, field := range model.Fields {
 		if c.Params[field.Name] == nil {
 			continue
 		}
+		if already[field.Name] {
+			continue
+		}
+		already[field.Name] = true
 		list = append(list, field)
 	}
 	sql, params := sqlgen.UpdateRowFromParams(tableName, list, c.Params, where)
-	//fmt.Println(sql, params)
+	fmt.Println(sql, params)
 	params = append(params, lastParam)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
