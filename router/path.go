@@ -80,6 +80,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		r.HandleAsset("/assets/other/favicon.ico", writer, request)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer, request)
+	} else if strings.HasPrefix(path, "/"+r.Prefix+"/assets") {
+		c.tokens = strings.Split(path, "/")
+		newPath := "/" + strings.Join(c.tokens[2:], "/")
+		fmt.Println(newPath)
+		r.HandleAsset(newPath, writer, request)
 	} else if strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, path[0:len(path)-1], 301)
 	} else {
