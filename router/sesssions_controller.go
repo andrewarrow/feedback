@@ -55,7 +55,7 @@ func CreateSession(c *Context) {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "flash"
 		cookie.Value = "username not found."
-		returnPath = "/sessions/new"
+		returnPath = c.Router.Prefix + "/sessions/new"
 	}
 	http.SetCookie(c.Writer, &cookie)
 	http.Redirect(c.Writer, c.Request, returnPath, 302)
@@ -71,5 +71,5 @@ func DestroySession(c *Context) {
 	cookie.Value = ""
 	cookie.Path = "/"
 	http.SetCookie(c.Writer, &cookie)
-	http.Redirect(c.Writer, c.Request, "/", 302)
+	http.Redirect(c.Writer, c.Request, c.Router.Prefix+"/", 302)
 }
