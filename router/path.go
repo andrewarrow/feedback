@@ -89,7 +89,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			c.tokens = strings.Split(path, "/")
 			path = strings.Join(c.tokens[1:], "/")
 		}
-		if r.Prefix != "" && path == "/" {
+		if r.Prefix != "" && path == "" {
 			c := PrepareContext(r, user, "/", flash, writer, request)
 			r.pathFuncToRun("/")(c, "", "")
 			return
