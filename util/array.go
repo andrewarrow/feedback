@@ -8,7 +8,7 @@ func ToAnyArray(rows []map[string]any) []any {
 	return list
 }
 
-func ToAny(rows []any) []any {
+func ToAny(rows []string) []any {
 	list := []any{}
 	for _, row := range rows {
 		list = append(list, row)
