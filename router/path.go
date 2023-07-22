@@ -71,7 +71,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		removeFlash(writer)
 	}
 
-	if path == "/" {
+	if path == "/" || path == "/"+r.Prefix || path == r.Prefix {
 		c := PrepareContext(r, user, "/", flash, writer, request)
 		r.pathFuncToRun("/")(c, "", "")
 	} else if strings.HasPrefix(path, "/robots.txt") {
@@ -85,14 +85,9 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else {
 		fmt.Println(request.Method, path)
 		path = path + "/"
-		if r.Prefix != "" {
+		if r.Prefix != "" && strings.Contains(path, "sessions") == false {
 			c.tokens = strings.Split(path, "/")
-			path = strings.Join(c.tokens[1:], "/")
-		}
-		if r.Prefix != "" && path == "" {
-			c := PrepareContext(r, user, "/", flash, writer, request)
-			r.pathFuncToRun("/")(c, "", "")
-			return
+			path = "/" + strings.Join(c.tokens[2:], "/")
 		}
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")

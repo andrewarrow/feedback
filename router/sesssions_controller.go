@@ -42,7 +42,7 @@ func CreateSession(c *Context) {
 	password := c.Request.FormValue("password")
 	row := c.SelectOne("user", "where username=$1", []any{username})
 
-	returnPath := "/"
+	returnPath := c.Router.Prefix + "/"
 	cookie := http.Cookie{}
 	cookie.Path = "/"
 	if len(row) > 0 && checkPasswordHash(password, row["password"].(string)) {
@@ -55,7 +55,7 @@ func CreateSession(c *Context) {
 		cookie.MaxAge = 86400 * 30
 		cookie.Name = "flash"
 		cookie.Value = "username not found."
-		returnPath = c.Router.Prefix + "/sessions/new"
+		returnPath = "/sessions/new"
 	}
 	http.SetCookie(c.Writer, &cookie)
 	http.Redirect(c.Writer, c.Request, returnPath, 302)
