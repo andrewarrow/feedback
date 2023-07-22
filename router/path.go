@@ -85,7 +85,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else {
 		fmt.Println(request.Method, path)
 		path = path + "/"
-		if r.Prefix != "" && strings.Contains(path, "sessions") == false {
+		if r.Prefix != "" {
 			c.tokens = strings.Split(path, "/")
 			path = "/" + strings.Join(c.tokens[2:], "/")
 		}
@@ -97,7 +97,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		}
 		handleContext(c)
 		if c.UserRequired && len(c.User) == 0 {
-			http.Redirect(c.Writer, c.Request, "/sessions/new/", 302)
+			http.Redirect(c.Writer, c.Request, "/"+r.Prefix+"/sessions/new/", 302)
 			return
 		}
 		if c.NotFound && c.Layout != "json" {

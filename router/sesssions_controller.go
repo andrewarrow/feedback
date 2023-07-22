@@ -42,7 +42,7 @@ func CreateSession(c *Context) {
 	password := c.Request.FormValue("password")
 	row := c.SelectOne("user", "where username=$1", []any{username})
 
-	returnPath := c.Router.Prefix + "/"
+	returnPath := "/"
 	cookie := http.Cookie{}
 	cookie.Path = "/"
 	if len(row) > 0 && checkPasswordHash(password, row["password"].(string)) {
@@ -71,5 +71,5 @@ func DestroySession(c *Context) {
 	cookie.Value = ""
 	cookie.Path = "/"
 	http.SetCookie(c.Writer, &cookie)
-	http.Redirect(c.Writer, c.Request, c.Router.Prefix+"/", 302)
+	http.Redirect(c.Writer, c.Request, "/", 302)
 }
