@@ -13,6 +13,7 @@ type Router struct {
 	Template       *template.Template
 	Site           *FeedbackSite
 	Db             *sqlx.DB
+	Prefix         string
 	Paths          map[string]func(*Context, string, string)
 	BeforeCreate   map[string]func(*Context)
 	AfterCreate    map[string]func(*Context, string)

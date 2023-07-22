@@ -85,6 +85,10 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else {
 		fmt.Println(request.Method, path)
 		path = path + "/"
+		if r.Prefix != "" {
+			c.tokens = strings.Split(path, "/")
+			path = strings.Join(c.tokens[1:], "/")
+		}
 		c := PrepareContext(r, user, path, flash, writer, request)
 		c.tokens = strings.Split(path, "/")
 		contentType := util.GetHeader("Content-Type", request)
