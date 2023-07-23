@@ -40,12 +40,16 @@ func insertRow(random bool, tableName string,
 	fields []*models.Field,
 	override map[string]any) (string, []any) {
 
+	now := time.Now()
+	override["created_at"] = now
+	override["updated_at"] = now
+
 	buffer := []string{"INSERT INTO "}
 	buffer = append(buffer, tableName+" (")
 
 	cols := []string{}
 	for _, field := range fields {
-		if field.Name == "id" || field.Name == "created_at" || field.Name == "updated_at" {
+		if field.Name == "id" {
 			continue
 		}
 		cols = append(cols, field.Name)
@@ -56,7 +60,7 @@ func insertRow(random bool, tableName string,
 	params := []any{}
 	count := 1
 	for _, field := range fields {
-		if field.Name == "id" || field.Name == "created_at" || field.Name == "updated_at" {
+		if field.Name == "id" {
 			continue
 		}
 		cols = append(cols, fmt.Sprintf("$%d", count))
