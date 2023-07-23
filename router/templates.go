@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/andrewarrow/feedback/util"
 	"github.com/xeonx/timeago"
 )
 
@@ -110,6 +111,9 @@ func TemplateFunctions() template.FuncMap {
 		"splitLines": func(thing string) template.HTML {
 			tokens := strings.Split(thing, "\r")
 			return template.HTML(strings.Join(tokens, "<br/>"))
+		},
+		"jq": func(thing string) string {
+			return util.PipeToJq(thing)
 		},
 		"chop": func(thing string) string {
 			tokens := strings.Split(thing, ",")
