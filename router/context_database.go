@@ -44,7 +44,12 @@ func CastFields(model *models.Model, m map[string]any) {
 			m[field.Name] = temp
 		} else if field.Flavor == "json_list" && m[field.Name] != nil {
 			var temp []any
-			json.Unmarshal([]byte(m[field.Name].(string)), &temp)
+			asString, ok := m[field.Name].(string)
+			if ok {
+				json.Unmarshal([]byte(asString), &temp)
+			} else {
+				json.Unmarshal(m[field.Name].([]byte), &temp)
+			}
 			m[field.Name] = temp
 		} else if field.Flavor == "list" {
 			s := fmt.Sprintf("%s", m[field.Name])
