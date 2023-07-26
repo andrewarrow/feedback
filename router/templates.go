@@ -2,6 +2,7 @@ package router
 
 import (
 	"embed"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"strings"
@@ -114,6 +115,12 @@ func TemplateFunctions() template.FuncMap {
 		},
 		"jq": func(thing string) string {
 			return util.PipeToJq(thing)
+		},
+		"indent": func(thing string) string {
+			var other any
+			json.Unmarshal([]byte(thing), &other)
+			asBytes, _ := json.MarshalIndent(other, "", "  ")
+			return string(asBytes)
 		},
 		"chop": func(thing string) string {
 			tokens := strings.Split(thing, ",")
