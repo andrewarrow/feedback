@@ -5,29 +5,36 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
+
+	"github.com/andrewarrow/feedback/util"
 )
 
 func main() {
 	path := os.Args[1]
+	name := os.Args[2]
 	fmt.Println(path)
 	os.Mkdir(path+"/app", 0775)
 	os.Mkdir(path+"/views", 0775)
 	os.Mkdir(path+"/assets", 0775)
 
-	m := map[string]string{"name": "Foo",
-		"lower":  "foo",
-		"with_s": "foos",
+	lower := strings.ToLower(name)
+	withS := util.Plural(lower)
+
+	m := map[string]string{"name": name,
+		"lower":  lower,
+		"with_s": withS,
 	}
 	tmpl, _ := template.New("").Parse(controllerTemplate())
 	result := bytes.NewBuffer([]byte{})
 	tmpl.Execute(result, m)
 
-	filename := "foo_controller.go"
+	filename := lower + "_controller.go"
 	ioutil.WriteFile(path+"/app/"+filename, result.Bytes(), 0644)
 
 	tmpl, _ = template.New("").Parse(mainTemplate())
-	m["package"] = "foo"
+	m["package"] = lower
 	result = bytes.NewBuffer([]byte{})
 	tmpl.Execute(result, m)
 	filename = "main.go"
