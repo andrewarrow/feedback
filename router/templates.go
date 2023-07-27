@@ -116,6 +116,10 @@ func TemplateFunctions() template.FuncMap {
 		"jq": func(thing string) string {
 			return util.PipeToJq(thing)
 		},
+		"jq-object": func(thing any) string {
+			asBytes, _ := json.MarshalIndent(thing, "", "  ")
+			return string(asBytes)
+		},
 		"indent": func(thing string) string {
 			var other any
 			json.Unmarshal([]byte(thing), &other)
