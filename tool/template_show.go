@@ -52,7 +52,7 @@ func handle{{$name}}ShowPost(c *router.Context, guid string) {
 func handle{{$name}}Show(c *router.Context, guid string) {
 	item := c.One("{{$lower}}", "where guid=$1", guid)
 	regexMap := map[string]string{}
-	cols, editable := router.GetEditableCols(c, "${{lower}}")
+	cols, editable := router.GetEditableCols(c, "{{$lower}}")
 	//cols = append(cols, "save")
 	//editable["save"] = "save"
 
