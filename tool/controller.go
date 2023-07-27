@@ -50,12 +50,14 @@ func controller(path, name string) {
 	filename = withS + "_list_top.html"
 	ioutil.WriteFile(path+"/views/"+filename, result.Bytes(), 0644)
 
-	tmpl, _ = template.New("").Parse(colsTemplate())
-	result = bytes.NewBuffer([]byte{})
-	tmpl.Execute(result, m)
-	filename = "_" + lower + "_cols.html"
-	ioutil.WriteFile(path+"/views/"+filename, result.Bytes(), 0644)
-
+	/*
+		tmpl, err := template.New("").Parse(colsTemplate())
+		fmt.Println(err)
+		result = bytes.NewBuffer([]byte{})
+		tmpl.Execute(result, m)
+		filename = "_" + lower + "_cols.html"
+		ioutil.WriteFile(path+"/views/"+filename, result.Bytes(), 0644)
+	*/
 	tmpl, _ = template.New("").Parse(showColsTemplate())
 	result = bytes.NewBuffer([]byte{})
 	tmpl.Execute(result, m)
