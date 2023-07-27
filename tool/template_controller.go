@@ -12,7 +12,7 @@ import (
 {{$lower := index . "lower"}}
 {{$withS := index . "with_s"}}
 func Handle{{$name}}(c *router.Context, second, third string) {
-	if NotLoggedIn(c) {
+	if router.NotLoggedIn(c) {
 		return
 	}
 	if second == "" && third == "" && c.Method == "GET" {
