@@ -4,16 +4,31 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/andrewarrow/feedback/util"
 )
 
 func main() {
-	path := os.Args[1]
-	name := os.Args[2]
+	rand.Seed(time.Now().UnixNano())
+	if len(os.Args) == 1 {
+		return
+	}
+	arg := os.Args[1]
+
+	if arg == "init" {
+		initApp(os.Args[2], os.Args[3])
+	} else if arg == "controller" {
+		controller(os.Args[2], os.Args[3])
+	} else if arg == "" {
+	}
+}
+
+func initApp(path, name string) {
 	fmt.Println(path)
 	os.Mkdir(path+"/app", 0775)
 	os.Mkdir(path+"/views", 0775)
@@ -26,18 +41,12 @@ func main() {
 		"lower":  lower,
 		"with_s": withS,
 	}
-	tmpl, _ := template.New("").Parse(controllerTemplate())
+
+	tmpl, _ := template.New("").Parse(mainTemplate())
+	m["package"] = lower
 	result := bytes.NewBuffer([]byte{})
 	tmpl.Execute(result, m)
-
-	filename := lower + "_controller.go"
-	ioutil.WriteFile(path+"/app/"+filename, result.Bytes(), 0644)
-
-	tmpl, _ = template.New("").Parse(mainTemplate())
-	m["package"] = lower
-	result = bytes.NewBuffer([]byte{})
-	tmpl.Execute(result, m)
-	filename = "main.go"
+	filename := "main.go"
 	ioutil.WriteFile(path+"/"+filename, result.Bytes(), 0644)
 
 	tmpl, _ = template.New("").Parse(modTemplate())
