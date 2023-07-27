@@ -41,10 +41,10 @@ func main() {
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.HandleWelcome
-		r.Paths["sessions"] = app.HandleSessions
-		r.Paths["users"] = app.HandleUsers
+		//r.Paths["sessions"] = app.HandleSessions
+		//r.Paths["users"] = app.HandleUsers
 		r.Prefix = ""
-		r.ListenAndServe(":3003")
+		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 	}
 
