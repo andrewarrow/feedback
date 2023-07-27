@@ -6,6 +6,7 @@ func createTemplate() string {
 
 {{$name := index . "name"}}
 {{$lower := index . "lower"}}
+{{$withS := index . "with_s"}}
 
 import (
 	"fmt"
@@ -18,7 +19,7 @@ import (
 func handle{{$name}}Create(c *router.Context) {
 	//c.ReadFormValuesIntoParams("")
 
-	returnPath := "/sd/clients"
+	returnPath := "/"+withS
 
 	now := time.Now().Unix()
 	c.Params = map[string]any{}
