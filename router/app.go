@@ -17,9 +17,6 @@ func InitNewApp(path string) {
 	asString := files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
 	place = path
-	name = "run"
-	asString = files.ReadFile(name)
-	files.SaveFile(place+"/"+name, asString)
 	name = "tailwind.config.js"
 	asString = files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
