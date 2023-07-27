@@ -21,11 +21,11 @@ func colsTemplate() string {
 
 {{ "{{" }} define "_{{$lower}}_col3" {{ "}}" }}
 {{ "{{" }} $row := index . "row" {{ "}}" }}
-{{ "{{" }} index $row "city" ,{{ "}}" }}
+{{ "{{" }} index $row "city" {{ "}}" }},
 {{ "{{" }} index $row "state" {{ "}}" }}
 {{ "{{" }} index $row "zip" {{ "}}" }}
 {{ "{{" }} index $row "country" {{ "}}" }}
-{{ "{{" }} end 
+{{ "{{" }} end {{ "}}" }}
 
 {{ "{{" }} define "_{{$lower}}_col4" {{ "}}" }}
 {{ "{{" }} $row := index . "row" {{ "}}" }}
