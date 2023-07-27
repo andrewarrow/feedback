@@ -8,7 +8,7 @@ func colsTemplate() string {
 {{ "{{" }} define "_{{$lower}}_col1" {{ "}}" }}
 {{ "{{" }} $row := index . "row" {{ "}}" }}
 {{ "{{" }} $guid := index $row "guid" {{ "}}" }}
-<a href="/{{ "{{" }}$withS{{ "}}" }}/{{ "{{" }}$guid{{ "}}" }}" class="underline">
+<a href="/{{$withS}}/{{ "{{" }}$guid{{ "}}" }}" class="underline">
 {{ "{{" }} index $row "name" {{ "}}" }}
 </a>
 {{ "{{" }} end {{ "}}" }}

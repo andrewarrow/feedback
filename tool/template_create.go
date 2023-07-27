@@ -19,7 +19,7 @@ import (
 func handle{{$name}}Create(c *router.Context) {
 	//c.ReadFormValuesIntoParams("")
 
-	returnPath := "/"+withS
+	returnPath := "/{{$withS}}"
 
 	now := time.Now().Unix()
 	c.Params = map[string]any{}
