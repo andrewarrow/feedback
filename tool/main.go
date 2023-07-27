@@ -60,4 +60,10 @@ func initApp(path, name string) {
 	tmpl.Execute(result, m)
 	filename = "run"
 	ioutil.WriteFile(path+"/"+filename, result.Bytes(), 0644)
+
+	tmpl, _ = template.New("").Parse(ignoreTemplate())
+	result = bytes.NewBuffer([]byte{})
+	tmpl.Execute(result, m)
+	filename = ".gitignore"
+	ioutil.WriteFile(path+"/"+filename, result.Bytes(), 0644)
 }
