@@ -16,7 +16,7 @@
   <input class="nice-i" type="text" name="{{ $row }}" value="{{ index $item $row }}"/>
 {{ else if eq $flavor "json" }}
   {{ $json := index $item $row }}
-  <pre>{{ jq $json }}</pre>
+  <pre>{{ indent $json }}</pre>
 {{ else if eq $flavor "text" }}
   <textarea class="nice-i" name="{{ $row }}" rows="6" cols="30">{{index $item $row }}</textarea>
 {{ else if eq $flavor "bool" }}

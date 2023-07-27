@@ -116,14 +116,21 @@ func TemplateFunctions() template.FuncMap {
 		"jq": func(thing string) string {
 			return util.PipeToJq(thing)
 		},
-		"jq-object": func(thing any) string {
-			asBytes, _ := json.MarshalIndent(thing, "", "  ")
-			return string(asBytes)
-		},
-		"indent": func(thing string) string {
+		"indent": func(thing any) string {
 			var other any
-			json.Unmarshal([]byte(thing), &other)
-			asBytes, _ := json.MarshalIndent(other, "", "  ")
+			asBytes, ok := thing.([]byte)
+			if ok {
+				json.Unmarshal(asBytes, &other)
+				asBytes, _ := json.MarshalIndent(other, "", "  ")
+				return string(asBytes)
+			}
+			asString, ok := thing.(string)
+			if ok {
+				json.Unmarshal([]byte(asString), &other)
+				asBytes, _ := json.MarshalIndent(other, "", "  ")
+				return string(asBytes)
+			}
+			asBytes, _ = json.MarshalIndent(thing, "", "  ")
 			return string(asBytes)
 		},
 		"chop": func(thing string) string {
