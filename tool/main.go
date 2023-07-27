@@ -45,4 +45,10 @@ func main() {
 	tmpl.Execute(result, m)
 	filename = "go.mod"
 	ioutil.WriteFile(path+"/"+filename, result.Bytes(), 0644)
+
+	tmpl, _ = template.New("").Parse(runTemplate())
+	result = bytes.NewBuffer([]byte{})
+	tmpl.Execute(result, m)
+	filename = "run"
+	ioutil.WriteFile(path+"/"+filename, result.Bytes(), 0644)
 }

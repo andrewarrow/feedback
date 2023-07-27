@@ -13,19 +13,10 @@ func InitNewApp(path string) {
 	os.MkdirAll(place, 0755)
 	place = path + "/app"
 	os.MkdirAll(place, 0755)
-	name := "welcome_controller.go"
-	asString := files.ReadFile("router/" + name)
-	files.SaveFile(place+"/"+name, asString)
-	name = "feedback.json"
+	name := "feedback.json"
 	asString = files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
 	place = path
-	name = "main.go"
-	asString = files.ReadFile(name)
-	files.SaveFile(place+"/"+name, asString)
-	name = "go.mod"
-	asString = files.ReadFile(name)
-	files.SaveFile(place+"/"+name, asString)
 	name = "run"
 	asString = files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
