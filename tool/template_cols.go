@@ -4,10 +4,11 @@ func colsTemplate() string {
 	t := `
 {{$name := index . "name"}}
 {{$lower := index . "lower"}}
+{{$withS := index . "with_s"}}
 {{ "{{" }} define "_{{$lower}}_col1" {{ "}}" }}
 {{ "{{" }} $row := index . "row" {{ "}}" }}
 {{ "{{" }} $guid := index $row "guid" {{ "}}" }}
-<a href="/sd/clients/{{ "{{" }}$guid{{ "}}" }}" class="underline">
+<a href="/{{ "{{" }}$withS{{ "}}" }}/{{ "{{" }}$guid{{ "}}" }}" class="underline">
 {{ "{{" }} index $row "name" {{ "}}" }}
 </a>
 {{ "{{" }} end {{ "}}" }}
