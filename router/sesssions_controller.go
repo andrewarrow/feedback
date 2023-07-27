@@ -8,6 +8,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+func NotLoggedIn(c *Context) bool {
+	if len(c.User) == 0 {
+		http.Redirect(c.Writer, c.Request, "/"+c.Router.Prefix, 302)
+		return true
+	}
+	return false
+}
+
 func handleSessions(c *Context, second, third string) {
 	if second == "" {
 		handleSessionsIndex(c)

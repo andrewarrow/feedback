@@ -1,6 +1,21 @@
 <div class="hidden md:block large">          
+<form method="POST">
     {{ template "_table_large" . }}
+    {{ if index . "save" }}
+    <div class="p-5">
+  <input class="btn-sm2" type="submit" value="save" name="submit"/>
+    </div>
+    {{ end }}
+        </form>
 </div>
 <div class="md:hidden small">
+<form method="POST">
     {{ template "_table_small" . }}
+
+    {{ if index . "save" }}
+    <div class="p-5">
+  <input class="btn-sm2" type="submit" value="save" name="submit"/>
+    </div>
+    {{ end }}
+        </form>
 </div>
