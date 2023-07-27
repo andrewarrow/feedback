@@ -40,6 +40,7 @@ func InitNewApp(path string) {
 					name != "sessions_new.html" &&
 					name != "table_show.html" &&
 					name != "404.html" &&
+					name != "_editable_fields.html" &&
 					name != "generic_top_bottom.html" {
 					continue
 				}

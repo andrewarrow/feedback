@@ -1,0 +1,39 @@
+{{ define "_editable_fields" }}
+
+{{ $p := index . "params" }}
+{{ $item := index $p "item" }}
+{{ $row := index . "row" }}
+{{ $editable := index $p "editable" }}
+{{ $regexMap := index $p "regex_map" }}
+{{ $flavor := index $editable $row }}
+{{ $regex := index $regexMap $row }}
+
+{{ if eq $flavor "string" }}
+  <input class="nice-i" type="text" name="{{ $row }}" value="{{ index $item $row }}"/>
+{{ else if eq $flavor "int" }}
+  <input class="nice-i" type="text" name="{{ $row }}" value="{{ index $item $row }}"/>
+{{ else if eq $flavor "float" }}
+  <input class="nice-i" type="text" name="{{ $row }}" value="{{ index $item $row }}"/>
+{{ else if eq $flavor "json" }}
+  {{ $json := index $item $row }}
+  <pre>{{ jq $json }}</pre>
+{{ else if eq $flavor "text" }}
+  <textarea class="nice-i" name="{{ $row }}" rows="6" cols="30">{{index $item $row }}</textarea>
+{{ else if eq $flavor "bool" }}
+  {{ $boolVal := index $item $row }}
+  <select name="{{ $row }}">
+    {{ if $boolVal }}
+    <option>false</option><option selected="true">true</option>
+    {{ else }}
+    <option selected="true">false</option><option>true</option>
+    {{ end }}
+  </select>
+{{ else if eq $flavor "save" }}
+  <input class="btn-sm2" type="submit" value="save" name="submit"/>
+{{ else }}
+  {{ index $item $row }}
+{{ end }}
+<br/>
+<span class="nice"> {{ $regex }} <span>
+
+{{ end }}
