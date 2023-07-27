@@ -14,7 +14,7 @@ func InitNewApp(path string) {
 	place = path + "/app"
 	os.MkdirAll(place, 0755)
 	name := "feedback.json"
-	asString = files.ReadFile(name)
+	asString := files.ReadFile(name)
 	files.SaveFile(place+"/"+name, asString)
 	place = path
 	name = "run"
