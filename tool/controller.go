@@ -8,31 +8,34 @@ import (
 	"github.com/andrewarrow/feedback/util"
 )
 
-func Handle{{.Name}}(c *router.Context, second, third string) {
+{{$name := index . "name"}}
+{{$lower := index . "lower"}}
+{{$withS := index . "with_s"}}
+func Handle{{$name}}(c *router.Context, second, third string) {
 	if NotLoggedIn(c) {
 		return
 	}
 	if second == "" && third == "" && c.Method == "GET" {
-		handle{{.Name}}Index(c)
+		handle{{$name}}Index(c)
 		return
 	}
 	if second == "" && third == "" && c.Method == "POST" {
-		handle{{.Name}}Create(c)
+		handle{{$name}}Create(c)
 		return
 	}
 	if second != "" && third == "" && c.Method == "GET" {
-		handle{{.Name}}Show(c, second)
+		handle{{$name}}Show(c, second)
 		return
 	}
 	if second != "" && third == "" && c.Method == "POST" {
-		handle{{.Name}}ShowPost(c, second)
+		handle{{$name}}ShowPost(c, second)
 		return
 	}
 	c.NotFound = true
 }
 
-func handle{{.Name}}Index(c *router.Context) {
-	list := c.All("{{.Lower}}", "where user_id=$1 order by created_at desc", "", c.User["id"])
+func handle{{$name}}Index(c *router.Context) {
+	list := c.All("{{$lower}}", "where user_id=$1 order by created_at desc", "", c.User["id"])
 
 	colAttributes := map[int]string{}
 	//colAttributes[0] = "w-1/2"
@@ -42,13 +45,13 @@ func handle{{.Name}}Index(c *router.Context) {
 
 	params := map[string]any{}
 	m["headers"] = headers
-	m["cells"] = c.MakeCells(util.ToAnyArray(list), headers, params, "_{{.Lower}}")
+	m["cells"] = c.MakeCells(util.ToAnyArray(list), headers, params, "_{{$lower}}")
 	m["col_attributes"] = colAttributes
 
 	topVars := map[string]any{}
 	send := map[string]any{}
 	send["bottom"] = c.Template("table_show.html", m)
-	send["top"] = c.Template("{{.WithS}}_list_top.html", topVars)
+	send["top"] = c.Template("{{$withS}}_list_top.html", topVars)
 	c.SendContentInLayout("generic_top_bottom.html", send, 200)
 }`
 
