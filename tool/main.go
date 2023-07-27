@@ -20,15 +20,16 @@ func main() {
 		"with_s": "foos",
 	}
 	tmpl, _ := template.New("").Parse(controllerTemplate())
-	var result bytes.Buffer
-	tmpl.Execute(&result, m)
+	result := bytes.NewBuffer([]byte{})
+	tmpl.Execute(result, m)
 
 	filename := "foo_controller.go"
 	ioutil.WriteFile(path+"/app/"+filename, result.Bytes(), 0644)
 
 	tmpl, _ = template.New("").Parse(mainTemplate())
 	m["package"] = "foo"
-	tmpl.Execute(&result, m)
+	result = bytes.NewBuffer([]byte{})
+	tmpl.Execute(result, m)
 	filename = "main.go"
 	ioutil.WriteFile(path+"/"+filename, result.Bytes(), 0644)
 }

@@ -2,7 +2,7 @@ package main
 
 func mainTemplate() string {
 	t := `package main
-
+{{$package := index . "package"}}
 import (
 	"embed"
 	"math/rand"
