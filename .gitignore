@@ -5,3 +5,4 @@ package.json
 assets/css/tail.min.css
 .DS_Store
 feedback
+tool/tool
