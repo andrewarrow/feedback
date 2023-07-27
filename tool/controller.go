@@ -26,4 +26,18 @@ func controller(path, name string) {
 
 	filename := lower + "_controller.go"
 	ioutil.WriteFile(path+"/app/"+filename, result.Bytes(), 0644)
+
+	tmpl, _ = template.New("").Parse(createTemplate())
+	result = bytes.NewBuffer([]byte{})
+	tmpl.Execute(result, m)
+
+	filename = lower + "_create.go"
+	ioutil.WriteFile(path+"/app/"+filename, result.Bytes(), 0644)
+
+	tmpl, _ = template.New("").Parse(showTemplate())
+	result = bytes.NewBuffer([]byte{})
+	tmpl.Execute(result, m)
+
+	filename = lower + "_show.go"
+	ioutil.WriteFile(path+"/app/"+filename, result.Bytes(), 0644)
 }
