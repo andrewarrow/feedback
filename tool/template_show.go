@@ -34,7 +34,7 @@ func handle{{$name}}ShowPost(c *router.Context, guid string) {
 
 	c.ValidateUpdate("{{$lower}}")
 	message := c.ValidateUpdate("{{$lower}}")
-	returnPath := "/sd/foo"
+	returnPath := "/${{withS}}"
 	if message != "" {
 		router.SetFlash(c, message)
 		http.Redirect(c.Writer, c.Request, returnPath+"/"+guid, 302)
