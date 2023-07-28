@@ -102,7 +102,11 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		}
 		handleContext(c)
 		if c.UserRequired && len(c.User) == 0 {
-			http.Redirect(c.Writer, c.Request, "/"+r.Prefix+"/sessions/new/", 302)
+			returnPath := "/sessions/new"
+			if r.Prefix != "" {
+				returnPath = "/" + r.Prefix + "/sessions/new"
+			}
+			http.Redirect(c.Writer, c.Request, returnPath, 302)
 			return
 		}
 		if c.NotFound && c.Layout != "json" {
