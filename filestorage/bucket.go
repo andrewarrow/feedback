@@ -16,9 +16,9 @@ type Writer struct {
 	ContentType string
 }
 
-func NewClient(ctx context.Context, option *option.ClientOption) *Client {
+func NewClient(ctx context.Context, option option.ClientOption) (*Client, error) {
 	c := Client{}
-	return &c
+	return &c, nil
 }
 
 func (c *Client) Bucket(s string) *Bucket {
