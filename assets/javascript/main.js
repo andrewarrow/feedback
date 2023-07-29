@@ -1,3 +1,8 @@
+function handleCredentialResponse(googleUser) {
+  //console.log(googleUser);
+  var token = googleUser.credential;
+}
+
 function fillInFieldName() {
   const flavor = document.getElementById('flavor');
   const name = document.getElementById('name');

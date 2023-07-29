@@ -23,7 +23,9 @@ func handleSessions(c *Context, second, third string) {
 		c.NotFound = true
 	} else {
 		if second == "new" && c.Method == "GET" {
-			c.SendContentInLayout("sessions_new.html", nil, 200)
+			m := map[string]any{}
+			m["client_id"] = os.Getenv("GOOGLE_ID")
+			c.SendContentInLayout("sessions_new.html", m, 200)
 			return
 		}
 		c.NotFound = true
