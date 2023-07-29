@@ -8,7 +8,7 @@ import (
 )
 
 func (r *Router) HandleBucketAsset(path string, writer http.ResponseWriter, request *http.Request) {
-	contentType := "text/css"
+	contentType := "application/octet-stream"
 	if strings.HasSuffix(path, ".js") {
 		contentType = "application/javascript"
 	} else if strings.HasSuffix(path, ".ico") {
