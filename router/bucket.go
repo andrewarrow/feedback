@@ -21,7 +21,7 @@ func (r *Router) HandleBucketAsset(path string, writer http.ResponseWriter, requ
 	writer.Header().Set("Content-Type", contentType)
 	writer.Header().Set("Connection", "keep-alive")
 	writer.Header().Set("Cache-Control", "max-age=3600, public, must-revalidate, proxy-revalidate")
-
+	path = path[7:]
 	asBytes, _ := ioutil.ReadFile(r.BucketPath + path)
 	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(asBytes)))
 	writer.Write(asBytes)
