@@ -14,6 +14,7 @@ type Router struct {
 	Site           *FeedbackSite
 	Db             *sqlx.DB
 	Prefix         string
+	BucketPath     string
 	Paths          map[string]func(*Context, string, string)
 	BeforeCreate   map[string]func(*Context)
 	AfterCreate    map[string]func(*Context, string)

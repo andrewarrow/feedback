@@ -91,6 +91,7 @@ func main() {
 		router.EmbeddedTemplates = embeddedTemplates
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", jsonBytes)
+		r.BucketPath = "/Users/aa/bucket"
 		r.ListenAndServe(":3000")
 	} else if arg == "help" {
 		PrintHelp()

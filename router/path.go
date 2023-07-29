@@ -80,6 +80,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		r.HandleAsset("/assets/other/favicon.ico", writer, request)
 	} else if strings.HasPrefix(path, "/assets") {
 		r.HandleAsset(path, writer, request)
+	} else if strings.HasPrefix(path, "/bucket") {
+		r.HandleBucketAsset(path, writer, request)
 	} else if strings.HasPrefix(path, "/"+r.Prefix+"/assets") {
 		c.tokens = strings.Split(path, "/")
 		newPath := "/" + strings.Join(c.tokens[2:], "/")
