@@ -2,18 +2,25 @@ package filestorage
 
 import (
 	"context"
+	"io/ioutil"
 
 	"google.golang.org/api/option"
 )
 
 type Client struct {
+	BucketPath string
 }
 type Bucket struct {
+	BucketPath string
 }
 type Object struct {
+	Filename   string
+	BucketPath string
 }
 type Writer struct {
 	ContentType string
+	Filename    string
+	BucketPath  string
 }
 
 func NewClient(ctx context.Context, option option.ClientOption) (*Client, error) {
@@ -23,16 +30,21 @@ func NewClient(ctx context.Context, option option.ClientOption) (*Client, error)
 
 func (c *Client) Bucket(s string) *Bucket {
 	b := Bucket{}
+	b.BucketPath = c.BucketPath
 	return &b
 }
 
 func (b *Bucket) Object(s string) *Object {
 	o := Object{}
+	o.Filename = s
+	o.BucketPath = b.BucketPath
 	return &o
 }
 
 func (o *Object) NewWriter(ctx context.Context) *Writer {
 	w := Writer{}
+	w.Filename = o.Filename
+	w.BucketPath = o.BucketPath
 	return &w
 }
 
@@ -40,5 +52,6 @@ func (w *Writer) Close() {
 }
 
 func (w *Writer) Write(b []byte) (int, error) {
-	return 0, nil
+	ioutil.WriteFile(w.BucketPath+"/"+w.Filename, b, 0644)
+	return len(b), nil
 }
