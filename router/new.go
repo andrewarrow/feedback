@@ -41,6 +41,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r.Paths["stats"] = handleStats
 	r.Paths["admin"] = handleAdmin
 	r.Paths["api"] = handleApi
+	r.Paths["google"] = handleGoogle
 	r.AfterCreate["user"] = afterCreateUser
 	r.DefaultLayout = "application_layout.html"
 	r.BearerAuthFunc = r.bearerAuth

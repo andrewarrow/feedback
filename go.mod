@@ -3,7 +3,9 @@ module github.com/andrewarrow/feedback
 go 1.18
 
 require (
+	github.com/MicahParks/keyfunc/v2 v2.1.0
 	github.com/brianvoe/gofakeit/v6 v6.20.1
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/iancoleman/strcase v0.2.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.2.0

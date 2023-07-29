@@ -1,27 +1,3 @@
-function handleCredentialResponse(googleUser) {
-  //console.log(googleUser);
-  var token = googleUser.credential;
-  sendDataToRoute('/google/login', token);
-}
-
-function sendDataToRoute(route, token) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', route);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', function(event) {
-     console.log(xhr.status, event.target.response);
-     if (xhr.status != 200) {
-        document.getElementById('flash').innerHTML = event.target.response;
-     } else {
-        document.getElementById('flash').innerHTML = event.target.response;
-     }
-  });
-
-  const formDataJson = {token: token};
-  const jsonData = JSON.stringify(formDataJson);
-  xhr.send(jsonData);
-}
-
 function fillInFieldName() {
   const flavor = document.getElementById('flavor');
   const name = document.getElementById('name');
