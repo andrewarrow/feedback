@@ -16,6 +16,11 @@ var EmbeddedTemplates embed.FS
 
 const DATE_LAYOUT = "Monday, January 2, 2006 15:04"
 const HUMAN = "Monday, January 2, 2006 3:04 PM"
+const (
+	KB = 1024
+	MB = KB * 1024
+	GB = MB * 1024
+)
 
 func TemplateFunctions() template.FuncMap {
 	cfg := timeago.English
@@ -25,6 +30,21 @@ func TemplateFunctions() template.FuncMap {
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
 		"k":      func(i int64) string { return fmt.Sprintf("%0.2f", float64(i)/1000.0) },
+		"humanSize": func(bytes int64) string {
+
+			size := float64(bytes)
+
+			if size < KB {
+				return fmt.Sprintf("%d bytes", bytes)
+			} else if size < MB {
+				return fmt.Sprintf("%.2f KB", size/KB)
+			} else if size < GB {
+				return fmt.Sprintf("%.2f MB", size/MB)
+			} else {
+				return fmt.Sprintf("%.2f GB", size/GB)
+			}
+
+		},
 		"timeOptions": func(sa, ea float64, tz *time.Location) []template.HTML {
 
 			saInt := int64(sa)
