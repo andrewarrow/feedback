@@ -73,7 +73,8 @@ func (w *Writer) Write(b []byte) (int, error) {
 }
 
 func (r *Reader) Read(p []byte) (n int, err error) {
-	p, _ = ioutil.ReadFile(r.BucketPath + "/" + r.Filename)
+	data, _ := ioutil.ReadFile(r.BucketPath + "/" + r.Filename)
 
-	return len(p), nil
+	n = copy(p, data)
+	return n, nil
 }
