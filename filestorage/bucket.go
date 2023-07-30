@@ -3,6 +3,7 @@ package filestorage
 import (
 	"context"
 	"io/ioutil"
+	"os"
 
 	"google.golang.org/api/option"
 )
@@ -46,6 +47,10 @@ func (o *Object) NewWriter(ctx context.Context) *Writer {
 	w.Filename = o.Filename
 	w.BucketPath = o.BucketPath
 	return &w
+}
+
+func (o *Object) Delete(ctx context.Context) {
+	os.Remove(o.BucketPath + "/" + o.Filename)
 }
 
 func (w *Writer) Close() {

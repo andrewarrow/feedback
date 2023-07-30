@@ -34,16 +34,17 @@ func TemplateFunctions() template.FuncMap {
 
 			size := float64(bytes)
 
+			result := ""
 			if size < KB {
-				return fmt.Sprintf("%d bytes", bytes)
+				result = fmt.Sprintf("%d bytes", bytes)
 			} else if size < MB {
-				return fmt.Sprintf("%.2f KB", size/KB)
+				result = fmt.Sprintf("%.2f KB", size/KB)
 			} else if size < GB {
-				return fmt.Sprintf("%.2f MB", size/MB)
+				result = fmt.Sprintf("%.2f MB", size/MB)
 			} else {
-				return fmt.Sprintf("%.2f GB", size/GB)
+				result = fmt.Sprintf("%.2f GB", size/GB)
 			}
-
+			return result
 		},
 		"timeOptions": func(sa, ea float64, tz *time.Location) []template.HTML {
 
