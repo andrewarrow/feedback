@@ -26,7 +26,6 @@ type Writer struct {
 type Reader struct {
 	Filename   string
 	BucketPath string
-	data       []byte
 }
 
 func NewClient(ctx context.Context, option option.ClientOption) (*Client, error) {
@@ -74,10 +73,7 @@ func (w *Writer) Write(b []byte) (int, error) {
 }
 
 func (r *Reader) Read(p []byte) (n int, err error) {
-	r.data, _ = ioutil.ReadFile(r.BucketPath + "/" + r.Filename)
-	return len(r.data), nil
-}
+	p, _ = ioutil.ReadFile(r.BucketPath + "/" + r.Filename)
 
-func (r *Reader) Bytes() []byte {
-	return r.data
+	return len(p), nil
 }
