@@ -2,6 +2,7 @@ package filestorage
 
 import (
 	"context"
+	"io"
 	"io/ioutil"
 	"os"
 
@@ -26,6 +27,7 @@ type Writer struct {
 type Reader struct {
 	Filename   string
 	BucketPath string
+	offset     int64
 }
 
 func NewClient(ctx context.Context, option option.ClientOption) (*Client, error) {
@@ -73,8 +75,27 @@ func (w *Writer) Write(b []byte) (int, error) {
 }
 
 func (r *Reader) Read(p []byte) (n int, err error) {
-	data, _ := ioutil.ReadFile(r.BucketPath + "/" + r.Filename)
+	file, err := os.Open(r.BucketPath + "/" + r.Filename)
+	if err != nil {
+		return 0, err
+	}
+	defer file.Close()
 
-	n = copy(p, data)
+	_, err = file.Seek(r.offset, io.SeekStart)
+	if err != nil {
+		return 0, err
+	}
+
+	n, err = file.Read(p)
+	if err != nil {
+		if err == io.EOF {
+			r.offset += int64(n)
+			return n, io.EOF
+		}
+		return n, err
+	}
+
+	r.offset += int64(n)
+
 	return n, nil
 }
