@@ -23,6 +23,10 @@ type Writer struct {
 	Filename    string
 	BucketPath  string
 }
+type Reader struct {
+	Filename   string
+	BucketPath string
+}
 
 func NewClient(ctx context.Context, option option.ClientOption) (*Client, error) {
 	c := Client{}
@@ -47,6 +51,13 @@ func (o *Object) NewWriter(ctx context.Context) *Writer {
 	w.Filename = o.Filename
 	w.BucketPath = o.BucketPath
 	return &w
+}
+
+func (o *Object) NewReader(ctx context.Context) (*Reader, error) {
+	r := Reader{}
+	r.Filename = o.Filename
+	r.BucketPath = o.BucketPath
+	return &r, nil
 }
 
 func (o *Object) Delete(ctx context.Context) {
