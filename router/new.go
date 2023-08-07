@@ -24,6 +24,7 @@ type Router struct {
 	DefaultLayout  string
 	BearerAuthFunc func(*Context) map[string]any
 	CookieAuthFunc func(*Context) map[string]any
+	BeforeAll      func(*Context)
 }
 
 func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
@@ -45,6 +46,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r.Paths["google"] = handleGoogle
 	r.AfterCreate["user"] = afterCreateUser
 	r.DefaultLayout = "application_layout.html"
+	r.BeforeAll = r.beforeAllFunc
 	r.BearerAuthFunc = r.bearerAuth
 	r.CookieAuthFunc = r.cookieAuth
 

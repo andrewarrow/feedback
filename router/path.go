@@ -55,6 +55,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	path := request.URL.Path
 
 	c := PrepareContext(r, nil, "/", "", writer, request)
+	r.BeforeAll(c)
 
 	var user map[string]any
 	if r.CookieAuthFunc != nil {
