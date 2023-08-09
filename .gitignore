@@ -6,3 +6,4 @@ assets/css/tail.min.css
 .DS_Store
 feedback
 tool/tool
+glamor/glamor_layout.html
