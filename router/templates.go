@@ -93,6 +93,10 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return ""
 		},
+		"substring": func(s any, index int) string {
+			text := fmt.Sprintf("%v", s)
+			return text[:index]
+		},
 		"epoch": func(date string, hour float64, tzString string) int64 {
 			dateString := fmt.Sprintf("%s %02d:00", date, int(hour))
 			tz, _ := time.LoadLocation(tzString)
