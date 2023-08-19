@@ -92,16 +92,17 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		http.Redirect(writer, request, path[0:len(path)-1], 301)
 	} else if c.Method == "OPTIONS" {
 		writer.Header().Set("Allow", "GET,POST,PUT,PATCH")
-		writer.Header().Set("Access-Control-Allow-Origin", "*")
+		writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		writer.Header().Set("Access-Control-Allow-Headers", "*")
+		writer.Header().Set("Access-Control-Allow-Headers", "authorization,content-type")
 		writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		writer.Header().Set("Content-Security-Policy", "default-src 'self' 'unsafe-inline' http://localhost")
 		writer.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
 		writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubdomains")
 
 	} else {
-		writer.Header().Set("Access-Control-Allow-Origin", "*")
+		writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		fmt.Println(request.Method, path)
 		path = path + "/"
 		if r.Prefix != "" {

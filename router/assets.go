@@ -17,6 +17,10 @@ func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *h
 		contentType = "image/x-icon"
 	} else if strings.HasSuffix(path, ".gif") {
 		contentType = "image/gif"
+	} else if strings.HasSuffix(path, ".png") {
+		contentType = "image/png"
+	} else if strings.HasSuffix(path, ".jpg") {
+		contentType = "image/jpg"
 	} else if strings.HasSuffix(path, ".svg") {
 		contentType = "image/svg+xml"
 	} else if strings.HasSuffix(path, ".ttf") {
