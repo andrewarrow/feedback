@@ -15,6 +15,7 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 	content := new(bytes.Buffer)
 	r.Template.ExecuteTemplate(content, filename, vars)
 
+	layoutMap["content_vars"] = vars
 	layoutMap["footer"] = r.Site.Footer
 	layoutMap["site_name"] = r.Site.Title
 	layoutMap["flash"] = flash
