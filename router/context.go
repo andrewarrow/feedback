@@ -91,7 +91,7 @@ func handleContext(c *Context) {
 		funcToRun(c, "", "")
 	} else if len(tokens) == 4 { //   /foo/bar/
 		funcToRun(c, tokens[2], "")
-	} else if len(tokens) == 5 { //   /foo/bar/more/
+	} else if len(tokens) >= 5 { //   /foo/bar/more/
 		funcToRun(c, tokens[2], tokens[3])
 	} else {
 		c.NotFound = true

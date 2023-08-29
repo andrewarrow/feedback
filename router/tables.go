@@ -20,6 +20,7 @@ func MakeTables(db *sqlx.DB, models []*models.Model) {
 func MakeTable(db *sqlx.DB, model *models.Model) {
 	tableName := model.TableName()
 	//c.Db.Exec(sqlgen.MysqlCreateTable(tableName))
+	//_, msg := db.Exec(sqlgen.PgCreateTable(tableName))
 	db.Exec(sqlgen.PgCreateTable(tableName))
 
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`

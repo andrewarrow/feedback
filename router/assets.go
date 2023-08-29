@@ -25,6 +25,8 @@ func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *h
 		contentType = "image/svg+xml"
 	} else if strings.HasSuffix(path, ".ttf") {
 		contentType = "font/ttf"
+	} else if strings.HasSuffix(path, ".xml") {
+		contentType = "text/xml"
 	}
 	writer.Header().Set("Content-Type", contentType)
 	writer.Header().Set("Connection", "keep-alive")
