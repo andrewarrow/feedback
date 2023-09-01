@@ -49,7 +49,9 @@ func processLine(db *sql.DB, line string) {
 		zipInt, _ := strconv.Atoi(zip)
 		sql := fmt.Sprintf(s1, zipInt, loc)
 		//fmt.Println(sql)
-		db.Exec(sql)
+		tx, _ := db.Begin()
+		tx.Exec(sql)
+		tx.Commit()
 	} else {
 		fmt.Println("no zip", line)
 	}
