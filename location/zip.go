@@ -48,7 +48,7 @@ func processLine(c *router.Context, line string) {
 		//fmt.Println(zip, latlong)
 		s1 := `INSERT INTO zip_locations (zip, location) VALUES (%d, %s)`
 		s2 := `ST_SetSRID(ST_MakePoint(%f, %f), 4326)`
-		loc := fmt.Sprintf(s2, latlong[1], latlong[0])
+		loc := fmt.Sprintf(s2, latlong[0], latlong[1])
 		zipInt, _ := strconv.Atoi(zip)
 		sql := fmt.Sprintf(s1, zipInt, loc)
 		//fmt.Println(sql)
