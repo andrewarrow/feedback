@@ -76,6 +76,21 @@
       ]
     },
     {
+      "name": "zip_location",
+      "fields": [
+        {
+          "name": "zip",
+          "flavor": "int",
+          "index": "unique"
+        },
+        {
+          "name": "location",
+          "flavor": "geometry",
+          "null": "yes"
+        }
+      ]
+    },
+    {
       "name": "cookie_token",
       "fields": [
         {

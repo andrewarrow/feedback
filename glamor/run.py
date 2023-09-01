@@ -1,7 +1,9 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
+from selenium import webdriver
+#from selenium.webdriver.common.by import By
+#from selenium.webdriver.common.keys import Keys
+#from selenium.webdriver.chrome.options import Options
 import sys
 import time
 import json
@@ -10,8 +12,13 @@ from bs4 import BeautifulSoup
 route = sys.argv[1]
 
 options = Options()
-browser = webdriver.Chrome(options=options)
+options.add_argument("-profile")
+options.add_argument("/Users/aa/os/synapse-system/python/fred")
+#options.add_argument('-headless')
+browser = webdriver.Firefox(options=options)
 browser.get(route)
+#browser = webdriver.Chrome(options=options)
+#browser.get(route)
 
 time.sleep(6)
 
@@ -20,8 +27,8 @@ browser.quit()
 
 soup = BeautifulSoup(rendered_html, 'html.parser')
 
-for script in soup.find_all('script'):
-    script.extract()
+#for script in soup.find_all('script'):
+#    script.extract()
 
 soup = BeautifulSoup(str(soup), 'html.parser')
 formatted_html = soup.prettify()

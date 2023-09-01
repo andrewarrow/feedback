@@ -31,6 +31,8 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "text"
 	} else if f.Flavor == "uuid" {
 		flavor = "citext"
+	} else if f.Flavor == "geometry" {
+		flavor = "geometry(Point,4326)"
 	} else if f.Flavor == "bool" {
 		flavor = "boolean"
 		defaultString = "false"
