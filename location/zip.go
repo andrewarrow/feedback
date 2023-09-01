@@ -1,25 +1,31 @@
 package location
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 
-	"github.com/andrewarrow/feedback/router"
+	_ "github.com/lib/pq" //
 )
 
-func ReadInZips(c *router.Context, dirPath string) {
+func ReadInZips(dirPath string) {
+	url := os.Getenv("DATABASE_URL")
+	db, _ := sql.Open("postgres", url)
+	defer db.Close()
+
 	files, _ := ioutil.ReadDir(dirPath)
 	for _, file := range files {
 		filename := dirPath + "/" + file.Name()
-		ReadInZipsState(c, filename)
+		ReadInZipsState(db, filename)
 	}
 }
 
-func processLine(c *router.Context, line string) {
+func processLine(db *sql.DB, line string) {
 	line = strings.TrimSpace(line)
 	if line == "" {
 		fmt.Println("no zip")
@@ -37,16 +43,19 @@ func processLine(c *router.Context, line string) {
 	latlong := geo["coordinates"].([]any)
 	if len(latlong) == 2 && len(zip) == 5 {
 		fmt.Println(zip, latlong)
-		s := `INSERT INTO zip_locations (zip, location)
-VALUES ($1, ST_SetSRID(ST_MakePoint(%f, %f), 4326));`
-		sql := fmt.Sprintf(s, latlong[0], latlong[1])
-		c.FreeFormUpdate(sql, zip)
+		s1 := `INSERT INTO zip_locations (zip, location) VALUES (%d, %s)`
+		s2 := `ST_SetSRID(ST_MakePoint(%f, %f), 4326)`
+		loc := fmt.Sprintf(s2, latlong[0], latlong[1])
+		zipInt, _ := strconv.Atoi(zip)
+		sql := fmt.Sprintf(s1, zipInt, loc)
+		//fmt.Println(sql)
+		db.Exec(sql)
 	} else {
 		fmt.Println("no zip", line)
 	}
 }
 
-func handleFileInBatches(c *router.Context, filename string) {
+func handleFileInBatches(db *sql.DB, filename string) {
 	file, _ := os.Open(filename)
 	buffer := make([]byte, 1)
 	line := []string{}
@@ -60,7 +69,7 @@ func handleFileInBatches(c *router.Context, filename string) {
 		s := string(buffer)
 		if s == "\n" {
 			theLine := strings.Join(line, "")
-			processLine(c, theLine)
+			processLine(db, theLine)
 			line = []string{}
 		}
 		line = append(line, s)
@@ -68,7 +77,7 @@ func handleFileInBatches(c *router.Context, filename string) {
 	file.Close()
 }
 
-func ReadInZipsState(c *router.Context, dirPath string) {
+func ReadInZipsState(db *sql.DB, dirPath string) {
 	// from https://openaddresses.io/
 	// https://batch.openaddresses.io/data
 	// alameda-addresses-county.geojson
@@ -79,6 +88,6 @@ func ReadInZipsState(c *router.Context, dirPath string) {
 		if strings.HasSuffix(filename, ".meta") {
 			continue
 		}
-		handleFileInBatches(c, filename)
+		handleFileInBatches(db, filename)
 	}
 }
