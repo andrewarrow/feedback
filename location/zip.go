@@ -42,7 +42,11 @@ func processLine(c *router.Context, line string) {
 		//fmt.Println("no zip", line)
 		return
 	}
-	geo := m["geometry"].(map[string]any)
+	geo, ok := m["geometry"].(map[string]any)
+	if !ok {
+		//fmt.Println("no zip", line)
+		return
+	}
 	latlong := geo["coordinates"].([]any)
 	if len(latlong) == 2 && len(zip) == 5 {
 		//fmt.Println(zip, latlong)
