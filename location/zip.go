@@ -7,17 +7,19 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/andrewarrow/feedback/router"
 )
 
-func ReadInZips(dirPath string) {
+func ReadInZips(c *router.Context, dirPath string) {
 	files, _ := ioutil.ReadDir(dirPath)
 	for _, file := range files {
 		filename := dirPath + "/" + file.Name()
-		ReadInZipsState(filename)
+		ReadInZipsState(c, filename)
 	}
 }
 
-func processLine(line string) {
+func processLine(c *router.Context, line string) {
 	line = strings.TrimSpace(line)
 	if line == "" {
 		fmt.Println("no zip")
@@ -35,12 +37,16 @@ func processLine(line string) {
 	latlong := geo["coordinates"].([]any)
 	if len(latlong) == 2 && len(zip) == 5 {
 		fmt.Println(zip, latlong)
+		s := `INSERT INTO zip_locations (zip, location)
+VALUES ($1, ST_SetSRID(ST_MakePoint(%f, %f), 4326));`
+		sql := fmt.Sprintf(s, latlong[0], latlong[1])
+		c.FreeFormUpdate(sql, zip)
 	} else {
 		fmt.Println("no zip", line)
 	}
 }
 
-func handleFileInBatches(filename string) {
+func handleFileInBatches(c *router.Context, filename string) {
 	file, _ := os.Open(filename)
 	buffer := make([]byte, 1)
 	line := []string{}
@@ -54,7 +60,7 @@ func handleFileInBatches(filename string) {
 		s := string(buffer)
 		if s == "\n" {
 			theLine := strings.Join(line, "")
-			processLine(theLine)
+			processLine(c, theLine)
 			line = []string{}
 		}
 		line = append(line, s)
@@ -62,7 +68,7 @@ func handleFileInBatches(filename string) {
 	file.Close()
 }
 
-func ReadInZipsState(dirPath string) {
+func ReadInZipsState(c *router.Context, dirPath string) {
 	// from https://openaddresses.io/
 	// https://batch.openaddresses.io/data
 	// alameda-addresses-county.geojson
@@ -73,6 +79,6 @@ func ReadInZipsState(dirPath string) {
 		if strings.HasSuffix(filename, ".meta") {
 			continue
 		}
-		handleFileInBatches(filename)
+		handleFileInBatches(c, filename)
 	}
 }
