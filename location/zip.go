@@ -1,7 +1,6 @@
 package location
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -10,25 +9,29 @@ import (
 	"strconv"
 	"strings"
 
-	_ "github.com/lib/pq" //
+	"github.com/andrewarrow/feedback/router"
 )
 
-func ReadInZips(dirPath string) {
-	url := os.Getenv("DATABASE_URL")
-	db, _ := sql.Open("postgres", url)
-	defer db.Close()
+func ReadInZips(c *router.Context, dirPath string) {
 
 	files, _ := ioutil.ReadDir(dirPath)
 	for _, file := range files {
 		filename := dirPath + "/" + file.Name()
-		ReadInZipsState(db, filename)
+		ReadInZipsState(c, filename)
 	}
 }
 
-func processLine(db *sql.DB, line string) {
+var gcount = 0
+
+func processLine(c *router.Context, line string) {
+	gcount++
+	if gcount%1000 == 0 {
+		fmt.Println(gcount, line)
+	}
+
 	line = strings.TrimSpace(line)
 	if line == "" {
-		fmt.Println("no zip")
+		//fmt.Println("no zip")
 		return
 	}
 	var m map[string]any
@@ -36,28 +39,26 @@ func processLine(db *sql.DB, line string) {
 	properties := m["properties"].(map[string]any)
 	zip, ok := properties["postcode"].(string)
 	if !ok {
-		fmt.Println("no zip", line)
+		//fmt.Println("no zip", line)
 		return
 	}
 	geo := m["geometry"].(map[string]any)
 	latlong := geo["coordinates"].([]any)
 	if len(latlong) == 2 && len(zip) == 5 {
-		fmt.Println(zip, latlong)
+		//fmt.Println(zip, latlong)
 		s1 := `INSERT INTO zip_locations (zip, location) VALUES (%d, %s)`
 		s2 := `ST_SetSRID(ST_MakePoint(%f, %f), 4326)`
-		loc := fmt.Sprintf(s2, latlong[0], latlong[1])
+		loc := fmt.Sprintf(s2, latlong[1], latlong[0])
 		zipInt, _ := strconv.Atoi(zip)
 		sql := fmt.Sprintf(s1, zipInt, loc)
 		//fmt.Println(sql)
-		tx, _ := db.Begin()
-		tx.Exec(sql)
-		tx.Commit()
+		c.FreeFormUpdate(sql)
 	} else {
-		fmt.Println("no zip", line)
+		//fmt.Println("no zip", line)
 	}
 }
 
-func handleFileInBatches(db *sql.DB, filename string) {
+func handleFileInBatches(c *router.Context, filename string) {
 	file, _ := os.Open(filename)
 	buffer := make([]byte, 1)
 	line := []string{}
@@ -71,7 +72,7 @@ func handleFileInBatches(db *sql.DB, filename string) {
 		s := string(buffer)
 		if s == "\n" {
 			theLine := strings.Join(line, "")
-			processLine(db, theLine)
+			processLine(c, theLine)
 			line = []string{}
 		}
 		line = append(line, s)
@@ -79,7 +80,7 @@ func handleFileInBatches(db *sql.DB, filename string) {
 	file.Close()
 }
 
-func ReadInZipsState(db *sql.DB, dirPath string) {
+func ReadInZipsState(c *router.Context, dirPath string) {
 	// from https://openaddresses.io/
 	// https://batch.openaddresses.io/data
 	// alameda-addresses-county.geojson
@@ -90,6 +91,6 @@ func ReadInZipsState(db *sql.DB, dirPath string) {
 		if strings.HasSuffix(filename, ".meta") {
 			continue
 		}
-		handleFileInBatches(db, filename)
+		handleFileInBatches(c, filename)
 	}
 }
