@@ -13,6 +13,12 @@ import (
 
 func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string, user map[string]any, filename string, vars any) {
 	content := new(bytes.Buffer)
+
+	contentVars, ok := vars.(map[string]any)
+	if ok {
+		contentVars["user"] = user
+		vars = contentVars
+	}
 	r.Template.ExecuteTemplate(content, filename, vars)
 
 	layoutMap["content_vars"] = vars
