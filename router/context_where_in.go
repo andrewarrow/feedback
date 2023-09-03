@@ -89,6 +89,16 @@ func StringIds(ids []any) []string {
 	return stringIds
 }
 
+func DollarSigns(size int) string {
+	buffer := []string{}
+	for i := 0; i < size; i++ {
+		thing := fmt.Sprintf("%d", i+1)
+		buffer = append(buffer, "$"+thing)
+	}
+
+	return strings.Join(buffer, ",")
+}
+
 func (r *Router) WhereInFull(modelString string, ids []any) []map[string]any {
 	stringIds := StringIds(ids)
 	offsetInt := 0
