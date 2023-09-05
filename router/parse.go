@@ -20,6 +20,7 @@ func IsEditable(item string, editable map[string]string) bool {
 		editable[item] != "int" &&
 		editable[item] != "float" &&
 		editable[item] != "json" &&
+		editable[item] != "select" &&
 		editable[item] != "bool" {
 		return false
 	}

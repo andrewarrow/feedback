@@ -87,7 +87,7 @@ func TemplateFunctions() template.FuncMap {
 			return m
 		},
 		"optionList": func(s, val string) template.HTML {
-			tokens := strings.Split(s, ",")
+			tokens := strings.Split(s[2:len(s)-2], "|")
 			buffer := []string{}
 			for _, token := range tokens {
 				option := fmt.Sprintf("<option>%s</option>", token)
