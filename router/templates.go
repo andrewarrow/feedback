@@ -86,6 +86,15 @@ func TemplateFunctions() template.FuncMap {
 			m["color"] = color
 			return m
 		},
+		"optionList": func(s, val string) template.HTML {
+			tokens := strings.Split(s, ",")
+			buffer := []string{}
+			for _, token := range tokens {
+				option := fmt.Sprintf("<option>%s</option>", token)
+				buffer = append(buffer, option)
+			}
+			return template.HTML(strings.Join(buffer, "\n"))
+		},
 		"ago": func(t time.Time) string { return cfg.Format(t) },
 		"adds": func(i int64) string {
 			if i != 1 {
