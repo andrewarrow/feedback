@@ -91,6 +91,9 @@ func TemplateFunctions() template.FuncMap {
 			buffer := []string{}
 			for _, token := range tokens {
 				option := fmt.Sprintf("<option>%s</option>", token)
+				if token == val {
+					option = fmt.Sprintf("<option selected=\"true\">%s</option>", token)
+				}
 				buffer = append(buffer, option)
 			}
 			return template.HTML(strings.Join(buffer, "\n"))
