@@ -103,7 +103,8 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return template.HTML(strings.Join(buffer, "\n"))
 		},
-		"ago": func(t time.Time) string { return cfg.Format(t) },
+		"breakComma": func(s string) []string { return strings.Split(s, ",") },
+		"ago":        func(t time.Time) string { return cfg.Format(t) },
 		"adds": func(i int64) string {
 			if i != 1 {
 				return "s"
