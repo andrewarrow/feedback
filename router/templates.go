@@ -88,10 +88,15 @@ func TemplateFunctions() template.FuncMap {
 		},
 		"optionList": func(s, val string) template.HTML {
 			tokens := strings.Split(s[2:len(s)-2], "|")
+			valTokens := strings.Split(val, ",")
+			valMap := map[string]bool{}
+			for _, item := range valTokens {
+				valMap[item] = true
+			}
 			buffer := []string{}
 			for _, token := range tokens {
 				option := fmt.Sprintf("<option>%s</option>", token)
-				if token == val {
+				if valMap[token] {
 					option = fmt.Sprintf("<option selected=\"true\">%s</option>", token)
 				}
 				buffer = append(buffer, option)
