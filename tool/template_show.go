@@ -32,7 +32,6 @@ func handle{{$name}}ShowPost(c *router.Context, guid string) {
 		return
 	}
 
-	c.ValidateUpdate("{{$lower}}")
 	message := c.ValidateUpdate("{{$lower}}")
 	returnPath := "/{{$withS}}"
 	if message != "" {

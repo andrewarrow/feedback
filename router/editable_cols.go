@@ -9,6 +9,8 @@ func GetEditableCols(c *Context, modelString string) ([]string, map[string]strin
 			editable[f.Name] = "string"
 		} else if f.Flavor == "select" {
 			editable[f.Name] = "select"
+		} else if f.Flavor == "select-multi" {
+			editable[f.Name] = "select-multi"
 		}
 		cols = append(cols, f.Name)
 	}
