@@ -22,6 +22,7 @@ func IsEditable(item string, editable map[string]string) bool {
 		editable[item] != "json" &&
 		editable[item] != "select" &&
 		editable[item] != "select-multi" &&
+		editable[item] != "timestamp" &&
 		editable[item] != "bool" {
 		return false
 	}

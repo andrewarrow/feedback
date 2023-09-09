@@ -16,6 +16,7 @@ var EmbeddedTemplates embed.FS
 
 const DATE_LAYOUT = "Monday, January 2, 2006 15:04"
 const HUMAN = "Monday, January 2, 2006 3:04 PM"
+const HUMAN_SMALL = "January 2, 2006"
 const (
 	KB = 1024
 	MB = KB * 1024
@@ -85,6 +86,19 @@ func TemplateFunctions() template.FuncMap {
 			m["status"] = status
 			m["color"] = color
 			return m
+		},
+		"timeOptionList": func(val any) template.HTML {
+			buffer := []string{}
+			option := fmt.Sprintf("<option>%s</option>", "")
+			buffer = append(buffer, option)
+			now := time.Now()
+			for i := 0; i < 9; i++ {
+				option := fmt.Sprintf("<option value=\"%s\">%s</option>", val,
+					now.Format(HUMAN_SMALL))
+				now = now.Add(time.Second * -86400)
+				buffer = append(buffer, option)
+			}
+			return template.HTML(strings.Join(buffer, "\n"))
 		},
 		"optionList": func(s, val string) template.HTML {
 			tokens := strings.Split(s[2:len(s)-2], "|")
