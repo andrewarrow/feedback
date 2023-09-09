@@ -48,8 +48,9 @@ func TemplateFunctions() template.FuncMap {
 			return result
 		},
 		"short": func(a any) string {
-			t, ok := a.(time.Time)
+			tInt, ok := a.(int64)
 			if ok {
+				t := time.Unix(tInt, 0)
 				return t.Format(HUMAN_SMALL)
 			}
 			return ""
