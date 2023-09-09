@@ -93,7 +93,7 @@ func TemplateFunctions() template.FuncMap {
 			buffer = append(buffer, option)
 			now := time.Now()
 			for i := 0; i < 9; i++ {
-				option := fmt.Sprintf("<option value=\"%s\">%s</option>", val,
+				option := fmt.Sprintf("<option value=\"%d\">%s</option>", now.Unix(),
 					now.Format(HUMAN_SMALL))
 				now = now.Add(time.Second * -86400)
 				buffer = append(buffer, option)
