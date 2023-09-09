@@ -47,6 +47,9 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return result
 		},
+		"short": func(t time.Time) string {
+			return t.Format(HUMAN_SMALL)
+		},
 		"timeOptions": func(sa, ea float64, tz *time.Location) []template.HTML {
 
 			saInt := int64(sa)
