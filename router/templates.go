@@ -47,8 +47,12 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return result
 		},
-		"short": func(t time.Time) string {
-			return t.Format(HUMAN_SMALL)
+		"short": func(a any) string {
+			t, ok := a.(time.Time)
+			if ok {
+				return t.Format(HUMAN_SMALL)
+			}
+			return ""
 		},
 		"timeOptions": func(sa, ea float64, tz *time.Location) []template.HTML {
 
