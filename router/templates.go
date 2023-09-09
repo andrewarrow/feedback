@@ -16,7 +16,7 @@ var EmbeddedTemplates embed.FS
 
 const DATE_LAYOUT = "Monday, January 2, 2006 15:04"
 const HUMAN = "Monday, January 2, 2006 3:04 PM"
-const HUMAN_SMALL = "January 2, 2006"
+const HUMAN_SMALL = "01/02/2006"
 const (
 	KB = 1024
 	MB = KB * 1024
