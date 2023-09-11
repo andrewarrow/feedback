@@ -205,6 +205,14 @@ func TemplateFunctions() template.FuncMap {
 		"trim": func(thing string) string {
 			return strings.TrimSpace(thing)
 		},
+		"extract": func(s, key string) any {
+			var m map[string]any
+			json.Unmarshal([]byte(s), &m)
+			return int64(m[key].(float64))
+		},
+		"uuid": func() string {
+			return util.PseudoUuid()
+		},
 		"dob": func(thing any) string {
 			tint64, ok := thing.(int64)
 			if !ok {

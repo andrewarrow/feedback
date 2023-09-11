@@ -15,6 +15,8 @@ func (r *Router) HandleBucketAsset(path string, writer http.ResponseWriter, requ
 		contentType = "image/x-icon"
 	} else if strings.HasSuffix(path, ".gif") {
 		contentType = "image/gif"
+	} else if strings.HasSuffix(path, ".svg") {
+		contentType = "image/svg+xml"
 	} else if strings.HasSuffix(path, ".pdf") {
 		contentType = "application/pdf"
 	}
