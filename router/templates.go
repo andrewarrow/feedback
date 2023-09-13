@@ -218,7 +218,7 @@ func TemplateFunctions() template.FuncMap {
 			if val != nil {
 				value = fmt.Sprintf("%v", val)
 			}
-			s := fmt.Sprintf(`<input class="nice-i border" name="%s" type="text" value="%s"/>`, name, value)
+			s := fmt.Sprintf(`<input id="textfield-%s" class="nice-i border" name="%s" type="text" value="%s"/>`, name, name, value)
 			return template.HTML(s)
 		},
 		"dob": func(thing any) string {
