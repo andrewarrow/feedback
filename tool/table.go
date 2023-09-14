@@ -12,5 +12,10 @@ func table(path, name string) {
 	asBytes, _ := ioutil.ReadFile(path + "/app/feedback.json")
 	var site router.FeedbackSite
 	json.Unmarshal(asBytes, &site)
-	fmt.Println(site)
+	m := site.FindModel(name)
+
+	for _, field := range m.Fields {
+		fmt.Println(field.Name)
+	}
+
 }
