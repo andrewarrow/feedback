@@ -44,13 +44,17 @@ func table(path, name string) {
 	header := strings.Join(buff, "\n")
 
 	fmt.Println("<table>")
+	fmt.Println("<tr>")
 	fmt.Println(header)
+	fmt.Println("</tr>")
 	fmt.Println(`{{$list := index . "list"}}`)
 	fmt.Println(`{{range $i, $row := $list}}`)
+	fmt.Println("<tr>")
 	for _, field := range m.Fields {
 		fmt.Println(`{{$thing := index $row "` + field.Name + `"}}`)
 		fmt.Println("<td>{{$thing}}</td>")
 	}
+	fmt.Println("</tr>")
 	fmt.Println(`{{end}}`)
 	fmt.Println("</table>")
 }
