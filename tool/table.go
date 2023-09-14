@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"strings"
 
 	"github.com/andrewarrow/feedback/router"
 )
@@ -14,8 +15,12 @@ func table(path, name string) {
 	json.Unmarshal(asBytes, &site)
 	m := site.FindModel(name)
 
+	buff := []string{}
 	for _, field := range m.Fields {
-		fmt.Println(field.Name)
+		buff = append(buff, "<th>"+field.Name+"</th>")
 	}
+	header := strings.Join(buff, "\n")
 
+	fmt.Println("<table>")
+	fmt.Println(header)
 }
