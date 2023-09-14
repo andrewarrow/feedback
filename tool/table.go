@@ -52,7 +52,7 @@ func table(path, name string) {
 	fmt.Println("<tr>")
 	for _, field := range m.Fields {
 		fmt.Println(`{{$thing := index $row "` + field.Name + `"}}`)
-		fmt.Println("<td>{{$thing}}</td>")
+		fmt.Printf("<td>\n{{$thing}}\n</td>\n")
 	}
 	fmt.Println("</tr>")
 	fmt.Println(`{{end}}`)
