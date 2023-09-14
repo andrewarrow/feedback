@@ -22,5 +22,11 @@ func table(path, name string) {
 	header := strings.Join(buff, "\n")
 
 	fmt.Println("<table>")
+	fmt.Println(`{{$row := index . "row"}}`)
 	fmt.Println(header)
+	for _, field := range m.Fields {
+		fmt.Println(`{{$thing := index $row "` + field.Name + `"}}`)
+		fmt.Println("<td>{{$thing}}</td>")
+	}
+	fmt.Println("</table>")
 }
