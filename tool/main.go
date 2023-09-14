@@ -24,6 +24,8 @@ func main() {
 		initApp(os.Args[2], os.Args[3])
 	} else if arg == "controller" {
 		controller(os.Args[2], os.Args[3])
+	} else if arg == "table" {
+		table(os.Args[2], os.Args[3])
 	} else if arg == "" {
 	}
 }
