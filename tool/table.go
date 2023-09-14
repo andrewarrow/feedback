@@ -15,8 +15,15 @@ func list(path, name string) {
 	json.Unmarshal(asBytes, &site)
 	//m := site.FindModel(name)
 
+	top := `package app
+
+import (
+  "github.com/andrewarrow/feedback/router"
+)`
+
+	fmt.Println(top)
 	fmt.Println("func handleFoo(c *router.Context) {")
-	fmt.Printf(`list := c.All("%s", "order by created_at desc", "")\n`, name)
+	fmt.Printf(`list := c.All("%s", "order by created_at desc", "")`+"\n", name)
 	send := `send := map[string]any{}
 	send["list"] = list
 	c.SendContentInLayout("foo.html", send, 200)`
