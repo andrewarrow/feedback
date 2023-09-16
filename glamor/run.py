@@ -27,8 +27,8 @@ browser.quit()
 
 soup = BeautifulSoup(rendered_html, 'html.parser')
 
-#for script in soup.find_all('script'):
-#    script.extract()
+for script in soup.find_all('script'):
+    script.extract()
 
 soup = BeautifulSoup(str(soup), 'html.parser')
 formatted_html = soup.prettify()
