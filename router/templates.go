@@ -111,7 +111,13 @@ func TemplateFunctions() template.FuncMap {
 		"guidOptionList": func(list []map[string]any, selectedGuid string) template.HTML {
 			buffer := []string{}
 			for _, item := range list {
-				option := fmt.Sprintf(`<option value="%s">%s</option>`, item["guid"],
+				selected := ""
+				guid := item["guid"].(string)
+				if guid == selectedGuid {
+					selected = `selected="true"`
+				}
+				option := fmt.Sprintf(`<option %s value="%s">%s</option>`,
+					selected, item["guid"],
 					item["name"])
 				buffer = append(buffer, option)
 			}
