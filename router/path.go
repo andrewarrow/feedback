@@ -131,12 +131,16 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 			http.Redirect(c.Writer, c.Request, returnPath, 302)
 			return
 		}
-		if c.NotFound && c.Layout != "json" {
-			c.LayoutMap["title"] = "404 not found"
-			r.SendContentInLayout(false, c.Layout, c.LayoutMap, "", user, writer, "404.html", nil, 404)
-		} else if c.NotFound && c.Layout == "json" {
-			c.SendContentAsJsonMessage("not found", 404)
-		}
+		r.NotFoundFunc(r, c)
+	}
+}
+
+func Default404(r *Router, c *Context) {
+	if c.NotFound && c.Layout != "json" {
+		c.LayoutMap["title"] = "404 not found"
+		r.SendContentInLayout(false, c.Layout, c.LayoutMap, "", c.User, c.Writer, "404.html", nil, 404)
+	} else if c.NotFound && c.Layout == "json" {
+		c.SendContentAsJsonMessage("not found", 404)
 	}
 }
 

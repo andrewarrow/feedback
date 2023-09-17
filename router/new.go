@@ -24,6 +24,7 @@ type Router struct {
 	DefaultLayout  string
 	BearerAuthFunc func(*Context) map[string]any
 	CookieAuthFunc func(*Context) map[string]any
+	NotFoundFunc   func(*Router, *Context)
 	BeforeAll      func(*Context)
 }
 
@@ -49,6 +50,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r.BeforeAll = r.beforeAllFunc
 	r.BearerAuthFunc = r.bearerAuth
 	r.CookieAuthFunc = r.cookieAuth
+	r.NotFoundFunc = Default404
 
 	var site FeedbackSite
 	if jsonBytes == nil {
