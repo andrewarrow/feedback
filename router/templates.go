@@ -108,6 +108,15 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return template.HTML(strings.Join(buffer, "\n"))
 		},
+		"guidOptionList": func(list []map[string]any, selectedGuid string) template.HTML {
+			buffer := []string{}
+			for _, item := range list {
+				option := fmt.Sprintf(`<option value="%s">%s</option>`, item["guid"],
+					item["name"])
+				buffer = append(buffer, option)
+			}
+			return template.HTML(strings.Join(buffer, "\n"))
+		},
 		"optionList": func(s, val string) template.HTML {
 			tokens := strings.Split(s[2:len(s)-2], "|")
 			valTokens := strings.Split(val, ",")

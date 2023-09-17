@@ -39,7 +39,7 @@ func table(path, name string) {
 
 	buff := []string{}
 	for _, field := range m.Fields {
-		buff = append(buff, `<th class="px-y">`+field.Name+"</th>")
+		buff = append(buff, `<th class="px-3">`+field.Name+"</th>")
 	}
 	header := strings.Join(buff, "\n")
 
