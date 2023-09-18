@@ -10,22 +10,23 @@ import (
 )
 
 type Router struct {
-	Template       *template.Template
-	Site           *FeedbackSite
-	Db             *sqlx.DB
-	Prefix         string
-	BucketPath     string
-	Paths          map[string]func(*Context, string, string)
-	BeforeCreate   map[string]func(*Context)
-	AfterCreate    map[string]func(*Context, string)
-	PathLock       sync.Mutex
-	AfterLock      sync.Mutex
-	BeforeLock     sync.Mutex
-	DefaultLayout  string
-	BearerAuthFunc func(*Context) map[string]any
-	CookieAuthFunc func(*Context) map[string]any
-	NotFoundFunc   func(*Router, *Context)
-	BeforeAll      func(*Context)
+	Template        *template.Template
+	Site            *FeedbackSite
+	Db              *sqlx.DB
+	Prefix          string
+	BucketPath      string
+	Paths           map[string]func(*Context, string, string)
+	BeforeCreate    map[string]func(*Context)
+	AfterCreate     map[string]func(*Context, string)
+	PathLock        sync.Mutex
+	AfterLock       sync.Mutex
+	BeforeLock      sync.Mutex
+	DefaultLayout   string
+	BearerAuthFunc  func(*Context) map[string]any
+	CookieAuthFunc  func(*Context) map[string]any
+	NotFoundFunc    func(*Router, *Context)
+	BeforeAll       func(*Context)
+	NotLoggedInPath string
 }
 
 func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {

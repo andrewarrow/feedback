@@ -10,7 +10,7 @@ import (
 
 func NotLoggedIn(c *Context) bool {
 	if len(c.User) == 0 {
-		http.Redirect(c.Writer, c.Request, "/"+c.Router.Prefix, 302)
+		http.Redirect(c.Writer, c.Request, "/"+c.Router.NotLoggedInPath, 302)
 		return true
 	}
 	return false
