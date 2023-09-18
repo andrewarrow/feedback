@@ -47,6 +47,11 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return result
 		},
+		"findInMap": func(send map[string]any, name string, id int64) any {
+			p := send["params"].(map[string]any)
+			m := p[name].(map[int64]any)
+			return m[id]
+		},
 		"short": func(a any) string {
 			tInt, ok := a.(int64)
 			if ok {

@@ -43,7 +43,7 @@ func table(path, name string) {
 	}
 	header := strings.Join(buff, "\n")
 
-	fmt.Println(`<table class="inline-block whitespace-nowrap">`)
+	fmt.Println(`<table class="inline-block whitespace-nowrap font-mono">`)
 	fmt.Println("<tr>")
 	fmt.Println(header)
 	fmt.Println("</tr>")
@@ -52,7 +52,7 @@ func table(path, name string) {
 	fmt.Println("<tr>")
 	for _, field := range m.Fields {
 		fmt.Println(`{{$thing := index $row "` + field.Name + `"}}`)
-		fmt.Printf(`<td class="px-3">` + "\n{{$thing}}\n</td>\n")
+		fmt.Printf(`<td class="px-3 py-2">` + "\n{{$thing}}\n</td>\n")
 	}
 	fmt.Println("</tr>")
 	fmt.Println(`{{end}}`)
