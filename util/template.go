@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 )
 
-func makeTemplate(name string) {
+func MakeTemplate(name string) {
 	asBytes, _ := ioutil.ReadFile("t")
 	top := `{{ define "_%s" }}`
 	end := `{{ end }}`
