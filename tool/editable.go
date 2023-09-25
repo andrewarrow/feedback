@@ -25,6 +25,20 @@ func editable(path, name string) {
   {{ textfield "%s" $value}}
 </td>
 `
+		if field.Flavor == "photo" {
+			t = `
+<td class="px-3 py-2">
+  %s<br/>
+    {{ if eq $value ""}}
+    <img src="https://i.imgur.com/OY8fov3.png" width="160"/>
+    {{ else }}
+    <img src="/bucket/{{$value}}" width="160"/>
+    {{ end }}
+   <br/>
+   <input type="file" name="file" accept="image/jpeg, image/png, image/gif"/>
+</td>
+`
+		}
 		fmt.Printf(t, field.Name, field.Name)
 		fmt.Println("</tr>")
 	}
