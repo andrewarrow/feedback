@@ -19,7 +19,13 @@ func editable(path, name string) {
 	for _, field := range m.Fields {
 		fmt.Println("<tr>")
 		fmt.Println(`{{$value := index $row "` + field.Name + `"}}`)
-		fmt.Printf(`<td class="px-3 py-2">` + "\n" + field.Name + "<br/>{{ textfield \"" + field.Name + "\" $value}}\n</td>\n")
+		t := `
+<td class="px-3 py-2">
+  %s<br/>
+  {{ textfield "%s" $value}}
+</td>
+`
+		fmt.Printf(t, field.Name, field.Name)
 		fmt.Println("</tr>")
 	}
 	fmt.Println("</table>")
