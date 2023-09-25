@@ -26,6 +26,8 @@ func main() {
 		controller(os.Args[2], os.Args[3])
 	} else if arg == "table" {
 		table(os.Args[2], os.Args[3])
+	} else if arg == "editable" {
+		editable(os.Args[2], os.Args[3])
 	} else if arg == "list" {
 		list(os.Args[2], os.Args[3])
 	} else if arg == "" {
