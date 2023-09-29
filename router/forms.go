@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"strings"
 
+	"github.com/andrewarrow/feedback/buckets"
 	"github.com/andrewarrow/feedback/util"
 )
 
@@ -40,6 +41,20 @@ func SaveMultiFiles(c *Context) {
 		file.Close()
 		filename := util.GuidFilename(name)
 		ioutil.WriteFile(c.Router.BucketPath+"/"+filename, asBytes, 0644)
+		c.Params["photo"] = filename
+	}
+}
+
+func SaveMultiFilesAws(c *Context) {
+	files := c.Request.MultipartForm.File["file"]
+
+	for _, fileHeader := range files {
+		name := fileHeader.Filename
+		file, _ := fileHeader.Open()
+		asBytes, _ := io.ReadAll(file)
+		file.Close()
+		filename := util.GuidFilename(name)
+		buckets.StoreInAws(asBytes, filename)
 		c.Params["photo"] = filename
 	}
 }
