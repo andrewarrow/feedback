@@ -46,15 +46,18 @@ func SaveMultiFiles(c *Context) {
 }
 
 func SaveMultiFilesAws(c *Context) {
-	files := c.Request.MultipartForm.File["file"]
+	list := []string{"", "_2", "_3", "_4", "_5"}
+	for _, item := range list {
+		files := c.Request.MultipartForm.File["file"+item]
 
-	for _, fileHeader := range files {
-		name := fileHeader.Filename
-		file, _ := fileHeader.Open()
-		asBytes, _ := io.ReadAll(file)
-		file.Close()
-		filename := util.GuidFilename(name)
-		buckets.StoreInAws(asBytes, filename)
-		c.Params["photo"] = filename
+		for _, fileHeader := range files {
+			name := fileHeader.Filename
+			file, _ := fileHeader.Open()
+			asBytes, _ := io.ReadAll(file)
+			file.Close()
+			filename := util.GuidFilename(name)
+			buckets.StoreInAws(asBytes, filename)
+			c.Params["photo"+item] = filename
+		}
 	}
 }

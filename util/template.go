@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 func MakeTemplate(name string) {
@@ -13,4 +14,5 @@ func MakeTemplate(name string) {
 	ioutil.WriteFile("views/_"+name+".html", []byte(s), 0644)
 	result := fmt.Sprintf(`{{ template "_%s" . }}`, name)
 	fmt.Printf("\n\n%s\n\n", result)
+	os.Remove("t")
 }
