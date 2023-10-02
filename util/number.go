@@ -2,7 +2,7 @@ package util
 
 import "fmt"
 
-func IntComma(i int) string {
+func IntComma(i int64) string {
 	if i < 0 {
 		return "-" + IntComma(-i)
 	}
