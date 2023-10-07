@@ -15,3 +15,11 @@ func ToAny(rows []string) []any {
 	}
 	return list
 }
+
+func ToMSA(rows []any) []map[string]any {
+	sizes := []map[string]any{}
+	for _, item := range rows {
+		sizes = append(sizes, item.(map[string]any))
+	}
+	return sizes
+}
