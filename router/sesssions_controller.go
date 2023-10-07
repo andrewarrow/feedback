@@ -10,6 +10,8 @@ import (
 
 func NotLoggedIn(c *Context) bool {
 	if len(c.User) == 0 {
+		path := c.Request.URL.Path
+		SetCookie(c, "desired_path", path)
 		http.Redirect(c.Writer, c.Request, "/"+c.Router.NotLoggedInPath, 302)
 		return true
 	}
