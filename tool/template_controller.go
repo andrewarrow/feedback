@@ -37,22 +37,8 @@ func Handle{{$name}}(c *router.Context, second, third string) {
 func handle{{$name}}Index(c *router.Context) {
 	list := c.All("{{$lower}}", "where user_id=$1 order by created_at desc", "", c.User["id"])
 
-	colAttributes := map[int]string{}
-	//colAttributes[0] = "w-1/2"
-
-	m := map[string]any{}
-	headers := []string{"name", "foo", "created"}
-
-	params := map[string]any{}
-	m["headers"] = headers
-	m["cells"] = c.MakeCells(util.ToAnyArray(list), headers, params, "_{{$lower}}")
-	m["col_attributes"] = colAttributes
-
-	topVars := map[string]any{}
 	send := map[string]any{}
-	send["bottom"] = c.Template("table_show.html", m)
-	send["top"] = c.Template("{{$withS}}_list_top.html", topVars)
-	c.SendContentInLayout("generic_top_bottom.html", send, 200)
+	c.SendContentInLayout(".html", send, 200)
 }`
 
 	return t

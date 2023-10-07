@@ -144,7 +144,12 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return template.HTML(strings.Join(buffer, "\n"))
 		},
-		"intComma":   func(a int64) string { return util.IntComma(a) },
+		"intComma": func(a int64) string {
+			if a == 0 {
+				return "n/a"
+			}
+			return "$" + util.IntComma(a)
+		},
 		"breakComma": func(s string) []string { return strings.Split(s, ",") },
 		"ago":        func(t time.Time) string { return cfg.Format(t) },
 		"adds": func(i int64) string {
