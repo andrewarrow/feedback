@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"strconv"
 	"strings"
 	"time"
 
@@ -186,6 +187,8 @@ func TemplateFunctions() template.FuncMap {
 				return template.HTML(s)
 			}
 			dollars := amount[0 : len(amount)-2]
+			dollarsInt, _ := strconv.ParseInt(dollars, 10, 64)
+			dollars = util.IntComma(dollarsInt)
 			cents := amount[len(amount)-2:]
 			s := fmt.Sprintf("$%s.%s USD", dollars, cents)
 			if thingInt64 < 0 {
