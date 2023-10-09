@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"os"
@@ -72,11 +73,16 @@ func main() {
 		fmt.Println(text)
 		fmt.Printf("update lyfe_users set username='',password='%s' where firebase_uid='';\n\n", hash)
 	} else if arg == "scan" {
-		r := router.NewRouter("DATABASE_URL", embeddedFile)
-		tablesString := util.GetArg(2)
-		list := persist.ModelsForTables(r.Db, tablesString)
-		asBytes := router.ModelsToBytes(list)
-		persist.SaveSchema(asBytes)
+		//r := router.NewRouter("DATABASE_URL", embeddedFile)
+		var site router.FeedbackSite
+		site.Models = persist.ScanSchema()
+		asBytes, _ := json.Marshal(site)
+		jqed := util.PipeToJq(string(asBytes))
+		files.SaveFile("feedback.json", jqed)
+		//tablesString := util.GetArg(2)
+		//list := persist.ModelsForTables(r.Db, tablesString)
+		//asBytes := router.ModelsToBytes(list)
+		//persist.SaveSchema(asBytes)
 	} else if arg == "guids" {
 		path := util.GetArg(2)
 		jsonBytes := getFeedbackJsonFile(path)
