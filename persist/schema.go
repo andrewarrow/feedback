@@ -29,9 +29,7 @@ func MysqlConnection() *sqlx.DB {
 	return db
 }
 
-func PostgresConnection(dbEnvVarName string) *sqlx.DB {
-
-	url := os.Getenv(dbEnvVarName)
+func PostgresConnectionByUrl(url string) *sqlx.DB {
 
 	db, err := sqlx.Connect("postgres", url)
 	if err == nil {
@@ -43,6 +41,12 @@ func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 	}
 
 	return db
+}
+
+func PostgresConnection(dbEnvVarName string) *sqlx.DB {
+
+	url := os.Getenv(dbEnvVarName)
+	return PostgresConnectionByUrl(url)
 }
 
 func DefaultJsonModels() string {
