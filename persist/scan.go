@@ -12,7 +12,7 @@ import (
 )
 
 func ScanSchema(dbString string) []*models.Model {
-	db := PostgresConnection(os.Getenv("DATABASE_URL"))
+	db := PostgresConnectionByUrl(os.Getenv("DATABASE_URL"))
 	sql := "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';"
 
 	list := []*models.Model{}
