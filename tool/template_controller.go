@@ -5,7 +5,6 @@ func controllerTemplate() string {
 
 import (
 	"github.com/andrewarrow/feedback/router"
-	"github.com/andrewarrow/feedback/util"
 )
 
 {{$name := index . "name"}}
@@ -35,7 +34,7 @@ func Handle{{$name}}(c *router.Context, second, third string) {
 }
 
 func handle{{$name}}Index(c *router.Context) {
-	list := c.All("{{$lower}}", "where user_id=$1 order by created_at desc", "", c.User["id"])
+	//list := c.All("{{$lower}}", "where user_id=$1 order by created_at desc", "", c.User["id"])
 
 	send := map[string]any{}
 	c.SendContentInLayout(".html", send, 200)

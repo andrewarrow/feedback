@@ -12,7 +12,6 @@ import (
 	"net/http"
 
 	"github.com/andrewarrow/feedback/router"
-	"github.com/andrewarrow/feedback/util"
 )
 
 func handle{{$name}}ShowPost(c *router.Context, guid string) {
@@ -20,7 +19,7 @@ func handle{{$name}}ShowPost(c *router.Context, guid string) {
 	returnPath := "/"
 
 	//c.ValidateCreate("{{$lower}}")
-	message = c.Update("{{$lower}}", "where guid=", guid)
+	message := c.Update("{{$lower}}", "where guid=", guid)
 	if message != "" {
 		router.SetFlash(c, message)
 		http.Redirect(c.Writer, c.Request, returnPath+"/"+guid, 302)

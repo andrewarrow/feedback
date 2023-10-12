@@ -51,8 +51,8 @@ func table(path, name string) {
 	fmt.Println(`{{range $i, $row := $list}}`)
 	fmt.Println("<tr>")
 	for _, field := range m.Fields {
-		fmt.Println(`{{$thing := index $row "` + field.Name + `"}}`)
-		fmt.Printf(`<td class="px-3 py-2">` + "\n{{$thing}}\n</td>\n")
+		fmt.Println(`{{$` + field.Name + ` := index $row "` + field.Name + `"}}`)
+		fmt.Printf(`<td class="px-3 py-2">` + "\n{{$" + field.Name + "}}\n</td>\n")
 	}
 	fmt.Println("</tr>")
 	fmt.Println(`{{end}}`)
