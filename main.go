@@ -74,8 +74,9 @@ func main() {
 		fmt.Printf("update lyfe_users set username='',password='%s' where firebase_uid='';\n\n", hash)
 	} else if arg == "scan" {
 		//r := router.NewRouter("DATABASE_URL", embeddedFile)
+		db := os.Getenv("DATABASE_URL")
 		var site router.FeedbackSite
-		site.Models = persist.ScanSchema()
+		site.Models = persist.ScanSchema(db)
 		asBytes, _ := json.Marshal(site)
 		jqed := util.PipeToJq(string(asBytes))
 		files.SaveFile("feedback.json", jqed)

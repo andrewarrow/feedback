@@ -10,8 +10,8 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func ScanSchema() []*models.Model {
-	db := PostgresConnection("DATABASE_URL")
+func ScanSchema(dbString string) []*models.Model {
+	db := PostgresConnection(dbString)
 	sql := "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';"
 
 	list := []*models.Model{}
