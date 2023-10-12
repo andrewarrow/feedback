@@ -2,7 +2,6 @@ package persist
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/andrewarrow/feedback/files"
@@ -12,7 +11,7 @@ import (
 )
 
 func ScanSchema(dbString string) []*models.Model {
-	db := PostgresConnectionByUrl(os.Getenv("DATABASE_URL"))
+	db := PostgresConnectionByUrl(dbString)
 	sql := "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';"
 
 	list := []*models.Model{}
