@@ -13,6 +13,7 @@ type Router struct {
 	Template        *template.Template
 	Site            *FeedbackSite
 	Db              *sqlx.DB
+	WrangleDb       *sqlx.DB
 	Prefix          string
 	BucketPath      string
 	Paths           map[string]func(*Context, string, string)
@@ -33,6 +34,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r := Router{}
 	//r.Db = persist.MysqlConnection()
 	r.Db = persist.PostgresConnection(dbEnvVarName)
+	r.WrangleDb = persist.PostgresConnection("WRANGLE_DATABASE_URL")
 	r.Paths = map[string]func(*Context, string, string){}
 	r.BeforeCreate = map[string]func(*Context){}
 	r.AfterCreate = map[string]func(*Context, string){}

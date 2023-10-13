@@ -46,6 +46,9 @@ func PostgresConnectionByUrl(url string) *sqlx.DB {
 func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 
 	url := os.Getenv(dbEnvVarName)
+	if url == "" {
+		return nil
+	}
 	return PostgresConnectionByUrl(url)
 }
 
