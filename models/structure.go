@@ -52,8 +52,10 @@ func (m *Model) TableName() string {
 }
 
 func TypeToFlavor(dt string) string {
-	if dt == "bigint" || dt == "boolean" || dt == "integer" {
+	if dt == "bigint" || dt == "integer" {
 		return "int"
+	} else if dt == "boolean" {
+		return "bool"
 	} else if dt == "text" {
 		return "text"
 	}
