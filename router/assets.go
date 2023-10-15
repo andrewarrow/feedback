@@ -27,6 +27,8 @@ func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *h
 		contentType = "font/ttf"
 	} else if strings.HasSuffix(path, ".xml") {
 		contentType = "text/xml"
+	} else if strings.HasSuffix(path, ".wasm") {
+		contentType = "application/wasm"
 	}
 	writer.Header().Set("Content-Type", contentType)
 	writer.Header().Set("Connection", "keep-alive")
