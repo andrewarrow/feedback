@@ -30,14 +30,20 @@ func MysqlConnection() *sqlx.DB {
 }
 
 func PostgresConnectionByUrl(url string) *sqlx.DB {
+	var db *sqlx.DB
+	var err error
 
-	db, err := sqlx.Connect("postgres", url)
-	if err == nil {
-		db.SetMaxOpenConns(9)
-		db.SetMaxIdleConns(9)
-		db.SetConnMaxLifetime(5 * time.Minute)
-	} else {
-		fmt.Println(err)
+	for {
+		db, err = sqlx.Connect("postgres", url)
+		if err == nil {
+			db.SetMaxOpenConns(9)
+			db.SetMaxIdleConns(9)
+			db.SetConnMaxLifetime(5 * time.Minute)
+			break
+		} else {
+			fmt.Println(err.Error())
+			time.Sleep(time.Second * 3)
+		}
 	}
 
 	return db
