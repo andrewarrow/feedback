@@ -19,7 +19,9 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 		contentVars["user"] = user
 		vars = contentVars
 	}
-	r.Template.ExecuteTemplate(content, filename, vars)
+
+	t := r.getLiveOrCachedTemplate(filename)
+	t.Execute(content, vars)
 
 	layoutMap["content_vars"] = vars
 	layoutMap["footer"] = r.Site.Footer
