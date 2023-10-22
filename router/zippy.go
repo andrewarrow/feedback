@@ -26,7 +26,8 @@ func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 			fmt.Println(rendered)
 			t, _ = template.New("markup").Parse(rendered)
 		} else {
-			t, _ = template.ParseFiles("views/" + name)
+			live := LoadLiveTemplates()
+			t = live.Lookup(name)
 		}
 	} else {
 		t = r.Template.Lookup(name)

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"strconv"
 	"strings"
 	"time"
@@ -280,6 +281,21 @@ func LoadTemplates() *template.Template {
 	templateFiles, _ := EmbeddedTemplates.ReadDir("views")
 	for _, file := range templateFiles {
 		fileContents, _ := EmbeddedTemplates.ReadFile("views/" + file.Name())
+		_, err := t.New(file.Name()).Parse(string(fileContents))
+		if err != nil {
+			fmt.Println(file.Name(), err)
+		}
+	}
+	return t
+}
+
+func LoadLiveTemplates() *template.Template {
+	t := template.New("")
+	t = t.Funcs(TemplateFunctions())
+
+	templateFiles, _ := ioutil.ReadDir("views")
+	for _, file := range templateFiles {
+		fileContents, _ := ioutil.ReadFile("views/" + file.Name())
 		_, err := t.New(file.Name()).Parse(string(fileContents))
 		if err != nil {
 			fmt.Println(file.Name(), err)
