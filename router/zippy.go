@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/andrewarrow/feedback/markup"
@@ -16,9 +17,12 @@ var UseLiveTemplates = false
 func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 	var t *template.Template
 	if UseLiveTemplates {
-		if strings.HasSuffix(name, ".mu") {
+
+		tokens := strings.Split(name, ".")
+		_, err := os.Stat("markup/" + tokens[0] + ".mu")
+		if err == nil {
 			send := map[string]any{}
-			rendered := markup.ToHTML(send, "markup/"+name)
+			rendered := markup.ToHTML(send, "markup/"+tokens[0]+".mu")
 			fmt.Println(rendered)
 			t, _ = template.New("markup").Parse(rendered)
 		} else {
