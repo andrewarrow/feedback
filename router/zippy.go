@@ -12,7 +12,7 @@ import (
 	"github.com/andrewarrow/feedback/markup"
 )
 
-var UseLiveTemplates = false
+var UseLiveTemplates = os.Getenv("USE_LIVE_TEMPLATES") == "true"
 
 func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 	var t *template.Template

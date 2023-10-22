@@ -15,21 +15,24 @@ type Tag struct {
 
 var validTagMap = map[string]int{"div": 2, "img": 3, "root": 1, "a": 2,
 	"span": 2, "form": 2, "input": 3, "textarea": 2,
-	"button": 2}
+	"button": 2, "{{": 4}
 
 func NewTag(index int, tokens []string) *Tag {
 	t := Tag{}
 	name := tokens[index]
 	t.Attr = makeClassAndAttrMap(name, tokens[index+1:len(tokens)])
-	if name == "img" {
-		t.Attr["class"] += "w-20 "
-	}
+	//if name == "img" {
+	//	t.Attr["class"] += "w-20 "
+	//}
 	flavor := validTagMap[name]
-	if flavor > 0 {
+	t.Name = name
+	if flavor > 0 && flavor < 4 {
 		t.Close = flavor == 2
-		t.Name = name
 	} else {
 		t.Text = strings.Join(tokens[index:len(tokens)], " ")
+	}
+	if flavor == 0 {
+		t.Name = ""
 	}
 	t.Children = []*Tag{}
 	//t.Parent = parent
@@ -47,6 +50,9 @@ func (t *Tag) MakeAttr() string {
 }
 
 func fixValueForTag(name, key, value string) string {
+	if strings.HasPrefix(value, "http") {
+		return value
+	}
 	if name == "img" && key == "src" {
 		value = fmt.Sprintf("/assets/images/%s", value)
 	}

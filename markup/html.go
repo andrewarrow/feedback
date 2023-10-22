@@ -81,11 +81,17 @@ func renderHTML(m map[string]any, tag *Tag, tabs string) string {
 	html := ""
 
 	if tag.Name != "root" && tag.Name != "" {
-		html += fmt.Sprintf("%s<%s", tabs, tag.Name)
-		//html += tabs + "<" + tag.Name
-		html += fmt.Sprintf(` %s `, tag.MakeAttr())
+		if tag.Name != "{{" {
+			html += fmt.Sprintf("%s<%s", tabs, tag.Name)
+			//html += tabs + "<" + tag.Name
+			html += fmt.Sprintf(` %s `, tag.MakeAttr())
+		}
 		if tag.Close == false {
-			html += "/>"
+			if tag.Name != "{{" {
+				html += "/>"
+			} else {
+				html += fmt.Sprintf("%s%s", tabs, tag.Text)
+			}
 		} else {
 			html = strings.TrimRight(html, " ") + ">"
 		}
@@ -101,7 +107,7 @@ func renderHTML(m map[string]any, tag *Tag, tabs string) string {
 		html += "\n"
 	}
 
-	if tag.Text != "" {
+	if tag.Text != "" && tag.Name != "{{" {
 		if strings.HasPrefix(tag.Text, "#") {
 			key := tag.Text[1:len(tag.Text)]
 			html += m[key].(string)
