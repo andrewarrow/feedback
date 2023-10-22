@@ -4,11 +4,24 @@ import (
 	"bytes"
 	"compress/gzip"
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
+var UseLiveTemplates = false
+
+func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
+	var t *template.Template
+	if UseLiveTemplates {
+		t, _ = template.ParseFiles("views/" + name)
+	} else {
+		t = r.Template.Lookup(name)
+	}
+	return t
+}
+
 func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.ResponseWriter, status int) {
-	t := r.Template.Lookup(name)
+	t := r.getLiveOrCachedTemplate(name)
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)
 	cb := content.Bytes()

@@ -41,7 +41,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r.Paths["/"] = handleWelcome
 	r.Paths["models"] = handleModels
 	r.Paths["fields"] = handleFields
-	r.Paths["sessions"] = handleSessions
+	r.Paths["sessions"] = HandleSessions
 	r.Paths["users"] = handleUsers
 	r.Paths["about"] = handleAbout
 	r.Paths["stats"] = handleStats

@@ -18,7 +18,7 @@ func NotLoggedIn(c *Context) bool {
 	return false
 }
 
-func handleSessions(c *Context, second, third string) {
+func HandleSessions(c *Context, second, third string) {
 	if second == "" {
 		handleSessionsIndex(c)
 	} else if third != "" {
