@@ -19,6 +19,7 @@ func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 		if strings.HasSuffix(name, ".mu") {
 			send := map[string]any{}
 			rendered := markup.ToHTML(send, "markup/"+name)
+			fmt.Println(rendered)
 			t, _ = template.New("markup").Parse(rendered)
 		} else {
 			t, _ = template.ParseFiles("views/" + name)

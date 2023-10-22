@@ -7,7 +7,7 @@ import (
 )
 
 func ToHTML(m map[string]any, filename string) string {
-	asBytes, _ := ioutil.ReadFile("markup/" + filename)
+	asBytes, _ := ioutil.ReadFile(filename)
 	asString := string(asBytes)
 	asLines := strings.Split(asString, "\n")
 	root := NewTag(0, []string{"root"})
