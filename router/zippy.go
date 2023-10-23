@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -18,17 +19,17 @@ func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 	var t *template.Template
 	if UseLiveTemplates {
 
-		tokens := strings.Split(name, ".")
-		_, err := os.Stat("markup/" + tokens[0] + ".mu")
-		if err == nil {
+		list, _ := ioutil.ReadDir("markup")
+		for _, file := range list {
+			name := file.Name()
+			tokens := strings.Split(name, ".")
 			send := map[string]any{}
-			rendered := markup.ToHTML(send, "markup/"+tokens[0]+".mu")
+			rendered := markup.ToHTML(send, "markup/"+name)
 			fmt.Println(rendered)
-			t, _ = template.New("markup").Parse(rendered)
-		} else {
-			live := LoadLiveTemplates()
-			t = live.Lookup(name)
+			ioutil.WriteFile("views/"+tokens[0]+".html", []byte(rendered), 0644)
 		}
+		live := LoadLiveTemplates()
+		t = live.Lookup(name)
 	} else {
 		t = r.Template.Lookup(name)
 	}
