@@ -32,7 +32,11 @@ func ToHTML(m map[string]any, filename string) string {
 				offset = (delta * 2) - 2
 			}
 			//fmt.Println("f", delta, offset, line)
-			stack = stack[0 : len(stack)-(offset)]
+			val := len(stack) - (offset)
+			if val < 0 {
+				val = 0
+			}
+			stack = stack[0:val]
 		}
 		if spaces == 0 {
 			stack = []*Tag{root}

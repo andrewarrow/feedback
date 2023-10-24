@@ -14,7 +14,7 @@ type Tag struct {
 }
 
 var validTagMap = map[string]int{"div": 2, "img": 3, "root": 1, "a": 2,
-	"iframe": 2, "p": 2, "span": 2, "form": 2, "input": 3, "textarea": 2,
+	"td": 2, "iframe": 2, "p": 2, "span": 2, "form": 2, "input": 3, "textarea": 2,
 	"button": 2, "{{": 4}
 
 func NewTag(index int, tokens []string) *Tag {
@@ -51,6 +51,9 @@ func (t *Tag) MakeAttr() string {
 
 func fixValueForTag(name, key, value string) string {
 	if strings.HasPrefix(value, "http") {
+		return value
+	}
+	if strings.HasPrefix(value, "/bucket") {
 		return value
 	}
 	if name == "img" && key == "src" {
