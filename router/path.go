@@ -87,6 +87,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		r.pathFuncToRun("/")(c, "", "")
 	} else if strings.HasPrefix(path, "/robots.txt") {
 		r.HandleAsset("/assets/other/robots.txt", writer, request)
+	} else if strings.HasPrefix(path, "/google") {
+		r.HandleAsset("/assets/other"+path, writer, request)
 	} else if strings.HasPrefix(path, "/favicon.ico") {
 		r.HandleAsset("/assets/other/favicon.ico", writer, request)
 	} else if strings.HasPrefix(path, "/assets") {

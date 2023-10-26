@@ -14,8 +14,14 @@ type Tag struct {
 }
 
 var validTagMap = map[string]int{"div": 2, "img": 3, "root": 1, "a": 2,
-	"td": 2, "iframe": 2, "p": 2, "span": 2, "form": 2, "input": 3, "textarea": 2,
-	"button": 2, "{{": 4}
+	"h1":     2,
+	"h2":     2,
+	"h3":     2,
+	"h4":     2,
+	"h5":     2,
+	"select": 2,
+	"option": 2,
+	"tr":     2, "td": 2, "iframe": 2, "p": 2, "span": 2, "form": 2, "input": 3, "textarea": 2, "button": 2, "{{": 4}
 
 func NewTag(index int, tokens []string) *Tag {
 	t := Tag{}
