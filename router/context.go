@@ -80,6 +80,14 @@ func handleContext(c *Context) {
 	tokens := c.tokens
 	first := tokens[1]
 
+	if c.Router.AllPosts {
+		funcToRun := c.Router.pathFuncToRun("posts")
+		if c.Method == "POST" {
+			funcToRun(c, "", "")
+			return
+		}
+	}
+
 	funcToRun := c.Router.pathFuncToRun(first)
 
 	if funcToRun == nil {

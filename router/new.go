@@ -28,6 +28,7 @@ type Router struct {
 	NotFoundFunc    func(*Router, *Context)
 	BeforeAll       func(*Context)
 	NotLoggedInPath string
+	AllPosts        bool
 }
 
 func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
