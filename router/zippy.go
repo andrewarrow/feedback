@@ -25,7 +25,7 @@ func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 			tokens := strings.Split(name, ".")
 			send := map[string]any{}
 			rendered := markup.ToHTML(send, "markup/"+name)
-			fmt.Println(rendered)
+			//fmt.Println(rendered)
 			ioutil.WriteFile("views/"+tokens[0]+".html", []byte(rendered), 0644)
 		}
 		live := LoadLiveTemplates()
