@@ -27,9 +27,9 @@ func NewTag(index int, tokens []string) *Tag {
 	t := Tag{}
 	name := tokens[index]
 	t.Attr = makeClassAndAttrMap(name, tokens[index+1:len(tokens)])
-	//if name == "img" {
-	//	t.Attr["class"] += "w-20 "
-	//}
+	if name == "form" && t.Attr["method"] == "" {
+		t.Attr["method"] = "POST"
+	}
 	flavor := validTagMap[name]
 	t.Name = name
 	if flavor > 0 && flavor < 4 {
