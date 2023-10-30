@@ -32,6 +32,7 @@ func TemplateFunctions() template.FuncMap {
 		"mod":    func(i, j int) bool { return i%j == 0 },
 		"tokens": func(s string, i int) string { return strings.Split(s, ".")[i] },
 		"add":    func(i, j int) int { return i + j },
+		"mul":    func(i, j int) int { return i * j },
 		"k":      func(i int64) string { return fmt.Sprintf("%0.2f", float64(i)/1000.0) },
 		"humanSize": func(bytes int64) string {
 
