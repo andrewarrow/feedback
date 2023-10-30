@@ -80,23 +80,6 @@ func handleContext(c *Context) {
 	tokens := c.tokens
 	first := tokens[1]
 
-	if c.Router.AllPosts && c.Method == "POST" && strings.HasPrefix(first, "Post") {
-		funcToRun := c.Router.pathFuncToRun("posts")
-		if len(tokens) == 3 {
-			funcToRun(c, first, "")
-		} else if len(tokens) == 4 {
-			funcToRun(c, first, tokens[2])
-		}
-	}
-	if c.Router.AllPosts && c.Method == "GET" && strings.HasPrefix(first, "Get") {
-		funcToRun := c.Router.pathFuncToRun("gets")
-		if len(tokens) == 3 {
-			funcToRun(c, first, "")
-		} else if len(tokens) == 4 {
-			funcToRun(c, first, tokens[2])
-		}
-	}
-
 	funcToRun := c.Router.pathFuncToRun(first)
 
 	if funcToRun == nil {
