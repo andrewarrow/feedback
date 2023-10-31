@@ -41,6 +41,9 @@ func ToHTML(m map[string]any, filename string) string {
 		if spaces == 0 {
 			stack = []*Tag{root}
 		}
+		if spaces == 14 && len(stack) == 13 {
+			stack = stack[0:12]
+		}
 		if spaces == 14 && len(stack) == 12 {
 			stack = stack[0:11]
 		}
