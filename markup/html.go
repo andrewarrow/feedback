@@ -47,6 +47,9 @@ func ToHTML(m map[string]any, filename string) string {
 		if spaces == 14 && len(stack) == 12 {
 			stack = stack[0:11]
 		}
+		if spaces == 12 && len(stack) == 13 {
+			stack = stack[0:12]
+		}
 		if spaces == 8 && len(stack) == 12 {
 			stack = stack[0:5]
 		}
@@ -62,8 +65,8 @@ func ToHTML(m map[string]any, filename string) string {
 		if spaces == 2 && len(stack) == 3 {
 			stack = stack[0:2]
 		}
-		//fmt.Println("s", spaces, len(stack))
-		//fmt.Println("s", spaces, tokens)
+		fmt.Println("s", spaces, len(stack))
+		fmt.Println("s", spaces, tokens)
 
 		tag := NewTag(spaces, tokens)
 		parent := stack[len(stack)-1]
