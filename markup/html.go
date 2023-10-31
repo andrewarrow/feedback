@@ -59,7 +59,7 @@ func ToHTML(m map[string]any, filename string) string {
 		if spaces == 2 && len(stack) == 3 {
 			stack = stack[0:2]
 		}
-		fmt.Println("s", spaces, len(stack))
+		//fmt.Println("s", spaces, len(stack))
 		//fmt.Println("s", spaces, tokens)
 
 		tag := NewTag(spaces, tokens)
