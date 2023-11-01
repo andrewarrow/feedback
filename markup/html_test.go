@@ -14,7 +14,12 @@ div 1
   div 2
     div 3
       div 4
+      {{ test }}
+      {{ range }}
         div 5
+        div 55
+          hi
+      {{ end }}
   div 6
     hi
 `
