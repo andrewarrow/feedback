@@ -22,6 +22,7 @@ func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 		list, _ := ioutil.ReadDir("markup")
 		for _, file := range list {
 			name := file.Name()
+			fmt.Println("*", name)
 			tokens := strings.Split(name, ".")
 			send := map[string]any{}
 			rendered := markup.ToHTML(send, "markup/"+name)
