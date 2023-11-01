@@ -10,22 +10,18 @@ func TestToHTML(t *testing.T) {
 	send := map[string]any{}
 
 	q := `
-div
-  div
-    div bg-green-100 space-y-3 pt-3 pl-3
-      {{ $list := index . "list" }}
-      {{ range $i, $item := $list }}
-        div flex 
-          div mr-3
-            {{ add $i 1 }}.
-          div
-            {{ $title := index $item "title" }}
-            {{ $id := index $item "id_hacker" }}
-            {{ $digitSum := index $item "digit_sum" }}
-            {{ $sum := index $item "sum" }}
-            div
-              a href=https://news.ycombinator.com/item?id!{{$id}}
-                {{ $title }}
+div 1
+  div 2
+    div 3
+      div 4
+			  hi4
+      div 5 
+        div 6
+          div 7
+            div 8
+						  hi8
+          div 9
+						hi9
 `
 	lines := strings.Split(q, "\n")
 	s := ToHTMLFromLines(send, lines)
