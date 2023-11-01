@@ -25,9 +25,11 @@ func ToHTMLFromLines(m map[string]any, asLines []string) string {
 		spaces := countSpaces(tokens)
 		tag := NewTag(spaces, tokens)
 		key := fmt.Sprintf("%d_%d", i, spaces)
+		//fmt.Println(key)
 		spaceMap[key] = tag
 	}
 
+	fmt.Println("key")
 	//stack := []*Tag{root}
 	//var lastSpaces int
 
@@ -38,17 +40,28 @@ func ToHTMLFromLines(m map[string]any, asLines []string) string {
 		}
 
 		spaces := countSpaces(tokens)
-		key := fmt.Sprintf("%d_%d", i, spaces)
+		more := 0
+		for {
+			key := fmt.Sprintf("%d_%d", i-more, spaces-2)
+			p := spaceMap[key]
+			if p != nil {
+				key = fmt.Sprintf("%d_%d", i, spaces)
+				t := spaceMap[key]
+				//fmt.Println(key, p.Name, t.Name)
 
-		//p := spaceMap[spaces-2]
-		ts := spaceMap[key]
-		fmt.Println(ts)
-		//if len(p) > 0 {
-		//p.Children = append(parent.Children, n)
-		//}
+				p.Children = append(p.Children, t)
+				break
+			}
+			more++
+			if i-more < 0 {
+				break
+			}
+		}
 
 	}
 
+	top := spaceMap["2_2"]
+	root.Children = append(root.Children, top)
 	final := renderHTML(m, root, "")
 	//fmt.Println(final)
 	return final
