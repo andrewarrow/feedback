@@ -41,34 +41,38 @@ func ToHTMLFromLines(m map[string]any, asLines []string) string {
 				val = 0
 			}
 			stack = stack[0:val]
+		} else if delta == 0 {
+			stack = stack[0 : len(stack)-1]
 		}
 		if spaces == 0 {
 			stack = []*Tag{root}
 		}
-		if spaces == 14 && len(stack) == 13 {
-			stack = stack[0:12]
-		}
-		if spaces == 14 && len(stack) == 12 {
-			stack = stack[0:11]
-		}
-		if spaces == 12 && len(stack) == 13 {
-			stack = stack[0:12]
-		}
-		if spaces == 8 && len(stack) == 12 {
-			stack = stack[0:5]
-		}
-		if spaces == 6 && len(stack) == 6 {
-			stack = stack[0:4]
-		}
-		if spaces == 6 && len(stack) == 5 {
-			stack = stack[0:4]
-		}
-		if spaces == 4 && len(stack) == 4 {
-			stack = stack[0:3]
-		}
-		if spaces == 2 && len(stack) == 3 {
-			stack = stack[0:2]
-		}
+		/*
+			if spaces == 14 && len(stack) == 13 {
+				stack = stack[0:12]
+			}
+			if spaces == 14 && len(stack) == 12 {
+				stack = stack[0:11]
+			}
+			if spaces == 12 && len(stack) == 13 {
+				stack = stack[0:12]
+			}
+			if spaces == 8 && len(stack) == 12 {
+				stack = stack[0:5]
+			}
+			if spaces == 6 && len(stack) == 6 {
+				stack = stack[0:4]
+			}
+			if spaces == 6 && len(stack) == 5 {
+				stack = stack[0:4]
+			}
+			if spaces == 4 && len(stack) == 4 {
+				stack = stack[0:3]
+			}
+			if spaces == 2 && len(stack) == 3 {
+				stack = stack[0:2]
+			}
+		*/
 		//fmt.Println("s", spaces, len(stack))
 		//fmt.Println("s", spaces, tokens)
 
