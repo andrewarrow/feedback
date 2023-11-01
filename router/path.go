@@ -17,10 +17,9 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 	contentVars, ok := vars.(map[string]any)
 	if ok {
 		contentVars["user"] = user
-		vars = contentVars
 	}
 
-	t := r.getLiveOrCachedTemplate(filename)
+	t := r.GetLiveOrCachedTemplate(filename)
 	t.Execute(content, vars)
 
 	layoutMap["content_vars"] = vars

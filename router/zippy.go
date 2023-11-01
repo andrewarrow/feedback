@@ -15,7 +15,7 @@ import (
 
 var UseLiveTemplates = os.Getenv("USE_LIVE_TEMPLATES") == "true"
 
-func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
+func (r *Router) GetLiveOrCachedTemplate(name string) *template.Template {
 	var t *template.Template
 	if UseLiveTemplates {
 
@@ -38,7 +38,7 @@ func (r *Router) getLiveOrCachedTemplate(name string) *template.Template {
 }
 
 func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.ResponseWriter, status int) {
-	t := r.getLiveOrCachedTemplate(name)
+	t := r.GetLiveOrCachedTemplate(name)
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)
 	cb := content.Bytes()

@@ -6,7 +6,7 @@ import (
 )
 
 func (c *Context) Template(name string, vars any) template.HTML {
-	t := c.Router.getLiveOrCachedTemplate(name)
+	t := c.Router.GetLiveOrCachedTemplate(name)
 	if t == nil {
 		return template.HTML("")
 	}
