@@ -185,31 +185,27 @@ func TemplateFunctions() template.FuncMap {
 			cents := amount[len(amount)-2:]
 			return fmt.Sprintf("%s.%s", dollars, cents)
 		},
-		"price": func(thing any) template.HTML {
-			thingInt64, ok := thing.(int64)
-			if !ok {
-				thingFloat64 := thing.(float64)
-				thingInt64 = int64(thingFloat64)
-			}
-			if thingInt64 == 0 {
-				s := "$0.00 USD"
-				return template.HTML(s)
+		"price": func(s any) template.HTML {
+			amount := fmt.Sprintf("%v", s)
+			price, _ := strconv.Atoi(amount)
+			if price == 0 {
+				sp := "$0.00 USD"
+				return template.HTML(sp)
 			}
 
-			amount := fmt.Sprintf("%d", thingInt64)
 			if len(amount) < 3 {
-				s := fmt.Sprintf("$00.%s USD", amount)
-				return template.HTML(s)
+				sp := fmt.Sprintf("$00.%s USD", amount)
+				return template.HTML(sp)
 			}
 			dollars := amount[0 : len(amount)-2]
 			dollarsInt, _ := strconv.ParseInt(dollars, 10, 64)
 			dollars = util.IntComma(dollarsInt)
 			cents := amount[len(amount)-2:]
-			s := fmt.Sprintf("$%s.%s USD", dollars, cents)
-			if thingInt64 < 0 {
-				s = "<span class='text-red-500'>" + s + "</span>"
+			sp := fmt.Sprintf("$%s.%s USD", dollars, cents)
+			if price < 0 {
+				sp = "<span class='text-red-500'>" + sp + "</span>"
 			}
-			return template.HTML(s)
+			return template.HTML(sp)
 		},
 		"timezone": func(tz any) template.HTML {
 			if tz == nil {
