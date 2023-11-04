@@ -11,6 +11,7 @@ var EmbeddedAssets embed.FS
 
 func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *http.Request) {
 	contentType := "text/css"
+	contentEncoding := "identity"
 	if strings.HasSuffix(path, ".js") {
 		contentType = "application/javascript"
 	} else if strings.HasSuffix(path, ".ico") {
@@ -27,11 +28,15 @@ func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *h
 		contentType = "font/ttf"
 	} else if strings.HasSuffix(path, ".xml") {
 		contentType = "text/xml"
+	} else if strings.HasSuffix(path, ".wasm.gz") {
+		contentEncoding = "gzip"
+		contentType = "application/wasm"
 	} else if strings.HasSuffix(path, ".wasm") {
 		contentType = "application/wasm"
 	}
 	writer.Header().Set("Content-Type", contentType)
 	writer.Header().Set("Connection", "keep-alive")
+	writer.Header().Set("Content-Encoding", contentEncoding)
 	writer.Header().Set("Cache-Control", "max-age=3600, public, must-revalidate, proxy-revalidate")
 	//	matchFile := files.ReadFile(fmt.Sprintf("%s", path[1:]))
 
