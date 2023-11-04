@@ -11,6 +11,7 @@ import (
 
 type Router struct {
 	Template        *template.Template
+	CustomFuncMap   *template.FuncMap
 	Site            *FeedbackSite
 	Db              *sqlx.DB
 	WrangleDb       *sqlx.DB
@@ -68,7 +69,11 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 		go MakeTables(r.Db, r.Site.Models)
 	}
 
-	r.Template = LoadTemplates()
+	if r.CustomFuncMap == nil {
+		tf := TemplateFunctions()
+		r.CustomFuncMap = &tf
+	}
+	r.Template = LoadTemplates(*r.CustomFuncMap)
 
 	return &r
 }

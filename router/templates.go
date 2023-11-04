@@ -284,7 +284,7 @@ func TemplateFunctions() template.FuncMap {
 	return fm
 }
 
-func LoadTemplatesWithFunc(tf template.FuncMap) *template.Template {
+func LoadTemplates(tf template.FuncMap) *template.Template {
 	t := template.New("")
 	t = t.Funcs(tf)
 
@@ -299,11 +299,7 @@ func LoadTemplatesWithFunc(tf template.FuncMap) *template.Template {
 	return t
 }
 
-func LoadTemplates() *template.Template {
-	return LoadTemplatesWithFunc(TemplateFunctions())
-}
-
-func LoadLiveTemplatesWithFunc(tf template.FuncMap) *template.Template {
+func LoadLiveTemplates(tf template.FuncMap) *template.Template {
 	t := template.New("")
 	t = t.Funcs(tf)
 
@@ -316,10 +312,6 @@ func LoadLiveTemplatesWithFunc(tf template.FuncMap) *template.Template {
 		}
 	}
 	return t
-}
-
-func LoadLiveTemplates() *template.Template {
-	return LoadLiveTemplatesWithFunc(TemplateFunctions())
 }
 
 func calculateAge(birthdate time.Time) int {
