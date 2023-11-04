@@ -173,15 +173,11 @@ func TemplateFunctions() template.FuncMap {
 			return t.In(utc).Unix()
 		},
 		"simplePrice": func(s any) string {
-			price, ok := s.(int64)
-			if !ok {
-				thingFloat64 := s.(float64)
-				price = int64(thingFloat64)
-			}
+			amount := fmt.Sprintf("%v", s)
+			price, _ := strconv.Atoi(amount)
 			if price == 0 {
 				return "0.00"
 			}
-			amount := fmt.Sprintf("%d", price)
 			if len(amount) < 3 {
 				return fmt.Sprintf("00.%s", amount)
 			}
