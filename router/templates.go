@@ -284,9 +284,9 @@ func TemplateFunctions() template.FuncMap {
 	return fm
 }
 
-func LoadTemplates() *template.Template {
+func LoadTemplatesWithFunc(tf template.FuncMap) *template.Template {
 	t := template.New("")
-	t = t.Funcs(TemplateFunctions())
+	t = t.Funcs(tf)
 
 	templateFiles, _ := EmbeddedTemplates.ReadDir("views")
 	for _, file := range templateFiles {
@@ -299,9 +299,13 @@ func LoadTemplates() *template.Template {
 	return t
 }
 
-func LoadLiveTemplates() *template.Template {
+func LoadTemplates() *template.Template {
+	return LoadTemplatesWithFunc(TemplateFunctions())
+}
+
+func LoadLiveTemplatesWithFunc(tf template.FuncMap) *template.Template {
 	t := template.New("")
-	t = t.Funcs(TemplateFunctions())
+	t = t.Funcs(tf)
 
 	templateFiles, _ := ioutil.ReadDir("views")
 	for _, file := range templateFiles {
@@ -312,6 +316,10 @@ func LoadLiveTemplates() *template.Template {
 		}
 	}
 	return t
+}
+
+func LoadLiveTemplates() *template.Template {
+	return LoadLiveTemplatesWithFunc(TemplateFunctions())
 }
 
 func calculateAge(birthdate time.Time) int {
