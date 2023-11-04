@@ -172,6 +172,23 @@ func TemplateFunctions() template.FuncMap {
 			utc, _ := time.LoadLocation("UTC")
 			return t.In(utc).Unix()
 		},
+		"simplePrice": func(s any) string {
+			price, ok := s.(int64)
+			if !ok {
+				thingFloat64 := s.(float64)
+				price = int64(thingFloat64)
+			}
+			if price == 0 {
+				return "0.00"
+			}
+			amount := fmt.Sprintf("%d", price)
+			if len(amount) < 3 {
+				return fmt.Sprintf("00.%s", amount)
+			}
+			dollars := amount[0 : len(amount)-2]
+			cents := amount[len(amount)-2:]
+			return fmt.Sprintf("%s.%s", dollars, cents)
+		},
 		"price": func(thing any) template.HTML {
 			thingInt64, ok := thing.(int64)
 			if !ok {
