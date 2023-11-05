@@ -9,9 +9,10 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+var CustomFuncMap *template.FuncMap
+
 type Router struct {
 	Template        *template.Template
-	CustomFuncMap   *template.FuncMap
 	Site            *FeedbackSite
 	Db              *sqlx.DB
 	WrangleDb       *sqlx.DB
@@ -69,11 +70,11 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 		go MakeTables(r.Db, r.Site.Models)
 	}
 
-	if r.CustomFuncMap == nil {
+	if CustomFuncMap == nil {
 		tf := TemplateFunctions()
-		r.CustomFuncMap = &tf
+		CustomFuncMap = &tf
 	}
-	r.Template = LoadTemplates(*r.CustomFuncMap)
+	r.Template = LoadTemplates(*CustomFuncMap)
 
 	return &r
 }

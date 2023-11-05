@@ -29,7 +29,7 @@ func (r *Router) GetLiveOrCachedTemplate(name string) *template.Template {
 			//fmt.Println(rendered)
 			ioutil.WriteFile("views/"+tokens[0]+".html", []byte(rendered), 0644)
 		}
-		live := LoadLiveTemplates(*r.CustomFuncMap)
+		live := LoadLiveTemplates(*CustomFuncMap)
 		t = live.Lookup(name)
 	} else {
 		t = r.Template.Lookup(name)
