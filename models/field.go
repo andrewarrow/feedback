@@ -14,6 +14,7 @@ type Field struct {
 	Index     string   `json:"index"`
 	Required  string   `json:"required"`
 	Regex     string   `json:"regex"`
+	Default   string   `json:"default"`
 	Null      string   `json:"null"`
 	JsonNames []string `json:"json_names"`
 	JsonTypes []string `json:"json_types"`
@@ -31,6 +32,8 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "text"
 	} else if f.Flavor == "uuid" {
 		flavor = "citext"
+	} else if f.Flavor == "enum" {
+		defaultString = f.Default
 	} else if f.Flavor == "geometry" {
 		flavor = "geometry(Point,4326)"
 	} else if f.Flavor == "bool" {
@@ -46,7 +49,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	return flavor, defaultString
 }
 
-func (f *Field) Default() any {
+func (f *Field) SaneDefault() any {
 	if f.Flavor == "int" {
 		return 0
 	} else if f.Flavor == "timestamp" && f.Null == "" {

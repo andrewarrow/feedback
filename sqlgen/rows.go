@@ -70,7 +70,7 @@ func insertRow(random bool, tableName string,
 			if random {
 				val = field.RandomValue()
 			} else {
-				val = field.Default()
+				val = field.SaneDefault()
 			}
 		}
 		if field.Flavor == "list" && val != nil {
