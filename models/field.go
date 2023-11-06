@@ -33,7 +33,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	} else if f.Flavor == "uuid" {
 		flavor = "citext"
 	} else if f.Flavor == "enum" {
-		defaultString = f.Default
+		defaultString = "'" + f.Default + "'"
 	} else if f.Flavor == "geometry" {
 		flavor = "geometry(Point,4326)"
 	} else if f.Flavor == "bool" {
