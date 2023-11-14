@@ -10,6 +10,7 @@ import (
 )
 
 var CustomFuncMap *template.FuncMap
+var UseJsonToMakeTablesAndIndexes = true
 
 type Router struct {
 	Template        *template.Template
@@ -66,7 +67,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 		m.EnsureIdAndCreatedAt()
 	}
 	r.Site = &site
-	if r.Db != nil {
+	if r.Db != nil && UseJsonToMakeTablesAndIndexes {
 		go MakeTables(r.Db, r.Site.Models)
 	}
 
