@@ -12,6 +12,11 @@ import (
 )
 
 func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string, user map[string]any, filename string, vars any) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered from panic:", r)
+		}
+	}()
 	content := new(bytes.Buffer)
 
 	contentVars, ok := vars.(map[string]any)
