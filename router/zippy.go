@@ -40,7 +40,10 @@ func (r *Router) GetLiveOrCachedTemplate(name string) *template.Template {
 func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.ResponseWriter, status int) {
 	t := r.GetLiveOrCachedTemplate(name)
 	content := new(bytes.Buffer)
-	t.Execute(content, vars)
+	err := t.Execute(content, vars)
+	if err != nil {
+		fmt.Println(err)
+	}
 	cb := content.Bytes()
 
 	if doZip {
