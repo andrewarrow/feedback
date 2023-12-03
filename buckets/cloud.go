@@ -15,6 +15,10 @@ import (
 )
 
 func StoreInAws(data []byte, filename string) {
+	StoreInAwsWithFlavor(data, filename, "application/octet-stream")
+}
+
+func StoreInAwsWithFlavor(data []byte, filename, flavor string) {
 
 	bucketName := os.Getenv("PUBLIC_STORAGE_BUCKET")
 
@@ -28,9 +32,10 @@ func StoreInAws(data []byte, filename string) {
 	dataReader := bytes.NewReader(data)
 
 	putObjectInput := &s3.PutObjectInput{
-		Bucket: aws.String(bucketName),
-		Key:    aws.String(filename),
-		Body:   dataReader,
+		Bucket:      aws.String(bucketName),
+		Key:         aws.String(filename),
+		Body:        dataReader,
+		ContentType: aws.String(flavor),
 	}
 	putObjectInput.ACL = types.ObjectCannedACLPublicRead
 
