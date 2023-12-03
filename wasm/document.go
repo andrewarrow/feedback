@@ -6,9 +6,9 @@ type Document struct {
 	Document js.Value
 }
 
-func NewDocument() *Document {
+func NewDocument(g *Global) *Document {
 	d := Document{}
-	d.Document = js.Global().Get("document")
+	d.Document = g.Global.Get("document")
 	return &d
 }
 
