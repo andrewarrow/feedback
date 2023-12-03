@@ -8,6 +8,7 @@ import (
 type Global struct {
 	Global   *js.Value
 	Document *Document
+	Location *Settable
 }
 
 func NewGlobal() *Global {
@@ -16,6 +17,7 @@ func NewGlobal() *Global {
 	temp.Set("WasmReady", js.FuncOf(g.WasmReady))
 	g.Global = &temp
 	g.Document = NewDocument(&g)
+	g.Location = NewLocation(&g)
 	return &g
 }
 
