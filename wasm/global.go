@@ -17,12 +17,12 @@ func NewGlobal() *Global {
 	temp.Set("WasmReady", js.FuncOf(g.WasmReady))
 	g.Global = &temp
 	g.Document = NewDocument(&g)
-	g.Location = NewLocation(&g)
 	return &g
 }
 
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	fmt.Println("here")
+	g.Location = NewLocation(g)
 	return nil
 }
 
