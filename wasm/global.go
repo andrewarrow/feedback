@@ -8,7 +8,7 @@ import (
 type Global struct {
 	Global   *js.Value
 	Document *Document
-	Location *Settable
+	Location *Location
 }
 
 func NewGlobal() *Global {
