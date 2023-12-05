@@ -1,7 +1,6 @@
 package wasm
 
 import (
-	"fmt"
 	"syscall/js"
 )
 
@@ -27,7 +26,6 @@ func (w *Wrapper) SelectAll(s string) []*Wrapper {
 		w.Name = item.Get("name").String()
 		w.Id = item.Get("id").String()
 		w.Value = item.Get("value").String()
-		fmt.Println(w)
 		items = append(items, w)
 	}
 	return items
