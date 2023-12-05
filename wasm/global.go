@@ -30,3 +30,7 @@ func (g *Global) Click(id string, fn func(js.Value, []js.Value) any) {
 	button := g.Document.ById(id)
 	button.Set("onclick", js.FuncOf(fn))
 }
+func (g *Global) Submit(id string, fn func(js.Value, []js.Value) any) {
+	form := g.Document.ById(id)
+	form.Set("onsubmit", js.FuncOf(fn))
+}
