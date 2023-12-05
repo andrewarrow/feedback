@@ -15,3 +15,7 @@ func NewDocument(g *Global) *Document {
 func (d *Document) ById(id string) js.Value {
 	return d.Document.Call("getElementById", id)
 }
+
+func (d *Document) ByIdWrapped(id string) *Wrapper {
+	return NewWrapper(d.ById(id))
+}
