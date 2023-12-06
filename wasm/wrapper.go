@@ -17,6 +17,10 @@ func NewWrapper(v js.Value) *Wrapper {
 	return &w
 }
 
+func (w *Wrapper) Get(s string) string {
+	return w.JValue.Get(s).String()
+}
+
 func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
 	w.JValue.Set("onclick", js.FuncOf(fn))
 }
