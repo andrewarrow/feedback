@@ -11,13 +11,13 @@ type Global struct {
 	Location *Location
 }
 
-func NewGlobal() *Global {
+func NewGlobal() (*Global, *Document) {
 	g := Global{}
 	temp := js.Global()
 	temp.Set("WasmReady", js.FuncOf(g.WasmReady))
 	g.Global = &temp
 	g.Document = NewDocument(&g)
-	return &g
+	return &g, g.Document
 }
 
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
