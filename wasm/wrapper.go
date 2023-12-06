@@ -17,8 +17,12 @@ func NewWrapper(v js.Value) *Wrapper {
 	return &w
 }
 
-func (w *Wrapper) SelectAll(s string) []*Wrapper {
-	list := w.JValue.Call("querySelectorAll", s)
+func (w *Wrapper) SelectAllByClass(s string) []*Wrapper {
+	return w.SelectAllByQuery("getElementsByClassName", s)
+}
+
+func (w *Wrapper) SelectAllByQuery(call, s string) []*Wrapper {
+	list := w.JValue.Call(call, s)
 	items := []*Wrapper{}
 	for i := 0; i < list.Length(); i++ {
 		item := list.Index(i)
@@ -29,4 +33,8 @@ func (w *Wrapper) SelectAll(s string) []*Wrapper {
 		items = append(items, w)
 	}
 	return items
+}
+
+func (w *Wrapper) SelectAll(s string) []*Wrapper {
+	return w.SelectAllByQuery("querySelectorAll", s)
 }
