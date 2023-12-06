@@ -17,6 +17,10 @@ func NewWrapper(v js.Value) *Wrapper {
 	return &w
 }
 
+func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
+	w.JValue.Set("onclick", js.FuncOf(fn))
+}
+
 func (w *Wrapper) SelectAllByClass(s string) []*Wrapper {
 	return w.SelectAllByQuery("getElementsByClassName", s)
 }
