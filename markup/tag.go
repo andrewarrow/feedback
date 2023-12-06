@@ -66,6 +66,9 @@ func fixValueForTag(name, key, value string) string {
 	if name == "a" && strings.Contains(value, "!") {
 		return strings.ReplaceAll(value, "!", "=")
 	}
+	if strings.HasPrefix(value, "{{") {
+		return value
+	}
 	if strings.HasPrefix(value, "http") {
 		return value
 	}
