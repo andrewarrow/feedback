@@ -10,10 +10,12 @@ type Global struct {
 	Document *Document
 	Location *Location
 	Start    string
+	Ready    chan bool
 }
 
 func NewGlobal() (*Global, *Document) {
 	g := Global{}
+	g.Ready = make(chan bool, 1)
 	temp := js.Global()
 	temp.Set("WasmReady", js.FuncOf(g.WasmReady))
 	g.Global = &temp
@@ -25,6 +27,7 @@ func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	fmt.Println("here")
 	g.Location = NewLocation(g)
 	g.Start = p[0].String()
+	g.Ready <- true
 	return nil
 }
 
