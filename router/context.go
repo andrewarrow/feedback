@@ -45,7 +45,7 @@ func (c *Context) SendContentInLayout(filename string, vars any, status int) {
 		c.LayoutMap["title"] = models.RemoveMostNonAlphanumeric(c.Title)
 	}
 	c.LayoutMap["build"] = BuildTag
-	c.LayoutMap["wasm"] = WasmTag
+	//c.LayoutMap["wasm"] = WasmTag
 	ae := c.Request.Header.Get("Accept-Encoding")
 	gzip := false
 	if strings.Contains(ae, "gzip") {
