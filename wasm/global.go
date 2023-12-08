@@ -9,6 +9,7 @@ type Global struct {
 	Global   *js.Value
 	Document *Document
 	Location *Location
+	Start    string
 }
 
 func NewGlobal() (*Global, *Document) {
@@ -23,6 +24,7 @@ func NewGlobal() (*Global, *Document) {
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	fmt.Println("here")
 	g.Location = NewLocation(g)
+	g.Start = p[0].String()
 	return nil
 }
 
