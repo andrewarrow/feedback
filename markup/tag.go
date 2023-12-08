@@ -63,7 +63,7 @@ func (t *Tag) MakeAttr() string {
 }
 
 func fixValueForTag(name, key, value string) string {
-	if name == "a" && strings.Contains(value, "!") {
+	if (name == "a" || name == "link") && strings.Contains(value, "!") {
 		return strings.ReplaceAll(value, "!", "=")
 	}
 	if strings.HasPrefix(value, "{{") {
