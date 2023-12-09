@@ -19,3 +19,8 @@ func (d *Document) ById(id string) js.Value {
 func (d *Document) ByIdWrapped(id string) *Wrapper {
 	return NewWrapper(d.ById(id))
 }
+
+func (d *Document) ByIdString(id string) string {
+	input := d.Document.Call("getElementById", id)
+	return input.Get("value").String()
+}
