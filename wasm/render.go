@@ -2,6 +2,7 @@ package wasm
 
 import (
 	"embed"
+	"strings"
 )
 
 var EmbeddedTemplates embed.FS
@@ -11,6 +12,16 @@ var UseLive = true
 func (d *Document) Render(id, template string, payload map[string]any) {
 	div := d.ById(id)
 	div.Set("innerHTML", "hi")
+}
+
+func LoadAllTemplates(list string, doGet func(string) string) {
+	tokens := strings.Split(list, ",")
+
+	AllTemplates = map[string]any{}
+	for _, item := range tokens {
+		AllTemplates[item] = doGet("/markup/" + item)
+	}
+
 }
 
 /*
