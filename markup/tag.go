@@ -66,10 +66,11 @@ func fixValueForTag(name, key, value string) string {
 	if (name == "a" || name == "link") && strings.Contains(value, "!") {
 		return strings.ReplaceAll(value, "!", "=")
 	}
-	//if strings.HasPrefix(value, "{{") {
-	//	return value
-	//}
+
 	if strings.HasPrefix(value, "http") {
+		return value
+	}
+	if strings.Contains(value, "full_url_photo") {
 		return value
 	}
 	if strings.HasPrefix(value, "/bucket") {
