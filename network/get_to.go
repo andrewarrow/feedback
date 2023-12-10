@@ -2,6 +2,7 @@ package network
 
 import (
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -16,7 +17,7 @@ func GetTo(full, bearer string) (string, int) {
 	return DoHttpRead(client, request)
 }
 
-func Get200(full, bearer string) bool {
+func Get200Image(full, bearer string) bool {
 	request, err := http.NewRequest("GET", full, nil)
 	if err != nil {
 		return false
@@ -29,5 +30,11 @@ func Get200(full, bearer string) bool {
 		return false
 	}
 	resp.Body.Close()
-	return resp.StatusCode == 200
+	contentType := strings.ToLower(resp.Header.Get("Content-Type"))
+	imageName := strings.ToLower(full)
+	imageInName := strings.Contains(imageName, ".jpg") || strings.Contains(imageName, ".jpeg") || strings.Contains(imageName, ".gif") || strings.Contains(imageName, ".png") || strings.Contains(imageName, ".svg") || strings.Contains(imageName, ".webp")
+	if strings.Contains(contentType, "image") || imageInName {
+		return resp.StatusCode == 200
+	}
+	return false
 }
