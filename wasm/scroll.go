@@ -4,7 +4,11 @@ import "fmt"
 
 func (g *Global) IsBottom() bool {
 	scrollTop := g.Document.Document.Get("documentElement").Get("scrollTop").Int()
-	fmt.Println("scrollTop", scrollTop)
+	if scrollTop == 0 {
+		scrollTop = g.Document.Document.Get("body").Get("scrollTop").Int()
+	}
+	innerHeight := g.Window.GetInt("innerHeight")
+	fmt.Println("scrollTop", scrollTop, innerHeight)
 
 	return true
 }

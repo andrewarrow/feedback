@@ -29,6 +29,9 @@ func (w *Wrapper) Set(s string, thing any) {
 func (w *Wrapper) Get(s string) string {
 	return w.JValue.Get(s).String()
 }
+func (w *Wrapper) GetInt(s string) int {
+	return w.JValue.Get(s).Int()
+}
 
 func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
 	w.JValue.Set("onclick", js.FuncOf(fn))
