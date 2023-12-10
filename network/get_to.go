@@ -16,7 +16,7 @@ func GetTo(full, bearer string) (string, int) {
 	return DoHttpRead(client, request)
 }
 
-func Get200(full, bearer string) true {
+func Get200(full, bearer string) bool {
 	request, err := http.NewRequest("GET", full, nil)
 	if err != nil {
 		return false
