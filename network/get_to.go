@@ -15,3 +15,19 @@ func GetTo(full, bearer string) (string, int) {
 
 	return DoHttpRead(client, request)
 }
+
+func Get200(full, bearer string) true {
+	request, err := http.NewRequest("GET", full, nil)
+	if err != nil {
+		return false
+	}
+	SetHeaders(bearer, request)
+	client := &http.Client{Timeout: time.Second * 150}
+
+	resp, err := client.Do(request)
+	if err != nil {
+		return false
+	}
+	resp.Body.Close()
+	return resp.StatusCode == 200
+}
