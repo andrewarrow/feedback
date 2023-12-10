@@ -3,28 +3,33 @@ package wasm
 import "fmt"
 
 func (g *Global) IsBottom() bool {
-	scrollTop := g.Document.Document.Get("documentElement").Get("scrollTop").Int()
+	de := g.Document.Document.Get("documentElement")
+	db := g.Document.Document.Get("body")
+	scrollTop := de.Get("scrollTop").Int()
 	if scrollTop == 0 {
-		scrollTop = g.Document.Document.Get("body").Get("scrollTop").Int()
+		scrollTop = db.Get("scrollTop").Int()
 	}
-	innerHeight := g.Window.GetInt("innerHeight")
+	windowHeight := g.Window.GetInt("innerHeight")
 	fmt.Println("scrollTop", scrollTop, innerHeight)
 
-	return true
+	a1 := de.Get("scrollHeight").Int()
+	a2 := db.Get("scrollHeight").Int()
+	a3 := de.Get("offsetHeight").Int()
+	a4 := db.Get("offsetHeight").Int()
+	a5 := de.Get("clientHeight").Int()
+	a6 := db.Get("clientHeight").Int()
+	documentHeight := max(a1, a2, a3, a4, a5, a6)
+
+	return scrollTop+windowHeight >= documentHeight-100
 }
 
-/*
+func max(numbers ...int) int {
+	maxValue := numbers[0]
+	for _, num := range numbers[1:] {
+		if num > maxValue {
+			maxValue = num
+		}
+	}
 
-function isBottomOfPage() {
-  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  const windowHeight = window.innerHeight;
-  const documentHeight = Math.max(
-    document.body.scrollHeight, document.documentElement.scrollHeight,
-    document.body.offsetHeight, document.documentElement.offsetHeight,
-    document.body.clientHeight, document.documentElement.clientHeight
-  );
-
-  // Check if the user has scrolled to the bottom (with a small buffer)
-  return scrollTop + windowHeight >= documentHeight - 100;
+	return maxValue
 }
-*/
