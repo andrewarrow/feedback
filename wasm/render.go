@@ -27,7 +27,7 @@ func (d *Document) Render(id, name string, vars map[string]any) {
 	t, _ = t.Parse(string(templateText))
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)
-	t.ExecuteTemplate(content, name, vars)
+	//t.ExecuteTemplate(content, name, vars)
 	cb := content.Bytes()
 	div.Set("innerHTML", string(cb))
 }
