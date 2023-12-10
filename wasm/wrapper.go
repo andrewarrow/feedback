@@ -11,6 +11,8 @@ type Wrapper struct {
 	Value  string
 }
 
+type funcJsValueArgs func(this js.Value, args []js.Value) any
+
 func NewWrapper(v js.Value) *Wrapper {
 	w := Wrapper{}
 	w.JValue = v
@@ -20,10 +22,10 @@ func NewWrapper(v js.Value) *Wrapper {
 func (w *Wrapper) Set(s string, thing any) {
 	thingS, ok := thing.(string)
 	if ok {
-		w.JValue.Set(s, thing)
+		w.JValue.Set(s, thingS)
 		return
 	}
-	w.JValue.Set(s, js.FuncOf(thing))
+	w.JValue.Set(s, js.FuncOf(thing.(funcJsValueArgs)))
 }
 
 func (w *Wrapper) Get(s string) string {

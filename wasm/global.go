@@ -8,7 +8,7 @@ import (
 type Global struct {
 	Global   *js.Value
 	Document *Document
-	Window   *Window
+	Window   *Wrapper
 	Location *Location
 	Start    string
 	Ready    chan bool
