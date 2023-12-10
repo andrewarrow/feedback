@@ -17,6 +17,15 @@ func NewWrapper(v js.Value) *Wrapper {
 	return &w
 }
 
+func (w *Wrapper) Set(s string, thing any) {
+	thingS, ok := thing.(string)
+	if ok {
+		w.JValue.Set(s, thing)
+		return
+	}
+	w.JValue.Set(s, js.FuncOf(thing))
+}
+
 func (w *Wrapper) Get(s string) string {
 	return w.JValue.Get(s).String()
 }
