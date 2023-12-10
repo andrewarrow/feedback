@@ -1,7 +1,5 @@
 package wasm
 
-import "fmt"
-
 func (g *Global) IsBottom() bool {
 	de := g.Document.Document.Get("documentElement")
 	db := g.Document.Document.Get("body")
@@ -10,7 +8,6 @@ func (g *Global) IsBottom() bool {
 		scrollTop = db.Get("scrollTop").Int()
 	}
 	windowHeight := g.Window.GetInt("innerHeight")
-	fmt.Println("scrollTop", scrollTop, innerHeight)
 
 	a1 := de.Get("scrollHeight").Int()
 	a2 := db.Get("scrollHeight").Int()
