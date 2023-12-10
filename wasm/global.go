@@ -27,7 +27,7 @@ func NewGlobal() (*Global, *Document) {
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	fmt.Println("here")
 	g.Location = NewLocation(g)
-	g.Window = NewWrapper(g.Document.ById("window"))
+	g.Window = NewWrapper(g.Get("window"))
 	g.Start = p[0].String()
 	g.Ready <- true
 	return nil
