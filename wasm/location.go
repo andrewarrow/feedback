@@ -18,8 +18,8 @@ type Location struct {
 func NewLocation(g *Global) *Location {
 	l := Location{}
 	l.Value = g.Global.Get("location")
-	l.href = l.Value.Get("href")
-	l.Params = g.Get("URLSearchParams").New(l.href)
+	l.href = l.Value.Get("href").String()
+	l.Params = g.Global.Get("URLSearchParams").New(l.href)
 	return &l
 }
 
