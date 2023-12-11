@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -18,6 +19,19 @@ func TemplateFunctions() template.FuncMap {
 	fm := template.FuncMap{
 		"uuid": func() string {
 			return PseudoUuid()
+		},
+		"params": func(s, matchKey, matchValue string) template.HTML {
+			buffer := []string{}
+			kvs, _ := url.ParseQuery(s)
+			for k, v := range kvs {
+				if k == matchKey {
+					buffer = append(buffer, k+"="+matchValue)
+				} else {
+					buffer = append(buffer, k+"="+v[0])
+				}
+			}
+			result := strings.Join(buffer, "&")
+			return template.HTML(result)
 		},
 		"short": func(a any) string {
 			tInt, ok := a.(int64)
