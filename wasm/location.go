@@ -1,7 +1,6 @@
 package wasm
 
 import (
-	"fmt"
 	"net/url"
 	"strings"
 	"syscall/js"
@@ -27,10 +26,13 @@ func NewLocation(g *Global) *Location {
 }
 
 func (l *Location) GetParam(id string) string {
-	return l.Params[id][0]
+	val := l.Params[id]
+	if len(val) == 0 {
+		return ""
+	}
+	return val[0]
 }
 
 func (l *Location) Set(id, value string) {
-	fmt.Println("!1")
 	l.Value.Set(id, value)
 }
