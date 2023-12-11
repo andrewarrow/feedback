@@ -3,6 +3,7 @@ package wasm
 import (
 	"bytes"
 	"embed"
+	"fmt"
 	"strings"
 	"text/template"
 
@@ -15,7 +16,7 @@ var UseLive = true
 
 func (d *Document) RenderToId(id, name string, vars map[string]any) {
 	div := d.ById(id)
-	div.Set("innerHTML", Render(name, vars))
+	div.Set("innerHTML", d.Render(name, vars))
 }
 
 func (d *Document) Render(name string, vars map[string]any) string {
@@ -23,15 +24,16 @@ func (d *Document) Render(name string, vars map[string]any) string {
 	if UseLive {
 		templateText = AllTemplates[name].(string)
 	} else {
-		templateBytes, _ := EmbeddedTemplates.ReadFile("views/" + name)
+		templateBytes, _ := EmbeddedTemplates.ReadFile("views/" + name + ".html")
 		templateText = string(templateBytes)
 	}
+	fmt.Println(templateText)
 	t := template.New("")
 	t = t.Funcs(common.TemplateFunctions())
 	t, _ = t.Parse(string(templateText))
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)
-	//t.ExecuteTemplate(content, name, vars)
+	t.ExecuteTemplate(content, name, vars)
 	cb := content.Bytes()
 	return string(cb)
 }
@@ -41,13 +43,8 @@ func LoadAllTemplates(list string, doGet func(string) string) {
 
 	AllTemplates = map[string]any{}
 	for _, item := range tokens {
-		AllTemplates[item] = doGet("/markup/" + item)
+		tokens := strings.Split(item, ".")
+		AllTemplates[tokens[0]] = doGet("/markup/" + item)
 	}
 
 }
-
-/*
-func runTemplate(name string, vars map[string]any) string {
-	//fmt.Println(templateText)
-
-}*/
