@@ -34,6 +34,8 @@ func CastFields(model *models.Model, m map[string]any) {
 			m[field.Name+"_ago"] = ago
 		} else if field.Flavor == "int" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(int64)
+		} else if field.Flavor == "bigint" && m[field.Name] != nil {
+			m[field.Name] = m[field.Name].(int64)
 		} else if field.Flavor == "float" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(float64)
 		} else if field.Flavor == "bool" && m[field.Name] != nil {

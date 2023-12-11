@@ -20,9 +20,9 @@ func TemplateFunctions() template.FuncMap {
 		"uuid": func() string {
 			return PseudoUuid()
 		},
-		"params": func(s, matchKey, matchValue string) template.HTML {
+		"params": func(s template.HTML, matchKey, matchValue string) template.HTML {
 			buffer := []string{}
-			kvs, _ := url.ParseQuery(s)
+			kvs, _ := url.ParseQuery(string(s))
 			for k, v := range kvs {
 				if k == matchKey {
 					buffer = append(buffer, k+"="+matchValue)

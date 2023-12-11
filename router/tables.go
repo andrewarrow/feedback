@@ -26,9 +26,9 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 	for _, field := range model.Fields {
 		flavor, defaultString := field.SqlTypeAndDefault()
-		//_, msg := db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
-		db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
-		//fmt.Println(msg)
+		_, msg := db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
+		//db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
+		fmt.Println(msg, flavor)
 		if field.Index == "yes" {
 			sql := `create index CONCURRENTLY %s_%s_index on %s(%s);`
 			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
