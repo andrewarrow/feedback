@@ -12,12 +12,12 @@ type Global struct {
 	Location *Location
 	Start    string
 	Ready    chan bool
-	Space    map[string]any
+	Space    map[string]string
 }
 
 func NewGlobal() (*Global, *Document) {
 	g := Global{}
-	g.Space = map[string]any{}
+	g.Space = map[string]string{}
 	g.Ready = make(chan bool, 1)
 	temp := js.Global()
 	temp.Set("WasmReady", js.FuncOf(g.WasmReady))
