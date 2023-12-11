@@ -21,7 +21,9 @@ func NewLocation(g *Global) *Location {
 	l.Value = g.Global.Get("location")
 	l.href = l.Value.Get("href").String()
 	tokens := strings.Split(l.href, "?")
-	l.Params, _ = url.ParseQuery(tokens[1])
+	if len(tokens) == 2 {
+		l.Params, _ = url.ParseQuery(tokens[1])
+	}
 	return &l
 }
 
