@@ -2,6 +2,8 @@ package wasm
 
 import (
 	"fmt"
+	"net/url"
+	"strings"
 	"syscall/js"
 )
 
@@ -12,19 +14,20 @@ type Settable interface {
 type Location struct {
 	Value  js.Value
 	href   string
-	Params js.Value
+	Params url.Values
 }
 
 func NewLocation(g *Global) *Location {
 	l := Location{}
 	l.Value = g.Global.Get("location")
 	l.href = l.Value.Get("href").String()
-	l.Params = g.Global.Get("URLSearchParams").New(l.href)
+	tokens := strings.Split(l.href, "?")
+	l.Params, _ = url.ParseQuery(tokens[1])
 	return &l
 }
 
 func (l *Location) GetParam(id string) string {
-	return l.Params.Call("get", id).String()
+	return l.Params[id][0]
 }
 
 func (l *Location) Set(id, value string) {
