@@ -10,48 +10,38 @@ import (
 )
 
 func DoHttpLimitRead(client *http.Client, request *http.Request) (string, int) {
+	const maxBodySize = 10 * 1024 * 1024
+
 	resp, err := client.Do(request)
-	if err != nil {
-		fmt.Printf("\n\nERROR: %s\n\n", err.Error())
-		return err.Error(), 500
-	}
-	defer resp.Body.Close()
+	if err == nil {
+		defer resp.Body.Close()
 
-	ce := resp.Header.Get("Content-Encoding")
-	var body []byte
-	const desiredSize = 100 * 1024 // 100KB
-	byteValues := make([]byte, desiredSize)
-
-	totalRead := 0
-	for totalRead < desiredSize {
-		n, err := resp.Body.Read(byteValues[totalRead:])
+		limitReader := io.LimitReader(resp.Body, maxBodySize)
+		body, err := io.ReadAll(limitReader)
 		if err != nil {
-			if err == io.EOF {
-				break
-			}
 			fmt.Printf("\n\nERROR: %d %s\n\n", resp.StatusCode, err.Error())
 			return err.Error(), 500
 		}
-		totalRead += n
+
+		return DoReadZipped(body), resp.StatusCode
 	}
 
-	if ce == "gzip" {
-		buf := bytes.NewBuffer(byteValues[:totalRead])
-		gr, err := gzip.NewReader(buf)
-		if err != nil {
-			fmt.Printf("\n\nERROR creating gzip reader: %s\n\n", err.Error())
-			return err.Error(), 500
-		}
-		defer gr.Close()
+	fmt.Printf("\n\nERROR: %s\n\n", err.Error())
+	return err.Error(), 500
+}
 
-		body, err = ioutil.ReadAll(gr)
-		if err != nil {
-			fmt.Printf("\n\nERROR reading uncompressed data: %s\n\n", err.Error())
-			return err.Error(), 500
-		}
-	} else {
-		body = byteValues[:totalRead]
+func DoReadZipped(asBytes []byte) string {
+	buf := bytes.NewBuffer(asBytes)
+	gr, err := gzip.NewReader(buf)
+	if err != nil {
+		fmt.Println(err)
+		return ""
 	}
-
-	return string(body), resp.StatusCode
+	defer gr.Close()
+	body, err := ioutil.ReadAll(gr)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	return string(body)
 }
