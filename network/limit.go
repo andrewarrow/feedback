@@ -34,13 +34,13 @@ func DoReadZipped(asBytes []byte) string {
 	buf := bytes.NewBuffer(asBytes)
 	gr, err := gzip.NewReader(buf)
 	if err != nil {
-		fmt.Println(err)
+		//fmt.Println(err)
 		return ""
 	}
 	defer gr.Close()
 	body, err := ioutil.ReadAll(gr)
 	if err != nil {
-		fmt.Println(err)
+		//fmt.Println(err)
 		return ""
 	}
 	return string(body)
