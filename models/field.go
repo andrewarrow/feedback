@@ -53,7 +53,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 }
 
 func (f *Field) SaneDefault() any {
-	if f.Flavor == "int" {
+	if f.Flavor == "int" || f.Flavor == "bigint" {
 		return 0
 	} else if f.Flavor == "timestamp" && f.Null == "" {
 		return time.Now()
