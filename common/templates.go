@@ -14,6 +14,11 @@ import (
 )
 
 const HUMAN_SMALL = "01/02/2006"
+const (
+	KB = 1024
+	MB = KB * 1024
+	GB = MB * 1024
+)
 
 func TemplateFunctions() template.FuncMap {
 	fm := template.FuncMap{
@@ -32,6 +37,22 @@ func TemplateFunctions() template.FuncMap {
 			}
 			result := strings.Join(buffer, "&")
 			return template.HTML(result)
+		},
+		"humanSize": func(bytes int64) string {
+
+			size := float64(bytes)
+
+			result := ""
+			if size < KB {
+				result = fmt.Sprintf("%d bytes", bytes)
+			} else if size < MB {
+				result = fmt.Sprintf("%.2f KB", size/KB)
+			} else if size < GB {
+				result = fmt.Sprintf("%.2f MB", size/MB)
+			} else {
+				result = fmt.Sprintf("%.2f GB", size/GB)
+			}
+			return result
 		},
 		"short": func(a any) string {
 			tInt, ok := a.(int64)
