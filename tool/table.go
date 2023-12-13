@@ -39,13 +39,13 @@ func table(path, name string) {
 	m := site.FindModel(name)
 	m.EnsureIdAndCreatedAt()
 
-	buff := []string{}
+	buff := []string{"div p-3"}
 	goal := `  {{ $items := index . "items" }}
   table
     tr font-bold`
 	buff = append(buff, goal)
 	for _, field := range m.Fields {
-		buff = append(buff, "      td\n        "+field.Name)
+		buff = append(buff, "      td pr-3\n        "+field.Name)
 	}
 	header := strings.Join(buff, "\n")
 	fmt.Println(header)
@@ -54,7 +54,7 @@ func table(path, name string) {
 	fmt.Println(`      tr`)
 	for _, field := range m.Fields {
 		fmt.Println(`      {{ $` + field.Name + ` := index $item "` + field.Name + `" }}`)
-		fmt.Printf(`        td` + "\n          {{ $" + field.Name + " }}\n")
+		fmt.Printf(`        td pr-3 whitespace-nowrap` + "\n          {{ $" + field.Name + " }}\n")
 	}
 	fmt.Println(`    {{end}}`)
 }
