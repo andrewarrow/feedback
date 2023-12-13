@@ -52,9 +52,14 @@ func table(path, name string) {
 
 	fmt.Println(`    {{ range $i, $item := $items }}`)
 	fmt.Println(`      tr`)
-	for _, field := range m.Fields {
-		fmt.Println(`      {{ $` + field.Name + ` := index $item "` + field.Name + `" }}`)
-		fmt.Printf(`        td pr-3 whitespace-nowrap` + "\n          {{ $" + field.Name + " }}\n")
-	}
+	fmt.Printf(`        {{ template "%s" $item }}`+"\n", name)
 	fmt.Println(`    {{end}}`)
+
+	fmt.Printf(`{{ define "%s" }}`+"\n", name)
+	for _, field := range m.Fields {
+		fmt.Println(`  {{ $` + field.Name + ` := index . "` + field.Name + `" }}`)
+		fmt.Printf(`    td pr-3 whitespace-nowrap` + "\n      {{ $" + field.Name + " }}\n")
+	}
+	fmt.Println(`  {{end}}`)
+
 }
