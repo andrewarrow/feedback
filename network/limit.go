@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func DoHttpLimitRead(client *http.Client, request *http.Request) (string, int) {
+func DoHttpLimitRead(client *http.Client, request *http.Request) (string, int, string) {
 	const maxBodySize = 10 * 1024 * 1024
 
 	resp, err := client.Do(request)
@@ -20,14 +20,15 @@ func DoHttpLimitRead(client *http.Client, request *http.Request) (string, int) {
 		body, err := io.ReadAll(limitReader)
 		if err != nil {
 			fmt.Printf("\n\nERROR: %d %s\n\n", resp.StatusCode, err.Error())
-			return err.Error(), 500
+			return err.Error(), 500, ""
 		}
 
-		return DoReadZipped(body), resp.StatusCode
+		contentLength := resp.Header.Get("Content-Length")
+		return DoReadZipped(body), resp.StatusCode, contentLength
 	}
 
 	fmt.Printf("\n\nERROR: %s\n\n", err.Error())
-	return err.Error(), 500
+	return err.Error(), 500, ""
 }
 
 func DoReadZipped(asBytes []byte) string {
