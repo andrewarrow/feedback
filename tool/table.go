@@ -38,23 +38,23 @@ func table(path, name string) {
 	m := site.FindModel(name)
 
 	buff := []string{}
+	goal := `  {{ $items := index . "items" }}
+  table
+	  tr font-bold
+	`
+	buff = append(buff, goal)
 	for _, field := range m.Fields {
-		buff = append(buff, `<th class="px-3">`+field.Name+"</th>")
+		buff = append(buff, "    td\n  "+field.Name)
 	}
 	header := strings.Join(buff, "\n")
-
-	fmt.Println(`<table class="inline-block whitespace-nowrap font-mono">`)
-	fmt.Println("<tr>")
 	fmt.Println(header)
-	fmt.Println("</tr>")
-	fmt.Println(`{{$list := index . "list"}}`)
-	fmt.Println(`{{range $i, $row := $list}}`)
-	fmt.Println("<tr>")
+
+	fmt.Println(`    {{ range $i, $item := $items }}`)
+	fmt.Println(`      {{ $title := index $item "title" }}`)
+	fmt.Println(`      tr`)
 	for _, field := range m.Fields {
-		fmt.Println(`{{$` + field.Name + ` := index $row "` + field.Name + `"}}`)
-		fmt.Printf(`<td class="px-3 py-2">` + "\n{{$" + field.Name + "}}\n</td>\n")
+		fmt.Println(`      {{ $` + field.Name + ` := index $item "` + field.Name + `" }}`)
+		fmt.Printf(`       td` + "\n         {{ $" + field.Name + " }}\n")
 	}
-	fmt.Println("</tr>")
-	fmt.Println(`{{end}}`)
-	fmt.Println("</table>")
+	fmt.Println(`  {{end}}`)
 }
