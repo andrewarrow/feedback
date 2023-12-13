@@ -54,5 +54,5 @@ func table(path, name string) {
 		fmt.Println(`      {{ $` + field.Name + ` := index $item "` + field.Name + `" }}`)
 		fmt.Printf(`        td` + "\n          {{ $" + field.Name + " }}\n")
 	}
-	fmt.Println(`  {{end}}`)
+	fmt.Println(`    {{end}}`)
 }
