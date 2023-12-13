@@ -13,7 +13,8 @@ func list(path, name string) {
 	asBytes, _ := ioutil.ReadFile(path + "/app/feedback.json")
 	var site router.FeedbackSite
 	json.Unmarshal(asBytes, &site)
-	//m := site.FindModel(name)
+	m := site.FindModel(name)
+	m.EnsureIdAndCreatedAt()
 
 	top := `package app
 
@@ -36,6 +37,7 @@ func table(path, name string) {
 	var site router.FeedbackSite
 	json.Unmarshal(asBytes, &site)
 	m := site.FindModel(name)
+	m.EnsureIdAndCreatedAt()
 
 	buff := []string{}
 	goal := `  {{ $items := index . "items" }}
