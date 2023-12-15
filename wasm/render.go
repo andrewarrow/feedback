@@ -13,12 +13,12 @@ var EmbeddedTemplates embed.FS
 var AllTemplates map[string]any
 var UseLive = true
 
-func (d *Document) RenderToId(id, name string, vars map[string]any) {
+func (d *Document) RenderToId(id, name string, vars any) {
 	div := d.ById(id)
 	div.Set("innerHTML", d.Render(name, vars))
 }
 
-func (d *Document) Render(name string, vars map[string]any) string {
+func (d *Document) Render(name string, vars any) string {
 	templateText := ""
 	if UseLive {
 		templateText = AllTemplates[name].(string)
