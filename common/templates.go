@@ -148,6 +148,12 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return template.HTML(sp)
 		},
+		"intComma": func(a int64) string {
+			if a == 0 {
+				return "n/a"
+			}
+			return util.IntComma(a)
+		},
 		"simplePrice": func(s any) string {
 			amount := fmt.Sprintf("%v", s)
 			price, _ := strconv.Atoi(amount)

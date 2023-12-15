@@ -13,6 +13,7 @@ type Global struct {
 	Start    string
 	Ready    chan bool
 	Space    map[string]string
+	Running  bool
 }
 
 func NewGlobal() (*Global, *Document) {

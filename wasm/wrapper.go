@@ -37,6 +37,13 @@ func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
 	w.JValue.Set("onclick", js.FuncOf(fn))
 }
 
+func (w *Wrapper) Show() {
+	RemoveClass(w.JValue, "hidden")
+}
+func (w *Wrapper) Hide() {
+	AddClass(w.JValue, "hidden")
+}
+
 func (w *Wrapper) SelectAllByClass(s string) []*Wrapper {
 	return w.SelectAllByQuery("getElementsByClassName", s)
 }

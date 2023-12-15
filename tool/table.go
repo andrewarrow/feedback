@@ -42,7 +42,7 @@ func table(path, name string) {
 	buff := []string{}
 	buff = append(buff, fmt.Sprintf(`{{ define "%ss" }}`, name))
 	goal := `  {{ $items := index . "items" }}
-  table
+  table id=thing
     tr font-bold`
 	buff = append(buff, goal)
 	for _, field := range m.Fields {
