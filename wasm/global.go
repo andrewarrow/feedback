@@ -1,7 +1,6 @@
 package wasm
 
 import (
-	"fmt"
 	"syscall/js"
 )
 
@@ -28,7 +27,6 @@ func NewGlobal() (*Global, *Document) {
 }
 
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
-	fmt.Println("here")
 	g.Location = NewLocation(g)
 	g.Window = NewWrapper(g.Global.Get("window"))
 	g.Start = p[0].String()

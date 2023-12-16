@@ -15,20 +15,23 @@ import (
 
 var UseLiveTemplates = os.Getenv("USE_LIVE_TEMPLATES") == "true"
 
+func RenderMarkup() {
+	list, _ := ioutil.ReadDir("markup")
+	for _, file := range list {
+		name := file.Name()
+		//fmt.Println("*", name)
+		tokens := strings.Split(name, ".")
+		send := map[string]any{}
+		rendered := markup.ToHTML(send, "markup/"+name)
+		//fmt.Println(rendered)
+		ioutil.WriteFile("views/"+tokens[0]+".html", []byte(rendered), 0644)
+	}
+}
+
 func (r *Router) GetLiveOrCachedTemplate(name string) *template.Template {
 	var t *template.Template
 	if UseLiveTemplates {
-
-		list, _ := ioutil.ReadDir("markup")
-		for _, file := range list {
-			name := file.Name()
-			//fmt.Println("*", name)
-			tokens := strings.Split(name, ".")
-			send := map[string]any{}
-			rendered := markup.ToHTML(send, "markup/"+name)
-			//fmt.Println(rendered)
-			ioutil.WriteFile("views/"+tokens[0]+".html", []byte(rendered), 0644)
-		}
+		RenderMarkup()
 		live := LoadLiveTemplates(*CustomFuncMap)
 		t = live.Lookup(name)
 	} else {
