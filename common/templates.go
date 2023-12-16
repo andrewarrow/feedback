@@ -148,6 +148,19 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return template.HTML(sp)
 		},
+		"hasImage": func(thing any) bool {
+			s, ok := thing.(string)
+			if !ok {
+				return false
+			}
+			if strings.HasSuffix(s, ".png") {
+				return true
+			}
+			if strings.HasSuffix(s, ".jpg") || strings.HasSuffix(s, ".jpeg") {
+				return true
+			}
+			return false
+		},
 		"intComma": func(a int64) string {
 			if a == 0 {
 				return "n/a"
