@@ -12,12 +12,12 @@ type Global struct {
 	Start    string
 	Ready    chan bool
 	Space    map[string]string
-	Stack    []StackItem
+	Stack    []*StackItem
 }
 
 func NewGlobal() (*Global, *Document) {
 	g := Global{}
-	g.Stack = []StackItem{}
+	g.Stack = []*StackItem{}
 	g.Space = map[string]string{}
 	g.Ready = make(chan bool, 1)
 	temp := js.Global()
