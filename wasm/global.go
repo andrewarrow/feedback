@@ -12,6 +12,7 @@ type Global struct {
 	Start    string
 	Ready    chan bool
 	Space    map[string]string
+	Storage  map[string]any
 	Stack    []*StackItem
 }
 
@@ -19,6 +20,7 @@ func NewGlobal() (*Global, *Document) {
 	g := Global{}
 	g.Stack = []*StackItem{}
 	g.Space = map[string]string{}
+	g.Storage = map[string]any{}
 	g.Ready = make(chan bool, 1)
 	temp := js.Global()
 	temp.Set("WasmReady", js.FuncOf(g.WasmReady))

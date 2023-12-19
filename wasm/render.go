@@ -19,6 +19,10 @@ func (d *Document) RenderToId(id, name string, vars any) {
 }
 
 func (d *Document) Render(name string, vars any) string {
+	return Render(name, vars)
+}
+
+func Render(name string, vars any) string {
 	templateText := ""
 	if UseLive {
 		templateText = AllTemplates[name].(string)
