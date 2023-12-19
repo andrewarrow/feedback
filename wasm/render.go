@@ -21,7 +21,7 @@ func (d *Document) RenderToNewDiv(name string, vars any) any {
 	newHTML := d.Render(name, vars)
 	newDiv := d.Document.Call("createElement", "div")
 	newDiv.Set("innerHTML", newHTML)
-	return newDiv
+	return newDiv.Get("firstElementChild")
 }
 
 func (d *Document) Render(name string, vars any) string {
