@@ -17,6 +17,12 @@ func (d *Document) RenderToId(id, name string, vars any) {
 	div := d.ById(id)
 	div.Set("innerHTML", d.Render(name, vars))
 }
+func (d *Document) RenderToNewDiv(name string, vars any) any {
+	newHTML := d.Render(name, vars)
+	newDiv := d.Document.Call("createElement", "div")
+	newDiv.Set("innerHTML", newHTML)
+	return newDiv
+}
 
 func (d *Document) Render(name string, vars any) string {
 	return Render(name, vars)

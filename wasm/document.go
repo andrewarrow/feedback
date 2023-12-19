@@ -29,13 +29,13 @@ func (d *Document) ByIdWrapped(id string) *Wrapper {
 func (d *Document) SelectAllFrom(id, s string) []*Wrapper {
 	return d.ByIdWrap(id).SelectAll(s)
 }
+
 func (d *Document) AppendTo(id, jsonString, template string) {
 	w := d.ByIdWrap(id)
 	var m map[string]any
 	json.Unmarshal([]byte(jsonString), &m)
-	newHTML := Render(template, m)
-	ih := w.Get("innerHTML")
-	w.Set("innerHTML", ih+newHTML)
+	newDiv := d.RenderToNewDiv(template, m)
+	w.AppendChild(newDiv)
 }
 
 func (d *Document) ByIdString(id string) string {
