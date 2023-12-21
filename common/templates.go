@@ -161,6 +161,9 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return false
 		},
+		"jq": func(thing string) string {
+			return util.PipeToJq(thing)
+		},
 		"intComma": func(a int64) string {
 			if a == 0 {
 				return "n/a"
