@@ -161,8 +161,11 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return false
 		},
-		"jq": func(thing string) string {
-			return util.PipeToJq(thing)
+		"jq": func(thing any) template.HTML {
+			jsonData, _ := json.MarshalIndent(thing, "", "&nbsp;&nbsp;")
+			asString := string(jsonData)
+
+			return template.HTML(strings.ReplaceAll(asString, "\n", "<br/>"))
 		},
 		"intComma": func(a int64) string {
 			if a == 0 {
