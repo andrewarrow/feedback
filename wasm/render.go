@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"strings"
+	"syscall/js"
 	"text/template"
 
 	"github.com/andrewarrow/feedback/common"
@@ -17,7 +18,7 @@ func (d *Document) RenderToId(id, name string, vars any) {
 	div := d.ById(id)
 	div.Set("innerHTML", d.Render(name, vars))
 }
-func (d *Document) RenderToNewDiv(name string, vars any) any {
+func (d *Document) RenderToNewDiv(name string, vars any) js.Value {
 	newHTML := d.Render(name, vars)
 	newDiv := d.Document.Call("createElement", "div")
 	newDiv.Set("innerHTML", newHTML)
