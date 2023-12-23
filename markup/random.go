@@ -29,10 +29,13 @@ func DivsAndDivs() {
 		if r > 60 {
 			action = 0
 		}
+		if maxIndent > 20 {
+			action = rand.Intn(3) - 1
+		}
 		maxIndent += 2 * action
 
 		spaces = moreOrLess(len(spaces), maxIndent)
-		if count > 20 {
+		if count > 200 {
 			break
 		}
 	}
