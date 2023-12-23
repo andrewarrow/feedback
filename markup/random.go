@@ -20,8 +20,15 @@ func DivsAndDivs() {
 		childSpaces := strings.Repeat(" ", childIndent)
 		fmt.Printf("%sdiv\n", spaces+childSpaces)
 
-		// Randomly decide whether to increase, decrease, or stay the same
-		action := rand.Intn(3) - 1
+		r := rand.Intn(100)
+		action := 1
+		if r > 60 {
+			action = -1
+		}
+		r = rand.Intn(100)
+		if r > 60 {
+			action = 0
+		}
 		maxIndent += 2 * action
 
 		spaces = moreOrLess(len(spaces), maxIndent)
