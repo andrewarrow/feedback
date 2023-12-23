@@ -7,6 +7,40 @@ import (
 	"time"
 )
 
+var attrs = []string{"flex", "w-%d", "h-%d", "items-center", "justify-center"}
+
+func makeAttrs() string {
+	buff := []string{}
+	r := rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "flex")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "bg-r")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "w-64")
+		buff = append(buff, "h-64")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "w-96")
+		buff = append(buff, "h-96")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "w-full")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "w-1/2")
+	}
+
+	return strings.Join(buff, " ")
+}
+
 func DivsAndDivs() {
 	rand.Seed(time.Now().UnixNano())
 
@@ -18,7 +52,7 @@ func DivsAndDivs() {
 		count++
 		childIndent := 2
 		childSpaces := strings.Repeat(" ", childIndent)
-		fmt.Printf("%sdiv\n", spaces+childSpaces)
+		fmt.Printf("%sdiv %s\n", spaces+childSpaces, makeAttrs())
 
 		r := rand.Intn(100)
 		action := 1
