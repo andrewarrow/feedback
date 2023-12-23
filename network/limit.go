@@ -10,7 +10,7 @@ import (
 )
 
 func DoHttpLimitRead(client *http.Client, request *http.Request) (string, int, string) {
-	const maxBodySize = 10 * 1024
+	const maxBodySize = 10 * 1024 * 3
 
 	resp, err := client.Do(request)
 	if err == nil {
