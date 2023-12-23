@@ -4,41 +4,40 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"time"
 )
 
 func DivsAndDivs() {
+	rand.Seed(time.Now().UnixNano())
+
 	count := 0
 	fmt.Println("div")
 	spaces := "  "
-	vals := []int{2, 4}
-	max := 4
+	maxIndent := 4
 	for {
-		fmt.Printf("%sdiv\n", spaces)
 		count++
-		spaces = moreOrLess(len(spaces), vals)
-		if len(spaces) == max {
-			max = max + 2
-			vals = append(vals, max)
-		} else {
-			vals = vals[0 : len(vals)-1]
-			max = vals[len(vals)-1]
-		}
+		childIndent := 2
+		childSpaces := strings.Repeat(" ", childIndent)
+		fmt.Printf("%sdiv\n", spaces+childSpaces)
+
+		// Randomly decide whether to increase, decrease, or stay the same
+		action := rand.Intn(3) - 1
+		maxIndent += 2 * action
+
+		spaces = moreOrLess(len(spaces), maxIndent)
 		if count > 20 {
 			break
 		}
 	}
 }
 
-func moreOrLess(size int, vals []int) string {
-	val := rand.Intn(len(vals))
-	if val != len(vals)-1 {
-		val = rand.Intn(len(vals))
+func moreOrLess(currLen, maxLen int) string {
+	if currLen < maxLen {
+		return strings.Repeat(" ", currLen+2)
+	} else {
+		if currLen-2 < 0 {
+			return "  "
+		}
+		return strings.Repeat(" ", currLen-2)
 	}
-
-	n := vals[val]
-	buff := []string{}
-	for i := 0; i < n; i++ {
-		buff = append(buff, " ")
-	}
-	return strings.Join(buff, "")
 }
