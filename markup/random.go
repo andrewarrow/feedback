@@ -19,8 +19,11 @@ func DivsAndDivs() {
 		if len(spaces) == max {
 			max = max + 2
 			vals = append(vals, max)
+		} else {
+			vals = vals[0 : len(vals)-1]
+			max = vals[len(vals)-1]
 		}
-		if count > 10 {
+		if count > 20 {
 			break
 		}
 	}
