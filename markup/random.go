@@ -31,21 +31,14 @@ func DivsAndDivs() {
 
 func moreOrLess(size int, vals []int) string {
 	val := rand.Intn(len(vals))
+	if val != len(vals)-1 {
+		val = rand.Intn(len(vals))
+	}
+
 	n := vals[val]
 	buff := []string{}
 	for i := 0; i < n; i++ {
 		buff = append(buff, " ")
 	}
 	return strings.Join(buff, "")
-}
-
-func moreOrLess2(size int) string {
-	if size == 2 {
-		return "    "
-	} else if size == 4 {
-		return "      "
-	} else if size == 6 {
-		return "        "
-	}
-	return "  "
 }
