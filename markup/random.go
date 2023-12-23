@@ -37,6 +37,18 @@ func makeAttrs() string {
 	if r > 50 {
 		buff = append(buff, "w-1/2")
 	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "rounded")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "rounded-full")
+	}
+	r = rand.Intn(100)
+	if r > 50 {
+		buff = append(buff, "flex-grow")
+	}
 
 	return strings.Join(buff, " ")
 }
