@@ -65,8 +65,12 @@ func DivsAndDivs() {
 		childIndent := 2
 		childSpaces := strings.Repeat(" ", childIndent)
 		fmt.Printf("%sdiv %s\n", spaces+childSpaces, makeAttrs())
-
 		r := rand.Intn(100)
+		if r > 80 {
+			fmt.Printf("%s  D%d\n", spaces+childSpaces, count)
+		}
+
+		r = rand.Intn(100)
 		action := 1
 		if r > 60 {
 			action = -1
