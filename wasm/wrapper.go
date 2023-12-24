@@ -55,6 +55,12 @@ func (w *Wrapper) Show() {
 func (w *Wrapper) Hide() {
 	AddClass(w.JValue, "hidden")
 }
+func (w *Wrapper) AddClass(c string) {
+	AddClass(w.JValue, c)
+}
+func (w *Wrapper) RemoveClass(c string) {
+	RemoveClass(w.JValue, c)
+}
 
 func (w *Wrapper) SelectAllByClass(s string) []*Wrapper {
 	return w.SelectAllByQuery("getElementsByClassName", s)
