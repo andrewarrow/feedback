@@ -1,4 +1,4 @@
-package wasm
+package router
 
 import (
 	"fmt"
