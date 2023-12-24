@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/util"
-	"github.com/andrewarrow/feedback/wasm"
 )
 
 func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string, user map[string]any, filename string, vars any) {
@@ -34,7 +33,7 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 	layoutMap["flash"] = flash
 	layoutMap["user"] = user
 	layoutMap["viewport"] = viewport
-	layoutMap["wasm"] = wasm.MakeWasmScript(BuildTag, filename)
+	layoutMap["wasm"] = MakeWasmScript(BuildTag, filename)
 	layoutMap["USE_LIVE_TEMPLATES"] = UseLiveTemplates
 	layoutMap["dev_mode"] = os.Getenv("DEV_MODE") != ""
 	layoutMap["content"] = template.HTML(content.String())
