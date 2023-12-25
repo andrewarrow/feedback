@@ -3,6 +3,7 @@ package wasm
 import (
 	"bytes"
 	"embed"
+	"io/fs"
 	"strings"
 	"syscall/js"
 	"text/template"
@@ -23,6 +24,12 @@ func (d *Document) RenderToNewDiv(name string, vars any) js.Value {
 	newDiv := d.Document.Call("createElement", "div")
 	newDiv.Set("innerHTML", newHTML)
 	return newDiv.Get("firstElementChild")
+}
+
+func (d *Document) NewTag(t, s string) *Wrapper {
+	newTag := d.Document.Call("createElement", t)
+	newTag.Set("innerHTML", s)
+	return NewWrapper(newTag)
 }
 
 func (d *Document) Render(name string, vars any) string {
@@ -47,13 +54,13 @@ func Render(name string, vars any) string {
 	return string(cb)
 }
 
-func LoadAllTemplates(list string, doGet func(string) string) {
-	tokens := strings.Split(list, ",")
+func LoadAllTemplates(files []fs.DirEntry) {
 
 	AllTemplates = map[string]any{}
-	for _, item := range tokens {
-		tokens := strings.Split(item, ".")
-		AllTemplates[tokens[0]] = doGet("/markup/" + item)
+	for _, item := range files {
+		name := item.Name()
+		tokens := strings.Split(name, ".")
+		AllTemplates[tokens[0]] = DoGet("/markup/" + name)
 	}
 
 }
