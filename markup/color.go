@@ -5,7 +5,7 @@ import (
 	"math/rand"
 )
 
-var colors = []string{"gray",
+var Colors = []string{"gray",
 	"red",
 	"yellow",
 	"green",
@@ -19,5 +19,5 @@ var colors = []string{"gray",
 
 func randomColor() string {
 	randInt := rand.Intn(8) + 1
-	return fmt.Sprintf("bg-%s-%d00", colors[rand.Intn(len(colors))], randInt)
+	return fmt.Sprintf("bg-%s-%d00", Colors[rand.Intn(len(Colors))], randInt)
 }
