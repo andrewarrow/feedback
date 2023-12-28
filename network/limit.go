@@ -53,8 +53,8 @@ func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte)) 
 		fmt.Println(err)
 		return
 	}
-	contentLength := resp.Header.Get("Content-Length")
-	fmt.Println(resp.StatusCode, contentLength)
+	//contentLength := resp.Header.Get("Content-Length")
+	//fmt.Println(resp.StatusCode, contentLength)
 	defer resp.Body.Close()
 	reader, err := gzip.NewReader(resp.Body)
 	if err != nil {
