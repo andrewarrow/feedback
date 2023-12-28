@@ -46,3 +46,36 @@ func DoReadZipped(asBytes []byte) string {
 	}
 	return string(body)
 }
+
+func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte)) {
+	resp, err := client.Do(request)
+	if err == nil {
+		return
+	}
+	defer resp.Body.Close()
+	reader, err := gzip.NewReader(resp.Body)
+	if err != nil {
+		fmt.Println("Error creating Gzip reader:", err)
+		return
+	}
+	defer reader.Close()
+
+	chunkSize := 10 * 1024 * 3
+	buffer := make([]byte, chunkSize)
+	count := 0
+	for {
+		n, err := reader.Read(buffer)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			fmt.Println("Error reading from Gzip reader:", err)
+			return
+		}
+		cb(buffer[:n])
+		count++
+		if count > 9 {
+			break
+		}
+	}
+}
