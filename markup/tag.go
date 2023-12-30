@@ -33,7 +33,10 @@ var validTagMap = map[string]int{"div": 2, "img": 3, "root": 1, "a": 2,
 
 func NewTag(index int, tokens []string) *Tag {
 	t := Tag{}
-	name := tokens[index]
+	name := "?"
+	if index < len(tokens) {
+		name = tokens[index]
+	}
 	t.Attr = makeClassAndAttrMap(name, tokens[index+1:len(tokens)])
 	if name == "form" && t.Attr["method"] == "" {
 		t.Attr["method"] = "POST"
