@@ -19,5 +19,10 @@ var Colors = []string{"gray",
 
 func randomColor() string {
 	randInt := rand.Intn(8) + 1
-	return fmt.Sprintf("bg-%s-%d00", Colors[rand.Intn(len(Colors))], randInt)
+	text := "gray-900"
+	if randInt > 5 {
+		text = "white"
+	}
+	return fmt.Sprintf("bg-%s-%d00 text-%s",
+		Colors[rand.Intn(len(Colors))], randInt, text)
 }

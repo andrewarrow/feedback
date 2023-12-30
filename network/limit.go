@@ -69,6 +69,8 @@ func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte)) 
 	for {
 		n, err := reader.Read(buffer)
 		if err == io.EOF {
+			fmt.Println("EOF", count, n)
+			//fmt.Println(string(buffer[:n]))
 			break
 		}
 		if err != nil {
