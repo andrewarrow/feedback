@@ -36,8 +36,8 @@ func NewTag(index int, tokens []string) *Tag {
 	name := "?"
 	if index < len(tokens) {
 		name = tokens[index]
+		t.Attr = makeClassAndAttrMap(name, tokens[index+1:len(tokens)])
 	}
-	t.Attr = makeClassAndAttrMap(name, tokens[index+1:len(tokens)])
 	if name == "form" && t.Attr["method"] == "" {
 		t.Attr["method"] = "POST"
 	}
