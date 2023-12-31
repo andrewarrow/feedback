@@ -48,7 +48,7 @@ func (w *Wrapper) SetItem(key, value any) {
 	w.JValue.Call("setItem", key, value)
 }
 func (w *Wrapper) GetItem(key any) string {
-	return e.JValue.Call("getItem", key).String()
+	return w.JValue.Call("getItem", key).String()
 }
 
 func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
