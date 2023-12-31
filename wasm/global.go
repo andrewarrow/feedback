@@ -7,6 +7,7 @@ import (
 type Global struct {
 	Global   *js.Value
 	Document *Document
+	Storage  *Wrapper
 	Window   *Wrapper
 	Location *Location
 	Start    string
@@ -31,6 +32,7 @@ func NewGlobal() (*Global, *Document) {
 
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	g.Location = NewLocation(g)
+	g.Storage = NewWrapper(g.Global.Get("localStorage"))
 	g.Window = NewWrapper(g.Global.Get("window"))
 	g.Start = p[0].String()
 	g.Ready <- true

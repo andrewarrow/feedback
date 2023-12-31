@@ -44,6 +44,12 @@ func (w *Wrapper) AppendChild(c any) {
 func (w *Wrapper) FireClick() {
 	w.JValue.Call("click")
 }
+func (w *Wrapper) SetItem(key, value any) {
+	w.JValue.Call("setItem", key, value)
+}
+func (w *Wrapper) GetItem(key any) string {
+	return e.JValue.Call("getItem", key).String()
+}
 
 func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
 	w.JValue.Set("onclick", js.FuncOf(fn))
