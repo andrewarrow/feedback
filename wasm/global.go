@@ -5,16 +5,16 @@ import (
 )
 
 type Global struct {
-	Global   *js.Value
-	Document *Document
-	Storage  *Wrapper
-	Window   *Wrapper
-	Location *Location
-	Start    string
-	Ready    chan bool
-	Space    map[string]string
-	Storage  map[string]any
-	Stack    []*StackItem
+	Global       *js.Value
+	Document     *Document
+	LocalStorage *Wrapper
+	Window       *Wrapper
+	Location     *Location
+	Start        string
+	Ready        chan bool
+	Space        map[string]string
+	Storage      map[string]any
+	Stack        []*StackItem
 }
 
 func NewGlobal() (*Global, *Document) {
@@ -32,7 +32,7 @@ func NewGlobal() (*Global, *Document) {
 
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	g.Location = NewLocation(g)
-	g.Storage = NewWrapper(g.Global.Get("localStorage"))
+	g.LocalStorage = NewWrapper(g.Global.Get("localStorage"))
 	g.Window = NewWrapper(g.Global.Get("window"))
 	g.Start = p[0].String()
 	g.Ready <- true
