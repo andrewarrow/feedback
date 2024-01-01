@@ -28,6 +28,16 @@ func RandomColor() string {
 }
 
 /*
+    bg-yellow-100 - #fffff0
+    bg-yellow-200 - #fefcbf
+    bg-yellow-300 - #faf089
+    bg-yellow-400 - #f6e05e
+    bg-yellow-500 - #ecc94b
+    bg-yellow-600 - #d69e2e
+    bg-yellow-700 - #b7791f
+    bg-yellow-800 - #975a16
+    bg-yellow-900 - #744210
+
    bg-red-100 - #fef2f2
    bg-red-200 - #fee2e2
    bg-red-300 - #fecaca
@@ -58,7 +68,7 @@ func RandomColor() string {
     bg-rose-800 - #c026d3
     bg-rose-900 - #a21caf
 
-	    bg-pink-100 - #fff5f7
+    bg-pink-100 - #fff5f7
     bg-pink-200 - #fed7e2
     bg-pink-300 - #fbb6ce
     bg-pink-400 - #f687b3
@@ -68,7 +78,7 @@ func RandomColor() string {
     bg-pink-800 - #97266d
     bg-pink-900 - #702459
 
-	    bg-purple-100 - #faf5ff
+    bg-purple-100 - #faf5ff
     bg-purple-200 - #e9d8fd
     bg-purple-300 - #d6bcfa
     bg-purple-400 - #b794f4
@@ -78,7 +88,7 @@ func RandomColor() string {
     bg-purple-800 - #553c9a
     bg-purple-900 - #44337a
 
-		    bg-indigo-100 - #ebf4ff
+    bg-indigo-100 - #ebf4ff
     bg-indigo-200 - #c3dafe
     bg-indigo-300 - #a3bffa
     bg-indigo-400 - #7f9cf5
@@ -88,7 +98,7 @@ func RandomColor() string {
     bg-indigo-800 - #434190
     bg-indigo-900 - #3c366b
 
-	    bg-blue-100 - #ebf8ff
+    bg-blue-100 - #ebf8ff
     bg-blue-200 - #bee3f8
     bg-blue-300 - #90cdf4
     bg-blue-400 - #63b3ed
@@ -98,7 +108,7 @@ func RandomColor() string {
     bg-blue-800 - #2c5282
     bg-blue-900 - #2a4365
 
-		    bg-green-100 - #f0fff4
+    bg-green-100 - #f0fff4
     bg-green-200 - #c6f6d5
     bg-green-300 - #9ae6b4
     bg-green-400 - #68d391
@@ -107,4 +117,14 @@ func RandomColor() string {
     bg-green-700 - #2f855a
     bg-green-800 - #276749
     bg-green-900 - #22543d
+
+    bg-gray-100 - #f7fafc
+    bg-gray-200 - #edf2f7
+    bg-gray-300 - #e2e8f0
+    bg-gray-400 - #cbd5e0
+    bg-gray-500 - #a0aec0
+    bg-gray-600 - #718096
+    bg-gray-700 - #4a5568
+    bg-gray-800 - #2d3748
+    bg-gray-900 - #1a202c
 */
