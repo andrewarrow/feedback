@@ -109,7 +109,7 @@ func makeClassAndAttrMap(name string, tokens []string) map[string]string {
 			m[key] = value
 		} else {
 			if item == "bg-r" {
-				item = randomColor()
+				item = RandomColor()
 			}
 			class += item + " "
 		}

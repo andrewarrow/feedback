@@ -17,7 +17,7 @@ var Colors = []string{"gray",
 	"teal",
 }
 
-func randomColor() string {
+func RandomColor() string {
 	randInt := rand.Intn(8) + 1
 	text := "gray-900"
 	if randInt > 5 {
