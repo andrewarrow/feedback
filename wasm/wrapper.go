@@ -48,6 +48,10 @@ func (w *Wrapper) SetItem(key, value any) {
 	w.JValue.Call("setItem", key, value)
 }
 func (w *Wrapper) GetItem(key any) string {
+	item := w.JValue.Call("getItem", key)
+	if item.IsNull() {
+		return ""
+	}
 	return w.JValue.Call("getItem", key).String()
 }
 

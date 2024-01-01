@@ -56,6 +56,10 @@ func NewTag(index int, tokens []string) *Tag {
 	return &t
 }
 
+func IsValidTag(s string) bool {
+	return validTagMap[s] != 0
+}
+
 func (t *Tag) MakeAttr() string {
 	buffer := ""
 
