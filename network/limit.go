@@ -79,8 +79,8 @@ func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte)) 
 		}
 		cb(buffer[:n])
 		count++
-		if count > 9 {
-			break
-		}
+		//if count > 9 {
+		//	break
+		//}
 	}
 }
