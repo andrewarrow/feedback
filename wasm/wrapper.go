@@ -44,6 +44,9 @@ func (w *Wrapper) AppendChild(c any) {
 func (w *Wrapper) FireClick() {
 	w.JValue.Call("click")
 }
+func (w *Wrapper) FireSubmit() {
+	w.JValue.Call("submit")
+}
 func (w *Wrapper) SetItem(key, value any) {
 	w.JValue.Call("setItem", key, value)
 }

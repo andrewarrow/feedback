@@ -44,6 +44,7 @@ func Render(name string, vars any) string {
 		templateBytes, _ := EmbeddedTemplates.ReadFile("views/" + name + ".html")
 		templateText = string(templateBytes)
 	}
+	//fmt.Println(templateText)
 	t := template.New("")
 	t = t.Funcs(common.TemplateFunctions())
 	t, _ = t.Parse(string(templateText))
