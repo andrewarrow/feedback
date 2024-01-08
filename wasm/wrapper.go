@@ -47,6 +47,9 @@ func (w *Wrapper) FireClick() {
 func (w *Wrapper) FireSubmit() {
 	w.JValue.Call("submit")
 }
+func (w *Wrapper) IsNull() bool {
+	return w.JValue.IsNull()
+}
 func (w *Wrapper) SetItem(key, value any) {
 	w.JValue.Call("setItem", key, value)
 }
