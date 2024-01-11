@@ -29,6 +29,8 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 		//_, msg := db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
 		db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
 		//fmt.Println(msg, flavor)
+	}
+	for _, field := range model.Fields {
 		if field.Index == "yes" {
 			sql := `create index CONCURRENTLY %s_%s_index on %s(%s);`
 			db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
@@ -41,7 +43,8 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 			field1 := fields[0]
 			field2 := fields[1]
 			sql := `create unique index %s_%s_%s_index on %s(%s,%s);`
-			db.Exec(fmt.Sprintf(sql, tableName, field1, field2, tableName, field1, field2))
+			s := fmt.Sprintf(sql, tableName, field1, field2, tableName, field1, field2)
+			db.Exec(s)
 		}
 	}
 }

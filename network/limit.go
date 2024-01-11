@@ -47,7 +47,8 @@ func DoReadZipped(asBytes []byte) string {
 	return string(body)
 }
 
-func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte)) {
+func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte),
+	max int64) {
 	resp, err := client.Do(request)
 	if err != nil {
 		fmt.Println(err)
@@ -79,7 +80,7 @@ func DoHttpZRead(client *http.Client, request *http.Request, cb func(b []byte)) 
 		}
 		cb(buffer[:n])
 		count++
-		if count > 9 {
+		if count > 9 && max == 0 {
 			break
 		}
 	}
