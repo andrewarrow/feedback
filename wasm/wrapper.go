@@ -38,6 +38,9 @@ func (w *Wrapper) Call(s string, thing any) any {
 func (w *Wrapper) Focus() {
 	w.JValue.Call("focus")
 }
+func (w *Wrapper) Blur() {
+	w.JValue.Call("blur")
+}
 func (w *Wrapper) AppendChild(c any) {
 	w.JValue.Call("appendChild", c)
 }
