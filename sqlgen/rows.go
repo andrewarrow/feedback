@@ -103,7 +103,9 @@ func insertRow(random bool, tableName string,
 	buffer = append(buffer, strings.Join(cols, ","))
 	buffer = append(buffer, ")")
 
-	return strings.Join(buffer, ""), params
+	sql := strings.Join(buffer, "")
+	//fmt.Println(sql, params)
+	return sql, params
 }
 
 func UpdateRowFromParams(tableName string,

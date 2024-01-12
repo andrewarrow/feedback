@@ -54,6 +54,8 @@ func (c *Context) Insert(modelString string) string {
 	}
 	sql, params := sqlgen.InsertRowNoRandomDefaults(tableName, model.Fields, c.Params)
 	//fmt.Println(sql, params)
+	//customDB := &persist.CustomDB{DB: c.Db}
+	//_, err := customDB.ExecWithLogging(sql, params...)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
 		return err.Error()

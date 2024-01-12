@@ -1,6 +1,7 @@
 package persist
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 	"time"
@@ -27,6 +28,33 @@ func MysqlConnection() *sqlx.DB {
 	db := sqlx.MustConnect("mysql", url)
 
 	return db
+}
+
+type CustomDB struct {
+	*sqlx.DB
+}
+
+func (db *CustomDB) ExecWithLogging(query string, args ...interface{}) (sql.Result, error) {
+	fmt.Printf("Executing SQL: %s\n", db.Rebind(query))
+
+	sqlValues := make([]string, len(args))
+	for i, arg := range args {
+		switch v := arg.(type) {
+		case int, int64, float64:
+			sqlValues[i] = fmt.Sprintf("%v", v)
+		case string:
+			sqlValues[i] = fmt.Sprintf("'%v'", v) // Surround strings with single quotes
+		case []byte:
+			sqlValues[i] = fmt.Sprintf("E'\\x%X'", v) // Convert byte slices to SQL hex format
+		case time.Time:
+			sqlValues[i] = fmt.Sprintf("'%v'", v.Format("2006-01-02 15:04:05"))
+		default:
+			sqlValues[i] = "NULL"
+		}
+	}
+	fmt.Println("SQL argument values:", sqlValues)
+
+	return db.DB.Exec(query, args...)
 }
 
 func PostgresConnectionByUrl(url string) *sqlx.DB {
