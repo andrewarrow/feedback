@@ -167,6 +167,9 @@ func TemplateFunctions() template.FuncMap {
 
 			return template.HTML(strings.ReplaceAll(asString, "\n", "<br/>"))
 		},
+		"intCommaZero": func(a int64) string {
+			return util.IntComma(a)
+		},
 		"intComma": func(a int64) string {
 			if a == 0 {
 				return "n/a"
