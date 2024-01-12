@@ -11,12 +11,14 @@ func SpecialToSingle() map[string]string {
 		"coaches":    "coach",
 		"dies":       "die",
 		"children":   "child",
+		"searches":   "search",
 		"species":    "species"}
 }
 func SpecialToPlural() map[string]string {
 	return map[string]string{"series": "series",
 		"child":   "children",
 		"coach":   "coaches",
+		"search":  "searches",
 		"species": "species"}
 }
 
