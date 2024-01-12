@@ -23,6 +23,11 @@ func (w *Wrapper) Set(s string, thing any) {
 		w.JValue.Set(s, thingS)
 		return
 	}
+	thingB, ok := thing.(bool)
+	if ok {
+		w.JValue.Set(s, thingB)
+		return
+	}
 	w.JValue.Set(s, js.FuncOf(thing.(func(this js.Value, args []js.Value) any)))
 }
 
