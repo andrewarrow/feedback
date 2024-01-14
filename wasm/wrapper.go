@@ -85,8 +85,8 @@ func (w *Wrapper) AddClass(c string) {
 func (w *Wrapper) RemoveClass(c string) {
 	RemoveClass(w.JValue, c)
 }
-func (w *Wrapper) HasClass(c string) {
-	HasClass(w.JValue, c)
+func (w *Wrapper) HasClass(c string) bool {
+	return HasClass(w.JValue, c)
 }
 
 func (w *Wrapper) SelectAllByClass(s string) []*Wrapper {
