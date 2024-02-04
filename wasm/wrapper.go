@@ -37,6 +37,9 @@ func (w *Wrapper) Get(s string) string {
 func (w *Wrapper) GetInt(s string) int {
 	return w.JValue.Get(s).Int()
 }
+func (w *Wrapper) GetBool(s string) bool {
+	return w.JValue.Get(s).Bool()
+}
 func (w *Wrapper) Call(s string, thing any) any {
 	return w.JValue.Call(s, thing)
 }

@@ -65,7 +65,7 @@ func (c *Context) Decorate(list []map[string]any) []string {
 		for k, v := range item {
 			if strings.HasSuffix(k, "_id") {
 				tokens := strings.Split(k, "_")
-				modelString := tokens[0]
+				modelString := strings.Join(tokens[0:len(tokens)-1], "_")
 				if c.FindModel(modelString) == nil {
 					continue
 				}
@@ -89,7 +89,7 @@ func (c *Context) Decorate(list []map[string]any) []string {
 		for k, v := range item {
 			if strings.HasSuffix(k, "_id") {
 				tokens := strings.Split(k, "_")
-				modelString := tokens[0]
+				modelString := strings.Join(tokens[0:len(tokens)-1], "_")
 				if itemMaps[modelString] == nil {
 					continue
 				}
