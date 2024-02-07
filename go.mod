@@ -13,6 +13,7 @@ require (
 	github.com/iancoleman/strcase v0.2.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.2.0
+	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/xeonx/timeago v1.0.0-rc5
 	golang.org/x/crypto v0.12.0
 	golang.org/x/net v0.14.0
