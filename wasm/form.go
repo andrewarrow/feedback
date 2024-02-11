@@ -17,9 +17,6 @@ func (w *Wrapper) MapOfInputs() map[string]any {
 		m[input.Id] = input.Value
 		input.Set("value", "")
 	}
-	for _, input := range w.SelectAll("hidden") {
-		m[input.Id] = input.Value
-	}
 	return m
 }
 
@@ -35,9 +32,6 @@ func (w *Wrapper) NoClearInputs() map[string]any {
 		m[input.Id] = input.Value
 	}
 	for _, input := range w.SelectAll("select") {
-		m[input.Id] = input.Value
-	}
-	for _, input := range w.SelectAll("hidden") {
 		m[input.Id] = input.Value
 	}
 	return m
