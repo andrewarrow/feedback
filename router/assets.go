@@ -12,7 +12,7 @@ var EmbeddedAssets embed.FS
 func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *http.Request) {
 	contentType := "text/css"
 	contentEncoding := "identity"
-	if strings.HasSuffix(path, ".js") {
+	if strings.HasSuffix(path, ".js") || strings.HasSuffix(path, ".json") {
 		contentType = "application/javascript"
 	} else if strings.HasSuffix(path, ".ico") {
 		contentType = "image/x-icon"
