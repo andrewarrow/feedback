@@ -1,6 +1,7 @@
 package sqlgen
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"strings"
@@ -99,7 +100,8 @@ func insertRow(random bool, tableName string,
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
 		} else if isNullString == "null" {
-			val = "null"
+			var sqlNullString sql.NullString
+			val = sqlNullString.String
 		}
 		params = append(params, val)
 	}
