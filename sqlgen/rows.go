@@ -101,7 +101,7 @@ func insertRow(random bool, tableName string,
 			val = string(asBytes)
 		} else if isNullString == "null" {
 			var sqlNullString sql.NullString
-			val = sqlNullString.String
+			val = sqlNullString
 		}
 		params = append(params, val)
 	}
