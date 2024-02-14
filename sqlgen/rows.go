@@ -66,6 +66,7 @@ func insertRow(random bool, tableName string,
 		cols = append(cols, fmt.Sprintf("$%d", count))
 		count++
 		val := override[field.Name]
+		isNullString, _ := val.(string)
 		if val == nil {
 			if random {
 				val = field.RandomValue()
@@ -97,6 +98,8 @@ func insertRow(random bool, tableName string,
 		} else if field.Flavor == "json_list" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
+		} else if isNullString == "null" {
+			val = "null"
 		}
 		params = append(params, val)
 	}
