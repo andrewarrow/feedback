@@ -9,6 +9,7 @@ func SpecialToSingle() map[string]string {
 		"properties": "property",
 		"bases":      "base",
 		"coaches":    "coach",
+		"batches":    "batch",
 		"dies":       "die",
 		"children":   "child",
 		"searches":   "search",
@@ -17,6 +18,7 @@ func SpecialToSingle() map[string]string {
 func SpecialToPlural() map[string]string {
 	return map[string]string{"series": "series",
 		"child":   "children",
+		"batch":   "batches",
 		"coach":   "coaches",
 		"search":  "searches",
 		"species": "species"}
