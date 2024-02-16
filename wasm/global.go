@@ -41,6 +41,14 @@ func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	return nil
 }
 
+func (g *Global) Event(id string, fn func()) {
+	button := g.Document.ById(id)
+	thefunc := func(js.Value, []js.Value) any {
+		fn()
+		return nil
+	}
+	button.Set("onclick", js.FuncOf(thefunc))
+}
 func (g *Global) Click(id string, fn func(js.Value, []js.Value) any) {
 	button := g.Document.ById(id)
 	button.Set("onclick", js.FuncOf(fn))
