@@ -121,7 +121,8 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubdomains")
 
 	} else {
-		writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		//writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		writer.Header().Set("Access-Control-Allow-Origin", "*")
 		writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		fmt.Println(request.Method, path)
 		path = path + "/"
