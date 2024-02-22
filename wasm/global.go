@@ -41,6 +41,15 @@ func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 	return nil
 }
 
+func (g *Global) SetManyEvents(id string, fn func(id string)) {
+
+	w := g.Document.Id(id)
+	items := w.SelectAllByClass("cursor-pointer")
+	for _, item := range items {
+		item.Event(fn)
+	}
+}
+
 func (g *Global) Event(id string, fn func()) {
 	button := g.Document.ById(id)
 	thefunc := func(this js.Value, p []js.Value) any {
