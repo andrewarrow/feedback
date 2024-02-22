@@ -50,11 +50,11 @@ func (g *Global) SetManyEvents(id string, fn func(id string)) {
 	}
 }
 
-func (g *Global) Event(id string, fn func()) {
+func (g *Global) Event(id string, passId string, fn func(string)) {
 	button := g.Document.ById(id)
 	thefunc := func(this js.Value, p []js.Value) any {
 		p[0].Call("preventDefault")
-		fn()
+		fn(passId)
 		return nil
 	}
 	button.Set("onclick", js.FuncOf(thefunc))
