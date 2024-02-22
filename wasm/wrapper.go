@@ -83,9 +83,10 @@ func (w *Wrapper) Event(fn func(id string)) {
 	}
 	w.JValue.Set("onclick", js.FuncOf(thefunc))
 }
-func (w *Wrapper) EventWithId(id string, fn func(string)) {
+
+func (w *Wrapper) EventWithId(fn func()) {
 	thefunc := func(this js.Value, p []js.Value) any {
-		fn(id)
+		fn()
 		return nil
 	}
 	w.JValue.Set("onclick", js.FuncOf(thefunc))
