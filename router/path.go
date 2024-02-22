@@ -88,7 +88,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		removeFlash(writer)
 	}
 
-	CORS_DOMAIN := os.Getenv("CORS_DOMAIN")
+	//CORS_DOMAIN := os.Getenv("CORS_DOMAIN")
 
 	if path == "/" || path == "/"+r.Prefix || path == r.Prefix {
 		c := PrepareContext(r, user, "/", flash, writer, request)
@@ -114,7 +114,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		http.Redirect(writer, request, path[0:len(path)-1], 301)
 	} else if c.Method == "OPTIONS" {
 		writer.Header().Set("Allow", "GET,POST,PUT,PATCH,DELETE")
-		writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000, http://*."+CORS_DOMAIN)
+		//writer.Header().Set("Access-Control-Allow-Origin", "http://*."+CORS_DOMAIN)
 		writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
 		writer.Header().Set("Access-Control-Allow-Headers", "authorization,content-type")
 		writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -123,7 +123,7 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 		writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubdomains")
 
 	} else {
-		writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000, http://*."+CORS_DOMAIN)
+		//writer.Header().Set("Access-Control-Allow-Origin", "http://*."+CORS_DOMAIN)
 		writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		fmt.Println(request.Method, path)
 		path = path + "/"
