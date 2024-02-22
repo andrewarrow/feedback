@@ -75,6 +75,14 @@ func (w *Wrapper) GetItem(key any) string {
 func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
 	w.JValue.Set("onclick", js.FuncOf(fn))
 }
+func (w *Wrapper) Event(fn func()) {
+	thefunc := func(this js.Value, p []js.Value) any {
+		p[0].Call("preventDefault")
+		fn()
+		return nil
+	}
+	w.JValue.Set("onclick", js.FuncOf(thefunc))
+}
 
 func (w *Wrapper) Show() {
 	RemoveClass(w.JValue, "hidden")
