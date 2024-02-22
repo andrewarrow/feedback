@@ -111,9 +111,9 @@ func (r *Router) RouteFromRequest(writer http.ResponseWriter, request *http.Requ
 	} else if strings.HasSuffix(path, "/") {
 		http.Redirect(writer, request, path[0:len(path)-1], 301)
 	} else if c.Method == "OPTIONS" {
-		writer.Header().Set("Allow", "GET,POST,PUT,PATCH")
+		writer.Header().Set("Allow", "GET,POST,PUT,PATCH,DELETE")
 		writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-		writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
 		writer.Header().Set("Access-Control-Allow-Headers", "authorization,content-type")
 		writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		writer.Header().Set("Content-Security-Policy", "default-src 'self' 'unsafe-inline' http://localhost")
