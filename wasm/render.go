@@ -21,10 +21,10 @@ func (d *Document) RenderToId(id, name string, vars any) {
 	div.Set("innerHTML", d.Render(name, vars))
 }
 
-func (d *Document) RenderAndAppend(location, template, jsonString string) *Wrapper {
+func (d *Document) RenderAndAppend(location, template, key, jsonString string) *Wrapper {
 	var vars map[string]any
 	json.Unmarshal([]byte(jsonString), &vars)
-	div := d.RenderToNewDiv(template, vars)
+	div := d.RenderToNewDiv(template, vars[key])
 	d.Id(location).Call("appendChild", div)
 	return NewWrapper(div)
 }
