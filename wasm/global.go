@@ -46,7 +46,7 @@ func (g *Global) SetManyEvents(id string, fn func(id string)) {
 	w := g.Document.Id(id)
 	items := w.SelectAllByClass("cursor-pointer")
 	for _, item := range items {
-		item.Event(fn)
+		item.EventWithId(item.Id, fn)
 	}
 }
 

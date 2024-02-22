@@ -83,6 +83,13 @@ func (w *Wrapper) Event(fn func(id string)) {
 	}
 	w.JValue.Set("onclick", js.FuncOf(thefunc))
 }
+func (w *Wrapper) EventWithId(id string, fn func(id string)) {
+	thefunc := func(this js.Value, p []js.Value) any {
+		fn(id)
+		return nil
+	}
+	w.JValue.Set("onclick", js.FuncOf(thefunc))
+}
 
 func (w *Wrapper) Show() {
 	RemoveClass(w.JValue, "hidden")
