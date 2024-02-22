@@ -75,10 +75,10 @@ func (w *Wrapper) GetItem(key any) string {
 func (w *Wrapper) Click(fn func(js.Value, []js.Value) any) {
 	w.JValue.Set("onclick", js.FuncOf(fn))
 }
-func (w *Wrapper) Event(fn func()) {
+func (w *Wrapper) Event(fn func(id string)) {
 	thefunc := func(this js.Value, p []js.Value) any {
 		p[0].Call("preventDefault")
-		fn()
+		fn(p[0].Get("target").Get("id").String())
 		return nil
 	}
 	w.JValue.Set("onclick", js.FuncOf(thefunc))
