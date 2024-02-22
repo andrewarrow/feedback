@@ -3,6 +3,7 @@ package wasm
 import (
 	"bytes"
 	"embed"
+	"encoding/json"
 	"io/fs"
 	"strings"
 	"syscall/js"
@@ -19,6 +20,14 @@ func (d *Document) RenderToId(id, name string, vars any) {
 	div := d.ById(id)
 	div.Set("innerHTML", d.Render(name, vars))
 }
+
+func (d *Document) RenderAndAppend(location, template, jsonString string) {
+	var vars map[string]any
+	json.Unmarshal([]byte(jsonString), &vars)
+	div := d.RenderToNewDiv(template, vars)
+	d.Id(location).Call("appendChild", div)
+}
+
 func (d *Document) RenderToNewDiv(name string, vars any) js.Value {
 	newHTML := d.Render(name, vars)
 	newDiv := d.Document.Call("createElement", "div")
