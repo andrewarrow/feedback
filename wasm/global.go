@@ -50,6 +50,11 @@ func (g *Global) Event(id string, fn func()) {
 	}
 	button.Set("onclick", js.FuncOf(thefunc))
 }
+
+func (g *Global) SetClipboard(s string) {
+	g.Navigator.JValue.Get("clipboard").Call("writeText", s)
+}
+
 func (g *Global) Click(id string, fn func(js.Value, []js.Value) any) {
 	button := g.Document.ById(id)
 	button.Set("onclick", js.FuncOf(fn))
