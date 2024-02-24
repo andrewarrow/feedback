@@ -31,6 +31,9 @@ func (w *Wrapper) Set(s string, thing any) {
 	w.JValue.Set(s, js.FuncOf(thing.(func(this js.Value, args []js.Value) any)))
 }
 
+func (w *Wrapper) GetAttribute(s string) string {
+	return w.JValue.GetAttribute(s).String()
+}
 func (w *Wrapper) Get(s string) string {
 	return w.JValue.Get(s).String()
 }
