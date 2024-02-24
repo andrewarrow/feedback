@@ -130,6 +130,7 @@ func UpdateRowFromParams(tableName string,
 		cols = append(cols, fmt.Sprintf("%s=$%d", field.Name, count))
 		count++
 		val := override[field.Name]
+		isNullString, _ := val.(string)
 		if field.Flavor == "list" {
 			list := fixListItems(val)
 			val = strings.Join(list, ",")
@@ -139,6 +140,9 @@ func UpdateRowFromParams(tableName string,
 		} else if field.Flavor == "json_list" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
+		} else if isNullString == "null" {
+			var sqlNullString sql.NullString
+			val = sqlNullString
 		}
 		params = append(params, val)
 	}
