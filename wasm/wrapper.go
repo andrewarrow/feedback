@@ -32,7 +32,7 @@ func (w *Wrapper) Set(s string, thing any) {
 }
 
 func (w *Wrapper) GetAttribute(s string) string {
-	return w.JValue.GetAttribute(s).String()
+	return w.JValue.Call("getAttribute", s).String()
 }
 func (w *Wrapper) Get(s string) string {
 	return w.JValue.Get(s).String()
