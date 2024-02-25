@@ -36,7 +36,7 @@ func DoBearerGet(bearer, urlString string) (string, int) {
 	jsonString, code := DoHttpBearerRead(bearer, request)
 	return jsonString, code
 }
-func DoBearerPost(bearer, urlString string, payload any) int {
+func DoBearerPost(bearer, urlString string, payload any) (string, int) {
 	asBytes, _ := json.Marshal(payload)
 	body := bytes.NewBuffer(asBytes)
 	request, err := http.NewRequest("POST", urlString, body)
@@ -44,8 +44,8 @@ func DoBearerPost(bearer, urlString string, payload any) int {
 		return 500
 	}
 
-	_, code := DoHttpBearerRead(bearer, request)
-	return code
+	s, code := DoHttpBearerRead(bearer, request)
+	return s, code
 }
 func DoBearerPatch(bearer, urlString string, payload any) int {
 	asBytes, _ := json.Marshal(payload)
