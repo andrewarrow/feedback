@@ -28,7 +28,7 @@ func DoHttpBearerRead(bearer string, request *http.Request) (string, int) {
 func DoBearerGet(bearer, urlString string) (string, int) {
 	request, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
-		return ""
+		return "", 500
 	}
 
 	jsonString, code := DoHttpBearerRead(bearer, request)
