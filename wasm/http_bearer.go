@@ -40,6 +40,6 @@ func DoBearerDelete(bearer, urlString string) int {
 		return 500
 	}
 
-	_, code := DoHttpRead(bearer, request)
+	_, code := DoHttpBearerRead(bearer, request)
 	return code
 }
