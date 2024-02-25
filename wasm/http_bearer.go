@@ -41,7 +41,7 @@ func DoBearerPost(bearer, urlString string, payload any) (string, int) {
 	body := bytes.NewBuffer(asBytes)
 	request, err := http.NewRequest("POST", urlString, body)
 	if err != nil {
-		return 500
+		return "", 500
 	}
 
 	s, code := DoHttpBearerRead(bearer, request)
