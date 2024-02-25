@@ -1,6 +1,8 @@
 package wasm
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -33,6 +35,17 @@ func DoBearerGet(bearer, urlString string) (string, int) {
 
 	jsonString, code := DoHttpBearerRead(bearer, request)
 	return jsonString, code
+}
+func DoBeaterPatch(bearer, urlString string, payload any) int {
+	asBytes, _ := json.Marshal(payload)
+	body := bytes.NewBuffer(asBytes)
+	request, err := http.NewRequest("PATCH", urlString, body)
+	if err != nil {
+		return 500
+	}
+
+	_, code := DoHttpBearerRead(bearer, request)
+	return code
 }
 func DoBearerDelete(bearer, urlString string) int {
 	request, err := http.NewRequest("DELETE", urlString, nil)
