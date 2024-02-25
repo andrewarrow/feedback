@@ -25,12 +25,12 @@ func DoHttpBearerRead(bearer string, request *http.Request) (string, int) {
 	return err.Error(), 500
 }
 
-func DoBearerGet(bearer, urlString string) string {
+func DoBearerGet(bearer, urlString string) (string, int) {
 	request, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
 		return ""
 	}
 
-	jsonString, _ := DoHttpBearerRead(bearer, request)
-	return jsonString
+	jsonString, code := DoHttpBearerRead(bearer, request)
+	return jsonString, code
 }
