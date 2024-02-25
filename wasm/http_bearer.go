@@ -34,3 +34,12 @@ func DoBearerGet(bearer, urlString string) (string, int) {
 	jsonString, code := DoHttpBearerRead(bearer, request)
 	return jsonString, code
 }
+func DoBearerDelete(bearer, urlString string) int {
+	request, err := http.NewRequest("DELETE", urlString, nil)
+	if err != nil {
+		return 500
+	}
+
+	_, code := DoHttpRead(bearer, request)
+	return code
+}
