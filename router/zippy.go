@@ -59,7 +59,12 @@ func (r *Router) sendZippy(doZip bool, name string, vars any, writer http.Respon
 
 		cb = compressedData.Bytes()
 	}
-	writer.Header().Set("Content-Type", "text/html")
+
+	if name == "xml.html" {
+		writer.Header().Set("Content-Type", "application/xml")
+	} else {
+		writer.Header().Set("Content-Type", "text/html")
+	}
 	writer.Header().Set("Content-Length", fmt.Sprintf("%d", len(cb)))
 	writer.WriteHeader(status)
 	writer.Write(cb)
