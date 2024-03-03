@@ -93,7 +93,7 @@ func (c *Context) Decorate(list []map[string]any) []string {
 				if itemMaps[modelString] == nil {
 					continue
 				}
-				intId := v.(int64)
+				intId, _ := v.(int64)
 				if intId == 0 {
 					continue
 				}

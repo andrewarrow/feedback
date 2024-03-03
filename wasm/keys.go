@@ -5,7 +5,7 @@ import (
 )
 
 func GetItemMap(item js.Value, count int) map[string]any {
-	if count > 100 {
+	if count > 10 {
 		return nil
 	}
 	m := map[string]any{}
@@ -22,7 +22,7 @@ func GetItemMap(item js.Value, count int) map[string]any {
 		} else if value.Type() == js.TypeBoolean {
 			m[key] = value.Bool()
 		} else if value.Type() == js.TypeObject {
-			m[key] = GetItemMap(value, count+1)
+			//m[key] = GetItemMap(value, count+1)
 		} else {
 			m[key] = value.String()
 		}
