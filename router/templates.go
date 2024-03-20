@@ -277,6 +277,13 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return s
 		},
+		"zeroMoney": func(a any) string {
+			s := fmt.Sprintf("%v", a)
+			if s == "0" {
+				return ""
+			}
+			return "$" + s
+		},
 		"ampm": func(f float64) string {
 			i := int(f)
 			if i > 12 {
