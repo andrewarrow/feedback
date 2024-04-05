@@ -34,6 +34,7 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 	layoutMap["user"] = user
 	layoutMap["viewport"] = viewport
 	layoutMap["wasm"] = MakeWasmScript(BuildTag, filename)
+	layoutMap["wasm2"] = MakeWasmScript2(BuildTag, filename)
 	layoutMap["USE_LIVE_TEMPLATES"] = UseLiveTemplates
 	layoutMap["dev_mode"] = os.Getenv("DEV_MODE") != ""
 	layoutMap["content"] = template.HTML(content.String())

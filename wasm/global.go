@@ -63,6 +63,15 @@ func (g *Global) Submit(id string, fn func(js.Value, []js.Value) any) {
 	form := g.Document.ById(id)
 	form.Set("onsubmit", js.FuncOf(fn))
 }
+func (g *Global) SubmitEvent(id string, fn func()) {
+	thefunc := func(this js.Value, p []js.Value) any {
+		p[0].Call("preventDefault")
+		fn()
+		return nil
+	}
+	form := g.Document.ById(id)
+	form.Set("onsubmit", js.FuncOf(thefunc))
+}
 func (g *Global) Focus(id string, fn func(js.Value, []js.Value) any) {
 	form := g.Document.ById(id)
 	form.Set("onfocus", js.FuncOf(fn))
