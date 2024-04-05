@@ -37,10 +37,10 @@ func DoGet(urlString string) string {
 	return jsonString
 }
 
-func DoPut(urlString string, payload any) int {
+func DoPatch(urlString string, payload any) int {
 	asBytes, _ := json.Marshal(payload)
 	body := bytes.NewBuffer(asBytes)
-	request, err := http.NewRequest("PUT", urlString, body)
+	request, err := http.NewRequest("PATCH", urlString, body)
 	if err != nil {
 		return 500
 	}
@@ -48,10 +48,10 @@ func DoPut(urlString string, payload any) int {
 	_, code := DoHttpRead(request)
 	return code
 }
-func DoPatch(urlString string, payload any) (string, int) {
+func DoPut(urlString string, payload any) (string, int) {
 	asBytes, _ := json.Marshal(payload)
 	body := bytes.NewBuffer(asBytes)
-	request, err := http.NewRequest("PATCH", urlString, body)
+	request, err := http.NewRequest("PUT", urlString, body)
 	if err != nil {
 		return "", 500
 	}
