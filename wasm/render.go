@@ -17,9 +17,9 @@ var AllTemplates map[string]any
 var UseLive = true
 
 func (d *Document) RenderToId(id, name string, vars any) *Wrapper {
-	div := d.Id(id)
+	div := d.ById(id)
 	div.Set("innerHTML", d.Render(name, vars))
-	return div
+	return NewWrapper(div)
 }
 
 func (d *Document) RenderAndAppend(location, template, key, jsonString string) *Wrapper {
