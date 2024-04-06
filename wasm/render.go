@@ -16,9 +16,10 @@ var EmbeddedTemplates embed.FS
 var AllTemplates map[string]any
 var UseLive = true
 
-func (d *Document) RenderToId(id, name string, vars any) {
-	div := d.ById(id)
+func (d *Document) RenderToId(id, name string, vars any) *Wrapper {
+	div := d.Id(id)
 	div.Set("innerHTML", d.Render(name, vars))
+	return div
 }
 
 func (d *Document) RenderAndAppend(location, template, key, jsonString string) *Wrapper {
