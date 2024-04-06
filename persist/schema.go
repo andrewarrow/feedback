@@ -60,10 +60,16 @@ func (db *CustomDB) ExecWithLogging(query string, args ...interface{}) (sql.Resu
 func PostgresConnectionByUrl(url string) *sqlx.DB {
 	var db *sqlx.DB
 	var err error
+	if os.Getenv("DEBUG") == "1" {
+		fmt.Println("PostgresConnectionByUrl", dbEnvVarName)
+	}
 
 	for {
 		db, err = sqlx.Connect("postgres", url)
 		if err == nil {
+			if os.Getenv("DEBUG") == "1" {
+				fmt.Println("db", db)
+			}
 			db.SetMaxOpenConns(9)
 			db.SetMaxIdleConns(9)
 			db.SetConnMaxLifetime(5 * time.Minute)
@@ -79,6 +85,9 @@ func PostgresConnectionByUrl(url string) *sqlx.DB {
 
 func PostgresConnection(dbEnvVarName string) *sqlx.DB {
 
+	if os.Getenv("DEBUG") == "1" {
+		fmt.Println("PostgresConnection", dbEnvVarName)
+	}
 	url := os.Getenv(dbEnvVarName)
 	if url == "" {
 		return nil
