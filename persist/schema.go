@@ -61,7 +61,7 @@ func PostgresConnectionByUrl(url string) *sqlx.DB {
 	var db *sqlx.DB
 	var err error
 	if os.Getenv("DEBUG") == "1" {
-		fmt.Println("PostgresConnectionByUrl", dbEnvVarName)
+		fmt.Println("PostgresConnectionByUrl", url)
 	}
 
 	for {
