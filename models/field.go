@@ -31,6 +31,9 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	} else if f.Flavor == "bigint" {
 		flavor = "bigint"
 		defaultString = "0"
+	} else if f.Flavor == "float" || f.Flavor == "double" {
+		flavor = "double"
+		defaultString = "0"
 	} else if f.Flavor == "list" {
 		flavor = "text"
 	} else if f.Flavor == "uuid" || f.Flavor == "citext" {
