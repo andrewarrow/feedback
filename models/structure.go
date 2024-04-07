@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/andrewarrow/feedback/prefix"
 	"github.com/andrewarrow/feedback/util"
 )
@@ -51,13 +53,25 @@ func (m *Model) TableName() string {
 	return prefix.Tablename(util.Plural(m.Name))
 }
 
-func TypeToFlavor(dt string) string {
+func TypeToFlavor(dt, udt, cd string) string {
 	if dt == "bigint" || dt == "integer" {
 		return "int"
 	} else if dt == "boolean" {
 		return "bool"
 	} else if dt == "text" {
 		return "text"
+	} else if dt == "real" || dt == "numeric" {
+		return "double"
+	} else if udt == "timestamptz" {
+		return "timestamp"
+	} else if udt == "geometry" {
+		return "geometry"
+	} else if dt == "jsonb" && cd == "" {
+		return "json"
+	} else if dt == "jsonb" && strings.Contains(cd, "[]") {
+		return "json_list"
+	} else if strings.HasPrefix(udt, "enum_") {
+		return udt
 	}
-	return "oneWord"
+	return "name"
 }
