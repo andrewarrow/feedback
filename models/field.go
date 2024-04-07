@@ -32,7 +32,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		flavor = "bigint"
 		defaultString = "0"
 	} else if f.Flavor == "float" || f.Flavor == "double" {
-		flavor = "double"
+		flavor = "DOUBLE PRECISION"
 		defaultString = "0"
 	} else if f.Flavor == "list" {
 		flavor = "text"
