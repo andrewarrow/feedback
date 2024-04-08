@@ -50,6 +50,17 @@ func TemplateFunctions() template.FuncMap {
 			}
 			return result
 		},
+		"marshal": func(a any) string {
+			if a == nil {
+				return ""
+			}
+			b, _ := json.Marshal(a)
+			s := string(b)
+			if s == "null" {
+				return ""
+			}
+			return s
+		},
 		"findInMap": func(send map[string]any, name string, id int64) any {
 			m := send[name].(map[int64]any)
 			return m[id]
