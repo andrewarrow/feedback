@@ -13,8 +13,11 @@ func ParseNumbers(c *Context, cols []string, editable map[string]string) {
 			c.Params[item], _ = strconv.ParseFloat(c.Params[item].(string), 64)
 		} else if editable[item] == "edit_json" {
 			var m map[string]any
-			json.Unmarshal([]byte(c.Params[item].(string)), &m)
-			c.Params[item] = m
+			err := json.Unmarshal([]byte(c.Params[item].(string)), &m)
+			c.Params[item] = nil
+			if err == nil {
+				c.Params[item] = m
+			}
 		}
 	}
 }
