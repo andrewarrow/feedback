@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -40,9 +41,20 @@ func CastFields(model *models.Model, m map[string]any) {
 			m[field.Name] = m[field.Name].(float64)
 		} else if field.Flavor == "bool" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(bool)
+		} else if field.Flavor == "double" && m[field.Name] != nil {
+			m[field.Name] = m[field.Name].(float64)
+		} else if field.Flavor == "numeric" && m[field.Name] != nil {
+			floatString := string(m[field.Name].([]byte))
+			result, _ := strconv.ParseFloat(floatString, 64)
+			m[field.Name] = result
 		} else if field.Flavor == "json" && m[field.Name] != nil {
 			var temp map[string]any
-			json.Unmarshal([]byte(m[field.Name].(string)), &temp)
+			asString, ok := m[field.Name].(string)
+			if ok {
+				json.Unmarshal([]byte(asString), &temp)
+			} else {
+				json.Unmarshal(m[field.Name].([]byte), &temp)
+			}
 			m[field.Name] = temp
 		} else if field.Flavor == "json_list" && m[field.Name] != nil {
 			var temp []any

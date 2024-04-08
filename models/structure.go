@@ -60,8 +60,10 @@ func TypeToFlavor(dt, udt, cd string) string {
 		return "bool"
 	} else if dt == "text" {
 		return "text"
-	} else if dt == "real" || dt == "numeric" {
+	} else if dt == "real" {
 		return "double"
+	} else if dt == "numeric" {
+		return "numeric"
 	} else if udt == "timestamptz" {
 		return "timestamp"
 	} else if udt == "geometry" {
@@ -70,6 +72,8 @@ func TypeToFlavor(dt, udt, cd string) string {
 		return "json"
 	} else if dt == "jsonb" && strings.Contains(cd, "[]") {
 		return "json_list"
+	} else if dt == "jsonb" && strings.Contains(cd, "{}") {
+		return "json"
 	} else if strings.HasPrefix(udt, "enum_") {
 		return udt
 	}

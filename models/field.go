@@ -26,8 +26,10 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	if f.Flavor == "int" {
 		flavor = "int"
 		defaultString = "0"
-	} else if f.Flavor == "text" || f.Flavor == "json" || f.Flavor == "json_list" {
+	} else if f.Flavor == "text" {
 		flavor = "text"
+	} else if f.Flavor == "json" || f.Flavor == "json_list" {
+		flavor = "jsonb"
 	} else if f.Flavor == "bigint" {
 		flavor = "bigint"
 		defaultString = "0"
@@ -64,6 +66,10 @@ func (f *Field) SaneDefault() any {
 		return false
 	} else if f.Null == "yes" {
 		return nil
+	} else if f.Flavor == "json" {
+		return map[string]any{}
+	} else if f.Flavor == "json_list" {
+		return []any{}
 	}
 	return ""
 }
