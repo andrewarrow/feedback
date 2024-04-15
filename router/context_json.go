@@ -60,9 +60,9 @@ func (c *Context) Insert(modelString string) string {
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
 		if sqlErr, ok := err.(*pq.Error); ok {
-			return sqlErr.Error() + " " + sqlErr.Detail + " " +
+			return sqlErr.Error() + " " + sqlErr.Detail + " " + sqlErr.Message + " " +
 				sqlErr.Hint + " " +
-				sqlErr.Position + " " + sqlErr.Column
+				sqlErr.Position + " " + sqlErr.Column + " " + sqlErr.DataTypeName
 		}
 		return err.Error()
 	}
@@ -91,9 +91,9 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
 		if sqlErr, ok := err.(*pq.Error); ok {
-			return sqlErr.Error() + " " + sqlErr.Detail + " " +
+			return sqlErr.Error() + " " + sqlErr.Detail + " " + sqlErr.Message + " " +
 				sqlErr.Hint + " " +
-				sqlErr.Position + " " + sqlErr.Column
+				sqlErr.Position + " " + sqlErr.Column + " " + sqlErr.DataTypeName
 		}
 		return err.Error()
 	}
