@@ -7,6 +7,7 @@ import (
 	"github.com/andrewarrow/feedback/models"
 	"github.com/andrewarrow/feedback/sqlgen"
 	"github.com/andrewarrow/feedback/util"
+	"github.com/lib/pq"
 )
 
 func (c *Context) SendRowAsJson(wrapper string, row map[string]any) {
@@ -58,6 +59,11 @@ func (c *Context) Insert(modelString string) string {
 	//_, err := customDB.ExecWithLogging(sql, params...)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
+		if sqlErr, ok := err.(*pq.Error); ok {
+			return sqlErr.Error() + " " + sqlErr.Detail + " " +
+				sqlErr.Hint + " " +
+				sqlErr.Position + " " + sqlErr.Column
+		}
 		return err.Error()
 	}
 	return ""
@@ -84,6 +90,11 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 	params = append(params, lastParam)
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
+		if sqlErr, ok := err.(*pq.Error); ok {
+			return sqlErr.Error() + " " + sqlErr.Detail + " " +
+				sqlErr.Hint + " " +
+				sqlErr.Position + " " + sqlErr.Column
+		}
 		return err.Error()
 	}
 	return ""
