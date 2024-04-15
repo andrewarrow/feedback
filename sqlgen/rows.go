@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/andrewarrow/feedback/models"
+	"github.com/lib/pq"
 )
 
 func UpdateRow(model *models.Model) string {
@@ -96,6 +97,8 @@ func insertRow(random bool, tableName string,
 		} else if field.Flavor == "json" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
+		} else if field.Flavor == "array" {
+			val = pq.Array([0]string{})
 		} else if field.Flavor == "json_list" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
