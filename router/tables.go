@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/andrewarrow/feedback/models"
@@ -26,9 +27,13 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 	sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 	for _, field := range model.Fields {
 		flavor, defaultString := field.SqlTypeAndDefault()
-		//_, msg := db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
-		db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
-		//fmt.Println(msg, flavor)
+		if os.Getenv("DEBUG") == "1" {
+			s := fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString)
+			_, msg := db.Exec(s)
+			fmt.Println(s, msg, flavor)
+		} else {
+			db.Exec(fmt.Sprintf(sql, tableName, field.Name, flavor, defaultString))
+		}
 	}
 	for _, field := range model.Fields {
 		if field.Index == "yes" {
