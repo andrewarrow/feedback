@@ -27,6 +27,9 @@ func HexToPoint(s string) (float64, float64) {
 	first := strings.Index(txt, "[")
 	prefix := txt[first+1:]
 	last := strings.Index(prefix, "]")
+	if last == -1 {
+		return 0, 0
+	}
 	tokens := strings.Split(prefix[0:last], " ")
 	//fmt.Println(tokens[0], tokens[1])
 	latFloat, _ := strconv.ParseFloat(tokens[0], 64)
