@@ -28,6 +28,9 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		defaultString = "0"
 	} else if f.Flavor == "text" {
 		flavor = "text"
+	} else if f.Flavor == "array" {
+		flavor = "text[]"
+		defaultString = "{}"
 	} else if f.Flavor == "json" {
 		flavor = "jsonb"
 		defaultString = "'{}'"
