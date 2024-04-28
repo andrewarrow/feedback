@@ -1,6 +1,9 @@
 package router
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func (c *Context) FreeFormSelect(sql string, params ...any) []map[string]any {
 	return c.Router.FreeFormSelect(sql, params...)
@@ -23,6 +26,9 @@ func (r *Router) FreeFormSelect(sql string, params ...any) []map[string]any {
 }
 
 func (c *Context) FreeFormUpdate(sql string, params ...any) error {
+	if os.Getenv("DEBUG") == "1" {
+		fmt.Println("sqlgen.FreeFormUpdate", sql, params)
+	}
 	_, err := c.Db.Exec(sql, params...)
 	if err != nil {
 		return err
