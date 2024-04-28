@@ -20,18 +20,21 @@ func (w *Wrapper) MapOfInputs() map[string]any {
 	return m
 }
 
-func (w *Wrapper) NoClearInputs() map[string]any {
+func (w *Wrapper) NoClearInputs(prefix string) map[string]any {
 	m := map[string]any{}
 	for _, input := range w.SelectAll("input") {
 		if input.Get("type") == "submit" {
 			continue
 		}
+		input.Id = input.Id[len(prefix):]
 		m[input.Id] = input.Value
 	}
 	for _, input := range w.SelectAll("textarea") {
+		input.Id = input.Id[len(prefix):]
 		m[input.Id] = input.Value
 	}
 	for _, input := range w.SelectAll("select") {
+		input.Id = input.Id[len(prefix):]
 		m[input.Id] = input.Value
 	}
 	return m
