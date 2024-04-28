@@ -12,15 +12,15 @@ type Settable interface {
 
 type Location struct {
 	Value  js.Value
-	href   string
+	Href   string
 	Params url.Values
 }
 
 func NewLocation(g *Global) *Location {
 	l := Location{}
 	l.Value = g.Global.Get("location")
-	l.href = l.Value.Get("href").String()
-	tokens := strings.Split(l.href, "?")
+	l.Href = l.Value.Get("href").String()
+	tokens := strings.Split(l.Href, "?")
 	if len(tokens) == 2 {
 		l.Params, _ = url.ParseQuery(tokens[1])
 	}
