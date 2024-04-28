@@ -69,7 +69,7 @@ func main() {
 		aigen.RunImage(prompt)
 	} else if arg == "hash" {
 		text := util.PseudoUuid()
-		text = "testing123"
+		//text = "testing123"
 		hash := router.HashPassword(text)
 		fmt.Println(text)
 		fmt.Printf("update lyfe_users set username='',password='%s' where firebase_uid='';\n\n", hash)
