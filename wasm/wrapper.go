@@ -125,7 +125,9 @@ func (w *Wrapper) SelectAllByQuery(call, s string) []*Wrapper {
 		w.Name = item.Get("name").String()
 		w.Id = item.Get("id").String()
 		w.Value = item.Get("value").String()
-		w.Checked = item.Get("checked").Bool()
+		if item.Get("checked").IsNull() == false {
+			w.Checked = item.Get("checked").Bool()
+		}
 		items = append(items, w)
 	}
 	return items
