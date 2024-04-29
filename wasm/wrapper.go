@@ -5,10 +5,11 @@ import (
 )
 
 type Wrapper struct {
-	JValue js.Value
-	Name   string
-	Id     string
-	Value  string
+	JValue  js.Value
+	Name    string
+	Id      string
+	Value   string
+	Checked bool
 }
 
 func NewWrapper(v js.Value) *Wrapper {
@@ -124,6 +125,7 @@ func (w *Wrapper) SelectAllByQuery(call, s string) []*Wrapper {
 		w.Name = item.Get("name").String()
 		w.Id = item.Get("id").String()
 		w.Value = item.Get("value").String()
+		w.Checked = item.Get("checked").Bool()
 		items = append(items, w)
 	}
 	return items

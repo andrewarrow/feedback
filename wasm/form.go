@@ -29,7 +29,11 @@ func (w *Wrapper) NoClearInputs(prefix string) map[string]any {
 			continue
 		}
 		input.Id = input.Id[len(prefix):]
-		m[input.Id] = strings.TrimSpace(input.Value)
+		if input.Get("type") == "checkbox" {
+			m[input.Id] = input.Checked
+		} else {
+			m[input.Id] = strings.TrimSpace(input.Value)
+		}
 	}
 	for _, input := range w.SelectAll("textarea") {
 		input.Id = input.Id[len(prefix):]
