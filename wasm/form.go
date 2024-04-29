@@ -39,5 +39,9 @@ func (w *Wrapper) NoClearInputs(prefix string) map[string]any {
 		input.Id = input.Id[len(prefix):]
 		m[input.Id] = input.Value
 	}
+	for _, input := range w.SelectAll("hidden") {
+		input.Id = input.Id[len(prefix):]
+		m[input.Id] = input.Value
+	}
 	return m
 }
