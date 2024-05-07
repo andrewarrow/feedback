@@ -58,6 +58,9 @@ func Render(name string, vars any) string {
 	//fmt.Println(templateText)
 	t := template.New("")
 	t = t.Funcs(common.TemplateFunctions())
+	if CustomFuncMap != nil {
+		t = t.Funcs(*CustomFuncMap)
+	}
 	t, _ = t.Parse(string(templateText))
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)

@@ -2,7 +2,10 @@ package wasm
 
 import (
 	"syscall/js"
+	"text/template"
 )
+
+var CustomFuncMap *template.FuncMap
 
 type Global struct {
 	Global       *js.Value
