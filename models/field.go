@@ -101,6 +101,8 @@ func (f *Field) RandomValue() any {
 		val = true
 	} else if f.Flavor == "name" {
 		val = gofakeit.FirstName() + " " + gofakeit.LastName()
+	} else if f.Flavor == "country" {
+		val = "US"
 	} else if f.Flavor == "int" {
 		val = rand.Intn(999)
 	} else if f.Flavor == "timestamp" {
@@ -135,6 +137,18 @@ func (f *Field) RandomValue() any {
 		val = gofakeit.LastName()
 	} else if f.Flavor == "phone" {
 		val = gofakeit.PhoneFormatted()
+	} else if f.Flavor == "json" {
+		val = map[string]any{}
+	} else if f.Flavor == "json_list" {
+		val = []any{}
+	} else if f.Flavor == "geometry" {
+		val = "0101000020E61000008C2A68FFA8945DC045D61A4AED014140"
+	} else if f.Flavor == "enum_properties_type" {
+		val = "house"
+	} else if f.Flavor == "double" || f.Flavor == "numeric" {
+		val = 0.0
+	} else if f.Flavor == "enum_properties_status" {
+		val = "pending"
 	} else if f.Flavor == "text" {
 		val = gofakeit.LoremIpsumParagraph(1, 3, 33, ".")
 	} else {

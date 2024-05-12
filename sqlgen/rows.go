@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -112,7 +113,9 @@ func insertRow(random bool, tableName string,
 	buffer = append(buffer, ")")
 
 	sql := strings.Join(buffer, "")
-	//fmt.Println(sql, params)
+	if os.Getenv("DEBUG") == "1" {
+		fmt.Println(sql, params)
+	}
 	return sql, params
 }
 
