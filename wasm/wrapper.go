@@ -19,6 +19,9 @@ func NewWrapper(v js.Value) *Wrapper {
 }
 
 func (w *Wrapper) Set(s string, thing any) {
+	if w.JValue.IsNull() {
+		return
+	}
 	thingS, ok := thing.(string)
 	if ok {
 		w.JValue.Set(s, thingS)

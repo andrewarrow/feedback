@@ -12,6 +12,9 @@ func AddClass(w js.Value, className string) {
 }
 
 func RemoveClass(w js.Value, className string) {
+	if w.IsNull() {
+		return
+	}
 	currentClass := w.Get("className").String()
 	tokens := strings.Split(currentClass, " ")
 	buffer := []string{}
