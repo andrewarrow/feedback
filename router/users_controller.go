@@ -75,12 +75,13 @@ func handleCreateUser(c *Context) {
 func HandleCreateUserAutoForm(c *Context) {
 	c.ReadJsonBodyIntoParams()
 	c.Params["username"] = c.Params["email"]
+	password, _ := c.Params["password"].(string)
 	message := c.ValidateCreate("user")
 	if message != "" {
 		c.SendContentAsJson(message, 422)
 		return
 	}
-	c.Params["password"] = HashPassword(c.Params["password"].(string))
+	c.Params["password"] = HashPassword(password)
 	message = c.Insert("user")
 	if message != "" {
 		c.SendContentAsJson(message, 422)

@@ -13,6 +13,9 @@ type Wrapper struct {
 }
 
 func NewWrapper(v js.Value) *Wrapper {
+	if v.IsNull() {
+		return nil
+	}
 	w := Wrapper{}
 	w.JValue = v
 	return &w
