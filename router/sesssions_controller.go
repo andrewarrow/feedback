@@ -72,6 +72,22 @@ func CreateSession(c *Context) {
 	http.SetCookie(c.Writer, &cookie)
 	http.Redirect(c.Writer, c.Request, returnPath, 302)
 }
+func HandleCreateSessionAutoForm(c *Context) {
+	c.ReadJsonBodyIntoParams()
+	email, _ := c.Params["email"].(string)
+	password, _ := c.Params["password"].(string)
+	row := c.One("user", "where email=$1", email)
+	if len(row) > 0 && checkPasswordHash(password, row["password"].(string)) {
+
+		guid := util.PseudoUuid()
+		c.Params = map[string]any{"guid": guid, "user_id": row["id"]}
+		c.Insert("cookie_token")
+		SetUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
+		c.SendContentAsJson("ok", 200)
+		return
+	}
+	c.SendContentAsJson("error", 422)
+}
 
 func DestroySession(c *Context) {
 	id := c.User["id"].(int64)
