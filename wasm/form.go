@@ -61,7 +61,7 @@ func (g *Global) AutoForm(id, after string) {
 		go form.AutoFormPost(g, id, after)
 		return nil
 	}
-	form.Set("onsubmit", js.FuncOf(thefunc))
+	form.JValue.Set("onsubmit", js.FuncOf(thefunc))
 }
 
 func (w *Wrapper) AutoFormPost(g *Global, id, after string) {

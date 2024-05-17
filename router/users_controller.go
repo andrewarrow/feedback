@@ -71,3 +71,25 @@ func handleCreateUser(c *Context) {
 	http.Redirect(c.Writer, c.Request, returnPath, 302)
 	return
 }
+
+func HandleCreateUserAutoForm(c *Context) {
+	c.ReadJsonBodyIntoParams()
+	c.Params["username"] = c.Params["email"]
+	message := c.ValidateCreate("user")
+	if message != "" {
+		c.SendContentAsJson(message, 422)
+		return
+	}
+	c.Params["password"] = HashPassword(c.Params["password"].(string))
+	message = c.Insert("user")
+	if message != "" {
+		c.SendContentAsJson(message, 422)
+		return
+	}
+	row := c.One("user", "where username=$1", c.Params["email"])
+	guid := util.PseudoUuid()
+	c.Params = map[string]any{"guid": guid, "user_id": row["id"]}
+	c.Insert("cookie_token")
+	SetUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
+	c.SendContentAsJson("ok", 200)
+}
