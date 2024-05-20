@@ -70,7 +70,7 @@ func (w *Wrapper) AutoFormPost(g *Global, id, after string) {
 		g.Location.Set("href", after)
 		return
 	}
-	g.flashThree("invalid login")
+	g.flashThree("error")
 }
 
 func (g *Global) flashThree(s string) {
