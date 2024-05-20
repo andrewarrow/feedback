@@ -1,6 +1,7 @@
 package wasm
 
 import (
+	"encoding/json"
 	"strings"
 	"syscall/js"
 	"time"
@@ -65,9 +66,15 @@ func (g *Global) AutoForm(id, after string) {
 }
 
 func (w *Wrapper) AutoFormPost(g *Global, id, after string) {
-	_, code := DoPost(after+"/"+id, w.MapOfInputs())
+	jsonString, code := DoPost(after+"/"+id, w.MapOfInputs())
 	if code == 200 {
-		g.Location.Set("href", after)
+		var m map[string]any
+		json.Unmarshal([]byte(jsonString), &m)
+		returnPath, _ := m["return"].(string)
+		if returnPath == "" {
+			returnPath = after
+		}
+		g.Location.Set("href", returnPath)
 		return
 	}
 	g.flashThree("error")

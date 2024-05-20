@@ -14,7 +14,7 @@ func GetItemMap(item js.Value, count int) map[string]any {
 
 	for i := 0; i < keys.Length(); i++ {
 		key := keys.Index(i).String()
-		value := item.Get(key)
+		value := item.Get("key")
 		if value.Type() == js.TypeNumber {
 			m[key] = value.Float()
 		} else if value.Type() == js.TypeString {
