@@ -46,6 +46,9 @@ func (g *Global) WasmReady(this js.Value, p []js.Value) any {
 
 func (g *Global) Event(id string, fn func()) {
 	button := g.Document.ById(id)
+	if button.IsNull() {
+		return
+	}
 	thefunc := func(this js.Value, p []js.Value) any {
 		p[0].Call("preventDefault")
 		fn()
