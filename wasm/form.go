@@ -2,6 +2,7 @@ package wasm
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 	"syscall/js"
 	"time"
@@ -89,16 +90,15 @@ func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
 
 func (g *Global) AutoDel(route string, w *Wrapper, name string, cb func()) {
 	for _, item := range w.SelectAllByClass(name) {
-		id := item.Id
 		lid := item.Id[2:]
-		thing := g.Document.Id(id)
 		click := func() {
 			go func() {
+				fmt.Println(route + lid)
 				DoDelete(route + lid)
 				cb()
 			}()
 		}
-		thing.EventWithId(click)
+		item.EventWithId(click)
 	}
 }
 
