@@ -69,7 +69,7 @@ func (g *Global) AutoForm(id, after string, cb func()) {
 }
 
 func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
-	jsonString, code := DoPost(after+"/"+id, w.MapOfInputs())
+	jsonString, code := DoPost("/"+after+"/"+id, w.MapOfInputs())
 	if code == 200 {
 		var m map[string]any
 		json.Unmarshal([]byte(jsonString), &m)
