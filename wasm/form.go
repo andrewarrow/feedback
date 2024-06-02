@@ -2,7 +2,6 @@ package wasm
 
 import (
 	"encoding/json"
-	"fmt"
 	"strings"
 	"syscall/js"
 	"time"
@@ -93,7 +92,6 @@ func (g *Global) AutoDel(route string, w *Wrapper, name string, cb func()) {
 		lid := item.Id[2:]
 		click := func() {
 			go func() {
-				fmt.Println(route + lid)
 				DoDelete(route + lid)
 				cb()
 			}()
