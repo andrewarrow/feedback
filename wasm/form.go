@@ -87,6 +87,20 @@ func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
 	g.flashThree("error")
 }
 
+func (g *Global) AutoDel(route string, w *Wrapper, name string, cb func()) {
+	for _, item := range w.SelectAllByClass(name) {
+		id := item.Id[2:]
+		thing := g.Document.Id("id")
+		click := func() {
+			go func() {
+				DoDelete(route + id)
+				cb()
+			}()
+		}
+		thing.EventWithId(click)
+	}
+}
+
 func (g *Global) flashThree(s string) {
 	flash := g.Document.ById("flash")
 	flash.Set("innerHTML", s)
