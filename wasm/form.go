@@ -89,11 +89,12 @@ func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
 
 func (g *Global) AutoDel(route string, w *Wrapper, name string, cb func()) {
 	for _, item := range w.SelectAllByClass(name) {
-		id := item.Id[2:]
+		id := item.Id
+		lid := item.Id[2:]
 		thing := g.Document.Id(id)
 		click := func() {
 			go func() {
-				DoDelete(route + id)
+				DoDelete(route + lid)
 				cb()
 			}()
 		}
