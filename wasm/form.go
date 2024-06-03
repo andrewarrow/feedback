@@ -70,9 +70,9 @@ func (g *Global) AutoForm(id, after string, cb func()) {
 
 func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
 	jsonString, code := DoPost("/"+after+"/"+id, w.MapOfInputs())
+	var m map[string]any
+	json.Unmarshal([]byte(jsonString), &m)
 	if code == 200 {
-		var m map[string]any
-		json.Unmarshal([]byte(jsonString), &m)
 		returnPath, _ := m["return"].(string)
 		if returnPath == "" {
 			returnPath = after
@@ -84,7 +84,8 @@ func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
 		g.Location.Set("href", returnPath)
 		return
 	}
-	g.flashThree("error")
+	errorString, _ := m["error"].(string)
+	g.flashThree("error: " + errorString)
 }
 
 func (g *Global) AutoDel(route string, w *Wrapper, name string, cb func()) {
