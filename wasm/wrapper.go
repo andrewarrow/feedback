@@ -28,6 +28,9 @@ func (w *Wrapper) Set(s string, thing any) {
 	if w.JValue.IsNull() {
 		return
 	}
+	if thing == nil {
+		return
+	}
 	thingS, ok := thing.(string)
 	if ok {
 		w.JValue.Set(s, thingS)
