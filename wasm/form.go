@@ -58,27 +58,31 @@ func (w *Wrapper) NoClearInputs(prefix string) map[string]any {
 	return m
 }
 
-func (g *Global) AutoForm(id, after string, cb func()) {
+func (g *Global) AutoForm(id, after string, before func(), cb func(id int64)) {
 	form := g.Document.Id(id)
 	thefunc := func(this js.Value, p []js.Value) any {
 		p[0].Call("preventDefault")
+		if before != nil {
+			before()
+		}
 		go form.AutoFormPost(g, id, after, cb)
 		return nil
 	}
 	form.JValue.Set("onsubmit", js.FuncOf(thefunc))
 }
 
-func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func()) {
+func (w *Wrapper) AutoFormPost(g *Global, id, after string, cb func(id int64)) {
 	jsonString, code := DoPost("/"+after+"/"+id, w.MapOfInputs())
 	var m map[string]any
 	json.Unmarshal([]byte(jsonString), &m)
 	if code == 200 {
 		returnPath, _ := m["return"].(string)
 		if returnPath == "" {
-			returnPath = after
+			returnPath = "/" + after
 		}
 		if cb != nil {
-			cb()
+			id, _ := m["id"].(float64)
+			cb(int64(id))
 			return
 		}
 		g.Location.Set("href", returnPath)
