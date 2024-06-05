@@ -27,6 +27,13 @@ func DoHttpRead(request *http.Request) (string, int) {
 	return err.Error(), 500
 }
 
+func DoGetMap(urlString string) map[string]any {
+	jsonString := DoGet(urlString)
+	var m map[string]any
+	json.Unmarshal([]byte(jsonString), &m)
+	return m
+}
+
 func DoGet(urlString string) string {
 	request, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
