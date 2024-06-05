@@ -86,7 +86,8 @@ func HandleCreateSessionAutoForm(c *Context) {
 		c.SendContentAsJson("ok", 200)
 		return
 	}
-	c.SendContentAsJson("error", 422)
+	send := map[string]any{"error": "invalid login"}
+	c.SendContentAsJson(send, 422)
 }
 
 func DestroySession(c *Context) {

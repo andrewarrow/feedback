@@ -77,14 +77,17 @@ func HandleCreateUserAutoForm(c *Context) {
 	c.Params["username"] = c.Params["email"]
 	password, _ := c.Params["password"].(string)
 	message := c.ValidateCreate("user")
+	send := map[string]any{}
 	if message != "" {
-		c.SendContentAsJson(message, 422)
+		send["error"] = message
+		c.SendContentAsJson(send, 422)
 		return
 	}
 	c.Params["password"] = HashPassword(password)
 	message = c.Insert("user")
 	if message != "" {
-		c.SendContentAsJson(message, 422)
+		send["error"] = message
+		c.SendContentAsJson(send, 422)
 		return
 	}
 	row := c.One("user", "where username=$1", c.Params["email"])
