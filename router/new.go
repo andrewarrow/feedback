@@ -11,6 +11,7 @@ import (
 
 var CustomFuncMap *template.FuncMap
 var UseJsonToMakeTablesAndIndexes = true
+var DB_FLAVOR = "pg"
 
 type Router struct {
 	Template        *template.Template
@@ -36,8 +37,12 @@ type Router struct {
 func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	r := Router{}
 	//r.Db = persist.MysqlConnection()
-	r.Db = persist.PostgresConnection(dbEnvVarName)
-	r.WrangleDb = persist.PostgresConnection("WRANGLE_DATABASE_URL")
+	if DB_FLAVOR == "pg" {
+		r.Db = persist.PostgresConnection(dbEnvVarName)
+		r.WrangleDb = persist.PostgresConnection("WRANGLE_DATABASE_URL")
+	} else {
+		r.Db = persist.SqliteConnection()
+	}
 	r.Paths = map[string]func(*Context, string, string){}
 	r.BeforeCreate = map[string]func(*Context){}
 	r.AfterCreate = map[string]func(*Context, string){}
