@@ -27,6 +27,9 @@ func NewLocation(g *Global) *Location {
 	return &l
 }
 
+func (l *Location) Reload() {
+	l.Value.Call("reload")
+}
 func (l *Location) GetParam(id string) string {
 	val := l.Params[id]
 	if len(val) == 0 {
