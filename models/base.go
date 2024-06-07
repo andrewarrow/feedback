@@ -22,3 +22,23 @@ func (b *BaseModel) GetMap(name string) map[string]any {
 	v, _ := b.Item[name].(map[string]any)
 	return v
 }
+func (b *BaseModel) GetBool(name string) (bool, bool) {
+	if b.Item[name] == nil {
+		return false, false
+	}
+	v := b.Item[name].(bool)
+	if v == false {
+		return false, true
+	}
+	return true, true
+}
+func (b *BaseModel) GetBoolAsInt(name string) int {
+	if b.Item[name] == nil {
+		return 2
+	}
+	v := b.Item[name].(bool)
+	if v == false {
+		return 0
+	}
+	return 1
+}
