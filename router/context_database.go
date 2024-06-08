@@ -83,6 +83,9 @@ func CastFieldsPg(model *models.Model, m map[string]any) {
 		}
 	}
 }
+
+var layout = "2006-01-02 15:04:05.999999-07:00"
+
 func CastFieldsSqlite(model *models.Model, m map[string]any) {
 	cfg := timeago.English
 	cfg.Max = 9223372036854775807
@@ -92,7 +95,8 @@ func CastFieldsSqlite(model *models.Model, m map[string]any) {
 	}
 	for _, field := range model.Fields {
 		if field.Flavor == "timestamp" && m[field.Name] != nil {
-			tm, _ := time.Parse(time.RFC3339, m[field.Name].(string))
+			s := m[field.Name].(string)
+			tm, _ := time.Parse(layout, s)
 			ago := cfg.Format(tm)
 			m[field.Name] = tm.Unix()
 			m[field.Name+"_human"] = tm.Format(models.HUMAN)
