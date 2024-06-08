@@ -33,6 +33,18 @@ func DoGetMap(urlString string) map[string]any {
 	json.Unmarshal([]byte(jsonString), &m)
 	return m
 }
+func DoGetItems(urlString string) []map[string]any {
+	jsonString := DoGet(urlString)
+	var m map[string]any
+	json.Unmarshal([]byte(jsonString), &m)
+	items := m["items"].([]any)
+	done := []map[string]any{}
+	for _, thing := range items {
+		item := thing.(map[string]any)
+		done = append(done, item)
+	}
+	return done
+}
 
 func DoGet(urlString string) string {
 	request, err := http.NewRequest("GET", urlString, nil)
