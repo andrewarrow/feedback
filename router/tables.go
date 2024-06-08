@@ -54,6 +54,11 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 		}
 	} else {
 		db.Exec(sqlgen.SqliteCreateTable(tableName))
+		items := sqlgen.SqliteAlterTable(tableName, model)
+		for _, item := range items {
+			fmt.Println(item)
+			db.Exec(item)
+		}
 	}
 
 }
