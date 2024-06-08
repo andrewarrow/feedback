@@ -20,6 +20,13 @@ func (r *Router) FindModel(name string) *models.Model {
 }
 
 func CastFields(model *models.Model, m map[string]any) {
+	if DB_FLAVOR == "pg" {
+		CastFieldsPg(model, m)
+	} else {
+		CastFieldsSqlite(model, m)
+	}
+}
+func CastFieldsPg(model *models.Model, m map[string]any) {
 	cfg := timeago.English
 	cfg.Max = 9223372036854775807
 
@@ -69,6 +76,29 @@ func CastFields(model *models.Model, m map[string]any) {
 			s := fmt.Sprintf("%s", m[field.Name])
 			tokens := strings.Split(s, ",")
 			m[field.Name] = tokens
+		} else if m[field.Name] == nil {
+			// to nothing, leave it nil
+		} else {
+			m[field.Name] = fmt.Sprintf("%s", m[field.Name])
+		}
+	}
+}
+func CastFieldsSqlite(model *models.Model, m map[string]any) {
+	cfg := timeago.English
+	cfg.Max = 9223372036854775807
+
+	if len(m) == 0 {
+		return
+	}
+	for _, field := range model.Fields {
+		if field.Flavor == "timestamp" && m[field.Name] != nil {
+			tm, _ := time.Parse(time.RFC3339, m[field.Name].(string))
+			ago := cfg.Format(tm)
+			m[field.Name] = tm.Unix()
+			m[field.Name+"_human"] = tm.Format(models.HUMAN)
+			m[field.Name+"_ago"] = ago
+		} else if field.Flavor == "int" && m[field.Name] != nil {
+			m[field.Name] = m[field.Name].(int64)
 		} else if m[field.Name] == nil {
 			// to nothing, leave it nil
 		} else {
