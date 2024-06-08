@@ -102,6 +102,7 @@ func (w *Wrapper) Event(fn func(id string)) {
 
 func (w *Wrapper) EventWithId(fn func()) {
 	thefunc := func(this js.Value, p []js.Value) any {
+		p[0].Call("preventDefault")
 		fn()
 		return nil
 	}
