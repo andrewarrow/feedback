@@ -41,7 +41,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 		r.Db = persist.PostgresConnection(dbEnvVarName)
 		r.WrangleDb = persist.PostgresConnection("WRANGLE_DATABASE_URL")
 	} else {
-		r.Db = persist.SqliteConnection()
+		r.Db = persist.SqliteConnection(dbEnvVarName)
 	}
 	r.Paths = map[string]func(*Context, string, string){}
 	r.BeforeCreate = map[string]func(*Context){}
