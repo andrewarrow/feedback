@@ -8,7 +8,7 @@ import (
 type AutoForm struct {
 	ReturnPath string
 	Path       string
-	After      func(int64)
+	After      func(string)
 	Id         string
 }
 
@@ -34,8 +34,8 @@ func (a *AutoForm) Post(g *Global, w *Wrapper) {
 	json.Unmarshal([]byte(jsonString), &m)
 	if code == 200 {
 		if a.After != nil {
-			id, _ := m["id"].(float64)
-			a.After(int64(id))
+			val, _ := m["val"].(string)
+			a.After(val)
 			return
 		}
 		g.Location.Set("href", a.ReturnPath)
