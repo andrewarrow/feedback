@@ -100,6 +100,11 @@ func insertRow(random bool, tableName string,
 			val = string(asBytes)
 		} else if field.Flavor == "array" {
 			val = pq.Array([0]string{})
+		} else if field.Flavor == "timestamp" {
+			ts, ok := val.(time.Time)
+			if ok {
+				val = ts.Unix()
+			}
 		} else if field.Flavor == "json_list" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
@@ -145,6 +150,11 @@ func UpdateRowFromParams(tableName string,
 			val = string(asBytes)
 		} else if field.Flavor == "array" {
 			val = pq.Array([0]string{})
+		} else if field.Flavor == "timestamp" {
+			ts, ok := val.(time.Time)
+			if ok {
+				val = ts.Unix()
+			}
 		} else if field.Flavor == "json_list" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)

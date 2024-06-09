@@ -95,8 +95,14 @@ func CastFieldsSqlite(model *models.Model, m map[string]any) {
 	}
 	for _, field := range model.Fields {
 		if field.Flavor == "timestamp" && m[field.Name] != nil {
-			s := m[field.Name].(string)
-			tm, _ := time.Parse(layout, s)
+			s, ok := m[field.Name].(string)
+			tm := time.Now()
+			if ok {
+				tm, _ = time.Parse(layout, s)
+			} else {
+				s, _ := m[field.Name].(int64)
+				tm = time.Unix(s, 0)
+			}
 			ago := cfg.Format(tm)
 			m[field.Name] = tm.Unix()
 			m[field.Name+"_human"] = tm.Format(models.HUMAN)
