@@ -27,19 +27,19 @@ func UpdateRow(model *models.Model) string {
 	return strings.Join(buffer, "")
 }
 
-func InsertRowNoRandomDefaults(tableName string,
+func InsertRowNoRandomDefaults(dbFlavor, tableName string,
 	fields []*models.Field,
 	override map[string]any) (string, []any) {
-	return insertRow(false, tableName, fields, override)
+	return insertRow(false, dbFlavor, tableName, fields, override)
 }
 
-func InsertRowWithRandomDefaults(tableName string,
+func InsertRowWithRandomDefaults(dbFlavor, tableName string,
 	fields []*models.Field,
 	override map[string]any) (string, []any) {
-	return insertRow(true, tableName, fields, override)
+	return insertRow(true, dbFlavor, tableName, fields, override)
 }
 
-func insertRow(random bool, tableName string,
+func insertRow(random bool, dbFlavor, tableName string,
 	fields []*models.Field,
 	override map[string]any) (string, []any) {
 
@@ -102,7 +102,7 @@ func insertRow(random bool, tableName string,
 			val = pq.Array([0]string{})
 		} else if field.Flavor == "timestamp" {
 			ts, ok := val.(time.Time)
-			if ok {
+			if ok && dbFlavor == "sqlite" {
 				val = ts.Unix()
 			}
 		} else if field.Flavor == "json_list" {
@@ -124,7 +124,7 @@ func insertRow(random bool, tableName string,
 	return sql, params
 }
 
-func UpdateRowFromParams(tableName string,
+func UpdateRowFromParams(dbFlavor, tableName string,
 	fields []*models.Field,
 	override map[string]any, where string) (string, []any) {
 
@@ -152,7 +152,7 @@ func UpdateRowFromParams(tableName string,
 			val = pq.Array([0]string{})
 		} else if field.Flavor == "timestamp" {
 			ts, ok := val.(time.Time)
-			if ok {
+			if ok && dbFlavor == "sqlite" {
 				val = ts.Unix()
 			}
 		} else if field.Flavor == "json_list" {

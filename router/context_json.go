@@ -55,7 +55,7 @@ func (c *Context) Insert(modelString string) string {
 	if funcToRun != nil {
 		funcToRun(c)
 	}
-	sql, params := sqlgen.InsertRowNoRandomDefaults(tableName, model.Fields, c.Params)
+	sql, params := sqlgen.InsertRowNoRandomDefaults(DB_FLAVOR, tableName, model.Fields, c.Params)
 	//fmt.Println(sql, params)
 	//customDB := &persist.CustomDB{DB: c.Db}
 	//_, err := customDB.ExecWithLogging(sql, params...)
@@ -87,7 +87,7 @@ func (c *Context) Update(modelString, where string, lastParam any) string {
 		already[field.Name] = true
 		list = append(list, field)
 	}
-	sql, params := sqlgen.UpdateRowFromParams(tableName, list, c.Params, where)
+	sql, params := sqlgen.UpdateRowFromParams(DB_FLAVOR, tableName, list, c.Params, where)
 	if os.Getenv("DEBUG") == "1" {
 		fmt.Println("sqlgen.UpdateRowFromParams", sql, params)
 	}
