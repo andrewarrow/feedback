@@ -121,6 +121,10 @@ func (w *Wrapper) AddClass(c string) {
 func (w *Wrapper) RemoveClass(c string) {
 	RemoveClass(w.JValue, c)
 }
+func (w *Wrapper) Remove() {
+	pn := w.JValue.Get("parentNode")
+	pn.Call("removeChild")
+}
 func (w *Wrapper) HasClass(c string) bool {
 	return HasClass(w.JValue, c)
 }
