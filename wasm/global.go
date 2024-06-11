@@ -1,6 +1,7 @@
 package wasm
 
 import (
+	"strings"
 	"syscall/js"
 	"text/template"
 )
@@ -32,6 +33,11 @@ func NewGlobal() (*Global, *Document) {
 	g.Global = &temp
 	g.Document = NewDocument(&g)
 	return &g, g.Document
+}
+
+func (g *Global) LastUrlToken() string {
+	tokens := strings.Split(g.Location.Href, "/")
+	return tokens[len(tokens)-1]
 }
 
 func (g *Global) WasmReady(this js.Value, p []js.Value) any {
