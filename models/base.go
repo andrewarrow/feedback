@@ -47,13 +47,7 @@ func (b *BaseModel) GetBool(name string) (bool, bool) {
 	}
 	return true, true
 }
-func (b *BaseModel) GetBoolAsInt(name string) int {
-	if b.Item[name] == nil {
-		return 2
-	}
-	v := b.Item[name].(bool)
-	if v == false {
-		return 0
-	}
-	return 1
+func (b *BaseModel) GetSimpleBool(name string) bool {
+	v, _ := b.Item[name].(bool)
+	return v
 }
