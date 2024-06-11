@@ -16,6 +16,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.9
 	github.com/lucasb-eyer/go-colorful v1.2.0
+	github.com/mattn/go-sqlite3 v1.14.6
 	github.com/twpayne/go-geom v1.5.4
 	github.com/xeonx/timeago v1.0.0-rc5
 	golang.org/x/crypto v0.18.0

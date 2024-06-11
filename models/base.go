@@ -10,6 +10,10 @@ func NewBase(item map[string]any) *BaseModel {
 	return &b
 }
 
+func (b *BaseModel) GetBytes(name string) []byte {
+	v, _ := b.Item[name].(string)
+	return []byte(v)
+}
 func (b *BaseModel) GetFloat(name string) float64 {
 	v, _ := b.Item[name].(float64)
 	return v
