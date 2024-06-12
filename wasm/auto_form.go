@@ -10,11 +10,13 @@ type AutoForm struct {
 	Path       string
 	After      func(string)
 	Id         string
+	Method     string
 }
 
 func NewAutoForm(id string) *AutoForm {
 	a := AutoForm{}
 	a.Id = id
+	a.Method = "POST"
 	return &a
 }
 
@@ -29,7 +31,13 @@ func (g *Global) AddAutoForm(a *AutoForm) {
 }
 
 func (a *AutoForm) Post(g *Global, w *Wrapper) {
-	jsonString, code := DoPost(a.Path, w.MapOfInputs())
+	var jsonString string
+	var code int
+	if a.Method == "POST" {
+		jsonString, code = DoPost(a.Path, w.MapOfInputs())
+	} else if a.Method == "PATCH" {
+		jsonString, code = DoPatch(a.Path, w.MapOfInputs())
+	}
 	var m map[string]any
 	json.Unmarshal([]byte(jsonString), &m)
 	if code == 200 {
