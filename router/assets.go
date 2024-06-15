@@ -26,6 +26,10 @@ func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *h
 		contentType = "image/svg+xml"
 	} else if strings.HasSuffix(path, ".ttf") {
 		contentType = "font/ttf"
+	} else if strings.HasSuffix(path, ".woff") {
+		contentType = "font/woff"
+	} else if strings.HasSuffix(path, ".woff2") {
+		contentType = "font/woff2"
 	} else if strings.HasSuffix(path, ".xml") {
 		contentType = "text/xml"
 	} else if strings.HasSuffix(path, ".wasm.gz") {
