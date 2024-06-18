@@ -30,6 +30,8 @@ func (r *Router) HandleAsset(path string, writer http.ResponseWriter, request *h
 		contentType = "font/woff"
 	} else if strings.HasSuffix(path, ".woff2") {
 		contentType = "font/woff2"
+	} else if strings.HasSuffix(path, ".m3u8") {
+		contentType = "application/vnd.apple.mpegurl"
 	} else if strings.HasSuffix(path, ".xml") {
 		contentType = "text/xml"
 	} else if strings.HasSuffix(path, ".wasm.gz") {
