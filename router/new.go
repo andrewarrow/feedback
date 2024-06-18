@@ -40,6 +40,8 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	if DB_FLAVOR == "pg" {
 		r.Db = persist.PostgresConnection(dbEnvVarName)
 		r.WrangleDb = persist.PostgresConnection("WRANGLE_DATABASE_URL")
+	} else if DB_FLAVOR == "none" {
+		r.Db = nil
 	} else {
 		r.Db = persist.SqliteConnection(dbEnvVarName)
 	}
