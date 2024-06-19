@@ -94,3 +94,7 @@ func (g *Global) Change(id string, fn func(js.Value, []js.Value) any) {
 		form.Set("onchange", js.FuncOf(fn))
 	}
 }
+
+func (g *Global) Get(id string) string {
+	return g.Global.Get("id").String()
+}
