@@ -96,5 +96,6 @@ func (g *Global) Change(id string, fn func(js.Value, []js.Value) any) {
 }
 
 func (g *Global) Get(id string) string {
-	return g.Global.Get("id").String()
+	w := g.Global.Get("window")
+	return w.Get(id).String()
 }
