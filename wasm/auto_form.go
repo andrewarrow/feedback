@@ -8,6 +8,7 @@ import (
 type AutoForm struct {
 	ReturnPath string
 	Path       string
+	Before     func()
 	After      func(string)
 	Id         string
 	Method     string
@@ -24,6 +25,9 @@ func (g *Global) AddAutoForm(a *AutoForm) {
 	form := g.Document.Id(a.Id)
 	thefunc := func(this js.Value, p []js.Value) any {
 		p[0].Call("preventDefault")
+		if a.Before != nil {
+			a.Before()
+		}
 		go a.Post(g, form)
 		return nil
 	}
