@@ -75,7 +75,7 @@ func LoadAllTemplates(files []fs.DirEntry) {
 	for _, item := range files {
 		name := item.Name()
 		tokens := strings.Split(name, ".")
-		AllTemplates[tokens[0]] = DoGet("/markup/" + name)
+		AllTemplates[tokens[0]], _ = DoGet("/markup/" + name)
 	}
 
 }

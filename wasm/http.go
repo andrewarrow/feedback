@@ -28,13 +28,13 @@ func DoHttpRead(request *http.Request) (string, int) {
 }
 
 func DoGetMap(urlString string) map[string]any {
-	jsonString := DoGet(urlString)
+	jsonString, _ := DoGet(urlString)
 	var m map[string]any
 	json.Unmarshal([]byte(jsonString), &m)
 	return m
 }
 func DoGetItems(urlString string) []map[string]any {
-	jsonString := DoGet(urlString)
+	jsonString, _ := DoGet(urlString)
 	var m map[string]any
 	json.Unmarshal([]byte(jsonString), &m)
 	items := m["items"].([]any)
@@ -46,14 +46,14 @@ func DoGetItems(urlString string) []map[string]any {
 	return done
 }
 
-func DoGet(urlString string) string {
+func DoGet(urlString string) (string, int) {
 	request, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
-		return ""
+		return "", 422
 	}
 
-	jsonString, _ := DoHttpRead(request)
-	return jsonString
+	jsonString, code := DoHttpRead(request)
+	return jsonString, code
 }
 
 func DoPatch(urlString string, payload any) (string, int) {

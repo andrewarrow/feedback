@@ -1,5 +1,7 @@
 package models
 
+import "strings"
+
 type BaseModel struct {
 	Item map[string]any
 }
@@ -24,7 +26,7 @@ func (b *BaseModel) GetInt(name string) int64 {
 }
 func (b *BaseModel) GetString(name string) string {
 	v, _ := b.Item[name].(string)
-	return v
+	return strings.TrimSpace(v)
 }
 func (b *BaseModel) GetStringOk(name string) (string, bool) {
 	if b.Item[name] == nil {
