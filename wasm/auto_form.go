@@ -46,7 +46,7 @@ func (a *AutoForm) Post(g *Global, w *Wrapper, q string) {
 	} else if a.Method == "GET" {
 		qValue := url.QueryEscape(q)
 		jsonString = DoGet(a.Path + "?q=" + qValue)
-		if jsonString == "" {
+		if jsonString != "" {
 			code = 200
 		}
 	}
