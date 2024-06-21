@@ -47,6 +47,14 @@ func (c *Context) SendContentAsJsonMessage(message string, status int) {
 	c.SendContentAsJson(m, status)
 }
 
+func (c *Context) ValidateAndInsert(modelString string) string {
+	msg := c.ValidateCreate(modelString)
+	if msg != "" {
+		return msg
+	}
+	return c.Insert(modelString)
+}
+
 func (c *Context) Insert(modelString string) string {
 	model := c.FindModel(modelString)
 	tableName := model.TableName()
