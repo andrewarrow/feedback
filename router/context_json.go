@@ -47,6 +47,18 @@ func (c *Context) SendContentAsJsonMessage(message string, status int) {
 	c.SendContentAsJson(m, status)
 }
 
+func (c *Context) ValidateAndUpsert(modelString, field string, val any) string {
+	msg := c.ValidateCreate(modelString)
+	if msg != "" {
+		return msg
+	}
+	msg = c.Insert(modelString)
+	if msg == "" {
+		return ""
+	}
+	return c.Update(modelString, fmt.Sprintf("where %s=", field), val)
+}
+
 func (c *Context) ValidateAndInsert(modelString string) string {
 	msg := c.ValidateCreate(modelString)
 	if msg != "" {
