@@ -111,9 +111,9 @@ func (g *Global) Get(id string) string {
 	w := g.Global.Get("window")
 	return w.Get(id).String()
 }
-func (g *Global) SetWindowFunc(id string, fn func()) {
+func (g *Global) SetWindowFunc(id string, fn func(id string)) {
 	thefunc := func(this js.Value, p []js.Value) any {
-		fn()
+		fn(p[0].String())
 		return nil
 	}
 	g.Global.Set(id, js.FuncOf(thefunc))
