@@ -53,3 +53,7 @@ func (b *BaseModel) GetSimpleBool(name string) bool {
 	v, _ := b.Item[name].(bool)
 	return v
 }
+func (b *BaseModel) GetList(name string) []any {
+	v, _ := b.Item[name].([]any)
+	return v
+}

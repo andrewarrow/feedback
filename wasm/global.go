@@ -62,6 +62,18 @@ func (g *Global) Event(id string, fn func()) {
 	}
 	button.Set("onclick", js.FuncOf(thefunc))
 }
+func (g *Global) EventWithTarget(id string, fn func(target string)) {
+	button := g.Document.ById(id)
+	if button.IsNull() {
+		return
+	}
+	thefunc := func(this js.Value, p []js.Value) any {
+		p[0].Call("preventDefault")
+		fn(p[0].Get("target").Get("id").String())
+		return nil
+	}
+	button.Set("onclick", js.FuncOf(thefunc))
+}
 
 func (g *Global) SetClipboard(s string) {
 	g.Navigator.JValue.Get("clipboard").Call("writeText", s)
