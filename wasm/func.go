@@ -9,3 +9,10 @@ func FuncOf(fn func(js.Value)) any {
 	}
 	return js.FuncOf(theFunc)
 }
+func SimpleFuncOf(fn func()) any {
+	theFunc := func(this js.Value, p []js.Value) any {
+		fn()
+		return nil
+	}
+	return js.FuncOf(theFunc)
+}
