@@ -150,6 +150,9 @@ func UpdateRowFromParams(dbFlavor, tableName string,
 			val = string(asBytes)
 		} else if field.Flavor == "array" {
 			val = pq.Array([0]string{})
+		} else if isNullString == "null" {
+			var sqlNullString sql.NullString
+			val = sqlNullString
 		} else if field.Flavor == "timestamp" {
 			ts, ok := val.(time.Time)
 			if ok && dbFlavor == "sqlite" {
@@ -158,9 +161,6 @@ func UpdateRowFromParams(dbFlavor, tableName string,
 		} else if field.Flavor == "json_list" {
 			asBytes, _ := json.Marshal(val)
 			val = string(asBytes)
-		} else if isNullString == "null" {
-			var sqlNullString sql.NullString
-			val = sqlNullString
 		}
 		params = append(params, val)
 	}
