@@ -77,7 +77,7 @@ func main() {
 	} else if arg == "run" {
 		router.BuildTag = buildTag
 		router.EmbeddedTemplates = embeddedTemplates
-		//router.EmbeddedAssets = embeddedAssets
+		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.Welcome
 		//r.Paths["{{name}}"] = app.{{capName}}

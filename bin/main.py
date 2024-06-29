@@ -27,7 +27,7 @@ def run():
     template = """\
 go mod tidy
 go build
-./{{name}}
+./{{name}} run 3000
     """
 
     rpath = placeit("run", {"name": name}, template)

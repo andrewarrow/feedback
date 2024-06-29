@@ -31,20 +31,20 @@ def feedback():
           "name": "username",
           "flavor": "username",
           "index": "unique",
-          "regex": "^[\\+@\\.a-zA-Z0-9_]{2,50}$"
+          "regex": "^[\\\\+@\\\\.a-zA-Z0-9_]{2,50}$"
         },
         {
           "name": "email",
           "flavor": "name",
           "index": "unique",
-          "regex": "^[a-zA-Z0-9._%\\+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          "regex": "^[a-zA-Z0-9._%\\\\+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$",
           "null": "yes"
         },
         {
           "name": "slug",
           "flavor": "name",
           "index": "unique",
-          "regex": "^[\\-a-zA-Z0-9]{2,20}$",
+          "regex": "^[\\\\-a-zA-Z0-9]{2,20}$",
           "null": "yes"
         },
         {
