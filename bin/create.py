@@ -1,6 +1,7 @@
 #!/usr/bin/env /Users/aa/rick/foo/bin/python3
 
 import sys
+import os
 
 path = sys.argv[1]
 name = sys.argv[2]
@@ -33,6 +34,7 @@ def placeIt(filename, replacements, template):
     output_filename = path+"/"+name+"/"+filename
     with open(output_filename, 'w') as file:
         file.write(result)
+    return output_filename
 
 def gomain():
     template = """\
@@ -47,5 +49,17 @@ func main() {
 
     placeIt("main.go", {}, template)
 
+def run():
+    template = """\
+go mod tidy
+go build
+./{{name}}
+    """
+
+    path = placeIt("run", {"name": name}, template)
+    st = os.stat(path)
+    os.chmod(path, st.st_mode | 0o111)
+
 gomod()
 gomain()
+run()
