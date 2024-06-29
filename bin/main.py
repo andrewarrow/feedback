@@ -94,8 +94,16 @@ path = sys.argv[1]
 name = sys.argv[2]
 
 def main():
-    os.makedirs(path+"/"+name)
-    os.makedirs(path+"/"+name+"/"+"views")
+    try:
+      os.makedirs(path+"/"+name)
+    except OSError as e:
+      pass
+
+    try:
+      os.makedirs(path+"/"+name+"/"+"views")
+    except OSError as e:
+      pass
+
     gomod()
     gomain()
     run()
