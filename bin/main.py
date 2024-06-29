@@ -2,12 +2,8 @@
 
 import sys
 import os
-from helper import foo
-
-def replace_template_vars(template, replacements):
-    for key, value in replacements.items():
-        template = template.replace(f"{{{{{key}}}}}", value)
-    return template
+from gomain import gomain
+from placeit import placeit
 
 def gomod():
     template = """\
@@ -23,40 +19,7 @@ require github.com/andrewarrow/feedback v0.0.0-20240617025030-9eb1fcd3b846
     replacements = {
         "name": name,
     }
-    placeIt("go.mod", replacements, template)
-
-def placeIt(filename, replacements, template):
-
-    result = replace_template_vars(template, replacements)
-
-    output_filename = path+"/"+name+"/"+filename
-    with open(output_filename, 'w') as file:
-        file.write(result)
-    return output_filename
-
-def gomain():
-    template = """\
-package main
-
-import "fmt"
-
-//go:embed app/feedback.json
-var embeddedFile []byte
-
-//go:embed views/*.html
-var embeddedTemplates embed.FS
-
-//go:embed assets/**/*.*
-var embeddedAssets embed.FS
-
-var buildTag string
-
-func main() {
-  fmt.Println("wfwe")
-}
-    """
-
-    placeIt("main.go", {}, template)
+    placeit("go.mod", replacements, template)
 
 def run():
     template = """\
@@ -65,7 +28,7 @@ go build
 ./{{name}}
     """
 
-    rpath = placeIt("run", {"name": name}, template)
+    rpath = placeit("run", {"name": name}, template)
     st = os.stat(rpath)
     os.chmod(rpath, st.st_mode | 0o111)
 
@@ -81,13 +44,13 @@ views
 tail.min.css
     """
 
-    placeIt(".gitignore", {"name": name}, template)
+    placeit(".gitignore", {"name": name}, template)
 
 def ignore():
     template = """\
     """
 
-    placeIt("views/text.html", {}, template)
+    placeit("views/text.html", {}, template)
 
 
 path = sys.argv[1]
@@ -108,7 +71,6 @@ def main():
     gomain()
     run()
     ignore()
-    foo()
 
 if __name__ == "__main__":
     main()
