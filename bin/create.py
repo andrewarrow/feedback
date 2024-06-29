@@ -5,6 +5,8 @@ import os
 
 path = sys.argv[1]
 name = sys.argv[2]
+os.makedirs(path+"/"+name)
+os.makedirs(path+"/"+name+"/"+"views")
 
 def replace_template_vars(template, replacements):
     for key, value in replacements.items():
@@ -56,9 +58,9 @@ go build
 ./{{name}}
     """
 
-    path = placeIt("run", {"name": name}, template)
-    st = os.stat(path)
-    os.chmod(path, st.st_mode | 0o111)
+    rpath = placeIt("run", {"name": name}, template)
+    st = os.stat(rpath)
+    os.chmod(rpath, st.st_mode | 0o111)
 
 def ignore():
     template = """\
@@ -73,6 +75,12 @@ tail.min.css
     """
 
     placeIt(".gitignore", {"name": name}, template)
+
+def ignore():
+    template = """\
+    """
+
+    placeIt("views/text.html", {}, template)
 
 gomod()
 gomain()
