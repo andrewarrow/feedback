@@ -50,7 +50,7 @@ views
 tail.min.css
     """
 
-   tailwind = """\
+    tailwind = """\
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,7 +58,8 @@ tail.min.css
 @layer components {
 
 }
-   """
+    """
+
     tailwindconfig = """\
 /** @type {import('tailwindcss').Config} */
 module.exports = {
