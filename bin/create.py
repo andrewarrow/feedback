@@ -11,14 +11,17 @@ def foo():
     path = sys.argv[1]
     name = sys.argv[2]
     template = """\
-    Hello, {{name}}!
-    Welcome to {{place}}.
-    We hope you enjoy your stay.
+module {{name}}
+
+replace github.com/andrewarrow/feedback => /Users/aa/os/feedback
+
+go 1.21.0
+
+require github.com/andrewarrow/feedback v0.0.0-20240617025030-9eb1fcd3b846
     """
 
     replacements = {
-        "name": "Alice",
-        "place": "Wonderland"
+        "name": name,
     }
 
     result = replace_template_vars(template, replacements)
