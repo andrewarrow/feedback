@@ -19,6 +19,20 @@ import (
 )
 
 func Welcome(c *router.Context, second, third string) {
+	if second == "" && third == "" && c.Method == "GET" {
+		handleWelcomeIndex(c)
+		return
+	}
+	c.NotFound = true
+}
+
+func handleWelcomeIndex(c *router.Context) {
+
+	send := map[string]any{}
+	if len(c.User) == 0 {
+		c.SendContentInLayout("welcome.html", send, 200)
+		return
+	}
 }
     """
     placeit("app/welcome.go", {}, template)
@@ -43,9 +57,8 @@ var embeddedFile []byte
 //go:embed views/*.html
 var embeddedTemplates embed.FS
 
-/*
+//go:embed assets/**/*.*
 var embeddedAssets embed.FS
-*/
 
 var buildTag string
 
