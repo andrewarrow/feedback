@@ -60,6 +60,21 @@ go build
     st = os.stat(path)
     os.chmod(path, st.st_mode | 0o111)
 
+def ignore():
+    template = """\
+go.sum
+{{name}}
+node_modules
+package*.json
+json.wasm.gz
+.DS_Store
+views
+tail.min.css
+    """
+
+    placeIt(".gitignore", {"name": name}, template)
+
 gomod()
 gomain()
 run()
+ignore()
