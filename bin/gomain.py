@@ -7,10 +7,35 @@ path = sys.argv[1]
 name = sys.argv[2]
 
 def gomain():
+    gomainA()
+    gomainB()
+    
+def gomainB():
+    template = """\
+package app
+
+import (
+  "github.com/andrewarrow/feedback/router"
+)
+
+func Welcome(c *router.Context, second, third string) {
+}
+    """
+    placeit("app/welcome.go", {}, template)
+
+def gomainA():
     template = """\
 package main
 
-import "fmt"
+import (
+  "{{name}}/app"
+  "embed"
+  "math/rand"
+  "os"
+  "time"
+
+  "github.com/andrewarrow/feedback/router"
+)
 
 //go:embed app/feedback.json
 var embeddedFile []byte
@@ -40,13 +65,13 @@ func main() {
 		router.EmbeddedTemplates = embeddedTemplates
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
-		r.Paths["/"] = app.HandleWelcome
-		r.Paths["{{name}}"] = app.{{capName}}
-		r.Paths["api"] = app.HandleApi
+		r.Paths["/"] = app.Welcome
+		//r.Paths["{{name}}"] = app.{{capName}}
+		//r.Paths["api"] = app.HandleApi
 		//r.Paths["login"] = app.Login
 		//r.Paths["register"] = app.Register
 		//r.Paths["admin"] = app.Admin
-		r.Paths["markup"] = app.Markup
+		r.Paths["markup"] = router.Markup
 		r.BucketPath = "/Users/aa/bucket"
 		r.ListenAndServe(":" + os.Args[2])
 	} else if arg == "help" {
@@ -54,5 +79,5 @@ func main() {
 }
     """
 
-    placeit("main.go", {}, template)
+    placeit("main.go", {"name": name, "capName": name}, template)
 
