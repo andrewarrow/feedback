@@ -24,11 +24,28 @@ require github.com/andrewarrow/feedback v0.0.0-20240617025030-9eb1fcd3b846
     replacements = {
         "name": name,
     }
+    placeIt("go.mod", replacements, template)
+
+def placeIt(filename, replacements, template):
 
     result = replace_template_vars(template, replacements)
 
-    output_filename = path+"/"+name+"/"+"go.mod"
+    output_filename = path+"/"+name+"/"+filename
     with open(output_filename, 'w') as file:
         file.write(result)
 
+def gomain():
+    template = """\
+package main
+
+import "fmt"
+
+func main() {
+  fmt.Println("wfwe")
+}
+    """
+
+    placeIt("main.go", {}, template)
+
 gomod()
+gomain()
