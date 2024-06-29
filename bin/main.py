@@ -27,6 +27,7 @@ def run():
     template = """\
 go mod tidy
 go build
+echo 3
 ./{{name}} run 3000
     """
 
@@ -48,6 +49,7 @@ tail.min.css
 
     placeit(".gitignore", {"name": name}, template)
     placeit("views/text.html", {}, "")
+    placeit("views/application_layout.html", {}, "hello")
 
 path = sys.argv[1]
 name = sys.argv[2]
