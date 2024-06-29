@@ -13,7 +13,7 @@ func Markup(c *Context, second, third string) {
 }
 
 func handleMarkupShow(c *Context, name string) {
-	c.GetLiveOrCachedTemplate("form")
+	c.Router.GetLiveOrCachedTemplate("form")
 	asBytes, _ := ioutil.ReadFile("views/" + name)
 	contentType := "text/plain"
 	c.Writer.Header().Set("Content-Type", contentType)
