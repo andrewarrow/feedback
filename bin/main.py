@@ -4,6 +4,7 @@ import sys
 import os
 from gomain import gomain
 from placeit import placeit
+from feedback import feedback
 
 def gomod():
     template = """\
@@ -45,13 +46,7 @@ tail.min.css
     """
 
     placeit(".gitignore", {"name": name}, template)
-
-def ignore():
-    template = """\
-    """
-
-    placeit("views/text.html", {}, template)
-
+    placeit("views/text.html", {}, "")
 
 path = sys.argv[1]
 name = sys.argv[2]
@@ -59,11 +54,9 @@ name = sys.argv[2]
 def main():
     try:
       os.makedirs(path+"/"+name)
-    except OSError as e:
-      pass
-
-    try:
       os.makedirs(path+"/"+name+"/"+"views")
+      os.makedirs(path+"/"+name+"/"+"app")
+      os.makedirs(path+"/"+name+"/"+"browser")
     except OSError as e:
       pass
 
@@ -71,6 +64,7 @@ def main():
     gomain()
     run()
     ignore()
+    feedback()
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,10 @@
 
+import sys
+import os
 from placeit import placeit
+
+path = sys.argv[1]
+name = sys.argv[2]
 
 def gomain():
     template = """\
@@ -36,7 +41,7 @@ func main() {
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.HandleWelcome
-		r.Paths["book"] = app.HandleBook
+		r.Paths["{{name}}"] = app.{{capName}}
 		r.Paths["api"] = app.HandleApi
 		//r.Paths["login"] = app.Login
 		//r.Paths["register"] = app.Register
