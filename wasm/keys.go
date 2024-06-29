@@ -23,6 +23,8 @@ func GetItemMap(item js.Value, count int) map[string]any {
 			m[key] = value.Bool()
 		} else if value.Type() == js.TypeObject {
 			//m[key] = GetItemMap(value, count+1)
+		} else if value.IsNull() || value.IsUndefined() {
+			m[key] = nil
 		} else {
 			m[key] = value.String()
 		}
