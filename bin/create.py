@@ -2,14 +2,15 @@
 
 import sys
 
+path = sys.argv[1]
+name = sys.argv[2]
+
 def replace_template_vars(template, replacements):
     for key, value in replacements.items():
         template = template.replace(f"{{{{{key}}}}}", value)
     return template
 
-def foo():
-    path = sys.argv[1]
-    name = sys.argv[2]
+def gomod():
     template = """\
 module {{name}}
 
@@ -30,4 +31,4 @@ require github.com/andrewarrow/feedback v0.0.0-20240617025030-9eb1fcd3b846
     with open(output_filename, 'w') as file:
         file.write(result)
 
-foo()
+gomod()
