@@ -2,11 +2,7 @@
 
 import sys
 import os
-
-path = sys.argv[1]
-name = sys.argv[2]
-os.makedirs(path+"/"+name)
-os.makedirs(path+"/"+name+"/"+"views")
+from helper import foo
 
 def replace_template_vars(template, replacements):
     for key, value in replacements.items():
@@ -43,6 +39,17 @@ def gomain():
 package main
 
 import "fmt"
+
+//go:embed app/feedback.json
+var embeddedFile []byte
+
+//go:embed views/*.html
+var embeddedTemplates embed.FS
+
+//go:embed assets/**/*.*
+var embeddedAssets embed.FS
+
+var buildTag string
 
 func main() {
   fmt.Println("wfwe")
@@ -82,7 +89,18 @@ def ignore():
 
     placeIt("views/text.html", {}, template)
 
-gomod()
-gomain()
-run()
-ignore()
+
+path = sys.argv[1]
+name = sys.argv[2]
+
+def main():
+    os.makedirs(path+"/"+name)
+    os.makedirs(path+"/"+name+"/"+"views")
+    gomod()
+    gomain()
+    run()
+    ignore()
+    foo()
+
+if __name__ == "__main__":
+    main()
