@@ -27,6 +27,8 @@ def run():
     template = """\
 go mod tidy
 go build
+./{{name}} render
+go build
 echo 3
 ./{{name}} run 3000
     """
@@ -49,7 +51,7 @@ tail.min.css
 
     placeit(".gitignore", {"name": name}, template)
     placeit("views/text.html", {}, "")
-    placeit("views/application_layout.html", {}, "hello")
+    placeit("views/welcome.html", {}, "hello")
 
 path = sys.argv[1]
 name = sys.argv[2]
@@ -60,9 +62,12 @@ def main():
       os.makedirs(path+"/"+name+"/"+"views")
       os.makedirs(path+"/"+name+"/"+"app")
       os.makedirs(path+"/"+name+"/"+"browser")
+      markup = path+"/"+name+"/"+"markup"
+      os.makedirs(markup)
       js = path+"/"+name+"/"+"assets/javascript"
       os.makedirs(js)
-      shutil.copyfile("../assets/javascript/wasm_exec.js",js+"/wasm_exec.js")
+      shutil.copyfile("../assets/javascript/wasm_exec.js", js+"/wasm_exec.js")
+      shutil.copyfile("../markup/application_layout.mu", markup+"/application_layout.mu")
     except OSError as e:
       pass
 
