@@ -2,6 +2,7 @@
 
 import sys
 import os
+import shutil
 from gomain import gomain
 from placeit import placeit
 from feedback import feedback
@@ -57,6 +58,9 @@ def main():
       os.makedirs(path+"/"+name+"/"+"views")
       os.makedirs(path+"/"+name+"/"+"app")
       os.makedirs(path+"/"+name+"/"+"browser")
+      js = path+"/"+name+"/"+"assets/javascript"
+      os.makedirs(js)
+      shutil.copyfile("../assets/javascript/wasm_exec.js",js+"/wasm_exec.js")
     except OSError as e:
       pass
 
