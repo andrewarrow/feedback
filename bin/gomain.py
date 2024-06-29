@@ -43,8 +43,10 @@ var embeddedFile []byte
 //go:embed views/*.html
 var embeddedTemplates embed.FS
 
-//go:embed assets/**/*.*
+/*
+go:embed assets/**/*.*
 var embeddedAssets embed.FS
+*/
 
 var buildTag string
 
@@ -63,7 +65,7 @@ func main() {
 	} else if arg == "run" {
 		router.BuildTag = buildTag
 		router.EmbeddedTemplates = embeddedTemplates
-		router.EmbeddedAssets = embeddedAssets
+		//router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.Welcome
 		//r.Paths["{{name}}"] = app.{{capName}}
