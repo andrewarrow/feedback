@@ -44,7 +44,6 @@ var embeddedFile []byte
 var embeddedTemplates embed.FS
 
 /*
-go:embed assets/**/*.*
 var embeddedAssets embed.FS
 */
 
