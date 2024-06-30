@@ -9,4 +9,5 @@ var viewport = template.HTML(
 <link href="https://fonts.bunny.net/css?family=montserrat:400,500,700,800" rel="stylesheet"/>
 <link href="https://fonts.bunny.net/css?family=oxygen-mono:400" rel="stylesheet" />
 <link href="https://fonts.bunny.net/css?family=familjen-grotesk:400" rel="stylesheet" />
+<link href="https://fonts.bunny.net/css?family=permanent-marker:400" rel="stylesheet" />
 `)
