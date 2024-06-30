@@ -29,7 +29,7 @@ func (r *Router) PlaceContentInLayoutMap(layoutMap map[string]any, flash string,
 
 	layoutMap["content_vars"] = vars
 	layoutMap["footer"] = r.Site.Footer
-	layoutMap["site_name"] = template.HTML(r.Site.Title)
+	layoutMap["site_name"] = r.Site.Title
 	layoutMap["flash"] = flash
 	layoutMap["user"] = user
 	layoutMap["viewport"] = viewport

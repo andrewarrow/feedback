@@ -8,7 +8,7 @@ func RemoveNonAlphanumeric(s string) string {
 }
 
 func RemoveMostNonAlphanumeric(s string) string {
-	regex := regexp.MustCompile("[^a-z_A-Z0-9\\[\\]()'\", .:\\/]+")
+	regex := regexp.MustCompile("[^a-zA-Z0-9\\[\\]()'\", .:\\/|]+")
 	return regex.ReplaceAllString(s, "")
 }
 

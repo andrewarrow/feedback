@@ -2,6 +2,8 @@ package router
 
 import "html/template"
 
+// viewport := r.Header.Get("Viewport")
+
 var viewport = template.HTML(
 	`<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.bunny.net" rel="preconnect"/>
