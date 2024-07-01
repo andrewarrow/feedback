@@ -107,6 +107,7 @@ def main():
       os.makedirs(js)
       shutil.copyfile("../assets/javascript/wasm_exec.js", js+"/wasm_exec.js")
       shutil.copyfile("../markup/application_layout.mu", markup+"/application_layout.mu")
+      shutil.copyfile("../markup/navbar.mu", markup+"/navbar.mu")
       shutil.copyfile("../markup/welcome.mu", markup+"/welcome.mu")
     except OSError as e:
       pass
