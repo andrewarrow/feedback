@@ -1,4 +1,4 @@
-#!/usr/bin/env /Users/aa/rick/foo/bin/python3
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -11,11 +11,11 @@ def gomod():
     template = """\
 module {{name}}
 
-replace github.com/andrewarrow/feedback => /Users/aa/os/feedback
+//replace github.com/andrewarrow/feedback => /Users/aa/os/feedback
 
 go 1.21.0
 
-require github.com/andrewarrow/feedback v0.0.0-20240617025030-9eb1fcd3b846
+require github.com/andrewarrow/feedback v0.0.0-20240630205923-a0616bffee08
     """
 
     replacements = {
