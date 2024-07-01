@@ -88,7 +88,6 @@ module.exports = {
 
     placeit(".gitignore", {"name": name}, template)
     placeit("views/text.html", {}, "")
-    placeit("views/welcome.html", {}, "hello")
     placeit("tailwind.config.js", {}, tailwindconfig)
     placeit("assets/css/tail.components.css", {}, tailwind)
 
@@ -108,6 +107,7 @@ def main():
       os.makedirs(js)
       shutil.copyfile("../assets/javascript/wasm_exec.js", js+"/wasm_exec.js")
       shutil.copyfile("../markup/application_layout.mu", markup+"/application_layout.mu")
+      shutil.copyfile("../markup/welcome.mu", markup+"/welcome.mu")
     except OSError as e:
       pass
 
