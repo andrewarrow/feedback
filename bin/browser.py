@@ -11,8 +11,6 @@ def browser():
 package browser
 
 import (
-	"fmt"
-
 	"github.com/andrewarrow/feedback/wasm"
 )
 

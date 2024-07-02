@@ -33,17 +33,16 @@ go build
 cp main.go save_main
 cp wasm/main.go .
 GOOS=js GOARCH=wasm go build -ldflags="-s -w -X main.useLive=true" -o assets/other/json.wasm 
-cd assets/other
-rm json.wasm.gz
-gzip json.wasm
-cd ../..
+mv save_main main.go
 if [ $? -eq 0 ]; then
+    cd assets/other
+    rm json.wasm.gz
+    gzip -f json.wasm
+    cd ../..
     tailwindcss -i assets/css/tail.components.css -o assets/css/tail.min.css --minify
     uuid=$(uuidgen); go build -ldflags="-X main.buildTag=$uuid"
     echo 3
     ./{{name}} run 3000
-else
-  mv save_main main.go
 fi
     """
 
