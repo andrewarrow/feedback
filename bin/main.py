@@ -6,6 +6,8 @@ import shutil
 from gomain import gomain
 from placeit import placeit
 from feedback import feedback
+from browser import browser
+from wasm import wasm
 
 def gomod():
     template = """\
@@ -28,10 +30,21 @@ def run():
 go mod tidy
 go build
 ./{{name}} render
-tailwindcss -i assets/css/tail.components.css -o assets/css/tail.min.css --minify
-go build
-echo 3
-./{{name}} run 3000
+cp main.go save_main
+cp wasm/main.go .
+GOOS=js GOARCH=wasm go build -ldflags="-s -w -X main.useLive=true" -o assets/other/json.wasm 
+cd assets/other
+rm json.wasm.gz
+gzip json.wasm
+cd ../..
+if [ $? -eq 0 ]; then
+    tailwindcss -i assets/css/tail.components.css -o assets/css/tail.min.css --minify
+    uuid=$(uuidgen); go build -ldflags="-X main.buildTag=$uuid"
+    echo 3
+    ./{{name}} run 3000
+else
+  mv save_main main.go
+fi
     """
 
     rpath = placeit("run", {"name": name}, template)
@@ -100,7 +113,10 @@ def main():
       os.makedirs(path+"/"+name+"/"+"views")
       os.makedirs(path+"/"+name+"/"+"app")
       os.makedirs(path+"/"+name+"/"+"browser")
+      os.makedirs(path+"/"+name+"/"+"wasm")
       os.makedirs(path+"/"+name+"/"+"assets/css")
+      os.makedirs(path+"/"+name+"/"+"assets/images")
+      os.makedirs(path+"/"+name+"/"+"assets/other")
       markup = path+"/"+name+"/"+"markup"
       os.makedirs(markup)
       js = path+"/"+name+"/"+"assets/javascript"
@@ -118,6 +134,8 @@ def main():
     run()
     ignore()
     feedback()
+    browser()
+    wasm()
 
 if __name__ == "__main__":
     main()
