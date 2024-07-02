@@ -40,9 +40,9 @@ func (a *AutoForm) Post(g *Global, w *Wrapper, q string) {
 	var jsonString string
 	var code int
 	if a.Method == "POST" {
-		jsonString, code = DoPost(a.Path, w.MapOfInputs())
+		jsonString, code = DoPost(a.Path, w.MapOfInputs(false))
 	} else if a.Method == "PATCH" {
-		jsonString, code = DoPatch(a.Path, w.MapOfInputs())
+		jsonString, code = DoPatch(a.Path, w.MapOfInputs(false))
 	} else if a.Method == "GET" {
 		qValue := url.QueryEscape(q)
 		jsonString, _ = DoGet(a.Path + "?q=" + qValue)
