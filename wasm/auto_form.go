@@ -13,6 +13,7 @@ type AutoForm struct {
 	After      func(string)
 	Id         string
 	Method     string
+	Clear      bool
 }
 
 func NewAutoForm(id string) *AutoForm {
@@ -40,9 +41,9 @@ func (a *AutoForm) Post(g *Global, w *Wrapper, q string) {
 	var jsonString string
 	var code int
 	if a.Method == "POST" {
-		jsonString, code = DoPost(a.Path, w.MapOfInputs(false))
+		jsonString, code = DoPost(a.Path, w.MapOfInputs(a.Clear))
 	} else if a.Method == "PATCH" {
-		jsonString, code = DoPatch(a.Path, w.MapOfInputs(false))
+		jsonString, code = DoPatch(a.Path, w.MapOfInputs(a.Clear))
 	} else if a.Method == "GET" {
 		qValue := url.QueryEscape(q)
 		jsonString, _ = DoGet(a.Path + "?q=" + qValue)
