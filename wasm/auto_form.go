@@ -19,6 +19,7 @@ type AutoForm struct {
 func NewAutoForm(id string) *AutoForm {
 	a := AutoForm{}
 	a.Id = id
+	a.Clear = true
 	a.Method = "POST"
 	return &a
 }
