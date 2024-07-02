@@ -74,6 +74,7 @@ func handleCreateUser(c *Context) {
 
 func HandleCreateUserAutoForm(c *Context, username string) {
 	c.ReadJsonBodyIntoParams()
+	c.Params["username"] = username
 	if username == "" {
 		c.Params["username"] = c.Params["email"]
 	}
