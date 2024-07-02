@@ -72,9 +72,11 @@ func handleCreateUser(c *Context) {
 	return
 }
 
-func HandleCreateUserAutoForm(c *Context) {
+func HandleCreateUserAutoForm(c *Context, username string) {
 	c.ReadJsonBodyIntoParams()
-	c.Params["username"] = c.Params["email"]
+	if username == "" {
+		c.Params["username"] = c.Params["email"]
+	}
 	password, _ := c.Params["password"].(string)
 	message := c.ValidateCreate("user")
 	send := map[string]any{}
