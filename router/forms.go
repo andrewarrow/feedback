@@ -52,7 +52,7 @@ func SaveMultiFiles(c *Context) []UploadedFile {
 		up := UploadedFile{}
 		up.OrigName = name
 		up.GuidFilename = filename
-		up.Size = len(asBytes)
+		up.Size = int64(len(asBytes))
 		list = append(list, up)
 	}
 	return list
