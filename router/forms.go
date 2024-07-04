@@ -34,6 +34,7 @@ func (c *Context) ReadMultipleFormValues(list ...string) {
 type UploadedFile struct {
 	OrigName     string
 	GuidFilename string
+	Size         int64
 }
 
 func SaveMultiFiles(c *Context) []UploadedFile {
@@ -51,6 +52,7 @@ func SaveMultiFiles(c *Context) []UploadedFile {
 		up := UploadedFile{}
 		up.OrigName = name
 		up.GuidFilename = filename
+		up.Size = len(asBytes)
 		list = append(list, up)
 	}
 	return list
