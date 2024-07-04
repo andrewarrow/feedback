@@ -100,10 +100,10 @@ func (g *Global) Focus(id string, fn func(js.Value, []js.Value) any) {
 	form := g.Document.ById(id)
 	form.Set("onfocus", js.FuncOf(fn))
 }
-func (g *Global) Change(id string, fn func(js.Value, []js.Value) any) {
+func (g *Global) Change(id string, fn func()) {
 	form := g.Document.ById(id)
 	if !form.IsNull() {
-		form.Set("onchange", js.FuncOf(fn))
+		form.Set("onchange", SimpleFuncOf(fn))
 	}
 }
 

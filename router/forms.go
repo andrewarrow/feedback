@@ -31,7 +31,8 @@ func (c *Context) ReadMultipleFormValues(list ...string) {
 	}
 }
 
-func SaveMultiFiles(c *Context) {
+func SaveMultiFiles(c *Context) []string {
+	list := []string{}
 	files := c.Request.MultipartForm.File["file"]
 
 	for _, fileHeader := range files {
@@ -42,7 +43,9 @@ func SaveMultiFiles(c *Context) {
 		filename := util.GuidFilename(name)
 		ioutil.WriteFile(c.Router.BucketPath+"/"+filename, asBytes, 0644)
 		c.Params["photo"] = filename
+		list = append(list, name)
 	}
+	return list
 }
 
 func SaveMultiFilesAws(c *Context) {
