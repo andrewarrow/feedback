@@ -17,7 +17,7 @@ func (w *Wrapper) MapOfInputs(clearAfter bool) map[string]any {
 			m[input.Id] = input.Checked
 		} else {
 			m[input.Id] = strings.TrimSpace(input.Value)
-			if clearAfter {
+			if clearAfter && input.Get("type") != "hidden" {
 				input.Set("value", "")
 			}
 		}
@@ -33,9 +33,6 @@ func (w *Wrapper) MapOfInputs(clearAfter bool) map[string]any {
 		if clearAfter {
 			input.Set("value", "")
 		}
-	}
-	for _, input := range w.SelectAll("hidden") {
-		m[input.Id] = input.Value
 	}
 	return m
 }
