@@ -12,13 +12,15 @@ def replace_placeholders(directory):
     for filename in filenames:
       file_path = os.path.join(dirpath, filename)
       if os.path.isfile(file_path):
-        replace_in_file(file_path)
+        try:
+          replace_in_file(file_path)
+        except UnicodeDecodeError:
 
 def replace_in_file(file_path):
   with fileinput.FileInput(file_path, inplace=True) as f:
     for line in f:
       line = line.replace('{{homeducky}}', name)
-        print(line, end='')
+      print(line, end='')
 
 def main():
   replace_placeholders("homeducky")
