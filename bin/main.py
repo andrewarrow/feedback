@@ -15,6 +15,7 @@ def replace_placeholders(directory):
         try:
           replace_in_file(file_path)
         except UnicodeDecodeError:
+          pass
 
 def replace_in_file(file_path):
   with fileinput.FileInput(file_path, inplace=True) as f:
