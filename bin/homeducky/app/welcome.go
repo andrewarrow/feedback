@@ -1,7 +1,7 @@
 package app
 
 import (
-  "github.com/andrewarrow/feedback/router"
+	"github.com/andrewarrow/feedback/router"
 )
 
 func Welcome(c *router.Context, second, third string) {
@@ -15,9 +15,5 @@ func Welcome(c *router.Context, second, third string) {
 func handleWelcomeIndex(c *router.Context) {
 
 	send := map[string]any{}
-	if len(c.User) == 0 {
-		c.SendContentInLayout("welcome.html", send, 200)
-		return
-	}
+	c.SendContentInLayout("welcome.html", send, 200)
 }
-    
