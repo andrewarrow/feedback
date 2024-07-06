@@ -28,12 +28,12 @@ html data-theme=sunset
         div items-center grid-flow-col
           Copyright &copy; 2024 - All right reserved by andrewarrow.dev
         div grid-flow-col gap-4 md:place-self-center md:justify-self-end
-          a href=/space/about-us link link-hover
+          a href=https://andrewarrow.dev/ link link-hover
             About Us
-          a href=/space/pricing link link-hover
+          a href=https://andrewarrow.dev/ link link-hover
             Pricing
-          a href=/space/terms link link-hover
+          a href=https://andrewarrow.dev/ link link-hover
             Terms & Conditions
-          a href=/space/privacy link link-hover
+          a href=https://andrewarrow.dev/ link link-hover
             Privacy Policy
     {{ index . "wasm" }}
