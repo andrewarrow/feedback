@@ -19,6 +19,9 @@ func (c *Context) SendRowAsJson(wrapper string, row map[string]any) {
 }
 
 func (c *Context) SendContentAsJson(thing any, status int) {
+	if c.Request == nil {
+		return
+	}
 	list, ok := thing.([]map[string]any)
 	if ok {
 		for _, item := range list {
