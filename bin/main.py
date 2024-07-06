@@ -3,12 +3,13 @@
 import sys
 import os
 import fileinput
+import shutil
 
 path = sys.argv[1]
 name = sys.argv[2]
 
-def replace_placeholders(directory):
-  for dirpath, _, filenames in os.walk(directory):
+def replace_placeholders(destination_directory):
+  for dirpath, _, filenames in os.walk(destination_directory):
     for filename in filenames:
       file_path = os.path.join(dirpath, filename)
       if os.path.isfile(file_path):
@@ -24,7 +25,10 @@ def replace_in_file(file_path):
       print(line, end='')
 
 def main():
-  replace_placeholders("homeducky")
+  source_directory = "homeducky"
+  destination_directory = path + "/" + name
+  shutil.copytree(source_directory, destination_directory)
+  replace_placeholders(destination_directory)
 
 if __name__ == "__main__":
   main()
