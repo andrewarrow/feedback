@@ -117,15 +117,19 @@ def main():
       os.makedirs(path+"/"+name+"/"+"assets/images")
       os.makedirs(path+"/"+name+"/"+"assets/other")
       markup = path+"/"+name+"/"+"markup"
+      app = path+"/"+name+"/"+"app"
       os.makedirs(markup)
       js = path+"/"+name+"/"+"assets/javascript"
       os.makedirs(js)
       shutil.copyfile("../assets/javascript/wasm_exec.js", js+"/wasm_exec.js")
       shutil.copyfile("../markup/application_layout.mu", markup+"/application_layout.mu")
-      shutil.copyfile("../../book/markup/register.mu", markup+"/register.mu")
-      shutil.copyfile("../../book/markup/login.mu", markup+"/../app/login.mu")
-      shutil.copyfile("../../book/brower/register.go", markup+"/../app/register.go")
-      shutil.copyfile("../../book/app/book.go", markup+"/../app/"+name+".go")
+      r1=shutil.copyfile("../../book/markup/register.mu", markup+"/register.mu")
+      print(r1)
+      r2=shutil.copyfile("../../book/markup/login.mu", markup+"/login.mu")
+      print(r2)
+      r3 = shutil.copyfile("../../book/brower/register.go", app+"/register.go")
+      print(r3)
+      shutil.copyfile("../../book/app/book.go", app+"/"+name+".go")
       shutil.copyfile("../markup/navbar.mu", markup+"/navbar.mu")
       shutil.copyfile("../markup/404.mu", markup+"/404.mu")
       shutil.copyfile("../markup/welcome.mu", markup+"/welcome.mu")
