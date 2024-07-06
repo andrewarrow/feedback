@@ -1,21 +1,11 @@
-
-import sys
-import os
-from placeit import placeit
-
-path = sys.argv[1]
-name = sys.argv[2]
-
-def wasm():
-    template = """\
 package main
 
 import (
 	"embed"
 	"fmt"
-	"{{name}}/browser"
 	"math/rand"
 	"time"
+	"{{homeducky}}/browser"
 
 	"github.com/andrewarrow/feedback/wasm"
 )
@@ -47,7 +37,3 @@ func main() {
 
 	select {}
 }
-    """
-
-    placeit("wasm/main.go", {"name": name}, template)
-

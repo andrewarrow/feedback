@@ -1,54 +1,13 @@
-
-import sys
-import os
-from placeit import placeit
-
-path = sys.argv[1]
-name = sys.argv[2]
-
-def gomain():
-    gomainA()
-    gomainB()
-    
-def gomainB():
-    template = """\
-package app
-
-import (
-  "github.com/andrewarrow/feedback/router"
-)
-
-func Welcome(c *router.Context, second, third string) {
-	if second == "" && third == "" && c.Method == "GET" {
-		handleWelcomeIndex(c)
-		return
-	}
-	c.NotFound = true
-}
-
-func handleWelcomeIndex(c *router.Context) {
-
-	send := map[string]any{}
-	if len(c.User) == 0 {
-		c.SendContentInLayout("welcome.html", send, 200)
-		return
-	}
-}
-    """
-    placeit("app/welcome.go", {}, template)
-
-def gomainA():
-    template = """\
 package main
 
 import (
-  "{{name}}/app"
-  "embed"
-  "math/rand"
-  "os"
-  "time"
+	"embed"
+	"math/rand"
+	"os"
+	"time"
+	"{{homeducky}}/app"
 
-  "github.com/andrewarrow/feedback/router"
+	"github.com/andrewarrow/feedback/router"
 )
 
 //go:embed app/feedback.json
@@ -80,7 +39,7 @@ func main() {
 		router.EmbeddedAssets = embeddedAssets
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.Welcome
-		//r.Paths["{{name}}"] = app.{{capName}}
+		//r.Paths["{{homeducky}}"] = app.{{homeducky}}
 		//r.Paths["api"] = app.HandleApi
 		//r.Paths["login"] = app.Login
 		//r.Paths["register"] = app.Register
@@ -91,7 +50,3 @@ func main() {
 	} else if arg == "help" {
 	}
 }
-    """
-
-    placeit("main.go", {"name": name, "capName": name}, template)
-
