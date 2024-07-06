@@ -5,8 +5,8 @@ import (
 )
 
 func Core(c *router.Context, second, third string) {
-	if second == "" && third == "" && c.Method == "GET" {
-		handleCoreIndex(c)
+	if second == "start" && third == "" && c.Method == "GET" {
+		handleCoreStart(c)
 		return
 	}
 	if second == "about-us" && third == "" && c.Method == "GET" {
@@ -44,7 +44,7 @@ func Core(c *router.Context, second, third string) {
 	c.NotFound = true
 }
 
-func handleCoreIndex(c *router.Context) {
+func handleCoreStart(c *router.Context) {
 
 	send := map[string]any{}
 	c.SendContentInLayout("start.html", send, 200)
