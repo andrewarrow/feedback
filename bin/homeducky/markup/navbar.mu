@@ -7,6 +7,11 @@
     div navbar-center flex hidden md:block
     div navbar-end
       div hidden md:block flex space-x-3
-        a href=https://andrewarrow.dev/frame/faq link link-hover
-          FAQ
+        {{ if .user }}
+          a href=/ id=logout
+            Logout
+        {{ else }}
+          a href=/core/login link link-hover
+            Login
+        {{ end }}
   {{ end }}
