@@ -11,8 +11,8 @@ def replace_placeholders(directory):
   for dirpath, _, filenames in os.walk(directory):
     for filename in filenames:
       file_path = os.path.join(dirpath, filename)
-        if os.path.isfile(file_path):
-          replace_in_file(file_path)
+      if os.path.isfile(file_path):
+        replace_in_file(file_path)
 
 def replace_in_file(file_path):
   with fileinput.FileInput(file_path, inplace=True) as f:
