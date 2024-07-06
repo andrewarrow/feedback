@@ -49,3 +49,33 @@ func handleCoreStart(c *router.Context) {
 	send := map[string]any{}
 	c.SendContentInLayout("start.html", send, 200)
 }
+func handleHeartIndex(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("welcome.html", send, 200)
+}
+
+func handleHeartRegister(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("register.html", send, 200)
+}
+func handleHeartLogin(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("login.html", send, 200)
+}
+
+func handleHeartPrivacy(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("privacy.html", send, 200)
+}
+func handleHeartTerms(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("terms.html", send, 200)
+}
+func handleHeartAboutUs(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("about_us.html", send, 200)
+}
+func handleHeartStart(c *router.Context) {
+	send := map[string]any{}
+	c.SendContentInLayout("start.html", send, 200)
+}
