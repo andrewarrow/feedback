@@ -16,8 +16,8 @@ div p-0
       div mt-3 data-theme=light p-2 rounded-lg text-center
         span
           Need an account?
-        a href=/space/register underline
+        a href=/core/register underline
           Register
-      div mt-6 text-sm flex justify-center
-        a href=/space/forgot underline
+      div hidden mt-6 text-sm flex justify-center
+        a href=/core/forgot underline
           Password Help

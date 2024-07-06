@@ -15,5 +15,5 @@ div p-0
       div mt-3 text-center
         span
           Already have account?
-        a href=/space/login underline
+        a href=/core/login underline
           Login
