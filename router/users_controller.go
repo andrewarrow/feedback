@@ -72,7 +72,7 @@ func handleCreateUser(c *Context) {
 	return
 }
 
-func HandleCreateUserAutoForm(c *Context, username string) {
+func HandleCreateUserAutoForm(c *Context, username string) string {
 	c.ReadJsonBodyIntoParams()
 	c.Params["username"] = username
 	if username == "" {
@@ -99,4 +99,5 @@ func HandleCreateUserAutoForm(c *Context, username string) {
 	c.Insert("cookie_token")
 	SetUser(c, guid, os.Getenv("COOKIE_DOMAIN"))
 	c.SendContentAsJson("ok", 200)
+	return guid
 }
