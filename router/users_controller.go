@@ -84,14 +84,14 @@ func HandleCreateUserAutoForm(c *Context, username string) string {
 	if message != "" {
 		send["error"] = message
 		c.SendContentAsJson(send, 422)
-		return
+		return ""
 	}
 	c.Params["password"] = HashPassword(password)
 	message = c.Insert("user")
 	if message != "" {
 		send["error"] = message
 		c.SendContentAsJson(send, 422)
-		return
+		return ""
 	}
 	row := c.One("user", "where username=$1", c.Params["email"])
 	guid := util.PseudoUuid()
