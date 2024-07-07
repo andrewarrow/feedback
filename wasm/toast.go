@@ -11,3 +11,8 @@ func (g *Global) Toast(s string) {
 	time.Sleep(time.Second * 3)
 	flash.Hide()
 }
+func (g *Global) ToastFlash(s string) {
+	flash := g.Document.ById("flash")
+	flash.Set("innerHTML", s)
+	time.Sleep(time.Second * 3)
+}
