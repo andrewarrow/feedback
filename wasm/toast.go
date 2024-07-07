@@ -15,4 +15,5 @@ func (g *Global) ToastFlash(s string) {
 	flash := g.Document.ById("flash")
 	flash.Set("innerHTML", s)
 	time.Sleep(time.Second * 3)
+	flash.Set("innerHTML", "")
 }
