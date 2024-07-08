@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"encoding/json"
+	"fmt"
 	"io/fs"
 	"strings"
 	"syscall/js"
@@ -15,6 +16,7 @@ import (
 var EmbeddedTemplates embed.FS
 var AllTemplates map[string]any
 var UseLive = true
+var NamedTemplates *template.Template
 
 func (d *Document) RenderToId(id, name string, vars any) *Wrapper {
 	div := d.ById(id)
@@ -47,24 +49,51 @@ func (d *Document) Render(name string, vars any) string {
 	return Render(name, vars)
 }
 
-func Render(name string, vars any) string {
-	templateText := ""
-	if UseLive {
-		templateText = AllTemplates[name].(string)
-	} else {
-		templateBytes, _ := EmbeddedTemplates.ReadFile("views/" + name + ".html")
-		templateText = string(templateBytes)
-	}
-	//fmt.Println(templateText)
+func LoadTemplates(tf template.FuncMap) *template.Template {
 	t := template.New("")
-	t = t.Funcs(common.TemplateFunctions())
-	if CustomFuncMap != nil {
-		t = t.Funcs(*CustomFuncMap)
+	t = t.Funcs(tf)
+
+	templateFiles, _ := EmbeddedTemplates.ReadDir("views")
+	for _, file := range templateFiles {
+		name := file.Name()
+		tokens := strings.Split(name, ".")
+		name = tokens[0]
+		fileContents, _ := EmbeddedTemplates.ReadFile("views/" + file.Name())
+
+		_, err := t.New(name).Parse(string(fileContents))
+		if err != nil {
+			fmt.Println(file.Name(), err)
+		}
 	}
-	t, _ = t.Parse(string(templateText))
+	return t
+}
+func LoadLiveTemplates(tf template.FuncMap) *template.Template {
+	t := template.New("")
+	t = t.Funcs(tf)
+
+	for name, v := range AllTemplates {
+		_, err := t.New(name).Parse(v.(string))
+		if err != nil {
+			fmt.Println(name, err)
+		}
+	}
+
+	return t
+}
+
+func Render(name string, vars any) string {
+	if NamedTemplates == nil {
+		if UseLive {
+			NamedTemplates = LoadLiveTemplates(common.TemplateFunctions())
+		} else {
+			NamedTemplates = LoadTemplates(common.TemplateFunctions())
+		}
+	}
+	fmt.Println(name, NamedTemplates)
+	t := NamedTemplates.Lookup(name)
 	content := new(bytes.Buffer)
 	t.Execute(content, vars)
-	t.ExecuteTemplate(content, name, vars)
+	//t.ExecuteTemplate(content, name, vars)
 	cb := content.Bytes()
 	return string(cb)
 }
