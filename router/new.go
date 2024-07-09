@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"html/template"
+	"os"
 	"sync"
 
 	"github.com/andrewarrow/feedback/persist"
@@ -43,7 +44,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	} else if DB_FLAVOR == "none" {
 		r.Db = nil
 	} else {
-		r.Db = persist.SqliteConnection(dbEnvVarName)
+		r.Db = persist.SqliteConnection(os.Getenv(dbEnvVarName))
 	}
 	r.Paths = map[string]func(*Context, string, string){}
 	r.BeforeCreate = map[string]func(*Context){}
