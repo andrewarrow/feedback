@@ -58,6 +58,15 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 		for _, item := range items {
 			db.Exec(item)
 		}
+		for _, field := range model.Fields {
+			if field.Index == "yes" {
+				sql := `CREATE INDEX IF NOT EXISTS %s_%s_index ON %s (%s);`
+				db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
+			} else if field.Index == "unique" {
+				sql := `CREATE UNIQUE INDEX IF NOT EXISTS %s_%s_index ON %s (%s);`
+				db.Exec(fmt.Sprintf(sql, tableName, field.Name, tableName, field.Name))
+			}
+		}
 	}
 
 }
