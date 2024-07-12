@@ -29,6 +29,7 @@ func main() {
 	}
 
 	arg := os.Args[1]
+	router.DB_FLAVOR = "sqlite"
 
 	if arg == "import" {
 	} else if arg == "render" {

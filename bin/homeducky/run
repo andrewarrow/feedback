@@ -5,6 +5,7 @@ cp main.go save_main
 cp wasm/main.go .
 GOOS=js GOARCH=wasm go build -ldflags="-s -w -X main.useLive=true" -o assets/other/json.wasm 
 mv save_main main.go
+export DATABASE_URL={{homeducky}}
 if [ $? -eq 0 ]; then
     cd assets/other
     rm json.wasm.gz
