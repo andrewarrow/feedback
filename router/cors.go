@@ -1,6 +1,6 @@
 package router
 
-func setCorsOptions(c *Context) {
+func SetCorsOptions(c *Context) {
 	c.Writer.Header().Set("Allow", "GET,POST,PUT,PATCH,DELETE")
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
@@ -12,7 +12,7 @@ func setCorsOptions(c *Context) {
 
 }
 
-func setCors(c *Context) {
+func SetCors(c *Context) {
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
 	c.Writer.Header().Set("Access-Control-Allow-Headers", "*")
