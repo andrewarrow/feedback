@@ -9,6 +9,7 @@ import (
 
 const ISO8601 = "2006-01-02T15:04:05-07:00"
 const HUMAN = "Monday, January 2, 2006 3:04 PM"
+const HUMAN_DATE = "January 2, 2006"
 
 type Model struct {
 	Name   string   `json:"name"`
