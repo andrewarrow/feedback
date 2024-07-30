@@ -75,7 +75,7 @@ func PostgresConnectionByUrl(url string) *sqlx.DB {
 			db.SetConnMaxLifetime(5 * time.Minute)
 			break
 		} else {
-			fmt.Println(err.Error())
+			fmt.Println("here", err.Error())
 			time.Sleep(time.Second * 3)
 		}
 	}
