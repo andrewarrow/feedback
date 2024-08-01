@@ -55,9 +55,12 @@ func (c *Context) ValidateAndUpsert(modelString, field string, val any) string {
 	if msg != "" {
 		return msg
 	}
-	msg = c.Insert(modelString)
-	if msg == "" {
-		return ""
+	one := c.One(modelString, fmt.Sprintf("where %s=$1", field), val)
+	if len(one) == 0 {
+		msg = c.Insert(modelString)
+		if msg == "" {
+			return ""
+		}
 	}
 	return c.Update(modelString, fmt.Sprintf("where %s=", field), val)
 }
