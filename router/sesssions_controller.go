@@ -96,7 +96,7 @@ func DestroySession(c *Context) {
 
 	cookie := http.Cookie{}
 	cookie.MaxAge = 0
-	cookie.Name = "user"
+	cookie.Name = "user_v2"
 	cookie.Value = ""
 	cookie.Path = "/"
 	http.SetCookie(c.Writer, &cookie)
