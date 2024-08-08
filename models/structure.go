@@ -18,15 +18,15 @@ type Model struct {
 }
 
 func (m *Model) EnsureIdAndCreatedAt() {
+	if m.Small {
+		return
+	}
 	id := FindField(m, "id")
 	if id == nil {
 		f := Field{}
 		f.Name = "id"
 		f.Flavor = "int"
 		m.Fields = append(m.Fields, &f)
-	}
-	if m.Small {
-		return
 	}
 	ca := FindField(m, "created_at")
 	if ca == nil {
