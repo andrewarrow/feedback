@@ -37,6 +37,9 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 	} else if f.Flavor == "json_list" {
 		flavor = "jsonb"
 		defaultString = "'[]'"
+	} else if f.Flavor == "smallint" {
+		flavor = "smallint"
+		defaultString = "0"
 	} else if f.Flavor == "bigint" {
 		flavor = "bigint"
 		defaultString = "0"
@@ -65,7 +68,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 }
 
 func (f *Field) SaneDefault() any {
-	if f.Flavor == "int" || f.Flavor == "bigint" {
+	if f.Flavor == "int" || f.Flavor == "bigint" || f.Flavor == "smallint" {
 		return 0
 	} else if f.Flavor == "timestamp" && f.Null == "" {
 		return time.Now()

@@ -13,10 +13,21 @@ const HUMAN_DATE = "2006-01-02"
 
 type Model struct {
 	Name   string   `json:"name"`
+	Small  bool     `json:"small"`
 	Fields []*Field `json:"fields"`
 }
 
 func (m *Model) EnsureIdAndCreatedAt() {
+	id := FindField(m, "id")
+	if id == nil {
+		f := Field{}
+		f.Name = "id"
+		f.Flavor = "int"
+		m.Fields = append(m.Fields, &f)
+	}
+	if m.Small {
+		return
+	}
 	ca := FindField(m, "created_at")
 	if ca == nil {
 		f := Field{}
@@ -31,13 +42,6 @@ func (m *Model) EnsureIdAndCreatedAt() {
 		f.Name = "updated_at"
 		f.Flavor = "timestamp"
 		f.Index = "yes"
-		m.Fields = append(m.Fields, &f)
-	}
-	id := FindField(m, "id")
-	if id == nil {
-		f := Field{}
-		f.Name = "id"
-		f.Flavor = "int"
 		m.Fields = append(m.Fields, &f)
 	}
 	guid := FindField(m, "guid")
@@ -55,7 +59,7 @@ func (m *Model) TableName() string {
 }
 
 func TypeToFlavor(dt, udt, cd string) string {
-	if dt == "bigint" || dt == "integer" {
+	if dt == "bigint" || dt == "integer" || dt == "smallint" {
 		return "int"
 	} else if dt == "boolean" {
 		return "bool"
