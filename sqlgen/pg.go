@@ -13,9 +13,7 @@ func PgCreateTable(tableName string, small bool) string {
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );`
 	if small {
-		sql = `CREATE TABLE %s (
-  id SERIAL PRIMARY KEY
-);`
+		sql = `CREATE TABLE %s ();`
 	}
 	return fmt.Sprintf(sql, tableName)
 }
