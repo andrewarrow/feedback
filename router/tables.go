@@ -23,7 +23,7 @@ func MakeTable(db *sqlx.DB, model *models.Model) {
 	//c.Db.Exec(sqlgen.MysqlCreateTable(tableName))
 	//_, msg := db.Exec(sqlgen.PgCreateTable(tableName))
 	if DB_FLAVOR == "pg" {
-		db.Exec(sqlgen.PgCreateTable(tableName))
+		db.Exec(sqlgen.PgCreateTable(tableName, model.Small))
 		sql := `ALTER TABLE %s ADD COLUMN %s %s default %s;`
 		for _, field := range model.Fields {
 			flavor, defaultString := field.SqlTypeAndDefault()
