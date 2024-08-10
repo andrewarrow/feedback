@@ -25,6 +25,7 @@ type Context struct {
 	UserRequired bool
 	path         string
 	Db           *sqlx.DB
+	Dbs          []*sqlx.DB
 	NotFound     bool
 	Method       string
 	flash        string

@@ -2,6 +2,7 @@ package router
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"os"
 	"sync"
@@ -45,7 +46,7 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 		i := 1
 		r.Dbs = append(r.Dbs, r.Db)
 		for {
-			url := os.Getenv("DATABASE_URL%d", i)
+			url := os.Getenv(fmt.Sprintf("DATABASE_URL%d", i))
 			if url == "" {
 				break
 			}
@@ -106,6 +107,7 @@ func (r *Router) ToContext() *Context {
 	//c.Request = request
 	c.Router = r
 	c.Db = r.Db
+	c.Dbs = r.Dbs
 	return &c
 }
 

@@ -158,6 +158,7 @@ func PrepareContext(r *Router, user map[string]any, path, flash string, writer h
 	c.User = user
 	c.path = path
 	c.Db = r.Db
+	c.Dbs = r.Dbs
 	c.Layout = r.DefaultLayout
 	c.LayoutMap = map[string]any{}
 	return &c
