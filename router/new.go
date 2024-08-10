@@ -18,6 +18,7 @@ type Router struct {
 	Template        *template.Template
 	Site            *FeedbackSite
 	Db              *sqlx.DB
+	Dbs             []*sqlx.DB
 	WrangleDb       *sqlx.DB
 	Prefix          string
 	BucketPath      string
@@ -41,6 +42,17 @@ func NewRouter(dbEnvVarName string, jsonBytes []byte) *Router {
 	if DB_FLAVOR == "pg" {
 		r.Db = persist.PostgresConnection(dbEnvVarName)
 		r.WrangleDb = persist.PostgresConnection("WRANGLE_DATABASE_URL")
+		i := 1
+		r.Dbs = append(r.Dbs, r.Db)
+		for {
+			url := os.Getenv("DATABASE_URL%d", i)
+			if url == "" {
+				break
+			}
+			r.Dbs = append(r.Dbs, persist.PostgresConnection(url))
+			i++
+		}
+
 	} else if DB_FLAVOR == "none" {
 		r.Db = nil
 	} else {
