@@ -2,7 +2,7 @@ package router
 
 import "fmt"
 
-func (c *Context) OneWithIndex(index int64, modelName string, where string, params []any) map[string]any {
+func (c *Context) OneWithIndex(index int64, modelName string, where string, params ...any) map[string]any {
 	model := c.FindModel(modelName)
 	sql := fmt.Sprintf("SELECT * FROM %s %s", model.TableName(), where)
 	m := map[string]any{}
