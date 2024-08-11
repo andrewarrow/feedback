@@ -2,10 +2,19 @@ package openapi
 
 import (
 	"fmt"
+	"io/ioutil"
 	"strings"
 )
 
 func (oa *OpenAPI) WriteYaml() {
+	buffer := []string{}
+
+	for k, _ := range oa.Endpoints {
+		buffer = append(buffer, "  /api"+k+":")
+	}
+	final := yaml + "\n" + strings.Join(buffer, "\n")
+
+	ioutil.WriteFile("openapi/openapi.yaml", []byte(final), 0644)
 }
 
 func MakeYaml(m map[string][]Endpoint) {
