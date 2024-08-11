@@ -9,7 +9,7 @@ func Parse(path, dir string) {
 	b, _ := os.ReadFile(path)
 	s := string(b)
 	lines := strings.Split(s, "\n")
-	items := []Endpoint{}
+	m := map[string][]Endpoint{}
 	for i, line := range lines {
 		trimmed := strings.TrimSpace(line)
 		if strings.HasPrefix(trimmed, "// oa ") == false {
@@ -17,7 +17,7 @@ func Parse(path, dir string) {
 		}
 		target := lines[i+1]
 		ep := NewEndpoint(trimmed, target)
-		items = append(items, ep)
+		m[ep.Path] = append(m[ep.Path], ep)
 	}
 
 	//fmt.Println(items)
@@ -27,7 +27,7 @@ func Parse(path, dir string) {
 		lookForParams(dir + "/" + entry.Name())
 	}
 
-	MakeYaml(items)
+	MakeYaml(m)
 
 }
 

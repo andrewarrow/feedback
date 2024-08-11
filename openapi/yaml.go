@@ -5,12 +5,12 @@ import (
 	"strings"
 )
 
-func MakeYaml(eps []Endpoint) {
+func MakeYaml(m map[string][]Endpoint) {
 
 	buffer := []string{}
 
-	for _, ep := range eps {
-		buffer = append(buffer, "  "+ep.Path+":")
+	for k, _ := range m {
+		buffer = append(buffer, "  "+k+":")
 	}
 
 	final := yaml + "\n" + strings.Join(buffer, "\n")

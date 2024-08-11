@@ -35,7 +35,9 @@ func NewEndpoint(comment, line string) Endpoint {
 			tokens := strings.Split(item, "==")
 			thing := strings.TrimSpace(tokens[1])
 			thing = thing[1 : len(thing)-1]
-			buffer = append(buffer, thing)
+			if thing != "" {
+				buffer = append(buffer, thing)
+			}
 		} else if strings.Contains(item, "!=") {
 			buffer = append(buffer, "{id}")
 			ep.HasId = true
