@@ -5,15 +5,18 @@ import (
 	"strings"
 )
 
+func (oa *OpenAPI) WriteYaml() {
+}
+
 func MakeYaml(m map[string][]Endpoint) {
 
 	buffer := []string{}
 
 	for k, v := range m {
-		buffer = append(buffer, "  "+k+":")
+		buffer = append(buffer, "  /api"+k+":")
 		for _, item := range v {
 			buffer = append(buffer, "    "+item.LowerVerb+":")
-			buffer = append(buffer, "      summary: ")
+			buffer = append(buffer, "      summary: ...")
 			if item.Method == "POST" {
 				buffer = append(buffer, "      "+post)
 				for _, param := range item.Params {
