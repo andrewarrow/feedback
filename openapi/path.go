@@ -14,5 +14,7 @@ func (oa *OpenAPI) AddPath(path string, fn func(*router.Context, string, string)
 	name := runtime.FuncForPC(v.Pointer()).Name()
 	tokens := strings.Split(name, ".")
 	name = tokens[len(tokens)-1]
-	fmt.Println(path, name)
+
+	oa.FuncToPath[name] = path
+	fmt.Println(name, path)
 }

@@ -9,8 +9,9 @@ import (
 func (oa *OpenAPI) WriteYaml() {
 	buffer := []string{}
 
+	//path := oa.FuncToPath[item.LastFunc]
 	for k, _ := range oa.Endpoints {
-		buffer = append(buffer, "  /api"+k+":")
+		buffer = append(buffer, "  /"+k+":")
 	}
 	final := yaml + "\n" + strings.Join(buffer, "\n")
 
