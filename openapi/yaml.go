@@ -13,12 +13,25 @@ func MakeYaml(m map[string][]Endpoint) {
 		buffer = append(buffer, "  "+k+":")
 		for _, item := range v {
 			buffer = append(buffer, "    "+item.LowerVerb+":")
+			buffer = append(buffer, "      summary: TBD")
 			if item.Method == "POST" {
 				buffer = append(buffer, "      "+post)
 				for _, param := range item.Params {
-					buffer = append(buffer, "              "+param.Name+":")
-					buffer = append(buffer, "                type: "+param.Flavor)
+					buffer = append(buffer, "                "+param.Name+":")
+					buffer = append(buffer, "                  type: "+param.Flavor)
 				}
+			}
+			if item.HasId {
+				buffer = append(buffer, "      parameters:")
+				/*
+				 parameters:
+				        - name: id
+				          in: path
+				          required: true
+				          schema:
+				            type: integer
+				            example: 1
+				*/
 			}
 		}
 	}
@@ -35,8 +48,7 @@ info:
   version: 1.0.0
 paths:`
 
-var post = `summary: Post
-      requestBody:
+var post = `requestBody:
         required: true
         content:
           application/json:
