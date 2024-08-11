@@ -15,6 +15,10 @@ func MakeYaml(m map[string][]Endpoint) {
 			buffer = append(buffer, "    "+item.LowerVerb+":")
 			if item.Method == "POST" {
 				buffer = append(buffer, "      "+post)
+				for _, param := range item.Params {
+					buffer = append(buffer, "              "+param.Name+":")
+					buffer = append(buffer, "                type: "+param.Flavor)
+				}
 			}
 		}
 	}

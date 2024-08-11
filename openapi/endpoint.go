@@ -4,12 +4,18 @@ import (
 	"strings"
 )
 
+type Param struct {
+	Name   string
+	Flavor string
+}
+
 type Endpoint struct {
 	LowerVerb string
 	Method    string
 	Returns   string
 	Path      string
 	HasId     bool
+	Params    []Param
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
@@ -46,6 +52,12 @@ func NewEndpoint(comment, line string) Endpoint {
 		}
 	}
 	ep.Path = "/" + strings.Join(buffer, "/")
+
+	if ep.Method == "POST" {
+		p1 := Param{"email", "string"}
+		p2 := Param{"latitude", "float"}
+		ep.Params = []Param{p1, p2}
+	}
 
 	return ep
 }
