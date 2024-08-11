@@ -6,6 +6,19 @@ import (
 	"strings"
 )
 
+func comparePaths(path1, path2 string) bool {
+	tokens1 := strings.Split(path1, "/")
+	tokens2 := strings.Split(path2, "/")
+
+	for i := 0; i < len(tokens1) && i < len(tokens2); i++ {
+		if tokens1[i] != tokens2[i] {
+			return tokens1[i] > tokens2[i]
+		}
+	}
+
+	return len(tokens1) < len(tokens2)
+}
+
 func (oa *OpenAPI) WriteYaml() {
 	buffer := []string{}
 
@@ -13,7 +26,9 @@ func (oa *OpenAPI) WriteYaml() {
 	for k, _ := range oa.Endpoints {
 		items = append(items, k)
 	}
-	sort.Strings(items)
+	sort.Slice(items, func(i, j int) bool {
+		return comparePaths(items[i], items[j])
+	})
 	for i := len(items) - 1; i >= 0; i-- {
 		k := items[i]
 		v := oa.Endpoints[k]
