@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -24,11 +23,21 @@ func (oa *OpenAPI) lookForParams(name string, lines []string) {
 			start = false
 		}
 		if start {
-			//  lat, _ := c.Params["latitude"].(float64)
+			//  ].(float64)
 			tokens := strings.Split(trimmed, ":=")
-			item := tokens[1][10:]
-			fmt.Println(item)
+			item := tokens[1][11:]
+			tokens = strings.Split(item, `"`)
 			p := Param{}
+			p.Name = tokens[0]
+			flavor := tokens[1]
+			p.Flavor = "number"
+			if strings.Contains(flavor, "string") {
+				p.Flavor = "string"
+			} else if strings.Contains(flavor, "int") {
+				p.Flavor = "integer"
+			} else if strings.Contains(flavor, "bool") {
+				p.Flavor = "boolean"
+			}
 			oa.ParamsByFunc[lastFunc] = append(oa.ParamsByFunc[lastFunc], p)
 		}
 		if strings.HasPrefix(trimmed, "// oa start") {
