@@ -38,7 +38,7 @@ func (oa *OpenAPI) WriteYaml() {
 			buffer = append(buffer, "      summary: ...")
 			if item.Method == "POST" {
 				buffer = append(buffer, "      "+post)
-				for _, param := range item.Params {
+				for _, param := range oa.ParamsByFunc[item.LastFunc] {
 					buffer = append(buffer, "                "+param.Name+":")
 					buffer = append(buffer, "                  type: "+param.Flavor)
 				}

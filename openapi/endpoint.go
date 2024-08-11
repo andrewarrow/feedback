@@ -5,20 +5,22 @@ import (
 )
 
 type Endpoint struct {
-	LowerVerb string
-	Method    string
-	Returns   string
-	Path      string
-	HasId     bool
-	Params    []Param
-	LastFunc  string
+	LowerVerb   string
+	Method      string
+	Returns     string
+	Path        string
+	HasId       bool
+	Params      []Param
+	LastFunc    string
+	CallingFunc string
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
 
-func NewEndpoint(comment, line, lastFunc string) Endpoint {
+func NewEndpoint(comment, line, lastFunc, callingFunc string) Endpoint {
 	ep := Endpoint{}
 	ep.LastFunc = lastFunc
+	ep.CallingFunc = callingFunc
 
 	for _, verb := range verbs {
 		if strings.Contains(line, verb) {

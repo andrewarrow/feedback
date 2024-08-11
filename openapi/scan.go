@@ -47,7 +47,11 @@ func (oa *OpenAPI) ScanDir(dir string) {
 				continue
 			}
 			target := lines[i+1]
-			ep := NewEndpoint(trimmed, target, lastFunc)
+			nextLine := lines[i+2]
+			nextLine = strings.TrimSpace(nextLine)
+			tokens := strings.Split(nextLine, "(")
+			callingFunc := tokens[0]
+			ep := NewEndpoint(trimmed, target, lastFunc, callingFunc)
 			prefix := oa.FuncToPath[lastFunc]
 			oa.Endpoints[prefix+ep.Path] = append(oa.Endpoints[ep.Path], ep)
 		}
