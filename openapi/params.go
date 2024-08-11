@@ -1,18 +1,16 @@
 package openapi
 
 import (
-	"os"
+	"fmt"
 	"strings"
 )
 
-func Parse(path, dir string) {
-
+type Param struct {
+	Name   string
+	Flavor string
 }
 
-func lookForParams(path string) {
-	b, _ := os.ReadFile(path)
-	s := string(b)
-	lines := strings.Split(s, "\n")
+func (oa *OpenAPI) lookForParams(name string, lines []string) {
 	start := false
 	lastFunc := ""
 	for _, line := range lines {
@@ -26,8 +24,12 @@ func lookForParams(path string) {
 			start = false
 		}
 		if start {
-			//fmt.Println(lastFunc, trimmed)
-			_ = lastFunc
+			//  lat, _ := c.Params["latitude"].(float64)
+			tokens := strings.Split(trimmed, ":=")
+			item := tokens[1][10:]
+			fmt.Println(item)
+			p := Param{}
+			oa.ParamsByFunc[lastFunc] = append(oa.ParamsByFunc[lastFunc], p)
 		}
 		if strings.HasPrefix(trimmed, "// oa start") {
 			start = true

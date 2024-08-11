@@ -4,11 +4,6 @@ import (
 	"strings"
 )
 
-type Param struct {
-	Name   string
-	Flavor string
-}
-
 type Endpoint struct {
 	LowerVerb string
 	Method    string

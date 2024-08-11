@@ -6,14 +6,16 @@ import (
 )
 
 type OpenAPI struct {
-	Endpoints  map[string][]Endpoint
-	FuncToPath map[string]string
+	Endpoints    map[string][]Endpoint
+	FuncToPath   map[string]string
+	ParamsByFunc map[string][]Param
 }
 
 func NewOpenAPI() *OpenAPI {
 	oa := OpenAPI{}
 	oa.Endpoints = map[string][]Endpoint{}
 	oa.FuncToPath = map[string]string{}
+	oa.ParamsByFunc = map[string][]Param{}
 	return &oa
 }
 
@@ -49,5 +51,6 @@ func (oa *OpenAPI) ScanDir(dir string) {
 			prefix := oa.FuncToPath[lastFunc]
 			oa.Endpoints[prefix+ep.Path] = append(oa.Endpoints[ep.Path], ep)
 		}
+		oa.lookForParams(name, lines)
 	}
 }
