@@ -23,15 +23,11 @@ func MakeYaml(m map[string][]Endpoint) {
 			}
 			if item.HasId {
 				buffer = append(buffer, "      parameters:")
-				/*
-				 parameters:
-				        - name: id
-				          in: path
-				          required: true
-				          schema:
-				            type: integer
-				            example: 1
-				*/
+				buffer = append(buffer, "        - name: id")
+				buffer = append(buffer, "          in: path")
+				buffer = append(buffer, "          required: true")
+				buffer = append(buffer, "          schema:")
+				buffer = append(buffer, "            type: string")
 			}
 		}
 	}
