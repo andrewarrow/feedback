@@ -11,6 +11,10 @@ func Parse(path string) {
 	s := string(b)
 	lines := strings.Split(s, "\n")
 	for _, line := range lines {
-		fmt.Println(len(line))
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "// oa ") == false {
+			continue
+		}
+		fmt.Println(line)
 	}
 }
