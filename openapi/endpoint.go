@@ -1,13 +1,13 @@
 package openapi
 
 import (
-	"fmt"
 	"strings"
 )
 
 type Endpoint struct {
 	Method  string
 	Returns string
+	Path    string
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
@@ -28,18 +28,16 @@ func NewEndpoint(comment, line string) Endpoint {
 	tokens = strings.Split(line, "&&")
 	tokens = tokens[0 : len(tokens)-1]
 
+	buffer := []string{}
 	for _, item := range tokens {
 		if strings.Contains(item, "==") {
 			tokens := strings.Split(item, "==")
-			fmt.Println(tokens[1])
+			buffer == append(buffer, tokens[1])
 		} else if strings.Contains(item, "!=") {
-			tokens := strings.Split(item, "!=")
-			fmt.Println(tokens[1])
+			buffer == append(buffer, "{id}")
 		}
 	}
-
-	// second == "user" && third == "charge-history" && foo
-	// second == "user" && third != "" && bar
+	ep.Path = strings.Join(buffer, "/")
 
 	return ep
 }
