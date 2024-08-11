@@ -29,6 +29,16 @@ func MakeYaml(m map[string][]Endpoint) {
 				buffer = append(buffer, "          schema:")
 				buffer = append(buffer, "            type: string")
 			}
+			buffer = append(buffer, "      responses:")
+			buffer = append(buffer, "        '200':")
+			buffer = append(buffer, "          description: ok")
+			buffer = append(buffer, "          content:")
+			buffer = append(buffer, "            application/json:")
+			buffer = append(buffer, "              schema:")
+			buffer = append(buffer, "                type: object")
+			buffer = append(buffer, "                properties:")
+			buffer = append(buffer, "                  msg:")
+			buffer = append(buffer, "                    type: string")
 		}
 	}
 
