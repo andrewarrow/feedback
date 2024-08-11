@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Parse(path string) {
+func Parse(path, dir string) {
 	b, _ := os.ReadFile(path)
 	s := string(b)
 	lines := strings.Split(s, "\n")
@@ -23,4 +23,21 @@ func Parse(path string) {
 	}
 
 	fmt.Println(items)
+	entries, _ := os.ReadDir(dir)
+	for _, entry := range entries {
+		fmt.Println(entry.Name())
+		lookForParams(dir + "/" + entry.Name())
+	}
+
+}
+
+func lookForParams(path string) {
+	b, _ := os.ReadFile(path)
+	s := string(b)
+	lines := strings.Split(s, "\n")
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		fmt.Println(len(trimmed))
+	}
+
 }

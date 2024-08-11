@@ -8,6 +8,7 @@ type Endpoint struct {
 	Method  string
 	Returns string
 	Path    string
+	HasId   bool
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
@@ -37,6 +38,7 @@ func NewEndpoint(comment, line string) Endpoint {
 			buffer = append(buffer, thing)
 		} else if strings.Contains(item, "!=") {
 			buffer = append(buffer, "{id}")
+			ep.HasId = true
 		}
 	}
 	ep.Path = "/" + strings.Join(buffer, "/")
