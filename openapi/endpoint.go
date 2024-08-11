@@ -32,9 +32,9 @@ func NewEndpoint(comment, line string) Endpoint {
 	for _, item := range tokens {
 		if strings.Contains(item, "==") {
 			tokens := strings.Split(item, "==")
-			buffer == append(buffer, tokens[1])
+			buffer = append(buffer, tokens[1])
 		} else if strings.Contains(item, "!=") {
-			buffer == append(buffer, "{id}")
+			buffer = append(buffer, "{id}")
 		}
 	}
 	ep.Path = strings.Join(buffer, "/")
