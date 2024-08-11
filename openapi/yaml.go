@@ -1,28 +1,22 @@
 package openapi
 
 import (
-	"fmt"
 	"io/ioutil"
+	"sort"
 	"strings"
 )
 
 func (oa *OpenAPI) WriteYaml() {
 	buffer := []string{}
 
+	items := []string{}
 	for k, _ := range oa.Endpoints {
-		buffer = append(buffer, "  /"+k+":")
+		items = append(items, k)
 	}
-	final := yaml + "\n" + strings.Join(buffer, "\n")
-
-	ioutil.WriteFile("openapi/openapi.yaml", []byte(final), 0644)
-}
-
-func MakeYaml(m map[string][]Endpoint) {
-
-	buffer := []string{}
-
-	for k, v := range m {
-		buffer = append(buffer, "  /api"+k+":")
+	sort.Strings(items)
+	for _, k := range items {
+		v := oa.Endpoints[k]
+		buffer = append(buffer, "  /"+k+":")
 		for _, item := range v {
 			buffer = append(buffer, "    "+item.LowerVerb+":")
 			buffer = append(buffer, "      summary: ...")
@@ -53,10 +47,9 @@ func MakeYaml(m map[string][]Endpoint) {
 			buffer = append(buffer, "                    type: string")
 		}
 	}
-
 	final := yaml + "\n" + strings.Join(buffer, "\n")
 
-	fmt.Println(final)
+	ioutil.WriteFile("openapi/openapi.yaml", []byte(final), 0644)
 }
 
 var yaml = `openapi: 3.0.3
