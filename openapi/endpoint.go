@@ -16,12 +16,14 @@ type Endpoint struct {
 	Path      string
 	HasId     bool
 	Params    []Param
+	LastFunc  string
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
 
-func NewEndpoint(comment, line string) Endpoint {
+func NewEndpoint(comment, line, lastFunc string) Endpoint {
 	ep := Endpoint{}
+	ep.LastFunc = lastFunc
 
 	for _, verb := range verbs {
 		if strings.Contains(line, verb) {
