@@ -14,7 +14,8 @@ func (oa *OpenAPI) WriteYaml() {
 		items = append(items, k)
 	}
 	sort.Strings(items)
-	for _, k := range items {
+	for i := len(items) - 1; i >= 0; i-- {
+		k := items[i]
 		v := oa.Endpoints[k]
 		buffer = append(buffer, "  /"+k+":")
 		for _, item := range v {
