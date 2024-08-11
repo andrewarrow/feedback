@@ -3,7 +3,8 @@ package openapi
 import "strings"
 
 type Endpoint struct {
-	Method string
+	Method  string
+	Returns string
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
@@ -17,6 +18,9 @@ func NewEndpoint(comment, line string) Endpoint {
 			break
 		}
 	}
+
+	tokens := strings.Split(comment, " ")
+	ep.Returns = tokens[len(tokens)-1]
 
 	return ep
 }
