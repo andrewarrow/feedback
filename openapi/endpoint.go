@@ -55,7 +55,7 @@ func NewEndpoint(comment, line string) Endpoint {
 
 	if ep.Method == "POST" {
 		p1 := Param{"email", "string"}
-		p2 := Param{"latitude", "float"}
+		p2 := Param{"latitude", "number"}
 		ep.Params = []Param{p1, p2}
 	}
 
