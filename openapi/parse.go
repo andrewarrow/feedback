@@ -35,9 +35,18 @@ func lookForParams(path string) {
 	b, _ := os.ReadFile(path)
 	s := string(b)
 	lines := strings.Split(s, "\n")
+	start := false
 	for _, line := range lines {
 		trimmed := strings.TrimSpace(line)
-		fmt.Println(len(trimmed))
+		if strings.HasPrefix(trimmed, "// oa end") {
+			start = false
+		}
+		if start {
+			fmt.Println(trimmed)
+		}
+		if strings.HasPrefix(trimmed, "// oa start") {
+			start = true
+		}
 	}
 
 }
