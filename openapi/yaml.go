@@ -13,6 +13,9 @@ func MakeYaml(m map[string][]Endpoint) {
 		buffer = append(buffer, "  "+k+":")
 		for _, item := range v {
 			buffer = append(buffer, "    "+item.LowerVerb+":")
+			if item.Method == "POST" {
+				buffer = append(buffer, "      "+post)
+			}
 		}
 	}
 
@@ -27,3 +30,12 @@ info:
   description: Feedback API 
   version: 1.0.0
 paths:`
+
+var post = `summary: Post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:`
