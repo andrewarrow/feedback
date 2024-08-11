@@ -5,10 +5,11 @@ import (
 )
 
 type Endpoint struct {
-	Method  string
-	Returns string
-	Path    string
-	HasId   bool
+	LowerVerb string
+	Method    string
+	Returns   string
+	Path      string
+	HasId     bool
 }
 
 var verbs = []string{"GET", "POST", "DELETE", "PATCH", "PUT"}
@@ -19,6 +20,7 @@ func NewEndpoint(comment, line string) Endpoint {
 	for _, verb := range verbs {
 		if strings.Contains(line, verb) {
 			ep.Method = verb
+			ep.LowerVerb = strings.ToLower(verb)
 			break
 		}
 	}

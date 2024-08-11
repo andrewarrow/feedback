@@ -9,8 +9,11 @@ func MakeYaml(m map[string][]Endpoint) {
 
 	buffer := []string{}
 
-	for k, _ := range m {
+	for k, v := range m {
 		buffer = append(buffer, "  "+k+":")
+		for _, item := range v {
+			buffer = append(buffer, "    "+item.LowerVerb+":")
+		}
 	}
 
 	final := yaml + "\n" + strings.Join(buffer, "\n")
