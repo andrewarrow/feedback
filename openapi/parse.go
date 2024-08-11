@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"fmt"
 	"os"
 	"strings"
 )
@@ -16,7 +15,6 @@ func Parse(path, dir string) {
 		if strings.HasPrefix(trimmed, "// oa ") == false {
 			continue
 		}
-		fmt.Println(line)
 		target := lines[i+1]
 		ep := NewEndpoint(trimmed, target)
 		items = append(items, ep)
@@ -50,7 +48,8 @@ func lookForParams(path string) {
 			start = false
 		}
 		if start {
-			fmt.Println(lastFunc, trimmed)
+			//fmt.Println(lastFunc, trimmed)
+			_ = lastFunc
 		}
 		if strings.HasPrefix(trimmed, "// oa start") {
 			start = true

@@ -10,7 +10,7 @@ func MakeYaml(eps []Endpoint) {
 	buffer := []string{}
 
 	for _, ep := range eps {
-		buffer = append(buffer, ep.Path+":")
+		buffer = append(buffer, "  "+ep.Path+":")
 	}
 
 	final := yaml + "\n" + strings.Join(buffer, "\n")
