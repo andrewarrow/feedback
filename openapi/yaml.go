@@ -13,7 +13,7 @@ func MakeYaml(m map[string][]Endpoint) {
 		buffer = append(buffer, "  "+k+":")
 		for _, item := range v {
 			buffer = append(buffer, "    "+item.LowerVerb+":")
-			buffer = append(buffer, "      summary: TBD")
+			buffer = append(buffer, "      summary: ")
 			if item.Method == "POST" {
 				buffer = append(buffer, "      "+post)
 				for _, param := range item.Params {
@@ -47,7 +47,7 @@ func MakeYaml(m map[string][]Endpoint) {
 	fmt.Println(final)
 }
 
-var yaml = `openapi: 3.1.0
+var yaml = `openapi: 3.0.3
 info:
   title: Feedback API
   description: Feedback API 
