@@ -22,8 +22,7 @@ func (oa *OpenAPI) lookForParams(name string, lines []string) {
 		if strings.HasPrefix(trimmed, "// oa end") {
 			start = false
 		}
-		if start {
-			//  ].(float64)
+		if start && strings.Contains(trimmed, "c.Params") {
 			tokens := strings.Split(trimmed, ":=")
 			item := tokens[1][11:]
 			tokens = strings.Split(item, `"`)
@@ -37,6 +36,8 @@ func (oa *OpenAPI) lookForParams(name string, lines []string) {
 				p.Flavor = "integer"
 			} else if strings.Contains(flavor, "bool") {
 				p.Flavor = "boolean"
+			} else if strings.Contains(flavor, "[]any") {
+				p.Flavor = "array"
 			}
 			oa.ParamsByFunc[lastFunc] = append(oa.ParamsByFunc[lastFunc], p)
 		}
