@@ -54,6 +54,9 @@ func NewEndpoint(comment, line, lastFunc string) Endpoint {
 		}
 	}
 	ep.Path = "/" + strings.Join(buffer, "/")
+	if ep.Path == "/" {
+		ep.Path = ""
+	}
 
 	if ep.Method == "POST" {
 		p1 := Param{"email", "string"}

@@ -9,7 +9,6 @@ import (
 func (oa *OpenAPI) WriteYaml() {
 	buffer := []string{}
 
-	//path := oa.FuncToPath[item.LastFunc]
 	for k, _ := range oa.Endpoints {
 		buffer = append(buffer, "  /"+k+":")
 	}
