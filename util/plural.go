@@ -6,26 +6,28 @@ import (
 
 func SpecialToSingle() map[string]string {
 	return map[string]string{"series": "series",
-		"properties": "property",
-		"energies":   "energy",
-		"bases":      "base",
-		"coaches":    "coach",
-		"matches":    "match",
-		"batches":    "batch",
-		"dies":       "die",
-		"children":   "child",
-		"searches":   "search",
-		"species":    "species"}
+		"properties":   "property",
+		"energies":     "energy",
+		"brightnesses": "brightness",
+		"bases":        "base",
+		"coaches":      "coach",
+		"matches":      "match",
+		"batches":      "batch",
+		"dies":         "die",
+		"children":     "child",
+		"searches":     "search",
+		"species":      "species"}
 }
 func SpecialToPlural() map[string]string {
 	return map[string]string{"series": "series",
-		"child":   "children",
-		"energy":  "energies",
-		"batch":   "batches",
-		"coach":   "coaches",
-		"match":   "matches",
-		"search":  "searches",
-		"species": "species"}
+		"child":      "children",
+		"energy":     "energies",
+		"brightness": "brightnesses",
+		"batch":      "batches",
+		"coach":      "coaches",
+		"match":      "matches",
+		"search":     "searches",
+		"species":    "species"}
 }
 
 func Plural(s string) string {
