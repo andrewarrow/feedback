@@ -40,6 +40,7 @@ func CastFieldsPg(model *models.Model, m map[string]any) {
 			m[field.Name] = tm.Unix()
 			m[field.Name+"_human"] = tm.Format(models.HUMAN)
 			m[field.Name+"_date"] = tm.Format(models.HUMAN_DATE)
+			m[field.Name+"_full_month"] = tm.Format(models.FULL_MONTH_DATE)
 			m[field.Name+"_ago"] = ago
 		} else if field.Flavor == "int" && m[field.Name] != nil {
 			m[field.Name] = m[field.Name].(int64)
