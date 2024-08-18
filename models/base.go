@@ -1,6 +1,9 @@
 package models
 
-import "strings"
+import (
+	"strings"
+	"time"
+)
 
 type BaseModel struct {
 	Item map[string]any
@@ -56,4 +59,11 @@ func (b *BaseModel) GetSimpleBool(name string) bool {
 func (b *BaseModel) GetList(name string) []any {
 	v, _ := b.Item[name].([]any)
 	return v
+}
+func (b *BaseModel) GetTime(name string) time.Time {
+	v, ok := b.Item[name].(time.Time)
+	if ok {
+		return v
+	}
+	return time.Now()
 }
