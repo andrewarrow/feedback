@@ -65,5 +65,9 @@ func (b *BaseModel) GetTime(name string) time.Time {
 	if ok {
 		return v
 	}
+	v2, ok2 := b.Item[name].(int64)
+	if ok2 {
+		return time.Unix(v2, 0)
+	}
 	return time.Now()
 }
