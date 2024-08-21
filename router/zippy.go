@@ -21,6 +21,9 @@ func RenderMarkup() {
 		name := file.Name()
 		//fmt.Println("*", name)
 		tokens := strings.Split(name, ".")
+		if tokens[0] == "" {
+			continue
+		}
 		send := map[string]any{}
 		rendered := markup.ToHTML(send, "markup/"+name)
 		//fmt.Println(rendered)
