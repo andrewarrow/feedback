@@ -48,7 +48,7 @@ func (f *Field) SqlTypeAndDefault() (string, string) {
 		defaultString = "0"
 	} else if f.Flavor == "list" {
 		flavor = "text"
-	} else if f.Flavor == "uuid" || f.Flavor == "citext" {
+	} else if f.Flavor == "citext" {
 		flavor = "citext"
 	} else if f.Flavor == "enum" {
 		defaultString = "'" + f.Default + "'"
