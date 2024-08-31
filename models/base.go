@@ -23,6 +23,10 @@ func (b *BaseModel) GetFloat(name string) float64 {
 	v, _ := b.Item[name].(float64)
 	return v
 }
+func (b *BaseModel) GetFloatAsInt(name string) int64 {
+	v, _ := b.Item[name].(float64)
+	return int64(v)
+}
 func (b *BaseModel) GetInt(name string) int64 {
 	v, _ := b.Item[name].(int64)
 	return v
