@@ -56,8 +56,8 @@ func (a *AutoForm) Post(g *Global, w *Wrapper, q string) {
 	json.Unmarshal([]byte(jsonString), &m)
 	if code == 200 {
 		if a.After != nil {
-			val, _ := m["val"].(string)
-			a.After(val)
+			//val, _ := m["val"].(string)
+			a.After(jsonString)
 			return
 		}
 		g.Location.Set("href", a.ReturnPath)
