@@ -4,4 +4,4 @@ module {{homeducky}}
 
 go 1.21.0
 
-require github.com/andrewarrow/feedback v0.0.0-20240712012406-3886d4afbd67
+require github.com/andrewarrow/feedback v0.0.0-20240907021727-403548d46285
