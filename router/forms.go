@@ -37,7 +37,7 @@ type UploadedFile struct {
 	Size         int64
 }
 
-func SaveMultiFiles(c *Context, guid string) []UploadedFile {
+func SaveMultiFiles(c *Context, path, newName string) []UploadedFile {
 	list := []UploadedFile{}
 	files := c.Request.MultipartForm.File["file"]
 
@@ -46,8 +46,8 @@ func SaveMultiFiles(c *Context, guid string) []UploadedFile {
 		file, _ := fileHeader.Open()
 		asBytes, _ := io.ReadAll(file)
 		file.Close()
-		filename := util.GuidFilename(name, guid)
-		ioutil.WriteFile(c.Router.BucketPath+"/"+filename, asBytes, 0644)
+		filename := util.GuidFilename(name, newName)
+		ioutil.WriteFile(path+"/"+filename, asBytes, 0644)
 		c.Params["photo"] = filename
 		up := UploadedFile{}
 		up.OrigName = name
