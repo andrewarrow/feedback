@@ -9,7 +9,8 @@ import (
 	"github.com/tdewolff/minify/v2/js"
 )
 
-func Minify(dir string) {
+func Minify() {
+	dir := "assets/javascript"
 	outputFile := "assets/javascript/main.js"
 	inputFiles := listOfJavascriptFiles()
 
