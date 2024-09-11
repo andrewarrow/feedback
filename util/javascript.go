@@ -12,7 +12,7 @@ import (
 func Minify() {
 	dir := "assets/javascript"
 	outputFile := "assets/javascript/main.js"
-	inputFiles := listOfJavascriptFiles()
+	inputFiles := listOfJavascriptFiles(dir)
 
 	var combinedJS strings.Builder
 	for _, file := range inputFiles {
