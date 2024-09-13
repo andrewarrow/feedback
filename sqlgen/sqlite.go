@@ -6,13 +6,16 @@ import (
 	"github.com/andrewarrow/feedback/models"
 )
 
-func SqliteCreateTable(tableName string) string {
+func SqliteCreateTable(tableName string, small bool) string {
 	sql := `CREATE TABLE %s (
   id INTEGER PRIMARY KEY,
 	guid TEXT NOT NULL,
 	created_at datetime CURRENT_TIMESTAMP,
 	updated_at datetime CURRENT_TIMESTAMP
 );`
+	if small {
+		sql = `CREATE TABLE %s (id int);`
+	}
 	return fmt.Sprintf(sql, tableName)
 }
 
